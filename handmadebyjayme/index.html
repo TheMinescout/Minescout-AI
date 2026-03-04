@@ -5,15 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>handmade by jayme</title>
   
-  <!-- Google Fonts: Graffiti style for headers, Monospace for the 90s retro feel -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   
-  <!-- Marked.js: The magic script that turns Markdown into HTML -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
+    /* --- 90s HIP-HOP CSS STYLES --- */
     :root {
       --neon-yellow: #FFDE00;
       --hot-pink: #FF007F;
@@ -38,42 +37,15 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
-    }
-
-    /* --- NAVIGATION --- */
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 2rem;
-      justify-content: center;
-    }
-
-    nav a {
-      background: var(--white);
-      color: var(--black);
-      text-decoration: none;
-      font-weight: 700;
-      text-transform: uppercase;
-      padding: 10px 20px;
-      border: 4px solid var(--black);
-      box-shadow: 6px 6px 0px var(--hot-pink);
-      transition: all 0.1s ease-in-out;
-    }
-
-    nav a:hover {
-      transform: translate(4px, 4px);
-      box-shadow: 2px 2px 0px var(--hot-pink);
-      background: var(--cyan);
     }
 
     /* --- HEADER --- */
     header {
       background: var(--black);
       color: var(--cyan);
-      padding: 3rem 2rem;
+      padding: 2rem;
       border: 4px solid var(--black);
       box-shadow: 12px 12px 0px var(--cyan);
       text-align: center;
@@ -88,20 +60,53 @@
       text-transform: uppercase;
       text-shadow: 4px 4px 0px var(--hot-pink);
       line-height: 1.1;
+      cursor: pointer;
     }
 
-    /* --- ABOUT SECTION --- */
-    .about-grid {
+    /* --- LAYOUT GRID --- */
+    .layout {
       display: grid;
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: 300px 1fr;
+      gap: 3rem;
+    }
+
+    /* --- SIDEBAR (Nav & Profile) --- */
+    aside {
+      display: flex;
+      flex-direction: column;
       gap: 2rem;
-      margin-bottom: 4rem;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    nav a {
+      background: var(--white);
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 15px 20px;
+      border: 4px solid var(--black);
+      box-shadow: 6px 6px 0px var(--hot-pink);
+      transition: all 0.1s ease-in-out;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    nav a:hover, nav a.active {
+      transform: translate(4px, 4px);
+      box-shadow: 2px 2px 0px var(--hot-pink);
+      background: var(--cyan);
     }
 
     .profile-card {
       background: var(--hot-pink);
       border: 4px solid var(--black);
-      box-shadow: 12px 12px 0px var(--black);
+      box-shadow: 8px 8px 0px var(--black);
       padding: 1.5rem;
       text-align: center;
       transform: rotate(2deg);
@@ -109,7 +114,6 @@
 
     .profile-card img {
       width: 100%;
-      max-width: 250px;
       border: 4px solid var(--black);
       border-radius: 50%;
       margin-bottom: 1rem;
@@ -122,7 +126,7 @@
       color: var(--neon-yellow);
       text-shadow: 2px 2px 0px var(--black);
       font-size: 1.8rem;
-      line-height: 1;
+      line-height: 1.2;
     }
 
     .profile-card p {
@@ -134,52 +138,86 @@
       padding: 5px;
     }
 
-    .welcome-text {
+    /* --- DYNAMIC CONTENT AREA --- */
+    main {
       background: var(--white);
       border: 4px solid var(--black);
       box-shadow: 12px 12px 0px var(--black);
-      padding: 2.5rem;
-      font-size: 1.1rem;
-      font-weight: 700;
+      padding: 3rem;
+      min-height: 500px;
     }
 
-    .welcome-text h2 {
-      font-family: var(--font-graffiti);
-      color: var(--cyan);
-      text-shadow: 2px 2px 0px var(--black);
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      border-bottom: 4px solid var(--black);
-      display: inline-block;
-    }
-
-    .welcome-text p { margin-bottom: 1.5rem; }
-
-    /* --- THE BLOG FEED (Markdown Container) --- */
-    .journal-header {
+    .page-title {
       font-family: var(--font-graffiti);
       font-size: 3rem;
       color: var(--black);
-      text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
       text-transform: uppercase;
-      text-shadow: 3px 3px 0px var(--white);
+      text-shadow: 3px 3px 0px var(--cyan);
+      border-bottom: 4px solid var(--black);
+      display: inline-block;
+      padding-right: 20px;
     }
 
-    #blog-feed {
-      background: var(--white);
+    /* Blog Post Cards (List View) */
+    .post-card {
       border: 4px solid var(--black);
-      box-shadow: 12px 12px 0px var(--cyan);
-      padding: 3rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      background: var(--white);
+      box-shadow: 6px 6px 0px var(--neon-yellow);
+      transition: all 0.2s ease;
     }
 
-    /* Markdown Styling */
-    #blog-feed h1 { font-family: var(--font-graffiti); font-size: 2.5rem; color: var(--black); background: var(--hot-pink); padding: 5px 15px; border: 4px solid var(--black); display: inline-block; margin-top: 2rem; margin-bottom: 1rem; }
-    #blog-feed h2, #blog-feed h3 { font-family: var(--font-graffiti); color: var(--cyan); text-shadow: 2px 2px 0px var(--black); margin-top: 1.5rem; margin-bottom: 1rem; }
-    #blog-feed p { margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 700; }
-    #blog-feed img { max-width: 100%; border: 4px solid var(--black); box-shadow: 8px 8px 0px var(--neon-yellow); margin: 1rem 0; filter: grayscale(20%) contrast(120%); }
-    #blog-feed hr { border: none; border-top: 4px dashed var(--black); margin: 3rem 0; }
-    #blog-feed blockquote { background: var(--black); color: var(--neon-yellow); padding: 1rem 2rem; border-left: 8px solid var(--hot-pink); font-style: italic; margin: 1.5rem 0; }
+    .post-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 10px 10px 0px var(--hot-pink);
+    }
+
+    .post-card h3 {
+      font-family: var(--font-graffiti);
+      font-size: 2rem;
+      color: var(--cyan);
+      text-shadow: 2px 2px 0px var(--black);
+      margin-bottom: 0.5rem;
+    }
+
+    .post-card .excerpt {
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .btn-read {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 8px 15px;
+      text-decoration: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 2px solid var(--black);
+    }
+    .btn-read:hover { background: var(--hot-pink); }
+
+    /* Markdown Styling (Single Article View) */
+    .article-content h1 { font-family: var(--font-graffiti); font-size: 2.5rem; color: var(--black); background: var(--hot-pink); padding: 5px 15px; border: 4px solid var(--black); display: inline-block; margin-top: 2rem; margin-bottom: 1rem; }
+    .article-content h2, .article-content h3 { font-family: var(--font-graffiti); color: var(--cyan); text-shadow: 2px 2px 0px var(--black); margin-top: 1.5rem; margin-bottom: 1rem; }
+    .article-content p { margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 700; }
+    .article-content img { max-width: 100%; border: 4px solid var(--black); box-shadow: 8px 8px 0px var(--neon-yellow); margin: 1rem 0; filter: grayscale(20%) contrast(120%); }
+    .article-content hr { border: none; border-top: 4px dashed var(--black); margin: 3rem 0; }
+    .article-content blockquote { background: var(--black); color: var(--neon-yellow); padding: 1rem 2rem; border-left: 8px solid var(--hot-pink); font-style: italic; margin: 1.5rem 0; }
+    .article-content ul, .article-content ol { margin-bottom: 1.5rem; margin-left: 2rem; font-weight: 700; font-size: 1.1rem; }
+    .article-content li { margin-bottom: 0.5rem; }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 2rem;
+      font-weight: 700;
+      color: var(--hot-pink);
+      text-decoration: none;
+      text-transform: uppercase;
+      border-bottom: 4px solid var(--hot-pink);
+    }
 
     /* --- FOOTER --- */
     footer {
@@ -192,97 +230,177 @@
       border: 4px solid var(--black);
     }
 
-    footer a { color: var(--cyan); text-decoration: none; margin: 0 10px; font-size: 1.2rem; }
-    footer a:hover { color: var(--hot-pink); }
-
-    @media (max-width: 800px) {
-      .about-grid { grid-template-columns: 1fr; }
-      .profile-card { transform: rotate(0deg); }
-      #blog-feed { padding: 1.5rem; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      nav { flex-direction: row; flex-wrap: wrap; }
+      nav a { flex: 1; min-width: 120px; }
+      .profile-card { transform: rotate(0deg); max-width: 400px; margin: 0 auto; }
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    
-    <nav>
-      <a href="/journal/">Journal</a>
-      <a href="/portfolio/">Portfolio</a>
-      <a href="/resume/">Resume</a>
-      <a href="/contact-info/">Contact</a>
-    </nav>
-
     <header>
-      <h1>handmade by jayme</h1>
+      <h1 onclick="window.location.hash='#journal'">handmade by jayme</h1>
     </header>
 
-    <div class="about-grid">
-      <div class="profile-card">
-        <img src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme">
-        <h2>Jayme M. Carleton</h2>
-        <p>CSBA, LEED Green Associate</p>
-      </div>
+    <div class="layout">
+      
+      <aside>
+        <nav id="main-nav">
+          <a href="#journal" class="nav-link">Journal</a>
+          <a href="#portfolio" class="nav-link">Portfolio</a>
+          <a href="#resume" class="nav-link">Resume</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </nav>
 
-      <div class="welcome-text">
-        <h2>Welcome</h2>
-        <p>My name is Jayme and I am an environmental advocate and sustainability consultant, an overly enthusiastic foodscape gardener and the creator behind <em>Handmade by Jayme</em> (cool handmade gifts, art, and non-toxic skincare products).</p>
-        <p>My journal represents my thoughts about living a sustainable and healthy lifestyle, which should be second nature to me, but sometimes isn’t.</p>
-        <p>I started blogging a few years ago as a way to interact with the sustainable construction community; it morphed into an outlet to express my opinions on the sustainable movement as a whole and how one person can live within it. I enjoy my studio – where I create quilts (both large and small), watercolor paintings, and more – and my kitchen where I create healthy skincare products.</p>
-        <p>I am always keeping an eye out for DIY handmade and homemade projects, ways to inspire others, articles of interest and activities to keep my kids entertained. I would like to bring you along for a sustainable journey, where you will meet my amazingly supportive husband and two children. I hope that by sharing my experiences, I may inspire you along the way.</p>
-        <p>Happy reading!</p>
-      </div>
-    </div>
+        <div class="profile-card">
+          <img src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme">
+          <h2>Jayme M. Carleton</h2>
+          <p>CSBA, LEED Green Associate</p>
+        </div>
+      </aside>
 
-    <h2 class="journal-header">The Journal</h2>
+      <main id="app-root">
+        <h2 class="page-title">Loading...</h2>
+        <p>Dropping the needle on the record...</p>
+      </main>
 
-    <div id="blog-feed">
-      Loading the freshest tracks...
     </div>
 
     <footer>
-      <div style="margin-bottom: 1rem;">
-        <a href="https://www.facebook.com/jaymecarleton" target="_blank">Facebook</a> |
-        <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank">LinkedIn</a> |
-        <a href="https://www.pinterest.com/jaymecarleton/" target="_blank">Pinterest</a>
-      </div>
       <p>Second Nature | Copyright © 2015-2026. All Rights Reserved.</p>
     </footer>
-
   </div>
 
   <script>
-    // --- THE BULLETPROOF APPS SCRIPT ENGINE ---
-    async function loadBlogPosts() {
-      const blogFeed = document.getElementById('blog-feed');
-      
-      // Paste your deployed Google Apps Script Web App URL here!
-      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
+    // --- GOOGLE DOCS ROUTER LOGIC ---
+    
+    // Your specific Google Apps Script Web App URL
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec';
+    
+    let siteData = {
+      pages: {},
+      posts: []
+    };
 
+    async function initApp() {
       try {
         const response = await fetch(APPS_SCRIPT_URL);
+        if (!response.ok) throw new Error('Network response failed');
         
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        const rawText = await response.text();
+        parseGoogleDoc(rawText);
         
-        // Grab the plain text securely passed from our custom API
-        const markdownText = await response.text();
-        
-        // Run it through the Marked.js engine to turn it into styled HTML
-        const htmlContent = marked.parse(markdownText);
-        
-        // Inject into the page
-        blogFeed.innerHTML = htmlContent;
+        window.addEventListener('hashchange', handleRoute);
+        handleRoute();
 
       } catch (error) {
-        console.error('Fetch error:', error);
-        blogFeed.innerHTML = "<p style='color: var(--hot-pink);'>Error loading the tracks. Check your Apps Script deployment!</p>";
+        document.getElementById('app-root').innerHTML = `
+          <h2 class="page-title">System Error</h2>
+          <p style="color: var(--hot-pink);">Could not connect to the Google Doc database.</p>
+        `;
       }
     }
-    
-    window.onload = loadBlogPosts;
-  </script>
 
+    function parseGoogleDoc(text) {
+      const sections = text.split(/(^#\s+.+$)/m);
+      
+      for (let i = 1; i < sections.length; i += 2) {
+        const titleLine = sections[i];
+        const contentBody = sections[i + 1] ? sections[i + 1].trim() : '';
+        
+        const rawTitle = titleLine.replace(/^#\s+/, '').trim();
+        const slug = slugify(rawTitle);
+
+        if (slug === 'instructions') continue;
+
+        const htmlContent = marked.parse(contentBody);
+
+        if (['portfolio', 'resume', 'contact'].includes(slug)) {
+          siteData.pages[slug] = { title: rawTitle, content: htmlContent };
+        } else {
+          const plainText = contentBody.replace(/[#*\[\]\(\)>_]/g, ''); 
+          const excerpt = plainText.substring(0, 150) + '...';
+          
+          siteData.posts.push({ title: rawTitle, slug: slug, content: htmlContent, excerpt: excerpt });
+        }
+      }
+      
+      siteData.posts.reverse();
+    }
+
+    function handleRoute() {
+      const hash = window.location.hash.replace('#', '') || 'journal';
+      const root = document.getElementById('app-root');
+      
+      document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`a[href="#${hash}"]`);
+      if(activeLink) activeLink.classList.add('active');
+
+      if (hash === 'journal') {
+        renderJournal(root);
+      } else if (siteData.pages[hash]) {
+        renderPage(root, siteData.pages[hash]);
+      } else {
+        const post = siteData.posts.find(p => p.slug === hash);
+        if (post) {
+          renderPost(root, post);
+        } else {
+          root.innerHTML = `<h2 class="page-title">404</h2><p>Track not found.</p>`;
+        }
+      }
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderJournal(root) {
+      let html = `<h2 class="page-title">The Journal</h2>`;
+      
+      if (siteData.posts.length === 0) {
+        html += `<p>No tracks dropped yet. Check back soon.</p>`;
+      } else {
+        siteData.posts.forEach(post => {
+          html += `
+            <article class="post-card">
+              <h3>${post.title}</h3>
+              <p class="excerpt">${post.excerpt}</p>
+              <a href="#${post.slug}" class="btn-read">Drop the Needle ➔</a>
+            </article>
+          `;
+        });
+      }
+      root.innerHTML = html;
+    }
+
+    function renderPage(root, page) {
+      root.innerHTML = `
+        <h2 class="page-title">${page.title}</h2>
+        <div class="article-content">${page.content}</div>
+      `;
+    }
+
+    function renderPost(root, post) {
+      root.innerHTML = `
+        <a href="#journal" class="back-btn">⇦ Back to Tracks</a>
+        <div class="article-content">
+          <h1 style="margin-top:0;">${post.title}</h1>
+          ${post.content}
+        </div>
+      `;
+    }
+
+    function slugify(text) {
+      return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '');
+    }
+
+    window.onload = initApp;
+  </script>
 </body>
 </html>
