@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Handmade by Jayme | sustainability & craft</title>
+  
+  <!-- Google Fonts: Elegant Serif for headers, Clean Sans for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <!-- Marked.js for Markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    :root {
+      --sage-dark: #3A4D39;
+      --sage-medium: #4F6F52;
+      --sage-light: #739072;
+      --earth: #ECE3CE;
+      --charcoal: #2C3333;
+      --white: #FCFAf7;
+      
+      --font-header: 'Playfair Display', serif;
+      --font-body: 'Lato', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--white);
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* --- NAVIGATION --- */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      margin-bottom: 3rem;
+    }
+
+    nav a {
+      color: var(--charcoal);
+      text-decoration: none;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.8rem;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--sage-medium);
+    }
+
+    nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--sage-medium);
+    }
+
+    /* --- HEADER --- */
+    header {
+      text-align: center;
+      padding: 4rem 0;
+      cursor: pointer;
+    }
+
+    header h1 {
+      font-family: var(--font-header);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 400;
+      color: var(--sage-dark);
+      letter-spacing: -0.02em;
+    }
+
+    /* --- ABOUT SECTION (Modern Hero) --- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 6rem;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .profile-card img {
+      width: 100%;
+      border-radius: 2px;
+      filter: sepia(20%) contrast(105%);
+      box-shadow: 20px 20px 0px var(--earth);
+    }
+
+    .welcome-text h2 {
+      font-family: var(--font-header);
+      font-size: 2.5rem;
+      color: var(--sage-dark);
+      margin-bottom: 1.5rem;
+    }
+
+    .welcome-text p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: #555;
+    }
+
+    /* --- CONTENT AREA --- */
+    #app-root {
+      min-height: 500px;
+      margin-bottom: 6rem;
+    }
+
+    .section-title {
+      font-family: var(--font-header);
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--sage-dark);
+    }
+
+    /* Blog & Portfolio Cards */
+    .post-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      margin-bottom: 4rem;
+      transition: transform 0.3s ease;
+    }
+
+    .post-card h3 {
+      font-family: var(--font-header);
+      font-size: 2rem;
+      color: var(--charcoal);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .post-card .excerpt {
+      color: #666;
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+    }
+
+    .btn-read {
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.75rem;
+      color: var(--sage-medium);
+      text-decoration: none;
+      font-weight: 700;
+      border-bottom: 1px solid var(--sage-medium);
+      padding-bottom: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-read:hover {
+      color: var(--sage-dark);
+      border-color: var(--sage-dark);
+    }
+
+    /* Article Content Styling */
+    .article-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 3rem;
+      text-decoration: none;
+      color: #999;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      transition: color 0.3s ease;
+    }
+
+    .back-btn:hover { color: var(--sage-medium); }
+
+    .article-content h1 {
+      font-family: var(--font-header);
+      font-size: 3.5rem;
+      line-height: 1.1;
+      margin-bottom: 2rem;
+      color: var(--sage-dark);
+    }
+
+    .article-content h2, .article-content h3 {
+      font-family: var(--font-header);
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      color: var(--sage-dark);
+    }
+
+    .article-content p { margin-bottom: 2rem; font-size: 1.15rem; color: #444; }
+
+    .article-content img {
+      width: 100%;
+      margin: 2rem 0;
+      border-radius: 2px;
+    }
+
+    .article-content blockquote {
+      font-family: var(--font-header);
+      font-size: 1.5rem;
+      font-style: italic;
+      padding: 2rem;
+      border-left: 4px solid var(--earth);
+      background: #fdfdfd;
+      margin: 3rem 0;
+      color: var(--sage-medium);
+    }
+
+    .article-content ul, .article-content ol {
+      margin-bottom: 2rem;
+      padding-left: 1.5rem;
+    }
+
+    .article-content li { margin-bottom: 0.8rem; }
+
+    /* --- FOOTER --- */
+    footer {
+      background: var(--sage-dark);
+      color: var(--earth);
+      padding: 5rem 0;
+      text-align: center;
+    }
+
+    footer .social-links { margin-bottom: 2rem; }
+    footer a { color: var(--earth); text-decoration: none; margin: 0 1rem; font-size: 0.9rem; opacity: 0.8; }
+    footer a:hover { opacity: 1; }
+    footer p { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.6; }
+
+    /* Loading state */
+    .loader { text-align: center; padding: 5rem; font-style: italic; color: #999; }
+
+    @media (max-width: 800px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .article-content h1 { font-size: 2.5rem; }
+      header { padding: 2rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <nav>
+      <a href="/journal/" class="nav-link" data-link>Journal</a>
+      <a href="/portfolio/" class="nav-link" data-link>Portfolio</a>
+      <a href="/resume/" class="nav-link" data-link>Resume</a>
+      <a href="/contact/" class="nav-link" data-link>Contact</a>
+    </nav>
+
+    <header onclick="navigateTo('/journal/')">
+      <h1>Handmade by Jayme</h1>
+    </header>
+
+    <!-- Homepage Welcome Section -->
+    <div id="home-hero" class="about-grid">
+      <div class="profile-card">
+        <img src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme M. Carleton">
+      </div>
+      <div class="welcome-text">
+        <h2>Earth-conscious living, consulting, and creation.</h2>
+        <p>I am an environmental advocate and sustainability consultant, an overly enthusiastic foodscape gardener, and a maker of non-toxic skincare and art.</p>
+        <p>My journal captures thoughts on living a sustainable and healthy lifestyle—a journey that should be second nature, but often requires intentionality and grace.</p>
+        <p>Welcome to a space of inspiration and environmental stewardship.</p>
+      </div>
+    </div>
+
+    <div id="app-root">
+      <div class="loader">Loading the collection...</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="social-links">
+        <a href="https://www.facebook.com/jaymecarleton" target="_blank">Facebook</a>
+        <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank">LinkedIn</a>
+        <a href="https://www.pinterest.com/jaymecarleton/" target="_blank">Pinterest</a>
+      </div>
+      <p>&copy; 2015-2026 Second Nature. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
+
+    let siteData = { pages: {}, posts: [] };
+
+    // Clean URL Routing
+    document.body.addEventListener('click', e => {
+      const target = e.target.closest('[data-link]');
+      if (target) {
+        e.preventDefault();
+        navigateTo(target.getAttribute('href'));
+      }
+    });
+
+    function navigateTo(url) {
+      history.pushState(null, null, url);
+      handleRoute();
+    }
+
+    async function initApp() {
+      try {
+        const response = await fetch(APPS_SCRIPT_URL);
+        const rawText = await response.text();
+        parseGoogleDoc(rawText);
+        window.addEventListener('popstate', handleRoute);
+        handleRoute(); 
+      } catch (error) {
+        document.getElementById('app-root').innerHTML = `<p style="text-align:center;">Failed to load tracks. Please try again later.</p>`;
+      }
+    }
+
+    function parseGoogleDoc(text) {
+      const sections = text.split(/(^#\s+.+$)/m);
+      for (let i = 1; i < sections.length; i += 2) {
+        const titleLine = sections[i];
+        const contentBody = sections[i + 1] ? sections[i + 1].trim() : '';
+        const rawTitle = titleLine.replace(/^#\s+/, '').trim();
+        const slug = slugify(rawTitle);
+        if (slug === 'instructions') continue;
+
+        let processedBody = contentBody.replace(/href="(\/[^"]+)"/g, 'href="$1" data-link');
+        const htmlContent = marked.parse(processedBody);
+
+        if (['portfolio', 'resume', 'contact'].includes(slug)) {
+          siteData.pages[slug] = { title: rawTitle, content: htmlContent };
+        } else {
+          const plainText = contentBody.replace(/[#*\[\]\(\)>_]/g, ''); 
+          const excerpt = plainText.substring(0, 180) + '...';
+          const dateMatch = contentBody.match(/\*\*Date:\s*(.*?)\*\*/i);
+          let postDate = dateMatch ? new Date(dateMatch[1]) : new Date(0);
+          
+          siteData.posts.push({ title: rawTitle, slug: slug, content: htmlContent, excerpt: excerpt, date: postDate });
+        }
+      }
+      siteData.posts.sort((a, b) => b.date - a.date);
+    }
+
+    function handleRoute() {
+      let path = window.location.pathname;
+      let parts = path.replace(/^\/|\/$/g, '').split('/');
+      let slug = parts[parts.length - 1] || 'journal';
+
+      const root = document.getElementById('app-root');
+      const homeHero = document.getElementById('home-hero');
+      
+      document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+      const activeBase = parts[0] || 'journal';
+      const activeLink = document.querySelector(`a[href="/${activeBase}/"]`);
+      if(activeLink) activeLink.classList.add('active');
+
+      if (slug === 'journal' || slug === '') {
+        homeHero.style.display = 'grid'; 
+        renderJournal(root);
+      } else {
+        homeHero.style.display = 'none'; 
+        const post = siteData.posts.find(p => p.slug === slug);
+        if (siteData.pages[slug]) {
+          renderPage(root, siteData.pages[slug]);
+        } else if (post) {
+          renderPost(root, post);
+        } else {
+          root.innerHTML = `<h2 class="section-title">404</h2><p style="text-align:center;">The page you're looking for has moved into the wild.</p>`;
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function renderJournal(root) {
+      let html = `<h2 class="section-title">The Journal</h2>`;
+      const portfolioSlugs = ['east-sammamish-park-south-site-2020', 'green-access-home-at-suncadia-2010', 'the-urban-lodge-2007', 'the-built-green-home-at-suncadia-2006'];
+      const blogPosts = siteData.posts.filter(p => !portfolioSlugs.includes(p.slug));
+      
+      blogPosts.forEach(post => {
+        html += `
+          <article class="post-card">
+            <h3>${post.title}</h3>
+            <p class="excerpt">${post.excerpt}</p>
+            <div><a href="/${post.slug}/" class="btn-read" data-link>Continue Reading</a></div>
+          </article>
+        `;
+      });
+      root.innerHTML = html;
+    }
+
+    function renderPage(root, page) {
+      root.innerHTML = `<div class="article-content"><h1 style="text-align:center; margin-bottom:4rem;">${page.title}</h1>${page.content}</div>`;
+    }
+
+    function renderPost(root, post) {
+      const portfolioSlugs = ['east-sammamish-park-south-site-2020', 'green-access-home-at-suncadia-2010', 'the-urban-lodge-2007', 'the-built-green-home-at-suncadia-2006'];
+      const isPortfolio = portfolioSlugs.includes(post.slug);
+      const backUrl = isPortfolio ? '/portfolio/' : '/journal/';
+      const backText = isPortfolio ? '⇦ Back to Portfolio' : '⇦ Back to Journal';
+
+      root.innerHTML = `
+        <div class="article-content">
+          <a href="${backUrl}" class="back-btn" data-link>${backText}</a>
+          ${post.content}
+        </div>
+      `;
+    }
+
+    function slugify(text) {
+      return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '');
+    }
+
+    window.onload = initApp;
+  </script>
+</body>
+</html>
