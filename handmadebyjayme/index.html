@@ -212,6 +212,7 @@
       font-weight: 700;
       text-transform: uppercase;
       border: 2px solid var(--black);
+      cursor: pointer;
     }
     
     .btn-read:hover { background: var(--hot-pink); }
@@ -224,9 +225,10 @@
       text-decoration: none;
       text-transform: uppercase;
       border-bottom: 4px solid var(--hot-pink);
+      cursor: pointer;
     }
 
-    /* Markdown Styling (Single Article View) */
+    /* Markdown Styling (Single Article View & Pages) */
     .article-content h1 { font-family: var(--font-graffiti); font-size: 2.5rem; color: var(--black); background: var(--hot-pink); padding: 5px 15px; border: 4px solid var(--black); display: inline-block; margin-top: 2rem; margin-bottom: 1rem; }
     .article-content h2, .article-content h3 { font-family: var(--font-graffiti); color: var(--cyan); text-shadow: 2px 2px 0px var(--black); margin-top: 1.5rem; margin-bottom: 1rem; }
     .article-content h4 { font-family: var(--font-graffiti); color: var(--hot-pink); margin-top: 2rem; margin-bottom: 0.5rem; font-size: 1.4rem; }
@@ -263,13 +265,14 @@
   <div class="container">
     
     <nav>
-      <a href="#journal" class="nav-link">Journal</a>
-      <a href="#portfolio" class="nav-link">Portfolio</a>
-      <a href="#resume" class="nav-link">Resume</a>
-      <a href="#contact" class="nav-link">Contact</a>
+      <!-- Clean paths with data-link for the JS router -->
+      <a href="/journal/" class="nav-link" data-link>Journal</a>
+      <a href="/portfolio/" class="nav-link" data-link>Portfolio</a>
+      <a href="/resume/" class="nav-link" data-link>Resume</a>
+      <a href="/contact/" class="nav-link" data-link>Contact</a>
     </nav>
 
-    <header onclick="window.location.hash='#journal'">
+    <header onclick="navigateTo('/journal/')">
       <h1>handmade by jayme</h1>
     </header>
 
@@ -309,7 +312,7 @@
   </div>
 
   <script>
-    // --- THE GOOGLE DOCS ROUTER ENGINE ---
+    // --- THE GOOGLE DOCS HTML5 ROUTER ENGINE ---
     
     // Paste your Google Apps Script Web App URL here!
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
@@ -319,6 +322,21 @@
       posts: []
     };
 
+    // 1. Intercept clicks so browser doesn't reload
+    document.body.addEventListener('click', e => {
+      const target = e.target.closest('[data-link]');
+      if (target) {
+        e.preventDefault();
+        navigateTo(target.getAttribute('href'));
+      }
+    });
+
+    // 2. Update URL and route
+    function navigateTo(url) {
+      history.pushState(null, null, url);
+      handleRoute();
+    }
+
     async function initApp() {
       try {
         const response = await fetch(APPS_SCRIPT_URL);
@@ -327,8 +345,11 @@
         const rawText = await response.text();
         parseGoogleDoc(rawText);
         
-        window.addEventListener('hashchange', handleRoute);
-        handleRoute(); // Run once on load
+        // Listen for browser navigation buttons
+        window.addEventListener('popstate', handleRoute);
+        
+        // Initial load
+        handleRoute(); 
       } catch (error) {
         document.getElementById('app-root').innerHTML = `
           <h2 class="journal-header">System Error</h2>
@@ -349,23 +370,23 @@
 
         if (slug === 'instructions') continue;
 
-        const htmlContent = marked.parse(contentBody);
+        // Ensure links in doc work with SPA router
+        let processedBody = contentBody.replace(/href="(https:\/\/jaymecarleton\.com)?(\/[^"]+)"/g, 'href="$2" data-link');
+        const htmlContent = marked.parse(processedBody);
 
         if (['portfolio', 'resume', 'contact'].includes(slug)) {
-          // It grabs the content purely from the Google Doc for these specific sections!
           siteData.pages[slug] = { title: rawTitle, content: htmlContent };
         } else {
           const plainText = contentBody.replace(/[#*\[\]\(\)>_]/g, ''); 
           const excerpt = plainText.substring(0, 150) + '...';
           
-          // Find the date in the content for sorting (e.g., "**Date: March 3, 2026**")
           const dateMatch = contentBody.match(/\*\*Date:\s*(.*?)\*\*/i);
-          let postDate = new Date(0); // Default to a very old date if no date is found
+          let postDate = new Date(0); 
           
           if (dateMatch && dateMatch[1]) {
              const parsedDate = new Date(dateMatch[1]);
              if (!isNaN(parsedDate.getTime())) {
-                 postDate = parsedDate; // Use the parsed date if it's valid
+                 postDate = parsedDate;
              }
           }
           
@@ -378,39 +399,40 @@
           });
         }
       }
-      
-      // Sort all posts automatically based on the date we found (Newest to Oldest)
+      // Sort: Newest to Oldest
       siteData.posts.sort((a, b) => b.date - a.date);
     }
 
     function handleRoute() {
-      const hash = window.location.hash.replace('#', '') || 'journal';
+      let path = window.location.pathname;
+      let cleanPath = path.replace(/^\/|\/$/g, '');
+      let parts = cleanPath.split('/');
+      let slug = parts[parts.length - 1] || 'journal';
+
       const root = document.getElementById('app-root');
       const homeHero = document.getElementById('home-hero');
       
-      // Update active nav link
       document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-      const activeLink = document.querySelector(`a[href="#${hash}"]`);
+      const activeBase = parts[0] || 'journal';
+      const activeLink = document.querySelector(`a[href="/${activeBase}/"]`);
       if(activeLink) activeLink.classList.add('active');
 
-      // Routing Logic
-      if (hash === 'journal') {
-        homeHero.style.display = 'grid'; // Show the big welcome grid
+      if (slug === 'journal') {
+        homeHero.style.display = 'grid'; 
         renderJournal(root);
       } else {
-        homeHero.style.display = 'none'; // Hide the big welcome grid
+        homeHero.style.display = 'none'; 
         
-        if (siteData.pages[hash]) {
-          renderPage(root, siteData.pages[hash]);
+        if (siteData.pages[slug]) {
+          renderPage(root, siteData.pages[slug]);
         } else {
-          const post = siteData.posts.find(p => p.slug === hash);
+          const post = siteData.posts.find(p => p.slug === slug);
           if (post) {
             renderPost(root, post);
           } else {
             root.innerHTML = `<h2 class="journal-header">404</h2><p style="text-align:center;">Track not found.</p>`;
           }
         }
-        // Only scroll to top if we clicked away from the homepage
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
@@ -425,7 +447,7 @@
             <article class="post-card">
               <h3>${post.title}</h3>
               <p class="excerpt">${post.excerpt}</p>
-              <a href="#${post.slug}" class="btn-read">Drop the Needle ➔</a>
+              <a href="/${post.slug}/" class="btn-read" data-link>Drop the Needle ➔</a>
             </article>
           `;
         });
@@ -444,7 +466,7 @@
 
     function renderPost(root, post) {
       root.innerHTML = `
-        <a href="#journal" class="back-btn">⇦ Back to Tracks</a>
+        <a href="/journal/" class="back-btn" data-link>⇦ Back to Tracks</a>
         <div class="article-content">
           <h1 style="margin-top:0;">${post.title}</h1>
           ${post.content}
