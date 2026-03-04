@@ -1,1 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>handmade by jayme</title>
+  
+  <!-- Google Fonts: Graffiti style for headers, Monospace for the 90s retro feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Marked.js: The magic script that turns Markdown into HTML -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+  <style>
+    :root {
+      --neon-yellow: #FFDE00;
+      --hot-pink: #FF007F;
+      --cyan: #00E5FF;
+      --black: #111111;
+      --white: #FAFAFA;
+      
+      --font-graffiti: 'Permanent Marker', cursive;
+      --font-body: 'Space Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--neon-yellow);
+      background-image: radial-gradient(var(--black) 2px, transparent 2px);
+      background-size: 30px 30px;
+      font-family: var(--font-body);
+      color: var(--black);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* --- NAVIGATION --- */
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+
+    nav a {
+      background: var(--white);
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border: 4px solid var(--black);
+      box-shadow: 6px 6px 0px var(--hot-pink);
+      transition: all 0.1s ease-in-out;
+    }
+
+    nav a:hover {
+      transform: translate(4px, 4px);
+      box-shadow: 2px 2px 0px var(--hot-pink);
+      background: var(--cyan);
+    }
+
+    /* --- HEADER --- */
+    header {
+      background: var(--black);
+      color: var(--cyan);
+      padding: 3rem 2rem;
+      border: 4px solid var(--black);
+      box-shadow: 12px 12px 0px var(--cyan);
+      text-align: center;
+      margin-bottom: 3rem;
+      transform: rotate(-1deg);
+    }
+
+    header h1 {
+      font-family: var(--font-graffiti);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 4px 4px 0px var(--hot-pink);
+      line-height: 1.1;
+    }
+
+    /* --- ABOUT SECTION --- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .profile-card {
+      background: var(--hot-pink);
+      border: 4px solid var(--black);
+      box-shadow: 12px 12px 0px var(--black);
+      padding: 1.5rem;
+      text-align: center;
+      transform: rotate(2deg);
+    }
+
+    .profile-card img {
+      width: 100%;
+      max-width: 250px;
+      border: 4px solid var(--black);
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      filter: grayscale(100%) contrast(120%);
+      background: var(--white);
+    }
+
+    .profile-card h2 {
+      font-family: var(--font-graffiti);
+      color: var(--neon-yellow);
+      text-shadow: 2px 2px 0px var(--black);
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .profile-card p {
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      background: var(--black);
+      padding: 5px;
+    }
+
+    .welcome-text {
+      background: var(--white);
+      border: 4px solid var(--black);
+      box-shadow: 12px 12px 0px var(--black);
+      padding: 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .welcome-text h2 {
+      font-family: var(--font-graffiti);
+      color: var(--cyan);
+      text-shadow: 2px 2px 0px var(--black);
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 4px solid var(--black);
+      display: inline-block;
+    }
+
+    .welcome-text p { margin-bottom: 1.5rem; }
+
+    /* --- THE BLOG FEED (Markdown Container) --- */
+    .journal-header {
+      font-family: var(--font-graffiti);
+      font-size: 3rem;
+      color: var(--black);
+      text-align: center;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      text-shadow: 3px 3px 0px var(--white);
+    }
+
+    #blog-feed {
+      background: var(--white);
+      border: 4px solid var(--black);
+      box-shadow: 12px 12px 0px var(--cyan);
+      padding: 3rem;
+    }
+
+    /* Markdown Styling */
+    #blog-feed h1 { font-family: var(--font-graffiti); font-size: 2.5rem; color: var(--black); background: var(--hot-pink); padding: 5px 15px; border: 4px solid var(--black); display: inline-block; margin-top: 2rem; margin-bottom: 1rem; }
+    #blog-feed h2, #blog-feed h3 { font-family: var(--font-graffiti); color: var(--cyan); text-shadow: 2px 2px 0px var(--black); margin-top: 1.5rem; margin-bottom: 1rem; }
+    #blog-feed p { margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 700; }
+    #blog-feed img { max-width: 100%; border: 4px solid var(--black); box-shadow: 8px 8px 0px var(--neon-yellow); margin: 1rem 0; filter: grayscale(20%) contrast(120%); }
+    #blog-feed hr { border: none; border-top: 4px dashed var(--black); margin: 3rem 0; }
+    #blog-feed blockquote { background: var(--black); color: var(--neon-yellow); padding: 1rem 2rem; border-left: 8px solid var(--hot-pink); font-style: italic; margin: 1.5rem 0; }
+
+    /* --- FOOTER --- */
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      font-weight: 700;
+      background: var(--black);
+      color: var(--white);
+      padding: 2rem;
+      border: 4px solid var(--black);
+    }
+
+    footer a { color: var(--cyan); text-decoration: none; margin: 0 10px; font-size: 1.2rem; }
+    footer a:hover { color: var(--hot-pink); }
+
+    @media (max-width: 800px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .profile-card { transform: rotate(0deg); }
+      #blog-feed { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <nav>
+      <a href="/journal/">Journal</a>
+      <a href="/portfolio/">Portfolio</a>
+      <a href="/resume/">Resume</a>
+      <a href="/contact-info/">Contact</a>
+    </nav>
+
+    <header>
+      <h1>handmade by jayme</h1>
+    </header>
+
+    <div class="about-grid">
+      <div class="profile-card">
+        <img src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme">
+        <h2>Jayme M. Carleton</h2>
+        <p>CSBA, LEED Green Associate</p>
+      </div>
+
+      <div class="welcome-text">
+        <h2>Welcome</h2>
+        <p>My name is Jayme and I am an environmental advocate and sustainability consultant, an overly enthusiastic foodscape gardener and the creator behind <em>Handmade by Jayme</em> (cool handmade gifts, art, and non-toxic skincare products).</p>
+        <p>My journal represents my thoughts about living a sustainable and healthy lifestyle, which should be second nature to me, but sometimes isn’t.</p>
+        <p>I started blogging a few years ago as a way to interact with the sustainable construction community; it morphed into an outlet to express my opinions on the sustainable movement as a whole and how one person can live within it. I enjoy my studio – where I create quilts (both large and small), watercolor paintings, and more – and my kitchen where I create healthy skincare products.</p>
+        <p>I am always keeping an eye out for DIY handmade and homemade projects, ways to inspire others, articles of interest and activities to keep my kids entertained. I would like to bring you along for a sustainable journey, where you will meet my amazingly supportive husband and two children. I hope that by sharing my experiences, I may inspire you along the way.</p>
+        <p>Happy reading!</p>
+      </div>
+    </div>
+
+    <h2 class="journal-header">The Journal</h2>
+
+    <div id="blog-feed">
+      Loading the freshest tracks...
+    </div>
+
+    <footer>
+      <div style="margin-bottom: 1rem;">
+        <a href="https://www.facebook.com/jaymecarleton" target="_blank">Facebook</a> |
+        <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank">LinkedIn</a> |
+        <a href="https://www.pinterest.com/jaymecarleton/" target="_blank">Pinterest</a>
+      </div>
+      <p>Second Nature | Copyright © 2015-2026. All Rights Reserved.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // --- THE BULLETPROOF APPS SCRIPT ENGINE ---
+    async function loadBlogPosts() {
+      const blogFeed = document.getElementById('blog-feed');
+      
+      // Paste your deployed Google Apps Script Web App URL here!
+      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
+
+      try {
+        const response = await fetch(APPS_SCRIPT_URL);
+        
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        
+        // Grab the plain text securely passed from our custom API
+        const markdownText = await response.text();
+        
+        // Run it through the Marked.js engine to turn it into styled HTML
+        const htmlContent = marked.parse(markdownText);
+        
+        // Inject into the page
+        blogFeed.innerHTML = htmlContent;
+
+      } catch (error) {
+        console.error('Fetch error:', error);
+        blogFeed.innerHTML = "<p style='color: var(--hot-pink);'>Error loading the tracks. Check your Apps Script deployment!</p>";
+      }
+    }
+    
+    window.onload = loadBlogPosts;
+  </script>
+
+</body>
+</html>
