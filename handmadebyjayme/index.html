@@ -228,7 +228,7 @@
       cursor: pointer;
     }
 
-    /* Markdown Styling (Single Article View & Pages) */
+    /* Markdown Styling (Single Article View) */
     .article-content h1 { font-family: var(--font-graffiti); font-size: 2.5rem; color: var(--black); background: var(--hot-pink); padding: 5px 15px; border: 4px solid var(--black); display: inline-block; margin-top: 2rem; margin-bottom: 1rem; }
     .article-content h2, .article-content h3 { font-family: var(--font-graffiti); color: var(--cyan); text-shadow: 2px 2px 0px var(--black); margin-top: 1.5rem; margin-bottom: 1rem; }
     .article-content h4 { font-family: var(--font-graffiti); color: var(--hot-pink); margin-top: 2rem; margin-bottom: 0.5rem; font-size: 1.4rem; }
@@ -265,7 +265,7 @@
   <div class="container">
     
     <nav>
-      <!-- Clean paths with data-link for the JS router -->
+      <!-- These links use clean paths. Our script intercepts them. -->
       <a href="/journal/" class="nav-link" data-link>Journal</a>
       <a href="/portfolio/" class="nav-link" data-link>Portfolio</a>
       <a href="/resume/" class="nav-link" data-link>Resume</a>
@@ -286,10 +286,8 @@
 
       <div class="welcome-text">
         <h2>Welcome</h2>
-        <p>My name is Jayme and I am an environmental advocate and sustainability consultant, an overly enthusiastic foodscape gardener and the creator behind <em>Handmade by Jayme</em> (cool handmade gifts, art, and non-toxic skincare products).</p>
+        <p>My name is Jayme and I am an environmental advocate and sustainability consultant, an overly enthusiastic foodscape gardener and the creator behind <em>Handmade by Jayme</em>.</p>
         <p>My journal represents my thoughts about living a sustainable and healthy lifestyle, which should be second nature to me, but sometimes isn’t.</p>
-        <p>I started blogging a few years ago as a way to interact with the sustainable construction community; it morphed into an outlet to express my opinions on the sustainable movement as a whole and how one person can live within it. I enjoy my studio – where I create quilts (both large and small), watercolor paintings, and more – and my kitchen where I create healthy skincare products.</p>
-        <p>I am always keeping an eye out for DIY handmade and homemade projects, ways to inspire others, articles of interest and activities to keep my kids entertained. I would like to bring you along for a sustainable journey, where you will meet my amazingly supportive husband and two children. I hope that by sharing my experiences, I may inspire you along the way.</p>
         <p>Happy reading!</p>
       </div>
     </div>
@@ -322,7 +320,7 @@
       posts: []
     };
 
-    // 1. Intercept clicks so browser doesn't reload
+    // 1. Intercept all link clicks so the browser doesn't actually reload
     document.body.addEventListener('click', e => {
       const target = e.target.closest('[data-link]');
       if (target) {
@@ -331,7 +329,7 @@
       }
     });
 
-    // 2. Update URL and route
+    // 2. Push the new URL to the browser history and run the router
     function navigateTo(url) {
       history.pushState(null, null, url);
       handleRoute();
@@ -345,10 +343,10 @@
         const rawText = await response.text();
         parseGoogleDoc(rawText);
         
-        // Listen for browser navigation buttons
+        // Listen for the browser back/forward buttons
         window.addEventListener('popstate', handleRoute);
         
-        // Initial load
+        // Run once on initial load
         handleRoute(); 
       } catch (error) {
         document.getElementById('app-root').innerHTML = `
@@ -370,8 +368,8 @@
 
         if (slug === 'instructions') continue;
 
-        // Ensure links in doc work with SPA router
-        let processedBody = contentBody.replace(/href="(https:\/\/jaymecarleton\.com)?(\/[^"]+)"/g, 'href="$2" data-link');
+        // Ensure links in her doc also use clean routing (tagging with data-link)
+        let processedBody = contentBody.replace(/href="(\/[^"]+)"/g, 'href="$1" data-link');
         const htmlContent = marked.parse(processedBody);
 
         if (['portfolio', 'resume', 'contact'].includes(slug)) {
@@ -399,7 +397,7 @@
           });
         }
       }
-      // Sort: Newest to Oldest
+      // Sort all posts: Newest to Oldest based on the "Date:" line
       siteData.posts.sort((a, b) => b.date - a.date);
     }
 
@@ -412,26 +410,26 @@
       const root = document.getElementById('app-root');
       const homeHero = document.getElementById('home-hero');
       
+      // Update active navigation link
       document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
       const activeBase = parts[0] || 'journal';
       const activeLink = document.querySelector(`a[href="/${activeBase}/"]`);
       if(activeLink) activeLink.classList.add('active');
 
+      // Routing Logic
       if (slug === 'journal') {
         homeHero.style.display = 'grid'; 
         renderJournal(root);
       } else {
         homeHero.style.display = 'none'; 
         
+        const post = siteData.posts.find(p => p.slug === slug);
         if (siteData.pages[slug]) {
           renderPage(root, siteData.pages[slug]);
+        } else if (post) {
+          renderPost(root, post);
         } else {
-          const post = siteData.posts.find(p => p.slug === slug);
-          if (post) {
-            renderPost(root, post);
-          } else {
-            root.innerHTML = `<h2 class="journal-header">404</h2><p style="text-align:center;">Track not found.</p>`;
-          }
+          root.innerHTML = `<h2 class="journal-header">404</h2><p style="text-align:center;">Track not found.</p>`;
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -439,10 +437,20 @@
 
     function renderJournal(root) {
       let html = `<h2 class="journal-header">The Journal</h2>`;
-      if (siteData.posts.length === 0) {
-        html += `<p style="text-align: center;">No tracks dropped yet. Check back soon.</p>`;
+      // Exclude portfolio sub-pages from the main journal list
+      const portfolioSlugs = [
+        'east-sammamish-park-south-site-2020', 
+        'green-access-home-at-suncadia-2010', 
+        'the-urban-lodge-2007', 
+        'the-built-green-home-at-suncadia-2006'
+      ];
+      
+      const blogPosts = siteData.posts.filter(p => !portfolioSlugs.includes(p.slug));
+      
+      if (blogPosts.length === 0) {
+        html += `<p style="text-align: center;">No tracks dropped yet.</p>`;
       } else {
-        siteData.posts.forEach(post => {
+        blogPosts.forEach(post => {
           html += `
             <article class="post-card">
               <h3>${post.title}</h3>
@@ -465,8 +473,19 @@
     }
 
     function renderPost(root, post) {
+      // Portfolio items get a specific back button
+      const portfolioSlugs = [
+        'east-sammamish-park-south-site-2020', 
+        'green-access-home-at-suncadia-2010', 
+        'the-urban-lodge-2007', 
+        'the-built-green-home-at-suncadia-2006'
+      ];
+      const isPortfolio = portfolioSlugs.includes(post.slug);
+      const backUrl = isPortfolio ? '/portfolio/' : '/journal/';
+      const backText = isPortfolio ? '⇦ Back to Portfolio' : '⇦ Back to Tracks';
+
       root.innerHTML = `
-        <a href="/journal/" class="back-btn" data-link>⇦ Back to Tracks</a>
+        <a href="${backUrl}" class="back-btn" data-link>${backText}</a>
         <div class="article-content">
           <h1 style="margin-top:0;">${post.title}</h1>
           ${post.content}
