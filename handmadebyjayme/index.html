@@ -7,12 +7,10 @@
   
   <link rel="icon" type="image/png" href="https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://jaymecarleton.com&size=128">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   
-  <!-- Markdown Engine -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
@@ -41,7 +39,7 @@
 
     .site-wrapper { display: flex; min-height: 100vh; }
 
-    /* --- SIDEBAR (Desktop) --- */
+    /* --- SIDEBAR --- */
     .sidebar {
       width: 280px;
       background-color: var(--clay);
@@ -85,112 +83,74 @@
 
     /* --- MOBILE HEADER & HAMBURGER --- */
     .mobile-nav-bar {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 60px;
-      background: var(--clay);
-      z-index: 900;
-      padding: 0 1.5rem;
-      align-items: center;
-      justify-content: space-between;
+      display: none; position: fixed; top: 0; left: 0; right: 0;
+      height: 60px; background: var(--clay); z-index: 900;
+      padding: 0 1.5rem; align-items: center; justify-content: space-between;
       border-bottom: 1px solid rgba(0,0,0,0.05);
     }
+    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; }
+    .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1100; }
+    .hamburger span { display: block; width: 25px; height: 2px; background: var(--forest); transition: 0.3s; }
 
-    .mobile-brand {
-      font-family: var(--font-header);
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      letter-spacing: 0.1em;
-      color: var(--forest);
-      font-weight: 600;
-    }
-
-    .hamburger {
-      background: none; border: none; cursor: pointer;
-      display: flex; flex-direction: column; gap: 5px;
-      padding: 10px; z-index: 1100;
-    }
-
-    .hamburger span {
-      display: block; width: 25px; height: 2px;
-      background: var(--forest); transition: 0.3s;
-    }
-
-    /* Hamburger Animation */
     .menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .menu-open .hamburger span:nth-child(2) { opacity: 0; }
     .menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    .sidebar-overlay {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s;
-    }
+    .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s; }
 
     /* --- MAIN CONTENT --- */
-    main {
-      flex: 1; margin-left: 280px; 
-      padding: 5rem 4rem; max-width: 1300px;
-      transition: opacity 0.3s;
-    }
+    main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1300px; transition: opacity 0.3s; }
 
     /* --- LANDING PAGE --- */
-    #home-hero {
-      display: none; 
-      grid-template-columns: 1fr 1.6fr;
-      gap: 4rem; align-items: center; margin-top: 1rem;
-    }
-
-    .profile-card img {
-      width: 100%;
-      border-radius: 60px 15px 60px 15px; 
-      display: block; filter: contrast(1.02) saturate(0.95);
-    }
-
-    .welcome-text h2 {
-      font-family: var(--font-header); font-size: 2.5rem; color: var(--forest);
-      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400;
-    }
+    #home-hero { display: none; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: center; margin-top: 1rem; }
+    .profile-card img { width: 100%; border-radius: 60px 15px 60px 15px; display: block; filter: contrast(1.02) saturate(0.95); }
+    .welcome-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
     .welcome-text p { font-size: 1rem; margin-bottom: 1.2rem; color: #4a4a4a; }
-
-    .signature {
-      margin-top: 3rem; font-family: var(--font-header); font-weight: 500;
-      color: var(--forest); text-transform: uppercase; font-size: 1.2rem; letter-spacing: 0.1em;
-    }
-    .signature small {
-      display: block; font-family: var(--font-body); font-weight: normal;
-      font-size: 0.65rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px;
-    }
+    .signature { margin-top: 3rem; font-family: var(--font-header); font-weight: 500; color: var(--forest); text-transform: uppercase; font-size: 1.2rem; letter-spacing: 0.1em; }
+    .signature small { display: block; font-family: var(--font-body); font-weight: normal; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px; }
 
     /* --- DYNAMIC SECTIONS --- */
-    .section-title {
-      font-family: var(--font-header); font-size: 2.2rem;
-      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3.5rem; color: var(--forest);
-    }
-
-    .portfolio-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.5rem;
-    }
+    .section-title { font-family: var(--font-header); font-size: 2.2rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3.5rem; color: var(--forest); }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.5rem; }
     .portfolio-card { text-decoration: none; color: inherit; transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
     .portfolio-card:hover { transform: translateY(-10px); }
     .portfolio-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 4px; margin-bottom: 1rem; }
     .portfolio-info h4 { font-family: var(--font-header); font-size: 1.1rem; text-transform: uppercase; color: var(--forest); }
 
-    .post-card {
-      background: var(--white); padding: 3rem; margin-bottom: 2rem; border-radius: 4px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    /* --- RESUME STYLING (The New Layout) --- */
+    .resume-container { font-size: 0.95rem; color: #333; }
+    .resume-container h1 { font-size: 2.5rem; margin-bottom: 2rem; border-bottom: 2px solid var(--forest); padding-bottom: 1rem; }
+    .resume-container h3 { 
+        font-family: var(--font-body); 
+        text-transform: uppercase; 
+        font-weight: 700; 
+        font-size: 1.1rem; 
+        color: var(--forest); 
+        margin-top: 2.5rem; 
+        margin-bottom: 1rem;
+        letter-spacing: 0.05em;
     }
-    .post-card h3 { 
-      font-family: var(--font-header); font-size: 2rem; margin-bottom: 1rem; 
-      text-transform: uppercase; color: var(--forest); font-weight: 400;
+    .resume-container h4 { 
+        font-family: var(--font-header); 
+        font-size: 1.2rem; 
+        margin-top: 1.5rem; 
+        color: var(--charcoal); 
+        border-bottom: 1px solid var(--clay);
+        padding-bottom: 5px;
     }
-    .btn-read { 
-      font-weight: 700; color: var(--wood); text-decoration: none; font-size: 0.75rem; 
-      text-transform: uppercase; letter-spacing: 0.15em; border-bottom: 1px solid var(--wood); 
-    }
+    .resume-container ul { list-style: none; margin-top: 0.5rem; }
+    .resume-container li { margin-bottom: 0.5rem; position: relative; padding-left: 1.5rem; }
+    .resume-container li::before { content: "•"; color: var(--wood); position: absolute; left: 0; font-weight: bold; }
+    .resume-container p { margin-bottom: 0.5rem; }
+    .resume-container strong { color: var(--charcoal); }
+    .resume-container em { display: block; font-size: 0.85rem; color: var(--sage); margin-bottom: 0.5rem; }
 
-    .article-content { max-width: 800px; margin: 0 auto; background: var(--white); padding: 4rem; border-radius: 4px; }
-    .article-content h1 { font-family: var(--font-header); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2rem; color: var(--forest); font-weight: 400; }
+    /* Standard Page/Post Card */
+    .post-card { background: var(--white); padding: 3rem; margin-bottom: 2rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    .post-card h3 { font-family: var(--font-header); font-size: 2rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; }
+    .btn-read { font-weight: 700; color: var(--wood); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; border-bottom: 1px solid var(--wood); }
+
+    .article-content { max-width: 850px; margin: 0 auto; background: var(--white); padding: 4rem; border-radius: 4px; }
     .article-content img { display: block; max-width: 100%; height: auto; margin: 3rem auto; }
     .back-btn { display: inline-block; margin-bottom: 2.5rem; text-decoration: none; color: var(--wood); text-transform: uppercase; font-size: 0.75rem; font-weight: 700; }
 
@@ -200,19 +160,12 @@
     /* --- RESPONSIVE --- */
     @media (max-width: 850px) {
       .mobile-nav-bar { display: flex; }
-      .sidebar { 
-        transform: translateX(-100%); 
-        width: 80%; max-width: 300px; 
-        box-shadow: 10px 0 30px rgba(0,0,0,0.1);
-      }
+      .sidebar { transform: translateX(-100%); width: 80%; max-width: 300px; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
       .menu-open .sidebar { transform: translateX(0); }
       .menu-open .sidebar-overlay { display: block; opacity: 1; }
-      
       main { margin-left: 0; padding: 6rem 1.5rem 3rem 1.5rem; }
       #home-hero { grid-template-columns: 1fr; gap: 2.5rem; }
-      .welcome-text h2 { font-size: 1.8rem; }
       .article-content { padding: 2.5rem 1.5rem; }
-      .article-content h1 { font-size: 1.8rem; }
     }
   </style>
 </head>
@@ -281,7 +234,6 @@
     let siteData = { pages: {}, posts: [] };
     const portSlugs = ['east-sammamish-park-south-site-2020', 'green-access-home-at-suncadia-2010', 'the-urban-lodge-2007', 'the-built-green-home-at-suncadia-2006'];
 
-    // --- NAVIGATION LOGIC ---
     const body = document.getElementById('body-context');
     const menuToggle = document.getElementById('menu-toggle');
     const menuOverlay = document.getElementById('menu-overlay');
@@ -294,16 +246,11 @@
 
     document.body.addEventListener('click', e => {
       const target = e.target.closest('[data-link]');
-      if (target) { 
-        e.preventDefault(); 
-        closeMenu();
-        navigateTo(target.getAttribute('href')); 
-      }
+      if (target) { e.preventDefault(); closeMenu(); navigateTo(target.getAttribute('href')); }
     });
 
     function navigateTo(url) { history.pushState(null, null, url); handleRoute(); }
 
-    // --- CACHING & FETCHING ---
     async function initApp() {
       const cached = localStorage.getItem(CACHE_KEY);
       if (cached) {
@@ -311,7 +258,7 @@
         if (Date.now() - timestamp < CACHE_TIME) {
           parseGoogleDoc(data);
           handleRoute();
-          fetchFreshData(); // Background update
+          fetchFreshData();
           return;
         }
       }
@@ -363,13 +310,12 @@
       if(activeLink) activeLink.classList.add('active');
 
       if (slug === 'home' || slug === '') {
-        homeHero.style.display = 'grid'; 
-        root.innerHTML = '';
+        homeHero.style.display = 'grid'; root.innerHTML = '';
       } else {
         homeHero.style.display = 'none'; 
         if (slug === 'journal') renderJournal(root);
         else if (slug === 'portfolio') renderPortfolioHub(root);
-        else if (siteData.pages[slug]) renderPage(root, siteData.pages[slug]);
+        else if (siteData.pages[slug]) renderPage(root, siteData.pages[slug], slug);
         else {
           const post = siteData.posts.find(p => p.slug === slug);
           if (post) renderPost(root, post);
@@ -396,7 +342,15 @@
       root.innerHTML = html;
     }
 
-    function renderPage(root, page) { root.innerHTML = `<div class="article-content"><h1>${page.title}</h1>${page.content}</div>`; }
+    function renderPage(root, page, slug) { 
+        const isResume = slug === 'resume';
+        root.innerHTML = `
+            <div class="${isResume ? 'resume-container' : 'article-content'}">
+                ${isResume ? '' : `<h1>${page.title}</h1>`}
+                ${page.content}
+            </div>`; 
+    }
+
     function renderPost(root, post) {
       const isP = portSlugs.includes(post.slug);
       root.innerHTML = `<div class="article-content"><a href="${isP ? '/portfolio/' : '/journal/'}" class="back-btn" data-link>← Back</a><h1>${post.title}</h1>${post.content}</div>`;
