@@ -7,10 +7,12 @@
   
   <link rel="icon" type="image/png" href="https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://jaymecarleton.com&size=128">
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   
+  <!-- Markdown Engine -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
@@ -117,9 +119,19 @@
     .portfolio-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 4px; margin-bottom: 1rem; }
     .portfolio-info h4 { font-family: var(--font-header); font-size: 1.1rem; text-transform: uppercase; color: var(--forest); }
 
-    /* --- RESUME STYLING (The New Layout) --- */
-    .resume-container { font-size: 0.95rem; color: #333; }
-    .resume-container h1 { font-size: 2.5rem; margin-bottom: 2rem; border-bottom: 2px solid var(--forest); padding-bottom: 1rem; }
+    /* --- RESUME STYLING --- */
+    .resume-container { max-width: 850px; margin: 0 auto; background: var(--white); padding: 4rem; border-radius: 4px; }
+    .resume-container h1 { 
+        font-family: var(--font-header);
+        font-size: 2.8rem; 
+        text-transform: uppercase; 
+        letter-spacing: 0.05em; 
+        margin-bottom: 2rem; 
+        border-bottom: 2px solid var(--forest); 
+        padding-bottom: 1rem;
+        color: var(--forest);
+        font-weight: 400;
+    }
     .resume-container h3 { 
         font-family: var(--font-body); 
         text-transform: uppercase; 
@@ -141,7 +153,6 @@
     .resume-container ul { list-style: none; margin-top: 0.5rem; }
     .resume-container li { margin-bottom: 0.5rem; position: relative; padding-left: 1.5rem; }
     .resume-container li::before { content: "•"; color: var(--wood); position: absolute; left: 0; font-weight: bold; }
-    .resume-container p { margin-bottom: 0.5rem; }
     .resume-container strong { color: var(--charcoal); }
     .resume-container em { display: block; font-size: 0.85rem; color: var(--sage); margin-bottom: 0.5rem; }
 
@@ -151,6 +162,7 @@
     .btn-read { font-weight: 700; color: var(--wood); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; border-bottom: 1px solid var(--wood); }
 
     .article-content { max-width: 850px; margin: 0 auto; background: var(--white); padding: 4rem; border-radius: 4px; }
+    .article-content h1 { font-family: var(--font-header); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2rem; color: var(--forest); font-weight: 400; }
     .article-content img { display: block; max-width: 100%; height: auto; margin: 3rem auto; }
     .back-btn { display: inline-block; margin-bottom: 2.5rem; text-decoration: none; color: var(--wood); text-transform: uppercase; font-size: 0.75rem; font-weight: 700; }
 
@@ -165,7 +177,7 @@
       .menu-open .sidebar-overlay { display: block; opacity: 1; }
       main { margin-left: 0; padding: 6rem 1.5rem 3rem 1.5rem; }
       #home-hero { grid-template-columns: 1fr; gap: 2.5rem; }
-      .article-content { padding: 2.5rem 1.5rem; }
+      .article-content, .resume-container { padding: 2.5rem 1.5rem; }
     }
   </style>
 </head>
@@ -346,7 +358,7 @@
         const isResume = slug === 'resume';
         root.innerHTML = `
             <div class="${isResume ? 'resume-container' : 'article-content'}">
-                ${isResume ? '' : `<h1>${page.title}</h1>`}
+                <h1>${page.title}</h1>
                 ${page.content}
             </div>`; 
     }
