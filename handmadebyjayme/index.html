@@ -111,8 +111,8 @@
 
     .profile-card img {
       width: 100%;
-      /* Nicer Shape: Organic rounded corners */
-      border-radius: 80px 20px 80px 20px; 
+      /* Nicer Shape: Organic rounded corners, no trace */
+      border-radius: 60px 15px 60px 15px; 
       display: block;
       filter: contrast(1.02) saturate(0.95);
     }
@@ -274,6 +274,7 @@
         flex-direction: row; align-items: center; justify-content: space-between;
       }
       .sidebar-brand { margin-bottom: 0; }
+      .sidebar-brand h1 { font-size: 1.1rem; }
       .nav-links { flex-direction: row; gap: 1rem; }
       main { margin-left: 0; padding: 3rem 1.5rem; }
       #home-hero { grid-template-columns: 1fr; gap: 2rem; }
@@ -305,7 +306,7 @@
           <p>My name is Jayme and I am an environmental advocate and sustainability consultant, an overly enthusiastic foodscape gardener and the creator behind <strong>Handmade by Jayme</strong> (cool handmade gifts, art, and non-toxic skincare products).</p>
           <p>My journal represents my thoughts about living a sustainable and healthy lifestyle, which should be second nature to me, but sometimes isn’t. My website represents, well, me.</p>
           <p>I started blogging a few years ago as a way to interact with the sustainable construction community; it morphed into an outlet to express my opinions on the sustainable movement as a whole and how one person can live within it.</p>
-          <p>I enjoy my studio – where I create quilts, watercolor paintings, and more – and my kitchen where I create healthy skincare products. I am always keeping an eye out for DIY handmade and homemade projects and ways to inspire others.</p>
+          <p>I enjoy my studio – where I create quilts (both large and small), watercolor paintings, and more – and my kitchen where I create healthy skincare products. I am always keeping an eye out for DIY handmade and homemade projects and ways to inspire others.</p>
           <p>I would like to bring you along for a sustainable journey. I hope that by sharing my experiences, I may inspire you along the way.</p>
           <p>Happy reading!</p>
           <div class="signature">
@@ -331,6 +332,9 @@
 
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
+    const CACHE_KEY = 'jayme_content_cache';
+    const CACHE_TIME = 3600000; // 1 Hour cache duration
+
     let siteData = { pages: {}, posts: [] };
     const portSlugs = ['east-sammamish-park-south-site-2020', 'green-access-home-at-suncadia-2010', 'the-urban-lodge-2007', 'the-built-green-home-at-suncadia-2006'];
 
@@ -342,16 +346,34 @@
     function navigateTo(url) { history.pushState(null, null, url); handleRoute(); }
 
     async function initApp() {
+      // 1. Check Cache first for speed
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { timestamp, data } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_TIME) {
+          parseGoogleDoc(data);
+          handleRoute();
+          // Background fetch to keep next visit fresh
+          fetchFreshData();
+          return;
+        }
+      }
+      // 2. No cache or expired, fetch fresh
+      await fetchFreshData();
+    }
+
+    async function fetchFreshData() {
       try {
         const response = await fetch(APPS_SCRIPT_URL);
         const rawText = await response.text();
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: rawText }));
         parseGoogleDoc(rawText);
-        window.addEventListener('popstate', handleRoute);
-        handleRoute(); 
-      } catch (error) { console.error(error); }
+        handleRoute();
+      } catch (e) { console.error("Fetch failed", e); }
     }
 
     function parseGoogleDoc(text) {
+      siteData = { pages: {}, posts: [] }; // Reset
       const sections = text.split(/(^#\s+.+$)/m);
       for (let i = 1; i < sections.length; i += 2) {
         const titleLine = sections[i];
@@ -360,7 +382,6 @@
         const slug = slugify(rawTitle);
         if (slug === 'instructions') continue;
         const htmlContent = marked.parse(contentBody.replace(/href="(\/[^"]+)"/g, 'href="$1" data-link'));
-
         const excerpt = contentBody.replace(/[#*\[\]\(\)>_]/g, '').substring(0, 160) + '...';
         const imgMatch = contentBody.match(/!\[.*?\]\((.*?)\)/);
         const thumb = imgMatch ? imgMatch[1] : '';
@@ -369,11 +390,7 @@
         if (['portfolio', 'resume', 'contact'].includes(slug)) {
           siteData.pages[slug] = { title: rawTitle, content: htmlContent };
         } else {
-          siteData.posts.push({ 
-            title: rawTitle, slug: slug, content: htmlContent, 
-            excerpt: excerpt, thumb: thumb, 
-            date: dateMatch ? new Date(dateMatch[1]) : new Date(0) 
-          });
+          siteData.posts.push({ title: rawTitle, slug: slug, content: htmlContent, excerpt: excerpt, thumb: thumb, date: dateMatch ? new Date(dateMatch[1]) : new Date(0) });
         }
       }
       siteData.posts.sort((a, b) => b.date - a.date);
@@ -417,19 +434,13 @@
     function renderPortfolioHub(root) {
       let html = `<h2 class="section-title">Portfolio</h2><div class="portfolio-grid">`;
       siteData.posts.filter(p => portSlugs.includes(p.slug)).forEach(post => {
-        html += `
-          <a href="/${post.slug}/" class="portfolio-card" data-link>
-            <img src="${post.thumb}" class="portfolio-img" alt="${post.title}">
-            <div class="portfolio-info"><h4>${post.title}</h4></div>
-          </a>
-        `;
+        html += `<a href="/${post.slug}/" class="portfolio-card" data-link><img src="${post.thumb}" class="portfolio-img" alt="${post.title}"><div class="portfolio-info"><h4>${post.title}</h4></div></a>`;
       });
       html += `</div>`;
       root.innerHTML = html;
     }
 
     function renderPage(root, page) { root.innerHTML = `<div class="article-content"><h1>${page.title}</h1>${page.content}</div>`; }
-
     function renderPost(root, post) {
       const isPortfolio = portSlugs.includes(post.slug);
       root.innerHTML = `<div class="article-content"><a href="${isPortfolio ? '/portfolio/' : '/journal/'}" class="back-btn" data-link>← Back</a><h1>${post.title}</h1>${post.content}</div>`;
@@ -437,6 +448,7 @@
 
     function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
     window.onload = initApp;
+    window.addEventListener('popstate', handleRoute);
   </script>
 </body>
 </html>
