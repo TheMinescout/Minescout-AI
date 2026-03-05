@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jayme M. Carleton | Sustainability & Stewardship</title>
+  <title>JAYME M. CARLETON | Sustainability & Stewardship</title>
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://jaymecarleton.com&size=128">
@@ -18,14 +18,16 @@
 
   <style>
     :root {
-      --pine: #2D4336;
-      --moss: #4A5D4E;
-      --slate: #5F7174;
-      --lichen: #A8B5A2; 
-      --mist: #F4F5F4;
+      /* Organic Modern Palette */
+      --forest: #2D3A2D;     /* Deep Green from image */
+      --sage: #4F5D4F;
+      --wood: #C2A378;       /* Honey/Gold wood accent */
+      --clay: #E8E2D6;       /* Warm beige for sidebar */
+      --wall: #F9F7F2;       /* Creamy off-white wall color */
       --charcoal: #2C3333;
       --white: #FFFFFF;
-      --earth: #ECE3CE;
+      --moss-trace: #A8B5A2; 
+      
       --font-header: 'Playfair Display', serif;
       --font-body: 'Inter', sans-serif;
     }
@@ -33,245 +35,316 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background-color: var(--mist);
+      background-color: var(--wall);
       font-family: var(--font-body);
       color: var(--charcoal);
-      line-height: 1.5;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
 
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    /* --- NAVIGATION --- */
-    nav {
+    /* --- LAYOUT STRUCTURE --- */
+    .site-wrapper {
       display: flex;
-      justify-content: center;
-      gap: 2.5rem;
-      padding: 1.5rem 0;
+      min-height: 100vh;
     }
 
-    nav a {
+    /* --- SIDEBAR NAVIGATION --- */
+    .sidebar {
+      width: 280px;
+      background-color: var(--clay);
+      padding: 3rem 2rem;
+      position: fixed;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(0,0,0,0.05);
+      z-index: 100;
+    }
+
+    .sidebar-brand {
+      margin-bottom: 4rem;
+      cursor: pointer;
+    }
+
+    .sidebar-brand h1 {
+      font-family: var(--font-header);
+      font-size: 1.5rem;
+      color: var(--forest);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      line-height: 1.2;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
       color: var(--charcoal);
       text-decoration: none;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
       font-size: 0.75rem;
-      transition: opacity 0.3s;
+      transition: all 0.3s ease;
       opacity: 0.6;
     }
 
-    nav a:hover, nav a.active {
+    .nav-links a:hover, .nav-links a.active {
       opacity: 1;
-      color: var(--pine);
+      color: var(--forest);
+      padding-left: 5px;
     }
 
-    /* --- HEADER --- */
-    header {
-      text-align: center;
-      padding: 0.5rem 0 2rem 0;
-      cursor: pointer;
+    /* --- MAIN CONTENT AREA --- */
+    main {
+      flex: 1;
+      margin-left: 280px; /* Offset for sidebar */
+      padding: 4rem 3rem;
+      max-width: 1200px;
     }
 
-    header h1 {
-      font-family: var(--font-header);
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      font-weight: 400;
-      color: var(--pine);
-      font-style: italic;
-    }
-
-    /* --- LANDING PAGE (Compact) --- */
+    /* --- LANDING PAGE (Compact Grid) --- */
     #home-hero {
       display: none; 
-      grid-template-columns: 1fr 1.6fr;
+      grid-template-columns: 1fr 1.5fr;
       gap: 3rem;
       align-items: start;
       background: var(--white);
-      padding: 2.5rem;
+      padding: 3rem;
       border-radius: 2px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.02);
       margin-bottom: 3rem;
     }
 
     .profile-card img {
       width: 100%;
       border-radius: 2px;
-      /* Moss Green Trace shadow */
-      box-shadow: 15px 15px 0px var(--lichen);
+      box-shadow: 15px 15px 0px var(--moss-trace); /* Moss green trace */
     }
 
     .welcome-text h2 {
       font-family: var(--font-header);
-      font-size: 1.8rem;
-      color: var(--pine);
-      margin-bottom: 1rem;
+      font-size: 2.2rem;
+      color: var(--forest);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
     }
 
     .welcome-text p {
       font-size: 0.95rem;
-      margin-bottom: 0.8rem;
+      margin-bottom: 1rem;
       color: #444;
     }
 
     .signature {
-      margin-top: 1.5rem;
+      margin-top: 2rem;
       font-family: var(--font-header);
       font-weight: 600;
-      color: var(--pine);
-      line-height: 1.2;
+      color: var(--forest);
+      text-transform: uppercase;
+      font-size: 1.1rem;
     }
 
-    /* --- CONTENT AREA --- */
-    #app-root { min-height: 400px; margin-bottom: 4rem; }
+    .signature small {
+      display: block;
+      font-family: var(--font-body);
+      font-weight: normal;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--sage);
+      margin-top: 5px;
+    }
 
+    /* --- DYNAMIC SECTION HEADERS --- */
     .section-title {
       font-family: var(--font-header);
-      font-size: 2.2rem;
-      text-align: center;
-      margin-bottom: 2.5rem;
-      color: var(--pine);
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 3rem;
+      color: var(--forest);
+      text-align: left;
     }
 
     /* --- PORTFOLIO GRID --- */
     .portfolio-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
     }
 
     .portfolio-card {
       background: var(--white);
       text-decoration: none;
       color: inherit;
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid rgba(0,0,0,0.05);
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      border: 1px solid rgba(0,0,0,0.03);
     }
 
     .portfolio-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
     }
 
     .portfolio-img {
       width: 100%;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 16 / 10;
       object-fit: cover;
       display: block;
-      background: #eee;
+      filter: contrast(1.05) saturate(0.9);
     }
 
-    .portfolio-info { padding: 1rem; text-align: center; }
-    .portfolio-info h4 { font-family: var(--font-header); font-size: 1rem; color: var(--pine); }
+    .portfolio-info { padding: 1.5rem; text-align: left; background: var(--white); }
+    .portfolio-info h4 { font-family: var(--font-header); font-size: 1rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; }
 
     /* --- JOURNAL CARDS --- */
     .post-card {
       background: var(--white);
-      padding: 2rem;
-      margin-bottom: 1.2rem;
-      border-left: 3px solid var(--lichen);
-      transition: transform 0.2s;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--clay);
+      transition: background 0.3s;
     }
 
-    .post-card:hover { transform: translateX(5px); border-left-color: var(--pine); }
-    .post-card h3 { font-family: var(--font-header); font-size: 1.6rem; margin-bottom: 0.5rem; }
-    .post-card .excerpt { font-size: 0.9rem; color: #666; margin-bottom: 1rem; }
-    .btn-read { font-weight: 700; color: var(--pine); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--lichen); }
+    .post-card h3 { 
+      font-family: var(--font-header); 
+      font-size: 1.8rem; 
+      margin-bottom: 1rem; 
+      text-transform: uppercase; 
+      color: var(--forest);
+    }
+    .post-card .excerpt { font-size: 0.9rem; color: #555; margin-bottom: 1.5rem; }
+    .btn-read { font-weight: 700; color: var(--wood); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--wood); }
 
-    /* --- ARTICLE CONTENT (Image Size Fix) --- */
+    /* --- ARTICLE CONTENT (IMAGE FIXES) --- */
     .article-content { 
-      max-width: 800px; 
+      max-width: 850px; 
       margin: 0 auto; 
       background: var(--white); 
-      padding: 3rem; 
-      overflow: hidden; 
+      padding: 4rem; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.02);
     }
 
+    .article-content h1 { 
+      font-family: var(--font-header); 
+      font-size: 3rem; 
+      text-transform: uppercase; 
+      letter-spacing: 0.05em; 
+      line-height: 1.1; 
+      margin-bottom: 2rem; 
+      color: var(--forest); 
+    }
+
+    /* Fixed Image Size Constraint */
     .article-content img { 
       display: block;
       max-width: 100%; 
       height: auto; 
-      border-radius: 2px; 
-      margin: 2rem auto; 
+      border-radius: 0; 
+      margin: 2.5rem auto; 
     }
 
-    .back-btn { display: inline-block; margin-bottom: 2rem; text-decoration: none; color: #999; text-transform: uppercase; font-size: 0.75rem; font-weight: 700; }
-    .article-content h1 { font-family: var(--font-header); font-size: 2.8rem; line-height: 1.1; margin-bottom: 1.5rem; color: var(--pine); }
+    .back-btn { display: inline-block; margin-bottom: 2rem; text-decoration: none; color: var(--wood); text-transform: uppercase; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; }
 
     footer {
-      background: var(--pine);
-      color: var(--mist);
+      margin-top: 5rem;
       padding: 4rem 0;
-      text-align: center;
+      text-align: left;
+      border-top: 1px solid rgba(0,0,0,0.05);
     }
 
-    .social-links a { color: var(--mist); text-decoration: none; margin: 0 1rem; font-size: 0.85rem; opacity: 0.7; }
-    footer p { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.4; margin-top: 15px;}
+    .social-links a { color: var(--sage); text-decoration: none; margin-right: 2rem; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+    footer p { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.5; margin-top: 20px;}
+
+    /* --- RESPONSIVE FIXES --- */
+    @media (max-width: 1000px) {
+      .sidebar { width: 220px; }
+      main { margin-left: 220px; }
+    }
 
     @media (max-width: 850px) {
-      #home-hero { grid-template-columns: 1fr; padding: 1.5rem; gap: 1.5rem; }
-      nav { gap: 1.5rem; }
-      .article-content { padding: 1.5rem; }
+      .site-wrapper { flex-direction: column; }
+      .sidebar { 
+        width: 100%; 
+        height: auto; 
+        position: relative; 
+        padding: 2rem; 
+        flex-direction: row; 
+        align-items: center; 
+        justify-content: space-between;
+      }
+      .sidebar-brand { margin-bottom: 0; }
+      .nav-links { flex-direction: row; gap: 1rem; }
+      .nav-links a { font-size: 0.65rem; }
+      main { margin-left: 0; padding: 2rem 1.5rem; }
+      #home-hero { grid-template-columns: 1fr; padding: 2rem; gap: 2rem; }
+      .article-content { padding: 2rem 1.5rem; }
+      .article-content h1 { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <nav>
-      <a href="/journal/" class="nav-link" data-link>Journal</a>
-      <a href="/portfolio/" class="nav-link" data-link>Portfolio</a>
-      <a href="/resume/" class="nav-link" data-link>Resume</a>
-      <a href="/contact/" class="nav-link" data-link>Contact</a>
+  <div class="site-wrapper">
+    <!-- PERSISTENT SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-brand" onclick="navigateTo('/')">
+        <h1>Jayme M.<br>Carleton</h1>
+      </div>
+      <div class="nav-links">
+        <a href="/journal/" class="nav-link" data-link>Journal</a>
+        <a href="/portfolio/" class="nav-link" data-link>Portfolio</a>
+        <a href="/resume/" class="nav-link" data-link>Resume</a>
+        <a href="/contact/" class="nav-link" data-link>Contact</a>
+      </div>
     </nav>
 
-    <header onclick="navigateTo('/')">
-      <h1>handmade by jayme</h1>
-    </header>
-
-    <!-- LANDING PAGE (Home) -->
-    <div id="home-hero">
-      <div class="profile-card">
-        <img src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme">
-      </div>
-      <div class="welcome-text">
-        <h2>Welcome</h2>
-        <p>My name is Jayme and I am an environmental advocate and sustainability consultant, an overly enthusiastic foodscape gardener and the creator behind <strong>Handmade by Jayme</strong> (cool handmade gifts, art, and non-toxic skincare products).</p>
-        <p>My journal represents my thoughts about living a sustainable and healthy lifestyle, which should be second nature to me, but sometimes isn’t. My website represents, well, me.</p>
-        <p>I started blogging a few years ago as a way to interact with the sustainable construction community; it morphed into an outlet to express my opinions on the sustainable movement as a whole and how one person can live within it.</p>
-        <p>I enjoy my studio – where I create quilts (both large and small), watercolor paintings, and more – and my kitchen where I create healthy skincare products. I am always keeping an eye out for DIY handmade and homemade projects, ways to inspire others, articles of interest and activities to keep my kids entertained.</p>
-        <p>I would like to bring you along for a sustainable journey, where you will meet my amazingly supportive husband and two children. I hope that by sharing my experiences, I may inspire you along the way.</p>
-        <p>Happy reading!</p>
-        <div class="signature">
-          Jayme M. Carleton<br>
-          <span style="font-family: var(--font-body); font-weight: normal; font-size: 0.75rem; text-transform: uppercase; color: var(--lichen);">CSBA, LEED Green Associate</span>
+    <!-- MAIN CONTENT -->
+    <main>
+      <!-- LANDING PAGE (Home) -->
+      <div id="home-hero">
+        <div class="profile-card">
+          <img src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme M. Carleton">
+        </div>
+        <div class="welcome-text">
+          <h2>Welcome</h2>
+          <p>My name is Jayme and I am an environmental advocate and sustainability consultant, an overly enthusiastic foodscape gardener and the creator behind <strong>Handmade by Jayme</strong> (cool handmade gifts, art, and non-toxic skincare products).</p>
+          <p>My journal represents my thoughts about living a sustainable and healthy lifestyle, which should be second nature to me, but sometimes isn’t. My website represents, well, me.</p>
+          <p>I started blogging a few years ago as a way to interact with the sustainable construction community; it morphed into an outlet to express my opinions on the sustainable movement as a whole and how one person can live within it.</p>
+          <p>I enjoy my studio – where I create quilts (both large and small), watercolor paintings, and more – and my kitchen where I create healthy skincare products. I am always keeping an eye out for DIY handmade and homemade projects, ways to inspire others, articles of interest and activities to keep my kids entertained.</p>
+          <p>I would like to bring you along for a sustainable journey, where you will meet my amazingly supportive husband and two children. I hope that by sharing my experiences, I may inspire you along the way.</p>
+          <p>Happy reading!</p>
+          <div class="signature">
+            JAYME M. CARLETON
+            <small>CSBA, LEED GREEN ASSOCIATE</small>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div id="app-root"></div>
+      <div id="app-root"></div>
+
+      <footer>
+        <div class="social-links">
+          <a href="https://www.facebook.com/jaymecarleton" target="_blank">Facebook</a>
+          <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank">LinkedIn</a>
+          <a href="https://www.pinterest.com/jaymecarleton/" target="_blank">Pinterest</a>
+        </div>
+        <p>SECOND NATURE</p>
+        <p>&copy; 2015-2026. ALL RIGHTS RESERVED.</p>
+      </footer>
+    </main>
   </div>
-
-  <footer>
-    <div class="container">
-      <div class="social-links">
-        <a href="https://www.facebook.com/jaymecarleton" target="_blank">Facebook</a>
-        <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank">LinkedIn</a>
-        <a href="https://www.pinterest.com/jaymecarleton/" target="_blank">Pinterest</a>
-      </div>
-      <p>Second Nature | &copy; 2015-2026. All Rights Reserved.</p>
-    </div>
-  </footer>
 
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
     let siteData = { pages: {}, posts: [] };
-    const portSlugs = ['east-sammamish-park-south-site-2020', 'green-access-home-at-suncadia-2010', 'the-urban-lodge-2007', 'the-built-green-home-at-suncadia-2006'];
+    const portfolioSlugs = ['east-sammamish-park-south-site-2020', 'green-access-home-at-suncadia-2010', 'the-urban-lodge-2007', 'the-built-green-home-at-suncadia-2006'];
 
+    // Intercept Link Clicks
     document.body.addEventListener('click', e => {
       const target = e.target.closest('[data-link]');
       if (target) { e.preventDefault(); navigateTo(target.getAttribute('href')); }
@@ -346,15 +419,15 @@
 
     function renderJournal(root) {
       let html = `<h2 class="section-title">Journal</h2>`;
-      siteData.posts.filter(p => !portSlugs.includes(p.slug)).forEach(post => {
-        html += `<article class="post-card"><h3>${post.title}</h3><p class="excerpt">${post.excerpt}</p><a href="/${post.slug}/" class="btn-read" data-link>Read More</a></article>`;
+      siteData.posts.filter(p => !portfolioSlugs.includes(p.slug)).forEach(post => {
+        html += `<article class="post-card"><h3>${post.title}</h3><p class="excerpt">${post.excerpt}</p><a href="/${post.slug}/" class="btn-read" data-link>READ MORE</a></article>`;
       });
       root.innerHTML = html;
     }
 
     function renderPortfolioHub(root) {
       let html = `<h2 class="section-title">Portfolio</h2><div class="portfolio-grid">`;
-      siteData.posts.filter(p => portSlugs.includes(p.slug)).forEach(post => {
+      siteData.posts.filter(p => portfolioSlugs.includes(p.slug)).forEach(post => {
         html += `
           <a href="/${post.slug}/" class="portfolio-card" data-link>
             <img src="${post.thumb}" class="portfolio-img" alt="${post.title}">
@@ -369,8 +442,8 @@
     function renderPage(root, page) { root.innerHTML = `<div class="article-content"><h1>${page.title}</h1>${page.content}</div>`; }
 
     function renderPost(root, post) {
-      const isPortfolio = portSlugs.includes(post.slug);
-      root.innerHTML = `<div class="article-content"><a href="${isPortfolio ? '/portfolio/' : '/journal/'}" class="back-btn" data-link>← Back</a><h1>${post.title}</h1>${post.content}</div>`;
+      const isPortfolio = portfolioSlugs.includes(post.slug);
+      root.innerHTML = `<div class="article-content"><a href="${isPortfolio ? '/portfolio/' : '/journal/'}" class="back-btn" data-link>← BACK</a><h1>${post.title}</h1>${post.content}</div>`;
     }
 
     function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
