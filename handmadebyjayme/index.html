@@ -18,6 +18,7 @@
 
   <style>
     :root {
+      /* Organic Modern Palette */
       --forest: #2D3A2D;     
       --sage: #4F5D4F;       
       --wood: #C2A378;       
@@ -67,7 +68,7 @@
       font-weight: 500;
     }
 
-    .nav-links { display: flex; flex-direction: column; gap: 1.75rem; }
+    .nav-links { display: flex; flex-direction: column; gap: 1.5rem; }
     .nav-links a {
       color: var(--charcoal);
       text-decoration: none;
@@ -93,39 +94,18 @@
       justify-content: space-between;
       border-bottom: 1px solid rgba(0,0,0,0.05);
     }
-
-    .mobile-brand {
-      font-family: var(--font-header);
-      text-transform: uppercase; font-size: 0.9rem;
-      letter-spacing: 0.1em; color: var(--forest); font-weight: 600;
-    }
-
-    .hamburger {
-      background: none; border: none; cursor: pointer;
-      display: flex; flex-direction: column; gap: 5px;
-      padding: 10px; z-index: 1100;
-    }
-
-    .hamburger span {
-      display: block; width: 22px; height: 2px;
-      background: var(--forest); transition: 0.3s;
-    }
+    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; }
+    .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1100; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--forest); transition: 0.3s; }
 
     .menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .menu-open .hamburger span:nth-child(2) { opacity: 0; }
     .menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    .sidebar-overlay {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s;
-    }
+    .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s; }
 
     /* --- MAIN CONTENT --- */
-    main {
-      flex: 1; margin-left: 280px; 
-      padding: 5rem 4rem; max-width: 1300px;
-      transition: opacity 0.3s;
-    }
+    main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1300px; transition: opacity 0.3s; }
 
     /* --- HOME SECTION --- */
     #home-hero {
@@ -155,10 +135,10 @@
       font-size: 0.65rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px;
     }
 
-    /* --- DYNAMIC SECTIONS --- */
+    /* --- DYNAMIC FEED SECTIONS --- */
     .section-title {
       font-family: var(--font-header); font-size: 2.2rem;
-      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3.5rem; color: var(--forest);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3.5rem; color: var(--forest); font-weight: 400;
     }
 
     .portfolio-grid {
@@ -167,7 +147,7 @@
     .portfolio-card { text-decoration: none; color: inherit; transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
     .portfolio-card:hover { transform: translateY(-10px); }
     .portfolio-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 4px; margin-bottom: 1rem; }
-    .portfolio-info h4 { font-family: var(--font-header); font-size: 1.1rem; text-transform: uppercase; color: var(--forest); }
+    .portfolio-info h4 { font-family: var(--font-header); font-size: 1.1rem; text-transform: uppercase; color: var(--forest); letter-spacing: 0.05em; }
 
     .post-card {
       background: var(--white); padding: 3rem; margin-bottom: 2rem; border-radius: 4px;
@@ -200,6 +180,7 @@
     .back-btn { display: inline-block; margin-bottom: 2.5rem; text-decoration: none; color: var(--wood); text-transform: uppercase; font-size: 0.75rem; font-weight: 700; }
 
     footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid rgba(0,0,0,0.05); }
+    .social-links { text-align: left; }
     .social-links a { color: var(--forest); text-decoration: none; margin-right: 2.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
 
     @media (max-width: 850px) {
@@ -264,9 +245,11 @@
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
     const CACHE_KEY = 'jayme_content_cache';
-    const CACHE_TIME = 3600000; 
+    const CACHE_TIME = 3600000; // 1 Hour
 
     let siteData = { pages: {}, posts: [] };
+    
+    // Categorization Slugs
     const portSlugs = ['east-sammamish-park-south-site-2020', 'green-access-home-at-suncadia-2010', 'the-urban-lodge-2007', 'the-built-green-home-at-suncadia-2006'];
     const handSlugs = ['christmas-tree-ornaments', 'the-scent-of-christmas'];
 
@@ -313,13 +296,16 @@
 
     function parseGoogleDoc(text) {
       siteData = { pages: {}, posts: [] };
+      // Regex splits on headers starting with #
       const sections = text.split(/(^#\s+.+$)/m);
       for (let i = 1; i < sections.length; i += 2) {
         const titleLine = sections[i];
         const contentBody = sections[i + 1] ? sections[i + 1].trim() : '';
         const rawTitle = titleLine.replace(/^#\s+/, '').trim();
         const slug = slugify(rawTitle);
+        
         if (slug === 'instructions') continue;
+        
         const htmlContent = marked.parse(contentBody.replace(/href="(\/[^"]+)"/g, 'href="$1" data-link'));
         const excerpt = contentBody.replace(/[#*\[\]\(\)>_]/g, '').substring(0, 160) + '...';
         const imgMatch = contentBody.match(/!\[.*?\]\((.*?)\)/);
@@ -329,7 +315,11 @@
         if (['portfolio', 'resume', 'contact', 'welcome'].includes(slug)) {
           siteData.pages[slug] = { title: rawTitle, content: htmlContent };
         } else {
-          siteData.posts.push({ title: rawTitle, slug: slug, content: htmlContent, excerpt: excerpt, thumb: thumb, date: dateMatch ? new Date(dateMatch[1]) : new Date(0) });
+          siteData.posts.push({ 
+            title: rawTitle, slug: slug, content: htmlContent, 
+            excerpt: excerpt, thumb: thumb, 
+            date: dateMatch ? new Date(dateMatch[1]) : new Date(0) 
+          });
         }
       }
       siteData.posts.sort((a, b) => b.date - a.date);
@@ -350,7 +340,11 @@
         homeHero.style.display = 'grid'; 
         root.innerHTML = '';
         if (siteData.pages['welcome']) {
-            welcomeTarget.innerHTML = siteData.pages['welcome'].content + `<div class="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>`;
+            welcomeTarget.innerHTML = siteData.pages['welcome'].content + `
+              <div class="signature">
+                JAYME M. CARLETON
+                <small>CSBA, LEED GREEN ASSOCIATE</small>
+              </div>`;
         }
       } else {
         homeHero.style.display = 'none'; 
@@ -369,7 +363,9 @@
 
     function renderFeed(root, title, filterFn) {
       let html = `<h2 class="section-title">${title}</h2>`;
-      siteData.posts.filter(filterFn).forEach(post => {
+      const posts = siteData.posts.filter(filterFn);
+      if (posts.length === 0) html += '<p style="color:var(--sage)">New entries coming soon.</p>';
+      posts.forEach(post => {
         html += `<article class="post-card"><h3>${post.title}</h3><p class="excerpt">${post.excerpt}</p><a href="/${post.slug}/" class="btn-read" data-link>Read Entry</a></article>`;
       });
       root.innerHTML = html;
