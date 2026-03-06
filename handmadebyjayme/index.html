@@ -5,16 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JAYME M. CARLETON | Sustainability & Stewardship</title>
   
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://jaymecarleton.com&size=128">
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   
+  <!-- Markdown Engine -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
     :root {
+      /* Organic Modern Palette */
       --forest: #2D3A2D;     
       --sage: #4F5D4F;       
       --wood: #C2A378;       
@@ -39,7 +43,7 @@
 
     .site-wrapper { display: flex; min-height: 100vh; }
 
-    /* --- SIDEBAR --- */
+    /* --- SIDEBAR (Desktop) --- */
     .sidebar {
       width: 280px; background-color: var(--clay); padding: 4rem 2.5rem;
       position: fixed; height: 100vh; display: flex; flex-direction: column;
@@ -59,7 +63,7 @@
     }
     .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
 
-    /* --- MOBILE HEADER --- */
+    /* --- MOBILE HEADER & HAMBURGER --- */
     .mobile-nav-bar {
       display: none; position: fixed; top: 0; left: 0; right: 0; height: 60px;
       background: var(--clay); z-index: 900; padding: 0 1.5rem; align-items: center;
@@ -81,6 +85,9 @@
       display: none; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; margin-top: 1rem;
     }
     .profile-card img { width: 100%; border-radius: 80px 20px 80px 20px; display: block; filter: contrast(1.02) saturate(0.95); }
+    /* Circular logo override for Handmade */
+    .profile-card img.is-logo { border-radius: 50%; padding: 10%; background: white; border: 1px solid var(--border); }
+    
     .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.2rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
     .hero-text p { font-size: 1rem; margin-bottom: 1.2rem; color: #4a4a4a; }
 
@@ -110,6 +117,7 @@
 
     .article-content, .resume-container { max-width: 850px; margin: 0 auto; background: var(--white); padding: 4rem; border-radius: 4px; }
     .article-content h1, .resume-container h1 { font-family: var(--font-header); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2rem; color: var(--forest); font-weight: 400; border-bottom: 2px solid var(--forest); padding-bottom: 1rem; }
+    
     .resume-container h3 { font-family: var(--font-body); text-transform: uppercase; font-weight: 700; font-size: 1.1rem; color: var(--forest); margin-top: 2.5rem; margin-bottom: 1rem; }
     .resume-container h4 { font-family: var(--font-header); font-size: 1.2rem; margin-top: 1.5rem; color: var(--charcoal); border-bottom: 1px solid var(--clay); padding-bottom: 5px; }
     .resume-container li { margin-bottom: 0.5rem; position: relative; padding-left: 1.5rem; }
@@ -119,6 +127,7 @@
     .back-btn { display: inline-block; margin-bottom: 2.5rem; text-decoration: none; color: var(--wood); text-transform: uppercase; font-size: 0.75rem; font-weight: 700; }
 
     footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid rgba(0,0,0,0.05); }
+    .social-links { text-align: left; }
     .social-links a { color: var(--forest); text-decoration: none; margin-right: 2.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
 
     @media (max-width: 850px) {
@@ -160,7 +169,7 @@
     <main>
       <div id="hero-container">
         <div class="profile-card">
-          <img src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme M. Carleton">
+          <img id="hero-image" src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme M. Carleton">
         </div>
         <div class="hero-text" id="hero-target"></div>
       </div>
@@ -181,9 +190,11 @@
     const CACHE_KEY = 'jayme_content_cache';
     const CACHE_TIME = 3600000; 
 
+    const HOME_PHOTO = "https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg";
+    const HANDMADE_LOGO = "https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png";
+
     let siteData = { pages: {}, posts: [] };
     const portSlugs = ['east-sammamish-park-south-site-2020', 'green-access-home-at-suncadia-2010', 'the-urban-lodge-2007', 'the-built-green-home-at-suncadia-2006'];
-    const handSlugs = ['christmas-tree-ornaments', 'the-scent-of-christmas'];
 
     const body = document.getElementById('body-context');
     const menuToggle = document.getElementById('menu-toggle');
@@ -208,7 +219,7 @@
         if (Date.now() - timestamp < CACHE_TIME) {
           parseGoogleDoc(data);
           handleRoute();
-          fetchFreshData();
+          fetchFreshData(); 
           return;
         }
       }
@@ -227,23 +238,31 @@
 
     function parseGoogleDoc(text) {
       siteData = { pages: {}, posts: [] };
-      const sections = text.split(/(^#\s+.+$)/m);
+      const sections = text.split(/(^#\s+.*$)/m);
       for (let i = 1; i < sections.length; i += 2) {
         const titleLine = sections[i];
         const contentBody = sections[i + 1] ? sections[i + 1].trim() : '';
-        const rawTitle = titleLine.replace(/^#\s+/, '').trim();
+        const rawTitle = titleLine.replace(/^#\s*/, '').trim();
         const slug = slugify(rawTitle);
         if (slug === 'instructions') continue;
+        
         const htmlContent = marked.parse(contentBody.replace(/href="(\/[^"]+)"/g, 'href="$1" data-link'));
         const excerpt = contentBody.replace(/[#*\[\]\(\)>_]/g, '').substring(0, 160) + '...';
         const imgMatch = contentBody.match(/!\[.*?\]\((.*?)\)/);
         const thumb = imgMatch ? imgMatch[1] : '';
         const dateMatch = contentBody.match(/\*\*Date:\s*(.*?)\*\*/i);
         
+        // Detect the handmade tag
+        const isHandmade = contentBody.toLowerCase().includes('category: handmade');
+        
         if (['portfolio', 'resume', 'contact', 'welcome', 'handmade'].includes(slug)) {
           siteData.pages[slug] = { title: rawTitle, content: htmlContent };
         } else {
-          siteData.posts.push({ title: rawTitle, slug: slug, content: htmlContent, excerpt: excerpt, thumb: thumb, date: dateMatch ? new Date(dateMatch[1]) : new Date(0) });
+          siteData.posts.push({ 
+            title: rawTitle, slug: slug, content: htmlContent, excerpt: excerpt, 
+            thumb: thumb, date: dateMatch ? new Date(dateMatch[1]) : new Date(0),
+            isHandmade: isHandmade
+          });
         }
       }
       siteData.posts.sort((a, b) => b.date - a.date);
@@ -255,34 +274,43 @@
       const root = document.getElementById('app-root');
       const heroContainer = document.getElementById('hero-container');
       const heroTarget = document.getElementById('hero-target');
+      const heroImage = document.getElementById('hero-image');
       
       document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
       const activeLink = document.querySelector(`a[href="/${slug}/"]`);
       if(activeLink) activeLink.classList.add('active');
 
-      // Home & Handmade have landing page layouts
       if (slug === 'home' || slug === '' || slug === 'handmade') {
         const pageKey = slug === 'handmade' ? 'handmade' : 'welcome';
         root.innerHTML = '';
+        
         if (siteData.pages[pageKey]) {
             heroContainer.style.display = 'grid';
-            let content = siteData.pages[pageKey].content;
-            
-            // Add Shop CTA if it's the Handmade page
             if (slug === 'handmade') {
-              content += `<a href="javascript:alert('PLACEHOLDER FOR SHOP LINK, ASK JAYME CARLETON TO UPDATE LINK IF YOU CAN SEE THIS')" class="shop-cta">Visit Shop</a>`;
+                heroImage.src = HANDMADE_LOGO;
+                heroImage.classList.add('is-logo');
+            } else {
+                heroImage.src = HOME_PHOTO;
+                heroImage.classList.remove('is-logo');
+            }
+
+            let content = siteData.pages[pageKey].content;
+            if (slug === 'handmade') {
+              content += `<a href="javascript:const box=document.createElement('div');box.style='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--forest);color:white;padding:2rem;z-index:9999;border-radius:4px;box-shadow:0 10px 40px rgba(0,0,0,0.3);text-align:center;font-weight:600;';box.innerHTML='PLACEHOLDER FOR SHOP LINK<br><small style=opacity:0.8>ASK JAYME CARLETON TO UPDATE LINK IF YOU CAN SEE THIS</small><br><br><button onclick=this.parentElement.remove() style=\"background:white;color:var(--forest);border:none;padding:5px 15px;cursor:pointer;font-weight:700\">CLOSE</button>';document.body.appendChild(box);" class="shop-cta">Visit Shop</a>`;
               heroTarget.innerHTML = content;
-              renderFeed(root, 'Recent Creations', p => handSlugs.includes(p.slug));
+              renderFeed(root, 'Recent Creations', p => p.isHandmade, 2);
             } else {
               content += `<div class="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>`;
               heroTarget.innerHTML = content;
             }
         } else {
            heroContainer.style.display = 'none';
+           root.innerHTML = `<h2 class="section-title">404</h2><p>Page Content Missing in Google Doc.</p>`;
         }
       } else {
         heroContainer.style.display = 'none'; 
-        if (slug === 'journal') renderFeed(root, 'Journal', p => !portSlugs.includes(p.slug) && !handSlugs.includes(p.slug));
+        root.innerHTML = '';
+        if (slug === 'journal') renderFeed(root, 'Journal', p => !portSlugs.includes(p.slug));
         else if (slug === 'portfolio') renderPortfolioHub(root);
         else if (siteData.pages[slug]) renderPage(root, siteData.pages[slug], slug);
         else {
@@ -294,9 +322,12 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function renderFeed(root, title, filterFn) {
+    function renderFeed(root, title, filterFn, limit = null) {
       let html = `<h2 class="section-title">${title}</h2>`;
-      const posts = siteData.posts.filter(filterFn);
+      let posts = siteData.posts.filter(filterFn);
+      if (limit) posts = posts.slice(0, limit);
+      
+      if (posts.length === 0) html += '<p style="color:var(--sage)">New entries coming soon.</p>';
       posts.forEach(post => {
         html += `<article class="post-card"><h3>${post.title}</h3><p class="excerpt">${post.excerpt}</p><a href="/${post.slug}/" class="btn-read" data-link>Read Entry</a></article>`;
       });
@@ -319,7 +350,7 @@
 
     function renderPost(root, post) {
       const isP = portSlugs.includes(post.slug);
-      const isH = handSlugs.includes(post.slug);
+      const isH = post.isHandmade;
       let backUrl = isP ? '/portfolio/' : (isH ? '/handmade/' : '/journal/');
       root.innerHTML = `<div class="article-content"><a href="${backUrl}" class="back-btn" data-link>← Back</a><h1>${post.title}</h1>${post.content}</div>`;
     }
