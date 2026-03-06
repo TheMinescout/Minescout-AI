@@ -26,6 +26,7 @@
       --wall: #F9F7F2;       
       --charcoal: #2C3333;   
       --white: #FFFFFF;
+      --border: #e8e4dd;
       --font-header: 'Playfair Display', serif;
       --font-body: 'Inter', sans-serif;
     }
@@ -85,8 +86,13 @@
       display: none; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; margin-top: 1rem;
     }
     .profile-card img { width: 100%; border-radius: 80px 20px 80px 20px; display: block; filter: contrast(1.02) saturate(0.95); }
-    /* Circular logo override for Handmade */
-    .profile-card img.is-logo { border-radius: 50%; padding: 10%; background: white; border: 1px solid var(--border); }
+    
+    /* Logo override: Removes white background (#FFFFFF) by blending with the page background color */
+    .profile-card img.is-logo { 
+      border-radius: 50%; 
+      mix-blend-mode: multiply; 
+      filter: contrast(1.1);
+    }
     
     .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.2rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
     .hero-text p { font-size: 1rem; margin-bottom: 1.2rem; color: #4a4a4a; }
@@ -94,11 +100,11 @@
     /* Shop Button */
     .shop-cta {
       display: inline-block; background-color: var(--forest); color: white;
-      padding: 1rem 2rem; text-decoration: none; text-transform: uppercase;
-      letter-spacing: 0.2em; font-size: 0.75rem; font-weight: 700; margin-top: 1.5rem;
-      border-radius: 2px; transition: all 0.3s ease;
+      padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase;
+      letter-spacing: 0.2em; font-size: 0.75rem; font-weight: 700; margin-top: 2rem;
+      border-radius: 2px; transition: all 0.3s ease; border: none; cursor: pointer;
     }
-    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); }
+    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
     .signature { margin-top: 3rem; font-family: var(--font-header); font-weight: 500; color: var(--forest); text-transform: uppercase; font-size: 1.2rem; letter-spacing: 0.1em; }
     .signature small { display: block; font-family: var(--font-body); font-weight: normal; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px; }
@@ -129,6 +135,12 @@
     footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid rgba(0,0,0,0.05); }
     .social-links { text-align: left; }
     .social-links a { color: var(--forest); text-decoration: none; margin-right: 2.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+
+    /* Modal Styling */
+    .ms-modal-overlay { position: fixed; inset: 0; background: rgba(45, 58, 45, 0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+    .ms-modal { background: var(--white); padding: 3rem; border-radius: 4px; max-width: 450px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .ms-modal h3 { font-family: var(--font-header); font-size: 1.5rem; color: var(--forest); margin-bottom: 1rem; text-transform: uppercase; }
+    .ms-modal p { font-size: 0.9rem; color: var(--muted); margin-bottom: 2rem; }
 
     @media (max-width: 850px) {
       .mobile-nav-bar { display: flex; }
@@ -252,7 +264,6 @@
         const thumb = imgMatch ? imgMatch[1] : '';
         const dateMatch = contentBody.match(/\*\*Date:\s*(.*?)\*\*/i);
         
-        // Detect the handmade tag
         const isHandmade = contentBody.toLowerCase().includes('category: handmade');
         
         if (['portfolio', 'resume', 'contact', 'welcome', 'handmade'].includes(slug)) {
@@ -267,6 +278,20 @@
       }
       siteData.posts.sort((a, b) => b.date - a.date);
     }
+
+    window.showShopPlaceholder = () => {
+        const overlay = document.createElement('div');
+        overlay.className = 'ms-modal-overlay';
+        overlay.onclick = (e) => { if(e.target === overlay) overlay.remove(); };
+        overlay.innerHTML = `
+            <div class="ms-modal">
+                <h3>Visit Shop</h3>
+                <p>PLACEHOLDER FOR SHOP LINK<br><small>ASK JAYME CARLETON TO UPDATE LINK IF YOU CAN SEE THIS</small></p>
+                <button onclick="this.closest('.ms-modal-overlay').remove()" class="shop-cta" style="margin-top:0;">Close</button>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+    };
 
     function handleRoute() {
       let path = window.location.pathname;
@@ -294,14 +319,20 @@
                 heroImage.classList.remove('is-logo');
             }
 
-            let content = siteData.pages[pageKey].content;
+            heroTarget.innerHTML = siteData.pages[pageKey].content;
+            
             if (slug === 'handmade') {
-              content += `<a href="javascript:const box=document.createElement('div');box.style='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--forest);color:white;padding:2rem;z-index:9999;border-radius:4px;box-shadow:0 10px 40px rgba(0,0,0,0.3);text-align:center;font-weight:600;';box.innerHTML='PLACEHOLDER FOR SHOP LINK<br><small style=opacity:0.8>ASK JAYME CARLETON TO UPDATE LINK IF YOU CAN SEE THIS</small><br><br><button onclick=this.parentElement.remove() style=\"background:white;color:var(--forest);border:none;padding:5px 15px;cursor:pointer;font-weight:700\">CLOSE</button>';document.body.appendChild(box);" class="shop-cta">Visit Shop</a>`;
-              heroTarget.innerHTML = content;
+              const btn = document.createElement('button');
+              btn.className = 'shop-cta';
+              btn.innerText = 'Visit Shop';
+              btn.onclick = showShopPlaceholder;
+              heroTarget.appendChild(btn);
               renderFeed(root, 'Recent Creations', p => p.isHandmade, 2);
             } else {
-              content += `<div class="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>`;
-              heroTarget.innerHTML = content;
+              const sig = document.createElement('div');
+              sig.className = 'signature';
+              sig.innerHTML = `JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small>`;
+              heroTarget.appendChild(sig);
             }
         } else {
            heroContainer.style.display = 'none';
