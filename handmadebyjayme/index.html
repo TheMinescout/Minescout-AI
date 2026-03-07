@@ -97,13 +97,15 @@
     .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.2rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
     .hero-text p { font-size: 1rem; margin-bottom: 1.2rem; color: #4a4a4a; }
 
+    /* Reusable Button Style */
     .shop-cta {
       display: inline-block; background-color: var(--forest); color: white;
       padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase;
       letter-spacing: 0.2em; font-size: 0.75rem; font-weight: 700; margin-top: 2rem;
       border-radius: 2px; transition: all 0.3s ease; border: none; cursor: pointer;
+      text-align: center;
     }
-    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); color: white; }
 
     .signature { margin-top: 3rem; font-family: var(--font-header); font-weight: 500; color: var(--forest); text-transform: uppercase; font-size: 1.2rem; letter-spacing: 0.1em; }
     .signature small { display: block; font-family: var(--font-body); font-weight: normal; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px; }
@@ -120,7 +122,6 @@
     .post-card h3 { font-family: var(--font-header); font-size: 1.8rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; }
     .btn-read { font-weight: 700; color: var(--wood); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; border-bottom: 1px solid var(--wood); }
 
-    /* --- RESUME & ARTICLE CONTENT --- */
     .article-content, .resume-container { max-width: 900px; margin: 0 auto; background: var(--white); padding: 4rem; border-radius: 4px; }
     .article-content h1, .resume-container h1 { font-family: var(--font-header); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2rem; color: var(--forest); font-weight: 400; border-bottom: 2px solid var(--forest); padding-bottom: 1rem; }
     
@@ -384,7 +385,7 @@
                         row.appendChild(content);
                         const nextRef = sibling;
                         current.replaceWith(row);
-                        current = nextRef; // Jump to the next potential label or header
+                        current = nextRef; 
                     } else {
                         current = current.nextElementSibling;
                     }
@@ -477,10 +478,18 @@
 
     function renderPage(root, page, slug) { 
         const isResume = slug === 'resume';
+        const isContact = slug === 'contact';
         let content = page.content;
+        
         if (isResume) {
             content = formatResumeHtml(content);
         }
+        
+        if (isContact) {
+            // Transform LinkedIn link into the standard button style
+            content = content.replace(/<a /g, '<a class="shop-cta" ');
+        }
+        
         root.innerHTML = `<div class="${isResume ? 'resume-container' : 'article-content'}"><h1>${page.title}</h1>${content}</div>`; 
     }
 
