@@ -86,18 +86,11 @@
       display: none; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; margin-top: 1rem;
     }
     .profile-card img { width: 100%; border-radius: 80px 20px 80px 20px; display: block; filter: contrast(1.02) saturate(0.95); }
-    
-    /* Logo override: Removes white background (#FFFFFF) by blending with the page background color */
-    .profile-card img.is-logo { 
-      border-radius: 50%; 
-      mix-blend-mode: multiply; 
-      filter: contrast(1.1);
-    }
+    .profile-card img.is-logo { border-radius: 50%; mix-blend-mode: multiply; filter: contrast(1.1); }
     
     .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.2rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
     .hero-text p { font-size: 1rem; margin-bottom: 1.2rem; color: #4a4a4a; }
 
-    /* Shop Button */
     .shop-cta {
       display: inline-block; background-color: var(--forest); color: white;
       padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase;
@@ -121,19 +114,33 @@
     .post-card h3 { font-family: var(--font-header); font-size: 1.8rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; }
     .btn-read { font-weight: 700; color: var(--wood); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; border-bottom: 1px solid var(--wood); }
 
-    .article-content, .resume-container { max-width: 850px; margin: 0 auto; background: var(--white); padding: 4rem; border-radius: 4px; }
+    /* --- RESUME & ARTICLE CONTENT --- */
+    .article-content, .resume-container { max-width: 900px; margin: 0 auto; background: var(--white); padding: 4rem; border-radius: 4px; }
     .article-content h1, .resume-container h1 { font-family: var(--font-header); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2rem; color: var(--forest); font-weight: 400; border-bottom: 2px solid var(--forest); padding-bottom: 1rem; }
     
-    .resume-container h3 { font-family: var(--font-body); text-transform: uppercase; font-weight: 700; font-size: 1.1rem; color: var(--forest); margin-top: 2.5rem; margin-bottom: 1rem; }
-    .resume-container h4 { font-family: var(--font-header); font-size: 1.2rem; margin-top: 1.5rem; color: var(--charcoal); border-bottom: 1px solid var(--clay); padding-bottom: 5px; }
-    .resume-container li { margin-bottom: 0.5rem; position: relative; padding-left: 1.5rem; }
-    .resume-container li::before { content: "•"; color: var(--wood); position: absolute; left: 0; font-weight: bold; }
+    /* --- SPECIALIZED RESUME GRID SYSTEM --- */
+    .resume-container h2 { font-family: var(--font-header); font-size: 1.4rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-top: 3rem; margin-bottom: 1.5rem; display: block; width: 100%; clear: both; }
+    .resume-container h3 { font-family: var(--font-body); text-transform: uppercase; font-weight: 700; font-size: 0.9rem; color: var(--forest); margin-top: 2rem; margin-bottom: 0.5rem; letter-spacing: 0.05em; }
+    
+    /* Column Grid for Education/Committees */
+    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+    .res-item { margin-bottom: 1.5rem; }
+    .res-item strong { display: block; font-size: 0.95rem; color: var(--charcoal); }
+    .res-item em { font-size: 0.85rem; color: var(--sage); font-style: italic; }
+    .res-item p { font-size: 0.85rem; color: #555; line-height: 1.4; margin-top: 0.25rem; }
+
+    /* Sidebar-label Grid for Experience */
+    .res-row { display: grid; grid-template-columns: 180px 1fr; gap: 2.5rem; margin-bottom: 2.5rem; align-items: start; }
+    .res-label { font-family: var(--font-body); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; color: var(--charcoal); line-height: 1.3; }
+    .res-content p { font-size: 0.9rem; color: var(--sage); font-style: italic; margin-bottom: 0.75rem; line-height: 1.4; }
+    .res-content ul { list-style: none; padding-left: 0; }
+    .res-content li { font-size: 0.88rem; color: #444; position: relative; padding-left: 1.25rem; margin-bottom: 0.5rem; line-height: 1.5; }
+    .res-content li::before { content: "•"; position: absolute; left: 0; color: var(--wood); font-weight: bold; }
 
     .article-content img { display: block; max-width: 100%; height: auto; margin: 3rem auto; }
     .back-btn { display: inline-block; margin-bottom: 2.5rem; text-decoration: none; color: var(--wood); text-transform: uppercase; font-size: 0.75rem; font-weight: 700; }
 
     footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid rgba(0,0,0,0.05); }
-    .social-links { text-align: left; }
     .social-links a { color: var(--forest); text-decoration: none; margin-right: 2.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
 
     /* Modal Styling */
@@ -150,6 +157,8 @@
       main { margin-left: 0; padding: 6rem 1.5rem 3rem 1.5rem; }
       #hero-container { grid-template-columns: 1fr; gap: 2.5rem; }
       .article-content, .resume-container { padding: 2.5rem 1.5rem; }
+      .res-grid, .res-row { grid-template-columns: 1fr; gap: 1rem; }
+      .res-label { margin-bottom: 0.5rem; }
     }
   </style>
 </head>
@@ -293,6 +302,78 @@
         document.body.appendChild(overlay);
     };
 
+    /** * Custom Resume Formatter 
+     * Converts simple Markdown headers/lists into the multi-column Grid layout 
+     * seen in the high-end WordPress Ethos theme.
+     */
+    function formatResumeHtml(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html');
+        const container = doc.querySelector('div');
+        
+        // 1. Find the headers and create sections
+        const headers = Array.from(container.querySelectorAll('h2, h3'));
+        
+        headers.forEach(header => {
+            const sectionTitle = header.innerText.toLowerCase();
+            
+            // Layout A: 2-Column Grid (Education, History)
+            if (sectionTitle.includes('education') || sectionTitle.includes('history')) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'res-grid';
+                
+                let current = header.nextElementSibling;
+                while (current && current.tagName !== 'H2' && current.tagName !== 'H3') {
+                    if (current.tagName === 'UL') {
+                        Array.from(current.querySelectorAll('li')).forEach(li => {
+                            const item = document.createElement('div');
+                            item.className = 'res-item';
+                            item.innerHTML = li.innerHTML;
+                            wrapper.appendChild(item);
+                        });
+                        current.remove();
+                    }
+                    const next = current.nextElementSibling;
+                    current = next;
+                }
+                header.after(wrapper);
+            }
+            
+            // Layout B: Sidebar Row (Experience)
+            if (sectionTitle.includes('experience')) {
+                let current = header.nextElementSibling;
+                while (current && current.tagName !== 'H2') {
+                    if (current.tagName === 'P' && current.querySelector('strong')) {
+                        const row = document.createElement('div');
+                        row.className = 'res-row';
+                        
+                        const label = document.createElement('div');
+                        label.className = 'res-label';
+                        label.innerHTML = current.innerHTML;
+                        
+                        const content = document.createElement('div');
+                        content.className = 'res-content';
+                        
+                        let sibling = current.nextElementSibling;
+                        while (sibling && sibling.tagName !== 'P' && sibling.tagName !== 'H2') {
+                            const nextSibling = sibling.nextElementSibling;
+                            content.appendChild(sibling);
+                            sibling = nextSibling;
+                        }
+                        
+                        row.appendChild(label);
+                        row.appendChild(content);
+                        current.replaceWith(row);
+                        current = row;
+                    }
+                    current = current.nextElementSibling;
+                }
+            }
+        });
+        
+        return container.innerHTML;
+    }
+
     function handleRoute() {
       let path = window.location.pathname;
       let slug = path.replace(/^\/|\/$/g, '').split('/').pop() || 'home';
@@ -336,7 +417,6 @@
             }
         } else {
            heroContainer.style.display = 'none';
-           root.innerHTML = `<h2 class="section-title">404</h2><p>Page Content Missing in Google Doc.</p>`;
         }
       } else {
         heroContainer.style.display = 'none'; 
@@ -376,7 +456,11 @@
 
     function renderPage(root, page, slug) { 
         const isResume = slug === 'resume';
-        root.innerHTML = `<div class="${isResume ? 'resume-container' : 'article-content'}"><h1>${page.title}</h1>${page.content}</div>`; 
+        let content = page.content;
+        if (isResume) {
+            content = formatResumeHtml(content);
+        }
+        root.innerHTML = `<div class="${isResume ? 'resume-container' : 'article-content'}"><h1>${page.title}</h1>${content}</div>`; 
     }
 
     function renderPost(root, post) {
