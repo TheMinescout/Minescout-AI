@@ -86,7 +86,13 @@
       display: none; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; margin-top: 1rem;
     }
     .profile-card img { width: 100%; border-radius: 80px 20px 80px 20px; display: block; filter: contrast(1.02) saturate(0.95); }
-    .profile-card img.is-logo { border-radius: 50%; mix-blend-mode: multiply; filter: contrast(1.1); }
+    
+    /* Logo override: Blends white (#FFFFFF) with background */
+    .profile-card img.is-logo { 
+      border-radius: 50%; 
+      mix-blend-mode: multiply; 
+      filter: contrast(1.1); 
+    }
     
     .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.2rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
     .hero-text p { font-size: 1rem; margin-bottom: 1.2rem; color: #4a4a4a; }
@@ -122,7 +128,6 @@
     .resume-container h2 { font-family: var(--font-header); font-size: 1.4rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-top: 3rem; margin-bottom: 1.5rem; display: block; width: 100%; clear: both; }
     .resume-container h3 { font-family: var(--font-body); text-transform: uppercase; font-weight: 700; font-size: 0.9rem; color: var(--forest); margin-top: 2rem; margin-bottom: 0.5rem; letter-spacing: 0.05em; }
     
-    /* Column Grid for Education/Committees */
     .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
     .res-item { margin-bottom: 1.5rem; }
     .res-item strong { display: block; font-size: 0.95rem; color: var(--charcoal); }
@@ -132,7 +137,7 @@
     /* Sidebar-label Grid for Experience */
     .res-row { display: grid; grid-template-columns: 180px 1fr; gap: 2.5rem; margin-bottom: 2.5rem; align-items: start; }
     .res-label { font-family: var(--font-body); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; color: var(--charcoal); line-height: 1.3; }
-    .res-content p { font-size: 0.9rem; color: var(--sage); font-style: italic; margin-bottom: 0.75rem; line-height: 1.4; }
+    .res-content p, .res-content em { font-size: 0.9rem; color: var(--sage); font-style: italic; margin-bottom: 0.75rem; line-height: 1.4; display: block; }
     .res-content ul { list-style: none; padding-left: 0; }
     .res-content li { font-size: 0.88rem; color: #444; position: relative; padding-left: 1.25rem; margin-bottom: 0.5rem; line-height: 1.5; }
     .res-content li::before { content: "•"; position: absolute; left: 0; color: var(--wood); font-weight: bold; }
@@ -311,7 +316,6 @@
         const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html');
         const container = doc.querySelector('div');
         
-        // 1. Find the headers and create sections
         const headers = Array.from(container.querySelectorAll('h2, h3'));
         
         headers.forEach(header => {
@@ -331,10 +335,12 @@
                             item.innerHTML = li.innerHTML;
                             wrapper.appendChild(item);
                         });
-                        current.remove();
+                        const toRemove = current;
+                        current = current.nextElementSibling;
+                        toRemove.remove();
+                    } else {
+                        current = current.nextElementSibling;
                     }
-                    const next = current.nextElementSibling;
-                    current = next;
                 }
                 header.after(wrapper);
             }
@@ -343,19 +349,32 @@
             if (sectionTitle.includes('experience')) {
                 let current = header.nextElementSibling;
                 while (current && current.tagName !== 'H2') {
+                    // Detect if this paragraph is a "Job Label" block
                     if (current.tagName === 'P' && current.querySelector('strong')) {
                         const row = document.createElement('div');
                         row.className = 'res-row';
                         
                         const label = document.createElement('div');
                         label.className = 'res-label';
-                        label.innerHTML = current.innerHTML;
+                        
+                        // Extract JUST the bold text for the label
+                        const strong = current.querySelector('strong');
+                        label.innerHTML = strong.innerHTML;
                         
                         const content = document.createElement('div');
                         content.className = 'res-content';
                         
+                        // If there was text outside the strong tag (like the italic desc), move it to content
+                        const clone = current.cloneNode(true);
+                        const s = clone.querySelector('strong');
+                        if(s) s.remove();
+                        if(clone.innerText.trim().length > 0) {
+                            content.appendChild(clone);
+                        }
+                        
+                        // Gather siblings until the next Label paragraph or next Header
                         let sibling = current.nextElementSibling;
-                        while (sibling && sibling.tagName !== 'P' && sibling.tagName !== 'H2') {
+                        while (sibling && !(sibling.tagName === 'P' && sibling.querySelector('strong')) && sibling.tagName !== 'H2' && sibling.tagName !== 'H3') {
                             const nextSibling = sibling.nextElementSibling;
                             content.appendChild(sibling);
                             sibling = nextSibling;
@@ -363,10 +382,12 @@
                         
                         row.appendChild(label);
                         row.appendChild(content);
+                        const nextRef = sibling;
                         current.replaceWith(row);
-                        current = row;
+                        current = nextRef; // Jump to the next potential label or header
+                    } else {
+                        current = current.nextElementSibling;
                     }
-                    current = current.nextElementSibling;
                 }
             }
         });
