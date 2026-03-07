@@ -207,7 +207,7 @@
         <div class="social-links">
           <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank">LinkedIn</a>
         </div>
-        <p>SECOND NATURE | &copy; 2015-2026. ALL RIGHTS RESERVED.</p>
+        <p>SECOND NATURE | &copy; 2015-<span id="current-year">2026</span>. ALL RIGHTS RESERVED.</p>
       </footer>
     </main>
   </div>
@@ -240,6 +240,9 @@
     function navigateTo(url) { history.pushState(null, null, url); handleRoute(); }
 
     async function initApp() {
+      // Set the copyright year automatically
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+
       const cached = localStorage.getItem(CACHE_KEY);
       if (cached) {
         const { timestamp, data } = JSON.parse(cached);
