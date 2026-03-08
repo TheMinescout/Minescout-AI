@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERN CARLETON | Art & Reasoning</title>
+  
+  <link rel="icon" type="image/png" href="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png">
+
+  <!-- Fonts: Artistic Handwriting and Structured Serif -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    :root {
+      --paper: #fdfcf8;
+      --ink: #2c2c2c;
+      --muted-ink: #555555;
+      /* Watercolor Palette */
+      --wc-blue: rgba(100, 149, 237, 0.4);
+      --wc-pink: rgba(255, 182, 193, 0.4);
+      --wc-gold: rgba(255, 215, 0, 0.3);
+      --wc-purple: rgba(147, 112, 219, 0.3);
+      
+      --font-hand: 'Caveat', cursive;
+      --font-header: 'Lora', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--paper);
+      /* Paper texture effect */
+      background-image: url("https://www.transparenttextures.com/patterns/paper.png");
+      font-family: var(--font-body);
+      color: var(--ink);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* --- WATERCOLOR ACCENTS --- */
+    .wc-blob {
+      position: absolute;
+      z-index: -1;
+      filter: blur(60px);
+      border-radius: 50%;
+      pointer-events: none;
+      transition: all 2s ease-in-out;
+    }
+
+    /* --- SIDEBAR --- */
+    .sidebar {
+      width: 260px;
+      padding: 4rem 2rem;
+      position: fixed;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(0,0,0,0.05);
+      z-index: 1000;
+      background: rgba(253, 252, 248, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand { margin-bottom: 4rem; cursor: pointer; }
+    .brand h1 {
+      font-family: var(--font-header);
+      font-size: 1.8rem;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .brand span {
+      font-family: var(--font-hand);
+      font-size: 1.4rem;
+      color: var(--wc-blue);
+      display: block;
+      margin-top: -5px;
+    }
+
+    .nav-links { display: flex; flex-direction: column; gap: 1.5rem; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--ink);
+      font-family: var(--font-header);
+      font-style: italic;
+      font-size: 1.1rem;
+      opacity: 0.6;
+      transition: 0.3s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      opacity: 1;
+      padding-left: 8px;
+    }
+
+    /* --- MAIN CONTENT --- */
+    main {
+      flex: 1;
+      margin-left: 260px;
+      padding: 6rem 5rem;
+      max-width: 1200px;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* --- HERO SECTION --- */
+    #hero-section {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 5rem;
+      align-items: center;
+      margin-bottom: 8rem;
+    }
+
+    .hero-img-wrap {
+      position: relative;
+    }
+    .hero-img-wrap img {
+      width: 100%;
+      border-radius: 2px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      z-index: 2;
+      position: relative;
+    }
+    /* "Taped" effect */
+    .hero-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: -15px; left: 50%;
+      width: 80px; height: 30px;
+      background: rgba(255,255,255,0.4);
+      transform: translateX(-50%) rotate(-2deg);
+      z-index: 3;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    }
+
+    .hero-text h2 {
+      font-family: var(--font-header);
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+    .hero-text p {
+      font-size: 1.1rem;
+      color: var(--muted-ink);
+      margin-bottom: 2rem;
+    }
+
+    /* --- ART GALLERY --- */
+    .masonry-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-auto-rows: 10px;
+      gap: 20px;
+    }
+    .gallery-item {
+      background: white;
+      padding: 15px;
+      border-radius: 2px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      break-inside: avoid;
+      margin-bottom: 20px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .gallery-item:hover { transform: translateY(-5px) rotate(1deg); }
+    .gallery-item img { width: 100%; border-radius: 1px; display: block; }
+    .gallery-item h4 {
+      font-family: var(--font-hand);
+      font-size: 1.5rem;
+      margin-top: 10px;
+      text-align: right;
+    }
+
+    /* --- JOURNAL FEED --- */
+    .journal-item {
+      margin-bottom: 4rem;
+      max-width: 800px;
+    }
+    .journal-item h3 {
+      font-family: var(--font-header);
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .journal-date {
+      font-family: var(--font-hand);
+      font-size: 1.2rem;
+      color: var(--wc-blue);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      margin-top: 10rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      font-family: var(--font-hand);
+      font-size: 1.2rem;
+      color: var(--muted-ink);
+    }
+    footer a { color: inherit; text-decoration: underline; }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 900px) {
+      .sidebar { width: 100%; height: auto; position: relative; padding: 2rem; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.05); }
+      main { margin-left: 0; padding: 3rem 1.5rem; }
+      #hero-section { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Splashes -->
+  <div class="wc-blob" style="top: -100px; right: -100px; width: 400px; height: 400px; background: var(--wc-blue);"></div>
+  <div class="wc-blob" style="bottom: 10%; left: -50px; width: 300px; height: 300px; background: var(--wc-pink);"></div>
+  <div class="wc-blob" style="top: 40%; left: 30%; width: 500px; height: 500px; background: var(--wc-gold); opacity: 0.2;"></div>
+
+  <div class="site-wrapper">
+    <nav class="sidebar">
+      <div class="brand" onclick="navigateTo('/')">
+        <h1>Fern<br>Carleton</h1>
+        <span>Art & Reasoning</span>
+      </div>
+      <div class="nav-links">
+        <a href="/work/" class="nav-link" data-link>Portfolio</a>
+        <a href="/journal/" class="nav-link" data-link>Journal</a>
+        <a href="/about/" class="nav-link" data-link>About</a>
+        <a href="/contact/" class="nav-link" data-link>Contact</a>
+      </div>
+    </nav>
+
+    <main id="main-content">
+      <!-- Dynamic Content Loads Here -->
+    </main>
+  </div>
+
+  <script>
+    // Placeholder Data - This will eventually sync with Google Docs like Jayme's
+    const siteData = {
+      welcome: {
+        title: "The Creative Process",
+        text: "I am a student at the Renaissance School of Art and Reasoning. My work is a constant exploration of how visual art can intersect with logic and structured thinking.",
+        img: "https://via.placeholder.com/600x800?text=Fern+Portrait"
+      },
+      portfolio: [
+        { title: "Watercolor Study #1", img: "https://via.placeholder.com/400x500?text=Art+Project+1" },
+        { title: "Geometric Reasoning", img: "https://via.placeholder.com/400x300?text=Art+Project+2" },
+        { title: "Nature Sketchbook", img: "https://via.placeholder.com/400x600?text=Art+Project+3" },
+        { title: "Renaissance Perspective", img: "https://via.placeholder.com/400x400?text=Art+Project+4" }
+      ]
+    };
+
+    function navigateTo(url) {
+      history.pushState(null, null, url);
+      renderPage();
+    }
+
+    function renderPage() {
+      const path = window.location.pathname;
+      const root = document.getElementById('main-content');
+      
+      // Update active nav link
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === path);
+      });
+
+      if (path === '/' || path === '/about/') {
+        root.innerHTML = `
+          <section id="hero-section">
+            <div class="hero-img-wrap">
+              <img src="${siteData.welcome.img}" alt="Fern Carleton">
+            </div>
+            <div class="hero-text">
+              <h2>${siteData.welcome.title}</h2>
+              <p>${siteData.welcome.text}</p>
+              <p>Welcome to my digital workspace.</p>
+            </div>
+          </section>
+          <footer>
+            <p>&copy; ${new Date().getFullYear()} Fern Carleton. Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></p>
+          </footer>
+        `;
+      } else if (path === '/work/') {
+        root.innerHTML = `
+          <h2 style="font-family:var(--font-header); margin-bottom:3rem; font-size:2.5rem; font-style:italic;">Selected Works</h2>
+          <div class="masonry-gallery">
+            ${siteData.portfolio.map(item => `
+              <div class="gallery-item">
+                <img src="${item.img}" alt="${item.title}">
+                <h4>${item.title}</h4>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else {
+        root.innerHTML = `
+          <h2 style="font-family:var(--font-header); margin-bottom:3rem; font-size:2.5rem; font-style:italic;">Coming Soon</h2>
+          <p style="font-family:var(--font-hand); font-size:1.5rem;">The sketchbook is still being filled...</p>
+        `;
+      }
+    }
+
+    // Handle back/forward buttons
+    window.addEventListener('popstate', renderPage);
+    
+    // Initial render
+    window.onload = renderPage;
+
+    // Handle link clicks
+    document.body.addEventListener('click', e => {
+      const link = e.target.closest('[data-link]');
+      if (link) {
+        e.preventDefault();
+        navigateTo(link.getAttribute('href'));
+      }
+    });
+  </script>
+
+</body>
+</html>
