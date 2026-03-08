@@ -1,325 +1,327 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FERN CARLETON | Art & Reasoning</title>
-  
-  <link rel="icon" type="image/png" href="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png">
+import React, { useState, useEffect } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, doc, setDoc, onSnapshot } from 'firebase/firestore';
 
-  <!-- Fonts: Artistic Handwriting and Structured Serif -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+/**
+ * Thomas: This is the Master Template. 
+ * It is a "Single File CMS" designed to be hosted on GitHub Pages or Cloudflare Pages.
+ * All content is stored in Firestore so Fern can edit it visually.
+ */
 
-  <style>
-    :root {
-      --paper: #fdfcf8;
-      --ink: #2c2c2c;
-      --muted-ink: #555555;
-      /* Watercolor Palette */
-      --wc-blue: rgba(100, 149, 237, 0.4);
-      --wc-pink: rgba(255, 182, 193, 0.4);
-      --wc-gold: rgba(255, 215, 0, 0.3);
-      --wc-purple: rgba(147, 112, 219, 0.3);
-      
-      --font-hand: 'Caveat', cursive;
-      --font-header: 'Lora', serif;
-      --font-body: 'Inter', sans-serif;
-    }
+// Firebase initialization using injected environment variables
+const firebaseConfig = JSON.parse(__firebase_config);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'fern-portfolio-v24';
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [activeTab, setActiveTab] = useState('home');
+  const [siteContent, setSiteContent] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    body {
-      background-color: var(--paper);
-      /* Paper texture effect */
-      background-image: url("https://www.transparenttextures.com/patterns/paper.png");
-      font-family: var(--font-body);
-      color: var(--ink);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* --- WATERCOLOR ACCENTS --- */
-    .wc-blob {
-      position: absolute;
-      z-index: -1;
-      filter: blur(60px);
-      border-radius: 50%;
-      pointer-events: none;
-      transition: all 2s ease-in-out;
-    }
-
-    /* --- SIDEBAR --- */
-    .sidebar {
-      width: 260px;
-      padding: 4rem 2rem;
-      position: fixed;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid rgba(0,0,0,0.05);
-      z-index: 1000;
-      background: rgba(253, 252, 248, 0.8);
-      backdrop-filter: blur(10px);
-    }
-
-    .brand { margin-bottom: 4rem; cursor: pointer; }
-    .brand h1 {
-      font-family: var(--font-header);
-      font-size: 1.8rem;
-      font-weight: 400;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-    .brand span {
-      font-family: var(--font-hand);
-      font-size: 1.4rem;
-      color: var(--wc-blue);
-      display: block;
-      margin-top: -5px;
-    }
-
-    .nav-links { display: flex; flex-direction: column; gap: 1.5rem; }
-    .nav-links a {
-      text-decoration: none;
-      color: var(--ink);
-      font-family: var(--font-header);
-      font-style: italic;
-      font-size: 1.1rem;
-      opacity: 0.6;
-      transition: 0.3s;
-    }
-    .nav-links a:hover, .nav-links a.active {
-      opacity: 1;
-      padding-left: 8px;
-    }
-
-    /* --- MAIN CONTENT --- */
-    main {
-      flex: 1;
-      margin-left: 260px;
-      padding: 6rem 5rem;
-      max-width: 1200px;
-      min-height: 100vh;
-      position: relative;
-    }
-
-    /* --- HERO SECTION --- */
-    #hero-section {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 5rem;
-      align-items: center;
-      margin-bottom: 8rem;
-    }
-
-    .hero-img-wrap {
-      position: relative;
-    }
-    .hero-img-wrap img {
-      width: 100%;
-      border-radius: 2px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      z-index: 2;
-      position: relative;
-    }
-    /* "Taped" effect */
-    .hero-img-wrap::before {
-      content: '';
-      position: absolute;
-      top: -15px; left: 50%;
-      width: 80px; height: 30px;
-      background: rgba(255,255,255,0.4);
-      transform: translateX(-50%) rotate(-2deg);
-      z-index: 3;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-    }
-
-    .hero-text h2 {
-      font-family: var(--font-header);
-      font-size: 3rem;
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-    }
-    .hero-text p {
-      font-size: 1.1rem;
-      color: var(--muted-ink);
-      margin-bottom: 2rem;
-    }
-
-    /* --- ART GALLERY --- */
-    .masonry-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      grid-auto-rows: 10px;
-      gap: 20px;
-    }
-    .gallery-item {
-      background: white;
-      padding: 15px;
-      border-radius: 2px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-      break-inside: avoid;
-      margin-bottom: 20px;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    .gallery-item:hover { transform: translateY(-5px) rotate(1deg); }
-    .gallery-item img { width: 100%; border-radius: 1px; display: block; }
-    .gallery-item h4 {
-      font-family: var(--font-hand);
-      font-size: 1.5rem;
-      margin-top: 10px;
-      text-align: right;
-    }
-
-    /* --- JOURNAL FEED --- */
-    .journal-item {
-      margin-bottom: 4rem;
-      max-width: 800px;
-    }
-    .journal-item h3 {
-      font-family: var(--font-header);
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-    }
-    .journal-date {
-      font-family: var(--font-hand);
-      font-size: 1.2rem;
-      color: var(--wc-blue);
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    /* --- FOOTER --- */
-    footer {
-      margin-top: 10rem;
-      padding-top: 3rem;
-      border-top: 1px solid rgba(0,0,0,0.05);
-      font-family: var(--font-hand);
-      font-size: 1.2rem;
-      color: var(--muted-ink);
-    }
-    footer a { color: inherit; text-decoration: underline; }
-
-    /* --- RESPONSIVE --- */
-    @media (max-width: 900px) {
-      .sidebar { width: 100%; height: auto; position: relative; padding: 2rem; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.05); }
-      main { margin-left: 0; padding: 3rem 1.5rem; }
-      #hero-section { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Background Splashes -->
-  <div class="wc-blob" style="top: -100px; right: -100px; width: 400px; height: 400px; background: var(--wc-blue);"></div>
-  <div class="wc-blob" style="bottom: 10%; left: -50px; width: 300px; height: 300px; background: var(--wc-pink);"></div>
-  <div class="wc-blob" style="top: 40%; left: 30%; width: 500px; height: 500px; background: var(--wc-gold); opacity: 0.2;"></div>
-
-  <div class="site-wrapper">
-    <nav class="sidebar">
-      <div class="brand" onclick="navigateTo('/')">
-        <h1>Fern<br>Carleton</h1>
-        <span>Art & Reasoning</span>
-      </div>
-      <div class="nav-links">
-        <a href="/work/" class="nav-link" data-link>Portfolio</a>
-        <a href="/journal/" class="nav-link" data-link>Journal</a>
-        <a href="/about/" class="nav-link" data-link>About</a>
-        <a href="/contact/" class="nav-link" data-link>Contact</a>
-      </div>
-    </nav>
-
-    <main id="main-content">
-      <!-- Dynamic Content Loads Here -->
-    </main>
-  </div>
-
-  <script>
-    // Placeholder Data - This will eventually sync with Google Docs like Jayme's
-    const siteData = {
-      welcome: {
-        title: "The Creative Process",
-        text: "I am a student at the Renaissance School of Art and Reasoning. My work is a constant exploration of how visual art can intersect with logic and structured thinking.",
-        img: "https://via.placeholder.com/600x800?text=Fern+Portrait"
-      },
-      portfolio: [
-        { title: "Watercolor Study #1", img: "https://via.placeholder.com/400x500?text=Art+Project+1" },
-        { title: "Geometric Reasoning", img: "https://via.placeholder.com/400x300?text=Art+Project+2" },
-        { title: "Nature Sketchbook", img: "https://via.placeholder.com/400x600?text=Art+Project+3" },
-        { title: "Renaissance Perspective", img: "https://via.placeholder.com/400x400?text=Art+Project+4" }
-      ]
-    };
-
-    function navigateTo(url) {
-      history.pushState(null, null, url);
-      renderPage();
-    }
-
-    function renderPage() {
-      const path = window.location.pathname;
-      const root = document.getElementById('main-content');
-      
-      // Update active nav link
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.toggle('active', link.getAttribute('href') === path);
-      });
-
-      if (path === '/' || path === '/about/') {
-        root.innerHTML = `
-          <section id="hero-section">
-            <div class="hero-img-wrap">
-              <img src="${siteData.welcome.img}" alt="Fern Carleton">
-            </div>
-            <div class="hero-text">
-              <h2>${siteData.welcome.title}</h2>
-              <p>${siteData.welcome.text}</p>
-              <p>Welcome to my digital workspace.</p>
-            </div>
-          </section>
-          <footer>
-            <p>&copy; ${new Date().getFullYear()} Fern Carleton. Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></p>
-          </footer>
-        `;
-      } else if (path === '/work/') {
-        root.innerHTML = `
-          <h2 style="font-family:var(--font-header); margin-bottom:3rem; font-size:2.5rem; font-style:italic;">Selected Works</h2>
-          <div class="masonry-gallery">
-            ${siteData.portfolio.map(item => `
-              <div class="gallery-item">
-                <img src="${item.img}" alt="${item.title}">
-                <h4>${item.title}</h4>
-              </div>
-            `).join('')}
-          </div>
-        `;
+  // 1. AUTHENTICATION
+  useEffect(() => {
+    const initAuth = async () => {
+      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        await signInWithCustomToken(auth, __initial_auth_token);
       } else {
-        root.innerHTML = `
-          <h2 style="font-family:var(--font-header); margin-bottom:3rem; font-size:2.5rem; font-style:italic;">Coming Soon</h2>
-          <p style="font-family:var(--font-hand); font-size:1.5rem;">The sketchbook is still being filled...</p>
-        `;
+        await signInAnonymously(auth);
       }
-    }
+    };
+    initAuth();
+    const unsubscribe = onAuthStateChanged(auth, setUser);
+    return () => unsubscribe();
+  }, []);
 
-    // Handle back/forward buttons
-    window.addEventListener('popstate', renderPage);
+  // 2. DATA SYNCING (Real-time)
+  useEffect(() => {
+    if (!user) return;
+    const contentRef = doc(db, 'artifacts', appId, 'public', 'data', 'siteContent');
     
-    // Initial render
-    window.onload = renderPage;
-
-    // Handle link clicks
-    document.body.addEventListener('click', e => {
-      const link = e.target.closest('[data-link]');
-      if (link) {
-        e.preventDefault();
-        navigateTo(link.getAttribute('href'));
+    const unsubscribe = onSnapshot(contentRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setSiteContent(docSnap.data());
+      } else {
+        // Default Content if database is empty
+        const initialData = {
+          welcome: { title: "Art & Reasoning", text: "I am a student at the Renaissance School of Art and Reasoning...", image: "https://i.postimg.cc/RhZ3LxBZ/PXL_20260209_161536343.jpg" },
+          about: { title: "About Me", text: "Art has always been my primary way of processing the world around me...", image: "https://i.postimg.cc/RhZ3LxBZ/PXL_20260209_161536343.jpg" },
+          skills: [{ label: "Foundations", content: "Watercolor techniques and light theory." }],
+          resume: [{ label: "Education", content: "Renaissance School of Art and Reasoning" }],
+          photos: [{ title: "Mountain Peak", url: "https://i.postimg.cc/prL9JMHh/PXL_20251223_225914443.jpg" }],
+          contact: { title: "Studio Inquiry", text: "Reach out for collaborations." }
+        };
+        setDoc(contentRef, initialData);
+        setSiteContent(initialData);
       }
-    });
-  </script>
+      setLoading(false);
+    }, (err) => console.error("Firestore Error:", err));
 
-</body>
-</html>
+    return () => unsubscribe();
+  }, [user]);
+
+  // 3. ACTIONS
+  const saveToCloud = async () => {
+    const contentRef = doc(db, 'artifacts', appId, 'public', 'data', 'siteContent');
+    await setDoc(contentRef, siteContent);
+    setIsEditing(false);
+  };
+
+  if (loading) return <div className="flex h-screen items-center justify-center bg-[#fdfcf8] font-serif italic text-[#c2a378]">Preparing the canvas...</div>;
+
+  return (
+    <div className="min-h-screen bg-[#fdfcf8] text-[#1a1a1a] selection:bg-[#c2a378]/20 relative overflow-hidden font-sans">
+      
+      {/* WATERCOLOR BACKGROUND WASHES */}
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        <div className="absolute -top-[10%] -left-[10%] w-[60vw] h-[60vh] bg-[#4169e1]/10 blur-[100px] rounded-full mix-blend-multiply" />
+        <div className="absolute -bottom-[10%] -right-[10%] w-[50vw] h-[70vh] bg-[#c2a378]/15 blur-[100px] rounded-full mix-blend-multiply" />
+        <div className="absolute top-[20%] right-[10%] w-[40vw] h-[40vh] bg-[#9370db]/10 blur-[80px] rounded-full mix-blend-multiply" />
+      </div>
+
+      <div className="flex min-h-screen">
+        {/* SIDEBAR WITH TORN EDGE */}
+        <aside className="fixed left-0 top-0 h-screen w-80 bg-gradient-to-b from-[#6495ed]/30 via-[#fdfcf8]/90 to-[#fdfcf8] backdrop-blur-md z-40 p-12 flex flex-col"
+               style={{ clipPath: "polygon(0% 0%, 100% 0%, 98% 3%, 99.5% 7%, 97.2% 11%, 98.8% 15%, 96.1% 19%, 99.8% 24%, 97.6% 28%, 99.2% 33%, 96.4% 38%, 98.2% 44%, 95.7% 49%, 99.4% 55%, 97.1% 61%, 98.6% 67%, 96.3% 73%, 99.1% 79%, 97.4% 85%, 99.6% 92%, 98.1% 97%, 100% 100%, 0% 100%)" }}>
+          
+          {/* HOME embedded in the name */}
+          <div className="mb-16 cursor-pointer group" onClick={() => setActiveTab('home')}>
+            <h1 className="font-serif text-3xl font-bold uppercase tracking-tight leading-none group-hover:text-[#2d3a2d] transition-colors">Fern<br/>Carleton</h1>
+            <span className="font-handwriting text-2xl text-[#c2a378] block -mt-1">Art & Reasoning</span>
+          </div>
+
+          <nav className="flex-1">
+            <ul className="space-y-6">
+              {['photos', 'skills', 'resume', 'about', 'contact'].map(tab => (
+                <li key={tab}>
+                  <button 
+                    onClick={() => setActiveTab(tab)}
+                    className={`font-serif italic text-lg uppercase tracking-widest transition-all hover:pl-2 ${activeTab === tab ? 'opacity-100 pl-2 text-[#2d3a2d] border-l-2 border-[#2d3a2d]' : 'opacity-50'}`}
+                  >
+                    {tab}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="mt-auto opacity-30 text-[10px] font-mono uppercase tracking-tighter">
+            Digital Archive v24.0
+          </div>
+        </aside>
+
+        {/* MAIN CONTENT AREA */}
+        <main className="ml-80 flex-1 p-24 max-w-[1450px]">
+          
+          {/* STUDIO MODE TOGGLE (Visible to Admin) */}
+          {user && !user.isAnonymous && (
+            <div className="fixed top-8 right-12 z-50 flex gap-4">
+              {isEditing ? (
+                <button onClick={saveToCloud} className="bg-[#2d3a2d] text-white px-8 py-3 rounded-full font-serif italic text-sm shadow-2xl hover:scale-105 transition active:scale-95">Save Final Piece</button>
+              ) : (
+                <button onClick={() => setIsEditing(true)} className="bg-[#c2a378] text-white px-6 py-2 rounded-full font-serif italic text-sm shadow-xl hover:scale-105 transition flex items-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  Edit Studio
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* VIEW ROUTER */}
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            {activeTab === 'home' && <HeroView data={siteContent.welcome} isEditing={isEditing} update={(v) => setSiteContent({...siteContent, welcome: v})} />}
+            {activeTab === 'about' && <HeroView data={siteContent.about} isEditing={isEditing} update={(v) => setSiteContent({...siteContent, about: v})} />}
+            {activeTab === 'skills' && <GridView title="Skills" items={siteContent.skills} isEditing={isEditing} update={(v) => setSiteContent({...siteContent, skills: v})} />}
+            {activeTab === 'resume' && <GridView title="Resume" items={siteContent.resume} isEditing={isEditing} update={(v) => setSiteContent({...siteContent, resume: v})} />}
+            {activeTab === 'photos' && <GalleryView items={siteContent.photos} isEditing={isEditing} update={(v) => setSiteContent({...siteContent, photos: v})} />}
+            {activeTab === 'contact' && <ContactView data={siteContent.contact} isEditing={isEditing} update={(v) => setSiteContent({...siteContent, contact: v})} />}
+          </div>
+          
+          <footer className="mt-32 pt-12 border-t border-black/5 opacity-40 font-serif italic text-sm flex justify-between items-center">
+            <div>&copy; 2026 Fern Carleton — Developed by Thomas Carleton</div>
+            <button onClick={() => setShowLogin(true)} className="text-[10px] uppercase font-mono tracking-widest">[Login]</button>
+          </footer>
+        </main>
+      </div>
+
+      {/* LOGIN MODAL */}
+      {showLogin && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white p-12 rounded-lg shadow-2xl max-w-sm w-full relative">
+            <button onClick={() => setShowLogin(false)} className="absolute top-4 right-4 text-gray-400 text-2xl">&times;</button>
+            <h3 className="font-serif text-2xl mb-2">Admin Portal</h3>
+            <p className="text-gray-500 text-sm mb-8">Enter your secure key to access editing features.</p>
+            <input type="password" placeholder="Secure Access Key" className="w-full border-b border-gray-200 py-3 outline-none focus:border-[#c2a378] transition mb-6" />
+            <button onClick={() => setShowLogin(false)} className="w-full bg-[#2d3a2d] text-white py-4 rounded font-serif italic">Unlock Studio</button>
+          </div>
+        </div>
+      )}
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+        .font-handwriting { font-family: 'Caveat', cursive; }
+      `}} />
+    </div>
+  );
+}
+
+/** ── COMPONENT: HERO (Welcome/About) ── */
+function HeroView({ data, isEditing, update }) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-20 items-start">
+      <div className="space-y-8">
+        <h2 className={`font-serif text-7xl leading-tight text-[#2d3a2d] ${isEditing ? 'border-b border-dashed border-[#c2a378] bg-[#c2a378]/5' : ''}`}
+            contentEditable={isEditing} suppressContentEditableWarning={true}
+            onBlur={(e) => update({...data, title: e.target.innerText})}>
+          {data.title}
+        </h2>
+        <p className={`text-xl text-[#444] leading-relaxed max-w-xl ${isEditing ? 'border-b border-dashed border-[#c2a378] bg-[#c2a378]/5' : ''}`}
+           contentEditable={isEditing} suppressContentEditableWarning={true}
+           onBlur={(e) => update({...data, text: e.target.innerText})}>
+          {data.text}
+        </p>
+      </div>
+      <div className="relative group">
+        <div className="bg-white p-4 shadow-2xl -rotate-2 rounded-sm border border-gray-100 overflow-hidden">
+          <img src={data.image} alt="Visual" className="w-full saturate-[1.1] transition-all" />
+          {isEditing && (
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer">
+              <button onClick={() => {
+                const url = prompt("Paste direct image URL:", data.image);
+                if(url) update({...data, image: url});
+              }} className="text-white text-xs uppercase font-mono bg-white/20 px-6 py-2 rounded-full border border-white/50 backdrop-blur-md">Change Photo</button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** ── COMPONENT: SMART GRID (Skills/Resume) ── */
+function GridView({ title, items, isEditing, update }) {
+  return (
+    <div className="space-y-20">
+      <h2 className="font-serif text-5xl italic text-[#2d3a2d]">{title}</h2>
+      <div className="space-y-16 max-w-4xl">
+        {items.map((item, idx) => (
+          <div key={idx} className="grid grid-cols-[260px_1fr] gap-12 items-start relative group">
+            <div className={`font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#1a1a1a] border-l-4 border-[#6495ed] pl-8 py-2 ${isEditing ? 'bg-[#c2a378]/5 outline-none' : ''}`}
+                 contentEditable={isEditing} suppressContentEditableWarning={true}
+                 onBlur={(e) => {
+                   const newItems = [...items];
+                   newItems[idx].label = e.target.innerText;
+                   update(newItems);
+                 }}>
+              {item.label}
+            </div>
+            <div className={`text-lg text-[#333] leading-relaxed ${isEditing ? 'bg-[#c2a378]/5 outline-none' : ''}`}
+                 contentEditable={isEditing} suppressContentEditableWarning={true}
+                 onBlur={(e) => {
+                   const newItems = [...items];
+                   newItems[idx].content = e.target.innerText;
+                   update(newItems);
+                 }}>
+              {item.content}
+            </div>
+            {isEditing && (
+              <button 
+                onClick={() => update(items.filter((_, i) => i !== idx))}
+                className="absolute -left-8 top-1 opacity-0 group-hover:opacity-100 text-red-400 text-xs"
+              >✕</button>
+            )}
+          </div>
+        ))}
+        {isEditing && (
+          <button 
+            onClick={() => update([...items, { label: "NEW CATEGORY", content: "Description goes here..." }])}
+            className="w-full py-4 border-2 border-dashed border-gray-200 rounded-lg font-serif italic text-gray-400 hover:border-[#c2a378] hover:text-[#c2a378] transition"
+          >+ Add New Row</button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** ── COMPONENT: GALLERY (Photos) ── */
+function GalleryView({ items, isEditing, update }) {
+  return (
+    <div className="space-y-20">
+      <h2 className="font-serif text-5xl italic text-[#2d3a2d]">Photography Portfolio</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        {items.map((img, idx) => (
+          <div key={idx} className="group relative">
+            <div className="bg-white p-3 shadow-xl rounded-sm border border-gray-100 mb-6 transition-all hover:-translate-y-2">
+              <div className="aspect-square bg-gray-100 overflow-hidden relative">
+                <img src={img.url} className="w-full h-full object-cover" />
+                {isEditing && (
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center gap-2 transition cursor-pointer">
+                    <button onClick={() => {
+                      const url = prompt("New Image URL:", img.url);
+                      if(url) {
+                        const next = [...items];
+                        next[idx].url = url;
+                        update(next);
+                      }
+                    }} className="text-white text-[10px] uppercase font-mono border border-white/40 px-3 py-1 rounded">Swap URL</button>
+                    <button onClick={() => update(items.filter((_, i) => i !== idx))} className="text-red-400 text-[10px] uppercase font-mono">Remove</button>
+                  </div>
+                )}
+              </div>
+            </div>
+            <h4 className={`font-serif italic text-xl text-right ${isEditing ? 'bg-yellow-50' : ''}`}
+                contentEditable={isEditing} suppressContentEditableWarning={true}
+                onBlur={(e) => {
+                  const next = [...items];
+                  next[idx].title = e.target.innerText;
+                  update(next);
+                }}>
+              {img.title}
+            </h4>
+          </div>
+        ))}
+        {isEditing && (
+          <button 
+            onClick={() => update([...items, { title: "Untitled", url: "https://via.placeholder.com/800" }])}
+            className="aspect-square border-2 border-dashed border-gray-200 rounded-sm flex items-center justify-center font-serif italic text-gray-400 hover:border-[#c2a378] hover:text-[#c2a378] transition"
+          >+ New Photo Card</button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** ── COMPONENT: CONTACT ── */
+function ContactView({ data, isEditing, update }) {
+  return (
+    <div className="max-w-2xl">
+      <div className="bg-white/60 p-20 shadow-2xl backdrop-blur-md relative"
+           style={{ clipPath: "polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%)" }}>
+        
+        <h2 className={`font-serif text-5xl mb-8 text-[#2d3a2d] ${isEditing ? 'bg-yellow-50' : ''}`}
+            contentEditable={isEditing} suppressContentEditableWarning={true}
+            onBlur={(e) => update({...data, title: e.target.innerText})}>
+          {data.title}
+        </h2>
+        
+        <p className={`mb-12 italic text-[#666] ${isEditing ? 'bg-yellow-50' : ''}`}
+           contentEditable={isEditing} suppressContentEditableWarning={true}
+           onBlur={(e) => update({...data, text: e.target.innerText})}>
+          {data.text}
+        </p>
+
+        <div className="space-y-10">
+          <div className="border-b border-gray-200 pb-3"><label className="font-mono text-[10px] uppercase tracking-widest text-[#c2a378]">Name</label><div className="text-xl py-1 text-gray-300">Name...</div></div>
+          <div className="border-b border-gray-200 pb-3"><label className="font-mono text-[10px] uppercase tracking-widest text-[#c2a378]">Email</label><div className="text-xl py-1 text-gray-300">Email...</div></div>
+          <div className="border-b border-gray-200 pb-3"><label className="font-mono text-[10px] uppercase tracking-widest text-[#c2a378]">Message</label><div className="text-xl py-6 text-gray-300">Your note...</div></div>
+          <button className="w-full bg-[#2d3a2d] text-white py-5 rounded-sm shadow-xl font-serif italic uppercase tracking-[0.3em] text-[10px]">Deliver Message</button>
+        </div>
+      </div>
+    </div>
+  );
+}
