@@ -111,10 +111,11 @@
     .text-content { max-width: 800px; }
     .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2rem; }
     
-    /* Dynamic Resume Styling */
-    .resume-row { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; margin-bottom: 3rem; align-items: start; }
-    .resume-label { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--muted); }
-    .resume-content strong { display: block; font-size: 1.1rem; margin-bottom: 5px; }
+    /* Dynamic Resume & Skills Grid Layout */
+    .row-grid { display: grid; grid-template-columns: 220px 1fr; gap: 3rem; margin-bottom: 3.5rem; align-items: start; }
+    .row-label { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--accent); padding-left: 15px; }
+    .row-content strong { display: block; font-size: 1.2rem; font-family: var(--font-header); margin-bottom: 5px; }
+    .row-content p { color: #333; font-size: 1.05rem; }
 
     .contact-form { background: var(--cream); padding: 2.5rem; border: 1px solid var(--border); margin-top: 2rem; border-radius: 4px; }
     .form-group { margin-bottom: 1.5rem; }
@@ -133,7 +134,7 @@
       main { margin-left: 0; padding: calc(var(--mobile-header-height) + 3rem) 1.5rem 3rem 1.5rem; }
       #hero-container { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
       .entry-layout { grid-template-columns: 1fr; gap: 3rem; }
-      .resume-row { grid-template-columns: 1fr; gap: 0.5rem; }
+      .row-grid { grid-template-columns: 1fr; gap: 0.75rem; margin-bottom: 2.5rem; }
     }
   </style>
 </head>
@@ -162,7 +163,7 @@
         <a href="/about/" class="nav-link" data-link>About</a>
         <a href="/contact/" class="nav-link" data-link>Contact</a>
       </div>
-      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v7.0 Hybrid-Parser</span></div>
+      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v7.5 Smart-Lists</span></div>
     </nav>
 
     <main id="main-content">
@@ -181,6 +182,9 @@
 
     const HERO_HOME = "https://i.postimg.cc/prL9JMHh/PXL_20251223_225914443.jpg"; 
     const HERO_CONTACT = "https://i.postimg.cc/RhZ3LxBZ/PXL_20260209_161536343.jpg"; 
+
+    // Enable Soft Line Breaks in Marked
+    marked.setOptions({ breaks: true });
 
     let siteData = { pages: {}, entries: [], isLoaded: false };
     let currentFilter = 'all';
@@ -215,24 +219,15 @@
       } catch (e) { console.error("Sync error", e); }
     }
 
-    /** * HYBRID SMART PARSER
-     * Handles both '---' dividers and raw Anchor Word keywords.
-     * Robust enough for any messy Google Doc input.
-     */
     function parseHybridDoc(text) {
       siteData = { pages: {}, entries: [], isLoaded: true };
       const keywords = ["Welcome", "About", "Skills", "Resume", "Contact", "Entry:"];
-      
-      // Step 1: Pre-process text to standardize dividers
       let cleanText = text.replace(/^-{3,}/gm, "---DIVIDER---");
-      
-      // Step 2: Split by dividers OR keywords
       const regex = new RegExp(`---DIVIDER---|(?=${keywords.join("|")})`, "g");
       const rawChunks = cleanText.split(regex).map(c => c.trim()).filter(c => c.length > 0);
       
       for (let chunk of rawChunks) {
         if (chunk.startsWith("Instructions")) continue;
-
         if (chunk.toLowerCase().startsWith("entry:")) {
           siteData.entries.push(parseSmartEntry(chunk));
         } else {
@@ -247,29 +242,24 @@
     }
 
     function parseSmartEntry(text) {
-      // Improved title extraction: capture everything from 'Entry:' to the first keyword field
       const titleMatch = text.match(/Entry:\s*([\s\S]*?)(?=Type:|Image:|Description:|Materials:|Process:|Location:|Camera:|Lens:|Settings:|$)/i);
       const title = titleMatch ? titleMatch[1].trim() : "Untitled Art";
       const data = { title, id: slugify(title) };
-
       const extract = (key) => {
         const regex = new RegExp(`${key}:\\s*([\\s\\S]*?)(?=Type:|Image:|Description:|Materials:|Process:|Location:|Camera:|Lens:|Settings:|Entry:|$)`, "i");
         return (text.match(regex) || [])[1]?.trim() || "";
       };
-
       data.type = extract("Type").toLowerCase() || "art";
       data.img = extract("Image").replace(/\s/g, '') || "https://via.placeholder.com/800x1000?text=Syncing+Artwork...";
       data.description = extract("Description") || "";
       data.materials = extract("Materials").split(",").map(m => m.trim()).filter(m => m);
       data.process = extract("Process") || "";
-      
       data.specs = {
         location: extract("Location") || "Unknown",
         camera: extract("Camera") || "N/A",
         lens: extract("Lens") || "N/A",
         settings: extract("Settings") || "N/A"
       };
-
       return data;
     }
 
@@ -280,7 +270,6 @@
       const heroTarget = document.getElementById('hero-target');
       
       if (!siteData.isLoaded) return;
-
       bodyTag.classList.toggle('wallpaper-active', path.includes('/arts/view/'));
       document.querySelectorAll('.nav-link').forEach(link => {
         const href = link.getAttribute('href');
@@ -297,44 +286,48 @@
           heroTarget.innerHTML = `<span class="section-label">${pageKey}</span><h2>${page.title}</h2>${page.html}`;
           if (path === '/contact/') heroTarget.insertAdjacentHTML('beforeend', renderContactForm());
         } else {
-          // Fallback if section is missing or misspelled in doc
           heroTarget.innerHTML = `<h2>Coming Soon</h2><p>Working on the archives...</p>`;
         }
       } else {
         hero.style.display = 'none';
         if (path === '/arts/') renderGallery(root);
         else if (path.includes('/arts/view/')) renderEntryView(path.split('/').pop(), root);
-        else if (path === '/skills/') renderPageContent('skills', root);
-        else if (path === '/resume/') renderResumeView(root);
+        else if (path === '/skills/') renderSmartListView('skills', root);
+        else if (path === '/resume/') renderSmartListView('resume', root);
         else render404(root);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function renderResumeView(root) {
-      const page = siteData.pages['resume'];
+    // NEW: Smart List View - Handles both Resume and Skills layouts
+    function renderSmartListView(key, root) {
+      const page = siteData.pages[key];
       if (!page) return render404(root);
       
-      let html = `<div class="text-content"><h2>Resume</h2>`;
-      const blocks = page.html.split(/<h3>|<\/h3>|<strong>|<\/strong>|<p>|<\/p>/g).filter(b => b.trim().length > 0);
+      let html = `<div class="text-content"><h2>${page.title}</h2>`;
       
-      blocks.forEach(block => {
-        const isLabel = ["Education", "Experience", "Theater Experience", "Theater", "Academic"].some(l => block.includes(l));
-        if (isLabel) {
-          html += `<div class="resume-row"><div class="resume-label">${block}</div><div class="resume-content">`;
-        } else {
-          html += `${block}</div></div>`;
-        }
-      });
+      // We look for headers (h3) or bold items to start new rows
+      const blocks = page.html.split(/(?=<h[1-6]>|<strong>)/g).filter(b => b.trim().length > 0);
+      
+      if (blocks.length <= 1) {
+        // Fallback to normal view if no structure detected
+        html += page.html;
+      } else {
+        blocks.forEach(block => {
+          // If a block starts with a tag, we treat that as the label
+          const labelMatch = block.match(/^<(h[1-6]|strong)>(.*?)<\/\1>/i);
+          if (labelMatch) {
+            const label = labelMatch[2];
+            const content = block.substring(labelMatch[0].length);
+            html += `<div class="row-grid"><div class="row-label">${label}</div><div class="row-content">${content}</div></div>`;
+          } else {
+            html += block;
+          }
+        });
+      }
 
       html += `</div>`;
       root.innerHTML = html;
-    }
-
-    function renderPageContent(key, root) {
-      const page = siteData.pages[key];
-      if (!page) return render404(root);
-      root.innerHTML = `<div class="text-content"><span class="section-label">${key}</span><h2>${page.title}</h2>${page.html}</div>`;
     }
 
     function renderGallery(root) {
