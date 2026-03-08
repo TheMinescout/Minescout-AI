@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FERN CARLETON | Art & Reasoning</title>
   
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png">
 
   <!-- Fonts -->
@@ -112,10 +111,10 @@
     .text-content { max-width: 800px; }
     .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2rem; }
     
-    /* Adaptive Row Grid for messy lists */
+    /* Smart Grid Row Layout (Resumes/Skills) */
     .row-grid { display: grid; grid-template-columns: 220px 1fr; gap: 3rem; margin-bottom: 3.5rem; align-items: start; }
-    .row-label { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--accent); padding-left: 15px; }
-    .row-content strong { display: block; font-size: 1.2rem; font-family: var(--font-header); margin-bottom: 5px; }
+    .row-label { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--accent); padding-left: 15px; }
+    .row-content strong { display: block; font-size: 1.2rem; font-family: var(--font-header); margin-bottom: 5px; color: var(--ink); }
     .row-content p { color: #333; font-size: 1.05rem; }
 
     .contact-form { background: var(--cream); padding: 2.5rem; border: 1px solid var(--border); margin-top: 2rem; border-radius: 4px; }
@@ -164,7 +163,7 @@
         <a href="/about/" class="nav-link" data-link>About</a>
         <a href="/contact/" class="nav-link" data-link>Contact</a>
       </div>
-      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v8.0 Adaptive</span></div>
+      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v9.0 Natural Flow</span></div>
     </nav>
 
     <main id="main-content">
@@ -178,7 +177,7 @@
 
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygWtwrPzJUbH2nrt4JRxTqs2FXfGwFYU-6kP2ORKcbESaY2HswOiAKyceLOgdNI4KBuA/exec'; 
-    const CACHE_KEY = 'fern_master_v8_cache';
+    const CACHE_KEY = 'fern_master_v9_cache';
     const CACHE_TIME = 3600000; 
 
     const HERO_HOME = "https://i.postimg.cc/prL9JMHh/PXL_20251223_225914443.jpg"; 
@@ -204,7 +203,7 @@
       if (cached) {
         const { timestamp, data } = JSON.parse(cached);
         if (Date.now() - timestamp < CACHE_TIME) {
-          parseAdaptiveDoc(data); renderPage(); fetchFresh(); return;
+          parseNaturalDoc(data); renderPage(); fetchFresh(); return;
         }
       }
       await fetchFresh();
@@ -215,18 +214,14 @@
         const res = await fetch(APPS_SCRIPT_URL);
         const text = await res.text();
         localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: text }));
-        parseAdaptiveDoc(text); renderPage();
+        parseNaturalDoc(text); renderPage();
       } catch (e) { console.error("Sync error", e); }
     }
 
-    /** * ADAPTIVE INTELLIGENCE PARSER
-     * Optimized for Fern's bunched-up Google Doc format.
-     */
-    function parseAdaptiveDoc(text) {
+    function parseNaturalDoc(text) {
       siteData = { pages: {}, entries: [], isLoaded: true };
       const keywords = ["Welcome", "About", "Skills", "Resume", "Contact", "Entry:"];
       
-      // Step 1: Pre-process text to handle dividers and keywords as split points
       let cleanText = text.replace(/^-{3,}/gm, "---DIVIDER---");
       const regex = new RegExp(`---DIVIDER---|(?=${keywords.join("|")})`, "g");
       const rawChunks = cleanText.split(regex).map(c => c.trim()).filter(c => c.length > 0);
@@ -247,9 +242,8 @@
     }
 
     function parseSmartEntry(text) {
-      // Find the entry title from the first line
       const titleMatch = text.match(/Entry:\s*([\s\S]*?)(?=Type:|Image:|Description:|Materials:|Process:|Location:|Camera:|Lens:|Settings:|$)/i);
-      const title = titleMatch ? titleMatch[1].trim() : "Untitled Art";
+      const title = titleMatch ? titleMatch[1].trim() : "Untitled Artwork";
       const data = { title, id: slugify(title) };
 
       const extract = (key) => {
@@ -258,7 +252,7 @@
       };
 
       data.type = extract("Type").toLowerCase() || "art";
-      data.img = extract("Image").replace(/\s/g, '') || "https://via.placeholder.com/800x1000?text=Syncing+Artwork...";
+      data.img = extract("Image").replace(/\s/g, '') || "https://via.placeholder.com/800x1000?text=Syncing+Image...";
       data.description = extract("Description") || "";
       data.materials = extract("Materials").split(",").map(m => m.trim()).filter(m => m);
       data.process = extract("Process") || "";
@@ -294,8 +288,6 @@
           document.getElementById('hero-image').src = path === '/contact/' ? HERO_CONTACT : HERO_HOME;
           heroTarget.innerHTML = `<span class="section-label">${pageKey}</span><h2>${page.title}</h2>${page.html}`;
           if (path === '/contact/') heroTarget.insertAdjacentHTML('beforeend', renderContactForm());
-        } else {
-          heroTarget.innerHTML = `<h2>Coming Soon</h2><p>Working on the archives...</p>`;
         }
       } else {
         hero.style.display = 'none';
@@ -308,19 +300,11 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /** * ADAPTIVE GRID RENDERER
-     * Splits text into labeled rows by detecting short header-like paragraphs or bold tags.
-     */
     function renderAdaptiveGrid(key, root) {
       const page = siteData.pages[key];
       if (!page) return render404(root);
       
       let html = `<div class="text-content"><h2>${page.title}</h2>`;
-      
-      // Detect common resume/skills headers even if not bolded
-      const commonHeaders = ["Artistic Foundations", "Digital & Photography", "Theater Experience", "Education", "Experience", "Skills", "2026 plays", "2025 plays", "Showcase"];
-      
-      // Temporary div to parse the marked HTML
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = page.html;
       
@@ -328,18 +312,19 @@
       let currentLabel = "";
       let currentContent = "";
 
-      // Walk through paragraphs to find labels
       tempDiv.childNodes.forEach(node => {
-        const text = node.textContent.trim();
-        const isHeaderTag = /^H[1-6]$/.test(node.tagName);
-        const isShortLine = text.length > 0 && text.split(' ').length < 5;
-        const isStrong = node.querySelector && node.querySelector('strong');
-        const isKnownHeader = commonHeaders.some(h => text.toLowerCase().includes(h.toLowerCase()));
+        // Skip empty text nodes
+        if (node.nodeType === 3 && !node.textContent.trim()) return;
 
-        if (isHeaderTag || isStrong || (isShortLine && isKnownHeader)) {
-          // Push previous row
+        const text = node.textContent.trim();
+        const isHeader = /^H[1-6]$/.test(node.tagName);
+        const isBold = (node.querySelector && node.querySelector('strong')) || (node.tagName === 'STRONG');
+        const isShort = text.split(' ').length < 6;
+
+        // If it's a short line or header, it's a label for the left column
+        if (isHeader || (isBold && isShort) || isShort) {
           if (currentLabel || currentContent) {
-            rows.push({ label: currentLabel || "Details", content: currentContent });
+            rows.push({ label: currentLabel || "DETAILS", content: currentContent });
           }
           currentLabel = text;
           currentContent = "";
@@ -347,10 +332,7 @@
           currentContent += node.outerHTML || node.textContent;
         }
       });
-      // Push final row
-      if (currentLabel || currentContent) {
-        rows.push({ label: currentLabel || "Details", content: currentContent });
-      }
+      if (currentLabel || currentContent) rows.push({ label: currentLabel || "DETAILS", content: currentContent });
 
       if (rows.length === 0) {
         html += page.html;
@@ -359,7 +341,6 @@
           html += `<div class="row-grid"><div class="row-label">${row.label}</div><div class="row-content">${row.content}</div></div>`;
         });
       }
-
       html += `</div>`;
       root.innerHTML = html;
     }
@@ -388,7 +369,7 @@
       const isArt = item.type === 'art';
       root.innerHTML = `
         <div class="entry-layout">
-          <div class="entry-visual"><img src="${item.img}" alt="${item.title}"></div>
+          <div class="entry-visual"><img src="${item.img}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/800x1000?text=Syncing+Image...'"></div>
           <div class="entry-details">
             <a href="/arts/" data-link style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; margin-bottom:2rem; display:block;">← Back to Grid</a>
             <span class="section-label">${item.type}</span>
@@ -418,7 +399,7 @@
     }
 
     function render404(root) { root.innerHTML = `<h2>404</h2><p>Page missing.</p>`; }
-    window.setFilter = (f) => { currentFilter = f; renderGallery(document.getElementById('app-root')); };
+    window.setFilter = (f) => { currentFilter = f; renderPage(); };
     window.navigateTo = (url) => { closeMenu(); history.pushState(null, null, url); renderPage(); };
     window.addEventListener('popstate', renderPage);
     document.body.addEventListener('click', e => {
