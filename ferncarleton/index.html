@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FERN CARLETON | Art & Reasoning</title>
   
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png">
 
-  <!-- Fonts: Structured Serif for headers, clean Sans for body, Mono for specs -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -40,10 +39,7 @@
       transition: background-color 0.4s ease;
     }
 
-    /* Change background to pink for specific pages */
-    body.wallpaper-active {
-      background-color: var(--pink);
-    }
+    body.wallpaper-active { background-color: var(--pink); }
 
     .site-wrapper { display: flex; min-height: 100vh; }
 
@@ -61,23 +57,8 @@
     }
 
     .brand { margin-bottom: 5rem; cursor: pointer; }
-    .brand h1 {
-      font-family: var(--font-header);
-      font-size: 1.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      line-height: 1;
-    }
-    .brand span {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--muted);
-      display: block;
-      margin-top: 10px;
-    }
+    .brand h1 { font-family: var(--font-header); font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
+    .brand span { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 10px; }
 
     .nav-links { display: flex; flex-direction: column; gap: 1.5rem; }
     .nav-links a {
@@ -91,64 +72,21 @@
       opacity: 0.4;
       transition: 0.3s;
     }
-    .nav-links a:hover, .nav-links a.active {
-      opacity: 1;
-      padding-left: 5px;
-    }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; padding-left: 5px; }
 
     /* --- MAIN CONTENT --- */
-    main {
-      margin-left: 300px;
-      padding: 5rem 6rem;
-      flex: 1;
-      max-width: 1300px;
-    }
+    main { margin-left: 300px; padding: 5rem 6rem; flex: 1; max-width: 1300px; }
 
     /* --- FILTERS --- */
-    .filter-bar {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 3rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1rem;
-    }
-    .filter-btn {
-      background: none;
-      border: none;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      color: var(--muted);
-      padding: 5px 10px;
-    }
-    .filter-btn.active {
-      color: var(--ink);
-      font-weight: 700;
-      background: var(--cream);
-    }
+    .filter-bar { display: flex; gap: 1rem; margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+    .filter-btn { background: none; border: none; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; color: var(--muted); padding: 5px 10px; }
+    .filter-btn.active { color: var(--ink); font-weight: 700; background: var(--cream); }
 
     /* --- ARTS GALLERY GRID --- */
-    .arts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 2.5rem;
-    }
-    .art-card {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      transition: 0.3s;
-    }
+    .arts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; }
+    .art-card { text-decoration: none; color: inherit; display: block; transition: 0.3s; }
     .art-card:hover { transform: translateY(-5px); }
-    .art-img-wrap {
-      background: var(--cream);
-      aspect-ratio: 1;
-      overflow: hidden;
-      margin-bottom: 1rem;
-      border: 1px solid rgba(0,0,0,0.05);
-    }
+    .art-img-wrap { background: var(--cream); aspect-ratio: 1; overflow: hidden; margin-bottom: 1rem; border: 1px solid rgba(0,0,0,0.05); }
     .art-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .art-info h4 { font-family: var(--font-header); font-size: 1.2rem; font-weight: 600; }
     .art-info span { font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
@@ -156,39 +94,33 @@
     /* --- INDIVIDUAL ENTRY PAGE --- */
     .entry-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; }
     .entry-visual img { width: 100%; border: 10px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-    
-    .entry-details h2 { font-family: var(--font-header); font-size: 3rem; margin-bottom: 1rem; }
-    .entry-details .meta-tag { font-family: var(--font-mono); font-size: 0.7rem; background: var(--ink); color: var(--white); padding: 4px 12px; border-radius: 50px; display: inline-block; margin-bottom: 2rem; }
-    
+    .entry-details h2 { font-family: var(--font-header); font-size: 3rem; margin-bottom: 1rem; line-height: 1.1; }
+    .entry-details .meta-tag { font-family: var(--font-mono); font-size: 0.7rem; background: var(--ink); color: var(--white); padding: 4px 12px; border-radius: 50px; display: inline-block; margin-bottom: 2rem; text-transform: uppercase; }
     .section-label { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; display: block; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-top: 2rem; }
     
-    /* Tutorial Styling */
+    /* Tutorial / Spec Styles */
     .materials-list { list-style: none; margin-bottom: 2rem; }
     .materials-list li { font-weight: 600; margin-bottom: 5px; }
+    .materials-list li::before { content: "☐ "; color: var(--muted); }
     .steps-list { padding-left: 1.5rem; }
-    .steps-list li { margin-bottom: 1rem; padding-left: 0.5rem; }
-
-    /* Photo Specs Styling */
+    .steps-list li { margin-bottom: 1rem; padding-left: 0.5rem; font-weight: 500; }
     .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .spec-item b { display: block; font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); text-transform: uppercase; }
     .spec-item span { font-weight: 600; font-size: 0.9rem; }
 
-    /* --- TEXT PAGES (About, Skills, Resume) --- */
+    /* --- TEXT PAGES --- */
     .text-content { max-width: 800px; }
-    .text-content h2 { font-family: var(--font-header); font-size: 3rem; margin-bottom: 2rem; }
-    .text-content h3 { font-family: var(--font-header); font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1rem; border-bottom: 2px solid var(--ink); padding-bottom: 0.5rem; }
-    .text-content p { font-size: 1.1rem; margin-bottom: 1.5rem; color: #333; }
-    .text-content ul { margin-left: 1.5rem; margin-bottom: 2rem; }
-    .text-content li { margin-bottom: 0.5rem; }
+    .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2.5rem; line-height: 1.1; }
+    .text-content h3 { font-family: var(--font-header); font-size: 1.5rem; margin-top: 3.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--ink); padding-bottom: 0.5rem; }
+    .text-content p { font-size: 1.15rem; margin-bottom: 1.5rem; color: #111; }
 
     /* --- CONTACT FORM --- */
-    .contact-form { background: var(--cream); padding: 3rem; border: 1px solid var(--border); }
+    .contact-form { background: var(--cream); padding: 3rem; border: 1px solid var(--border); margin-top: 2rem; }
     .form-group { margin-bottom: 1.5rem; }
     .form-group label { display: block; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 0.5rem; }
     .form-group input, .form-group textarea { width: 100%; padding: 1rem; border: 1px solid var(--border); font-family: var(--font-body); font-size: 1rem; outline: none; }
-    .form-group input:focus, .form-group textarea:focus { border-color: var(--ink); }
     .submit-btn { background: var(--ink); color: var(--white); border: none; padding: 1rem 2.5rem; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; }
-    .submit-btn:hover { background: var(--muted); }
+    .submit-btn:hover { opacity: 0.7; }
 
     /* --- FOOTER --- */
     footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
@@ -199,7 +131,7 @@
       main { margin-left: 0; padding: 3rem 1.5rem; }
       .entry-layout { grid-template-columns: 1fr; gap: 3rem; }
       .brand { margin-bottom: 2rem; }
-      .nav-links { flex-direction: row; flex-wrap: wrap; gap: 1rem; }
+      .nav-links { flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
     }
   </style>
 </head>
@@ -220,111 +152,137 @@
       </div>
       
       <div style="margin-top: auto;">
-        <span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Digital Archive v2.0</span>
+        <span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Archive v2.0</span>
       </div>
     </nav>
 
     <main id="main-content">
-      <!-- Content Dynamic Injection -->
+      <!-- Dynamic Injection -->
     </main>
   </div>
 
   <script>
-    // --- APP DATA ---
-    const siteData = {
-      about: {
-        title: "Fern Carleton",
-        bio: "I am a student at the Renaissance School of Art and Reasoning. My work exists in the space where creative expression meets structured logic. This digital archive is a collection of my explorations in visual art, theater, and photography."
-      },
-      arts: [
-        { 
-          id: 'watercolor-basics',
-          type: 'art', 
-          title: "Easy Watercolor Bloom", 
-          difficulty: "Beginner",
-          img: "https://via.placeholder.com/800x800?text=Art+Tutorial",
-          materials: ["Watercolor Paper", "Soft Round Brush", "Ultramarine Blue Paint", "Clean Water"],
-          process: "1. Wet a circular area of your paper with clean water. 2. Drop a concentrated amount of blue paint into the center. 3. Watch the pigment 'bloom' outward. 4. Let dry completely before adding detail.",
-          description: "A simple guide to understanding how water moves pigment on a page."
-        },
-        { 
-          id: 'mountain-specs',
-          type: 'photography', 
-          title: "Volcanic Ridge", 
-          img: "https://i.postimg.cc/mD3631qf/image-74ced8.jpg",
-          specs: {
-            location: "Mount Rainier National Park",
-            camera: "Nikon Z6 II",
-            lens: "24-70mm f/4",
-            settings: "f/11, 1/125s, ISO 100"
-          },
-          description: "Capturing the stark contrast of volcanic rock against the soft morning mist."
-        },
-        { 
-          id: 'stage-study',
-          type: 'theater', 
-          title: "The Renaissance Set", 
-          img: "https://via.placeholder.com/800x600?text=Theater+Project",
-          description: "Technical study of perspective and depth for a minimalist stage design."
-        }
-      ]
-    };
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
+    const CACHE_KEY = 'fern_content_cache';
+    const CACHE_TIME = 3600000; 
 
+    let siteData = { pages: {}, entries: [] };
     let currentFilter = 'all';
 
-    // --- NAVIGATION ---
-    function navigateTo(url) {
-      history.pushState(null, null, url);
-      renderPage();
+    async function initApp() {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { timestamp, data } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_TIME) {
+          parseDoc(data); renderPage(); fetchFresh(); return;
+        }
+      }
+      await fetchFresh();
+    }
+
+    async function fetchFresh() {
+      try {
+        const res = await fetch(APPS_SCRIPT_URL);
+        const text = await res.text();
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: text }));
+        parseDoc(text); renderPage();
+      } catch (e) { console.error("Sync error", e); }
+    }
+
+    function parseDoc(text) {
+      siteData = { pages: {}, entries: [] };
+      const sections = text.split(/(^#\s+.+$)/m);
+      
+      for (let i = 1; i < sections.length; i += 2) {
+        const titleLine = sections[i].replace(/^#\s*/, '').trim();
+        const body = sections[i + 1] ? sections[i + 1].trim() : '';
+        const slug = slugify(titleLine);
+
+        if (slug === 'instructions') continue;
+
+        if (titleLine.toLowerCase().startsWith('entry:')) {
+          const entryTitle = titleLine.replace(/entry:\s*/i, '');
+          siteData.entries.push(parseEntry(entryTitle, body));
+        } else {
+          siteData.pages[slug] = { title: titleLine, html: marked.parse(body) };
+        }
+      }
+    }
+
+    function parseEntry(title, body) {
+      const data = { title, id: slugify(title), body };
+      
+      // Extract Metadata Fields
+      const typeMatch = body.match(/Type:\s*(.+)/i);
+      data.type = typeMatch ? typeMatch[1].trim().toLowerCase() : 'art';
+      
+      const imgMatch = body.match(/Image:\s*(.+)/i);
+      data.img = imgMatch ? imgMatch[1].trim() : 'https://via.placeholder.com/800x800';
+
+      const descMatch = body.match(/Description:\s*([\s\S]*?)(?=\n[A-Z][a-z]+:|$)/);
+      data.description = descMatch ? descMatch[1].trim() : '';
+
+      // Art Specifics
+      const matMatch = body.match(/Materials:\s*(.+)/i);
+      data.materials = matMatch ? matMatch[1].split(',').map(m => m.trim()) : [];
+      
+      const procMatch = body.match(/Process:\s*([\s\S]*?)(?=\n[A-Z][a-z]+:|$)/);
+      data.process = procMatch ? procMatch[1].trim() : '';
+
+      // Photography Specifics
+      const locMatch = body.match(/Location:\s*(.+)/i);
+      const camMatch = body.match(/Camera:\s*(.+)/i);
+      const lensMatch = body.match(/Lens:\s*(.+)/i);
+      const setMatch = body.match(/Settings:\s*(.+)/i);
+      
+      data.specs = {
+        location: locMatch ? locMatch[1].trim() : 'Unknown',
+        camera: camMatch ? camMatch[1].trim() : 'N/A',
+        lens: lensMatch ? lensMatch[1].trim() : 'N/A',
+        settings: setMatch ? setMatch[1].trim() : 'N/A'
+      };
+
+      return data;
     }
 
     function renderPage() {
       const path = window.location.pathname;
       const root = document.getElementById('main-content');
-      const body = document.getElementById('body');
+      const bodyTag = document.getElementById('body');
       
-      // Handle "Wallpaper" effect
-      if (path.includes('/arts/view/')) {
-        body.classList.add('wallpaper-active');
-      } else {
-        body.classList.remove('wallpaper-active');
-      }
+      bodyTag.classList.toggle('wallpaper-active', path.includes('/arts/view/'));
 
-      // Update active nav
       document.querySelectorAll('.nav-link').forEach(link => {
         const href = link.getAttribute('href');
-        link.classList.toggle('active', path.startsWith(href) && href !== '/');
+        link.classList.toggle('active', path === href || (href !== '/' && path.startsWith(href)));
       });
 
-      // --- ROUTER ---
-      if (path === '/' || path === '/about/') renderAbout(root);
-      else if (path === '/arts/') renderArtsGallery(root);
-      else if (path.includes('/arts/view/')) renderEntry(root, path.split('/').pop());
-      else if (path === '/skills/') renderSkills(root);
-      else if (path === '/resume/') renderResume(root);
-      else if (path === '/contact/') renderContact(root);
+      if (path === '/' || path === '/about/') renderPageContent('about', root);
+      else if (path === '/arts/') renderGallery(root);
+      else if (path.includes('/arts/view/')) renderEntryView(path.split('/').pop(), root);
+      else if (path === '/skills/') renderPageContent('skills', root);
+      else if (path === '/resume/') renderPageContent('resume', root);
+      else if (path === '/contact/') renderContactPage(root);
       else render404(root);
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- VIEW RENDERERS ---
-
-    function renderAbout(root) {
+    function renderPageContent(key, root) {
+      const page = siteData.pages[key === 'about' ? 'welcome' : key];
+      if (!page) return render404(root);
       root.innerHTML = `
         <div class="text-content">
-          <span class="section-label">Identity</span>
-          <h2>${siteData.about.title}</h2>
-          <p>${siteData.about.bio}</p>
-          <a href="/arts/" data-link class="submit-btn" style="text-decoration:none; display:inline-block; margin-top:1rem;">Explore Work</a>
+          <span class="section-label">${key}</span>
+          <h2>${page.title}</h2>
+          ${page.html}
         </div>
-        <footer>&copy; ${new Date().getFullYear()} Fern Carleton. Built with <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></footer>
+        ${key === 'about' ? `<footer>&copy; ${new Date().getFullYear()} Fern Carleton. Built with <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></footer>` : ''}
       `;
     }
 
-    function renderArtsGallery(root) {
-      const filtered = currentFilter === 'all' ? siteData.arts : siteData.arts.filter(a => a.type === currentFilter);
-      
+    function renderGallery(root) {
+      const filtered = currentFilter === 'all' ? siteData.entries : siteData.entries.filter(e => e.type === currentFilter);
       root.innerHTML = `
         <h2 style="font-family:var(--font-header); font-size:3rem; margin-bottom:2rem;">Arts</h2>
         <div class="filter-bar">
@@ -347,20 +305,20 @@
       `;
     }
 
-    function renderEntry(root, id) {
-      const item = siteData.arts.find(a => a.id === id);
+    function renderEntryView(id, root) {
+      const item = siteData.entries.find(e => e.id === id);
       if (!item) return render404(root);
 
-      let detailContent = '';
+      let extras = '';
       if (item.type === 'art') {
-        detailContent = `
+        extras = `
           <span class="section-label">Materials</span>
           <ul class="materials-list">${item.materials.map(m => `<li>${m}</li>`).join('')}</ul>
           <span class="section-label">The Process</span>
-          <ol class="steps-list">${item.process.split('.').filter(s => s.trim()).map(s => `<li>${s.trim()}.</li>`).join('')}</ol>
+          <div class="steps-list">${marked.parse(item.process)}</div>
         `;
       } else if (item.type === 'photography') {
-        detailContent = `
+        extras = `
           <span class="section-label">Specifications</span>
           <div class="specs-grid">
             <div class="spec-item"><b>Location</b><span>${item.specs.location}</span></div>
@@ -373,59 +331,28 @@
 
       root.innerHTML = `
         <div class="entry-layout">
-          <div class="entry-visual">
-            <img src="${item.img}" alt="${item.title}">
-          </div>
+          <div class="entry-visual"><img src="${item.img}" alt="${item.title}"></div>
           <div class="entry-details">
-            <a href="/arts/" data-link style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; margin-bottom:2rem; display:block;">← Back to Grid</a>
+            <a href="/arts/" data-link style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; margin-bottom:2rem; display:block;">← Back to Gallery</a>
             <span class="meta-tag">${item.type}</span>
             <h2>${item.title}</h2>
             <p style="color:var(--muted);">${item.description}</p>
-            ${detailContent}
+            ${extras}
           </div>
         </div>
       `;
     }
 
-    function renderSkills(root) {
-      root.innerHTML = `
-        <div class="text-content">
-          <span class="section-label">Creative Reasoning</span>
-          <h2>Skillset</h2>
-          <h3>Artistic Foundations</h3>
-          <p>Proficient in watercolor techniques, acrylic study, and charcoal sketching. Focus on light theory and color blending.</p>
-          <h3>Digital & Photography</h3>
-          <p>Manual photography settings, composition study, and digital asset management. Experience with high-contrast minimalist editing.</p>
-          <h3>Theater & Production</h3>
-          <p>Set design modeling, character reasoning, and technical stage coordination.</p>
-        </div>
-      `;
-    }
-
-    function renderResume(root) {
-      root.innerHTML = `
-        <div class="text-content">
-          <span class="section-label">Career & Education</span>
-          <h2>Resume</h2>
-          <h3>Education</h3>
-          <p><b>Renaissance School of Art and Reasoning</b><br>Class of 2027</p>
-          <h3>Experience</h3>
-          <p><b>Visual Arts Collective</b><br>Curator (2025 - Present)</p>
-          <p><b>Stage Mechanics Lab</b><br>Technical Assistant (2024 - 2025)</p>
-        </div>
-      `;
-    }
-
-    function renderContact(root) {
+    function renderContactPage(root) {
+      const page = siteData.pages['contact'] || { title: 'Contact', html: '' };
       root.innerHTML = `
         <div class="text-content">
           <span class="section-label">Inquiry</span>
-          <h2>Get in Touch</h2>
-          <p>Please use the form below to send a message. I will respond to all creative and professional inquiries within 48 hours.</p>
-          <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully (Simulation).');">
+          <h2>${page.title}</h2>
+          ${page.html}
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent (Demo).');">
             <div class="form-group"><label>Name</label><input type="text" required></div>
             <div class="form-group"><label>Email</label><input type="email" required></div>
-            <div class="form-group"><label>Subject</label><input type="text"></div>
             <div class="form-group"><label>Message</label><textarea rows="5" required></textarea></div>
             <button type="submit" class="submit-btn">Send Message</button>
           </form>
@@ -433,23 +360,18 @@
       `;
     }
 
-    function render404(root) {
-      root.innerHTML = `<h2 style="font-family:var(--font-header); font-size:3rem;">404</h2><p>Page missing from archive.</p>`;
-    }
+    function render404(root) { root.innerHTML = `<h2 style="font-family:var(--font-header); font-size:3rem;">404</h2><p>Content not found.</p>`; }
 
-    window.setFilter = (f) => {
-      currentFilter = f;
-      renderArtsGallery(document.getElementById('main-content'));
-    };
-
+    window.setFilter = (f) => { currentFilter = f; renderGallery(document.getElementById('main-content')); };
+    window.navigateTo = (url) => { history.pushState(null, null, url); renderPage(); };
     window.addEventListener('popstate', renderPage);
-    window.onload = renderPage;
-
     document.body.addEventListener('click', e => {
       const link = e.target.closest('[data-link]');
       if (link) { e.preventDefault(); navigateTo(link.getAttribute('href')); }
     });
-  </script>
 
+    function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
+    window.onload = initApp;
+  </script>
 </body>
 </html>
