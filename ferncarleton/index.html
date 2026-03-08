@@ -3,195 +3,188 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FERN CARLETON | Art & Reasoning</title>
+  <title>FERN CARLETON | Photography & Reasoning</title>
   
   <link rel="icon" type="image/png" href="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png">
 
-  <!-- Fonts: Artistic Handwriting and Structured Serif -->
+  <!-- Fonts: Structured Serif and Modern Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
   
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
     :root {
-      --paper: #fdfcf8;
-      --ink: #2c2c2c;
-      --muted-ink: #555555;
-      /* Watercolor Palette */
-      --wc-blue: rgba(100, 149, 237, 0.4);
-      --wc-pink: rgba(255, 182, 193, 0.4);
-      --wc-gold: rgba(255, 215, 0, 0.3);
-      --wc-purple: rgba(147, 112, 219, 0.3);
+      --bg: #f7f7f5;
+      --card-bg: #ffffff;
+      --ink: #1a1a1a;
+      --muted: #7a7a7a;
+      --accent: #c9a96e; /* Gold accent for reasoning/technical items */
       
-      --font-hand: 'Caveat', cursive;
       --font-header: 'Lora', serif;
       --font-body: 'Inter', sans-serif;
+      --font-mono: 'Space Mono', monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background-color: var(--paper);
-      /* Paper texture effect */
-      background-image: url("https://www.transparenttextures.com/patterns/paper.png");
+      background-color: var(--bg);
       font-family: var(--font-body);
       color: var(--ink);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* --- WATERCOLOR ACCENTS --- */
-    .wc-blob {
-      position: absolute;
-      z-index: -1;
-      filter: blur(60px);
-      border-radius: 50%;
-      pointer-events: none;
-      transition: all 2s ease-in-out;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* --- SIDEBAR --- */
     .sidebar {
-      width: 260px;
-      padding: 4rem 2rem;
+      width: 280px;
+      padding: 4rem 2.5rem;
       position: fixed;
       height: 100vh;
       display: flex;
       flex-direction: column;
+      background: var(--card-bg);
       border-right: 1px solid rgba(0,0,0,0.05);
       z-index: 1000;
-      background: rgba(253, 252, 248, 0.8);
-      backdrop-filter: blur(10px);
     }
 
-    .brand { margin-bottom: 4rem; cursor: pointer; }
+    .brand { margin-bottom: 5rem; cursor: pointer; text-align: center; }
+    .brand img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+      mix-blend-mode: multiply;
+    }
     .brand h1 {
       font-family: var(--font-header);
-      font-size: 1.8rem;
-      font-weight: 400;
+      font-size: 1.6rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
       line-height: 1.1;
-      letter-spacing: -0.02em;
     }
     .brand span {
-      font-family: var(--font-hand);
-      font-size: 1.4rem;
-      color: var(--wc-blue);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted);
       display: block;
-      margin-top: -5px;
+      margin-top: 10px;
     }
 
-    .nav-links { display: flex; flex-direction: column; gap: 1.5rem; }
+    .nav-links { display: flex; flex-direction: column; gap: 1.25rem; }
     .nav-links a {
       text-decoration: none;
       color: var(--ink);
-      font-family: var(--font-header);
-      font-style: italic;
-      font-size: 1.1rem;
-      opacity: 0.6;
+      font-family: var(--font-body);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.75rem;
+      opacity: 0.5;
       transition: 0.3s;
     }
     .nav-links a:hover, .nav-links a.active {
       opacity: 1;
-      padding-left: 8px;
+      color: var(--accent);
+      padding-left: 5px;
     }
 
     /* --- MAIN CONTENT --- */
     main {
-      flex: 1;
-      margin-left: 260px;
-      padding: 6rem 5rem;
-      max-width: 1200px;
+      margin-left: 280px;
+      padding: 5rem;
+      max-width: 1400px;
       min-height: 100vh;
-      position: relative;
     }
 
-    /* --- HERO SECTION --- */
+    /* --- HERO PORTRAIT --- */
     #hero-section {
       display: grid;
-      grid-template-columns: 1fr 1.2fr;
+      grid-template-columns: 1.1fr 1fr;
       gap: 5rem;
       align-items: center;
-      margin-bottom: 8rem;
+      margin-bottom: 10rem;
     }
 
     .hero-img-wrap {
       position: relative;
+      background: white;
+      padding: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
     }
     .hero-img-wrap img {
       width: 100%;
-      border-radius: 2px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      z-index: 2;
-      position: relative;
+      display: block;
+      filter: sepia(0.1) contrast(1.05);
     }
-    /* "Taped" effect */
-    .hero-img-wrap::before {
-      content: '';
+    .hero-img-wrap::after {
+      content: 'FERN CARLETON // PORTRAIT 01';
       position: absolute;
-      top: -15px; left: 50%;
-      width: 80px; height: 30px;
-      background: rgba(255,255,255,0.4);
-      transform: translateX(-50%) rotate(-2deg);
-      z-index: 3;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+      bottom: -30px;
+      right: 0;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
     }
 
     .hero-text h2 {
       font-family: var(--font-header);
-      font-size: 3rem;
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
+      font-size: 3.5rem;
+      margin-bottom: 2rem;
+      font-weight: 400;
+      line-height: 1.1;
     }
     .hero-text p {
       font-size: 1.1rem;
-      color: var(--muted-ink);
+      color: var(--muted);
       margin-bottom: 2rem;
+      max-width: 450px;
     }
 
-    /* --- ART GALLERY --- */
+    /* --- PHOTO GALLERY (Masonry) --- */
     .masonry-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      grid-auto-rows: 10px;
-      gap: 20px;
+      columns: 2;
+      column-gap: 2rem;
     }
     .gallery-item {
-      background: white;
-      padding: 15px;
-      border-radius: 2px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
       break-inside: avoid;
-      margin-bottom: 20px;
-      transition: 0.3s;
+      margin-bottom: 2rem;
+      background: white;
+      padding: 1rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
       cursor: pointer;
+      position: relative;
     }
-    .gallery-item:hover { transform: translateY(-5px) rotate(1deg); }
-    .gallery-item img { width: 100%; border-radius: 1px; display: block; }
+    .gallery-item:hover {
+      transform: scale(1.02);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+    .gallery-item img { width: 100%; display: block; }
+    .gallery-item .meta {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     .gallery-item h4 {
-      font-family: var(--font-hand);
-      font-size: 1.5rem;
-      margin-top: 10px;
-      text-align: right;
-    }
-
-    /* --- JOURNAL FEED --- */
-    .journal-item {
-      margin-bottom: 4rem;
-      max-width: 800px;
-    }
-    .journal-item h3 {
       font-family: var(--font-header);
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 500;
     }
-    .journal-date {
-      font-family: var(--font-hand);
-      font-size: 1.2rem;
-      color: var(--wc-blue);
-      margin-bottom: 1rem;
-      display: block;
+    .gallery-item .tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      background: var(--bg);
+      padding: 4px 8px;
+      border-radius: 2px;
     }
 
     /* --- FOOTER --- */
@@ -199,35 +192,34 @@
       margin-top: 10rem;
       padding-top: 3rem;
       border-top: 1px solid rgba(0,0,0,0.05);
-      font-family: var(--font-hand);
-      font-size: 1.2rem;
-      color: var(--muted-ink);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
     }
-    footer a { color: inherit; text-decoration: underline; }
+    footer a { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--accent); }
 
-    /* --- RESPONSIVE --- */
-    @media (max-width: 900px) {
+    @media (max-width: 1024px) {
       .sidebar { width: 100%; height: auto; position: relative; padding: 2rem; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.05); }
       main { margin-left: 0; padding: 3rem 1.5rem; }
-      #hero-section { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+      #hero-section { grid-template-columns: 1fr; gap: 4rem; }
+      .masonry-gallery { columns: 1; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Splashes -->
-  <div class="wc-blob" style="top: -100px; right: -100px; width: 400px; height: 400px; background: var(--wc-blue);"></div>
-  <div class="wc-blob" style="bottom: 10%; left: -50px; width: 300px; height: 300px; background: var(--wc-pink);"></div>
-  <div class="wc-blob" style="top: 40%; left: 30%; width: 500px; height: 500px; background: var(--wc-gold); opacity: 0.2;"></div>
-
   <div class="site-wrapper">
     <nav class="sidebar">
       <div class="brand" onclick="navigateTo('/')">
+        <!-- Circular Leaf Logo Integrated -->
+        <img src="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png" alt="Logo">
         <h1>Fern<br>Carleton</h1>
-        <span>Art & Reasoning</span>
+        <span>Photography & Reasoning</span>
       </div>
       <div class="nav-links">
-        <a href="/work/" class="nav-link" data-link>Portfolio</a>
+        <a href="/gallery/" class="nav-link" data-link>Portfolio</a>
         <a href="/journal/" class="nav-link" data-link>Journal</a>
         <a href="/about/" class="nav-link" data-link>About</a>
         <a href="/contact/" class="nav-link" data-link>Contact</a>
@@ -235,23 +227,23 @@
     </nav>
 
     <main id="main-content">
-      <!-- Dynamic Content Loads Here -->
+      <!-- Content Dynamic Injection -->
     </main>
   </div>
 
   <script>
-    // Placeholder Data - This will eventually sync with Google Docs like Jayme's
     const siteData = {
       welcome: {
-        title: "The Creative Process",
-        text: "I am a student at the Renaissance School of Art and Reasoning. My work is a constant exploration of how visual art can intersect with logic and structured thinking.",
-        img: "https://via.placeholder.com/600x800?text=Fern+Portrait"
+        title: "Observing with *Intent.*",
+        text: "I am a student at the Renaissance School of Art and Reasoning. My photography is a tool for documenting the intersection of natural chaos and human logic.",
+        // Using the mountain portrait you provided
+        img: "https://i.postimg.cc/mD3631qf/image-74ced8.jpg"
       },
       portfolio: [
-        { title: "Watercolor Study #1", img: "https://via.placeholder.com/400x500?text=Art+Project+1" },
-        { title: "Geometric Reasoning", img: "https://via.placeholder.com/400x300?text=Art+Project+2" },
-        { title: "Nature Sketchbook", img: "https://via.placeholder.com/400x600?text=Art+Project+3" },
-        { title: "Renaissance Perspective", img: "https://via.placeholder.com/400x400?text=Art+Project+4" }
+        { title: "Volcanic Textures", tag: "Landscape", img: "https://i.postimg.cc/mD3631qf/image-74ced8.jpg" },
+        { title: "Geometric Shadow", tag: "Architecture", img: "https://via.placeholder.com/800x1000?text=Portrait+Photography" },
+        { title: "The Reasoning Lab", tag: "Process", img: "https://via.placeholder.com/1200x800?text=Landscape+Photography" },
+        { title: "Symmetry Study", tag: "Abstract", img: "https://via.placeholder.com/800x800?text=Still+Life" }
       ]
     };
 
@@ -264,7 +256,6 @@
       const path = window.location.pathname;
       const root = document.getElementById('main-content');
       
-      // Update active nav link
       document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.toggle('active', link.getAttribute('href') === path);
       });
@@ -278,40 +269,43 @@
             <div class="hero-text">
               <h2>${siteData.welcome.title}</h2>
               <p>${siteData.welcome.text}</p>
-              <p>Welcome to my digital workspace.</p>
+              <p>Welcome to my digital gallery.</p>
+              <a href="/gallery/" data-link style="font-family:var(--font-mono); font-size:0.8rem; text-transform:uppercase; color:var(--accent); font-weight:700; border-bottom:2px solid var(--accent); padding-bottom:5px;">Enter Portfolio ➔</a>
             </div>
           </section>
           <footer>
-            <p>&copy; ${new Date().getFullYear()} Fern Carleton. Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></p>
+            <p>&copy; ${new Date().getFullYear()} Fern Carleton. Built with <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></p>
           </footer>
         `;
-      } else if (path === '/work/') {
+      } else if (path === '/gallery/') {
         root.innerHTML = `
-          <h2 style="font-family:var(--font-header); margin-bottom:3rem; font-size:2.5rem; font-style:italic;">Selected Works</h2>
+          <h2 style="font-family:var(--font-header); margin-bottom:4rem; font-size:2.8rem; border-bottom:1px solid #ddd; padding-bottom:1rem;">Selected Works</h2>
           <div class="masonry-gallery">
             ${siteData.portfolio.map(item => `
               <div class="gallery-item">
                 <img src="${item.img}" alt="${item.title}">
-                <h4>${item.title}</h4>
+                <div class="meta">
+                  <h4>${item.title}</h4>
+                  <span class="tag">${item.tag}</span>
+                </div>
               </div>
             `).join('')}
           </div>
         `;
       } else {
         root.innerHTML = `
-          <h2 style="font-family:var(--font-header); margin-bottom:3rem; font-size:2.5rem; font-style:italic;">Coming Soon</h2>
-          <p style="font-family:var(--font-hand); font-size:1.5rem;">The sketchbook is still being filled...</p>
+          <div style="text-align:center; padding-top:10vh;">
+            <h2 style="font-family:var(--font-header); font-size:3rem;">Development in Progress</h2>
+            <p style="font-family:var(--font-mono); color:var(--muted); margin-top:1rem;">Loading archives...</p>
+          </div>
         `;
       }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Handle back/forward buttons
     window.addEventListener('popstate', renderPage);
-    
-    // Initial render
     window.onload = renderPage;
 
-    // Handle link clicks
     document.body.addEventListener('click', e => {
       const link = e.target.closest('[data-link]');
       if (link) {
