@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FERN CARLETON | Art & Reasoning</title>
   
-  <link rel="icon" type="image/png" href="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png">
+  <!-- Favicon Updated to Fern's Personal Logo -->
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,6 +58,18 @@
     }
 
     .brand { margin-bottom: 5rem; cursor: pointer; }
+    
+    .brand img.sidebar-logo {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1.5rem;
+      border-radius: 50%;
+      display: block;
+      object-fit: cover;
+      /* Using multiply to blend any white background if necessary */
+      mix-blend-mode: multiply;
+    }
+
     .brand h1 { font-family: var(--font-header); font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
     .brand span { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 10px; }
 
@@ -140,6 +153,8 @@
   <div class="site-wrapper">
     <nav class="sidebar">
       <div class="brand" onclick="navigateTo('/')">
+        <!-- Fern's Personalized Logo -->
+        <img src="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png" alt="Fern Carleton Logo" class="sidebar-logo">
         <h1>Fern<br>Carleton</h1>
         <span>Art & Reasoning</span>
       </div>
@@ -366,8 +381,8 @@
     window.navigateTo = (url) => { history.pushState(null, null, url); renderPage(); };
     window.addEventListener('popstate', renderPage);
     document.body.addEventListener('click', e => {
-      const link = e.target.closest('[data-link]');
-      if (link) { e.preventDefault(); navigateTo(link.getAttribute('href')); }
+      const target = e.target.closest('[data-link]');
+      if (link) { e.preventDefault(); navigateTo(target.getAttribute('href')); }
     });
 
     function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
