@@ -23,6 +23,7 @@
       --ink: #000000;       /* Primary text */
       --muted: #666666;     /* Secondary text */
       --border: #e0e0e0;
+      --accent: #C2A378;    /* Wood Gold accent */
       
       --font-header: 'Lora', serif;
       --font-body: 'Inter', sans-serif;
@@ -46,44 +47,24 @@
 
     /* --- SIDEBAR --- */
     .sidebar {
-      width: 300px;
-      padding: 4rem 3rem;
-      position: fixed;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: var(--cream);
-      border-right: 1px solid rgba(0,0,0,0.05);
-      z-index: 1000;
+      width: 300px; padding: 4rem 3rem; position: fixed; height: 100vh;
+      display: flex; flex-direction: column; background: var(--cream);
+      border-right: 1px solid rgba(0,0,0,0.05); z-index: 1000;
     }
 
     .brand { margin-bottom: 5rem; cursor: pointer; }
-    
     .brand img.sidebar-logo {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 1.5rem;
-      border-radius: 50%;
-      display: block;
-      object-fit: cover;
-      /* Using multiply to blend any white background if necessary */
-      mix-blend-mode: multiply;
+      width: 64px; height: 64px; margin-bottom: 1.5rem; border-radius: 50%;
+      display: block; object-fit: cover; mix-blend-mode: multiply;
     }
-
     .brand h1 { font-family: var(--font-header); font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
     .brand span { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 10px; }
 
     .nav-links { display: flex; flex-direction: column; gap: 1.5rem; }
     .nav-links a {
-      text-decoration: none;
-      color: var(--ink);
-      font-family: var(--font-body);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      font-size: 0.75rem;
-      opacity: 0.4;
-      transition: 0.3s;
+      text-decoration: none; color: var(--ink); font-family: var(--font-body);
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
+      font-size: 0.75rem; opacity: 0.4; transition: 0.3s;
     }
     .nav-links a:hover, .nav-links a.active { opacity: 1; padding-left: 5px; }
 
@@ -95,7 +76,7 @@
     .filter-btn { background: none; border: none; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; color: var(--muted); padding: 5px 10px; }
     .filter-btn.active { color: var(--ink); font-weight: 700; background: var(--cream); }
 
-    /* --- ARTS GALLERY GRID --- */
+    /* --- GRID --- */
     .arts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; }
     .art-card { text-decoration: none; color: inherit; display: block; transition: 0.3s; }
     .art-card:hover { transform: translateY(-5px); }
@@ -104,46 +85,29 @@
     .art-info h4 { font-family: var(--font-header); font-size: 1.2rem; font-weight: 600; }
     .art-info span { font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
 
-    /* --- INDIVIDUAL ENTRY PAGE --- */
+    /* --- ENTRY VIEW --- */
     .entry-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; }
     .entry-visual img { width: 100%; border: 10px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
     .entry-details h2 { font-family: var(--font-header); font-size: 3rem; margin-bottom: 1rem; line-height: 1.1; }
     .entry-details .meta-tag { font-family: var(--font-mono); font-size: 0.7rem; background: var(--ink); color: var(--white); padding: 4px 12px; border-radius: 50px; display: inline-block; margin-bottom: 2rem; text-transform: uppercase; }
     .section-label { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; display: block; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-top: 2rem; }
     
-    /* Tutorial / Spec Styles */
     .materials-list { list-style: none; margin-bottom: 2rem; }
-    .materials-list li { font-weight: 600; margin-bottom: 5px; }
-    .materials-list li::before { content: "☐ "; color: var(--muted); }
-    .steps-list { padding-left: 1.5rem; }
-    .steps-list li { margin-bottom: 1rem; padding-left: 0.5rem; font-weight: 500; }
+    .materials-list li::before { content: "☐ "; color: var(--accent); }
     .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .spec-item b { display: block; font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); text-transform: uppercase; }
-    .spec-item span { font-weight: 600; font-size: 0.9rem; }
 
-    /* --- TEXT PAGES --- */
+    /* --- TEXT CONTENT --- */
     .text-content { max-width: 800px; }
-    .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2.5rem; line-height: 1.1; }
-    .text-content h3 { font-family: var(--font-header); font-size: 1.5rem; margin-top: 3.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--ink); padding-bottom: 0.5rem; }
-    .text-content p { font-size: 1.15rem; margin-bottom: 1.5rem; color: #111; }
+    .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2rem; }
+    .text-content p { font-size: 1.15rem; margin-bottom: 1.5rem; }
 
-    /* --- CONTACT FORM --- */
-    .contact-form { background: var(--cream); padding: 3rem; border: 1px solid var(--border); margin-top: 2rem; }
-    .form-group { margin-bottom: 1.5rem; }
-    .form-group label { display: block; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 0.5rem; }
-    .form-group input, .form-group textarea { width: 100%; padding: 1rem; border: 1px solid var(--border); font-family: var(--font-body); font-size: 1rem; outline: none; }
-    .submit-btn { background: var(--ink); color: var(--white); border: none; padding: 1rem 2.5rem; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; }
-    .submit-btn:hover { opacity: 0.7; }
-
-    /* --- FOOTER --- */
     footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
-    footer a { color: var(--ink); font-weight: 700; text-decoration: underline; }
-
+    
     @media (max-width: 1100px) {
-      .sidebar { width: 100%; height: auto; position: relative; padding: 2rem; border-right: none; border-bottom: 1px solid var(--border); }
+      .sidebar { width: 100%; height: auto; position: relative; padding: 2rem; border: none; border-bottom: 1px solid var(--border); }
       main { margin-left: 0; padding: 3rem 1.5rem; }
       .entry-layout { grid-template-columns: 1fr; gap: 3rem; }
-      .brand { margin-bottom: 2rem; }
       .nav-links { flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
     }
   </style>
@@ -153,7 +117,6 @@
   <div class="site-wrapper">
     <nav class="sidebar">
       <div class="brand" onclick="navigateTo('/')">
-        <!-- Fern's Personalized Logo -->
         <img src="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png" alt="Fern Carleton Logo" class="sidebar-logo">
         <h1>Fern<br>Carleton</h1>
         <span>Art & Reasoning</span>
@@ -165,20 +128,19 @@
         <a href="/about/" class="nav-link" data-link>About</a>
         <a href="/contact/" class="nav-link" data-link>Contact</a>
       </div>
-      
       <div style="margin-top: auto;">
-        <span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Archive v2.0</span>
+        <span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Archive v3.5</span>
       </div>
     </nav>
 
     <main id="main-content">
-      <!-- Dynamic Injection -->
+      <!-- Content Dynamic Injection -->
     </main>
   </div>
 
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygWtwrPzJUbH2nrt4JRxTqs2FXfGwFYU-6kP2ORKcbESaY2HswOiAKyceLOgdNI4KBuA/exec'; 
-    const CACHE_KEY = 'fern_content_cache';
+    const CACHE_KEY = 'fern_master_v3_cache';
     const CACHE_TIME = 3600000; 
 
     let siteData = { pages: {}, entries: [] };
@@ -204,22 +166,29 @@
       } catch (e) { console.error("Sync error", e); }
     }
 
+    /** * SURVIVABLE PARSER
+     * Splits sections using '---' line dividers.
+     * Takes the first non-empty line as the title.
+     */
     function parseDoc(text) {
       siteData = { pages: {}, entries: [] };
-      const sections = text.split(/(^#\s+.+$)/m);
+      const rawSections = text.split(/^-{3,}\s*$/m).map(s => s.trim()).filter(s => s.length > 0);
       
-      for (let i = 1; i < sections.length; i += 2) {
-        const titleLine = sections[i].replace(/^#\s*/, '').trim();
-        const body = sections[i + 1] ? sections[i + 1].trim() : '';
+      for (let section of rawSections) {
+        const lines = section.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        if (lines.length === 0) continue;
+
+        const titleLine = lines[0];
+        const bodyContent = lines.slice(1).join('\n');
         const slug = slugify(titleLine);
 
         if (slug === 'instructions') continue;
 
         if (titleLine.toLowerCase().startsWith('entry:')) {
           const entryTitle = titleLine.replace(/entry:\s*/i, '');
-          siteData.entries.push(parseEntry(entryTitle, body));
+          siteData.entries.push(parseEntry(entryTitle, bodyContent));
         } else {
-          siteData.pages[slug] = { title: titleLine, html: marked.parse(body) };
+          siteData.pages[slug] = { title: titleLine, html: marked.parse(bodyContent) };
         }
       }
     }
@@ -227,34 +196,26 @@
     function parseEntry(title, body) {
       const data = { title, id: slugify(title), body };
       
-      // Extract Metadata Fields
-      const typeMatch = body.match(/Type:\s*(.+)/i);
+      const typeMatch = body.match(/Type:\s*([a-zA-Z]+)/i);
       data.type = typeMatch ? typeMatch[1].trim().toLowerCase() : 'art';
       
-      const imgMatch = body.match(/Image:\s*(.+)/i);
+      const imgMatch = body.match(/Image:\s*(https:\/\/[^\s\n]+)/i);
       data.img = imgMatch ? imgMatch[1].trim() : 'https://via.placeholder.com/800x800';
 
       const descMatch = body.match(/Description:\s*([\s\S]*?)(?=\n[A-Z][a-z]+:|$)/);
       data.description = descMatch ? descMatch[1].trim() : '';
 
-      // Art Specifics
-      const matMatch = body.match(/Materials:\s*(.+)/i);
+      const matMatch = body.match(/Materials:\s*([^.\n]+)/i);
       data.materials = matMatch ? matMatch[1].split(',').map(m => m.trim()) : [];
       
       const procMatch = body.match(/Process:\s*([\s\S]*?)(?=\n[A-Z][a-z]+:|$)/);
       data.process = procMatch ? procMatch[1].trim() : '';
 
-      // Photography Specifics
-      const locMatch = body.match(/Location:\s*(.+)/i);
-      const camMatch = body.match(/Camera:\s*(.+)/i);
-      const lensMatch = body.match(/Lens:\s*(.+)/i);
-      const setMatch = body.match(/Settings:\s*(.+)/i);
-      
       data.specs = {
-        location: locMatch ? locMatch[1].trim() : 'Unknown',
-        camera: camMatch ? camMatch[1].trim() : 'N/A',
-        lens: lensMatch ? lensMatch[1].trim() : 'N/A',
-        settings: setMatch ? setMatch[1].trim() : 'N/A'
+        location: (body.match(/Location:\s*([^.\n]+)/i) || [])[1] || 'Unknown',
+        camera: (body.match(/Camera:\s*([^.\n]+)/i) || [])[1] || 'N/A',
+        lens: (body.match(/Lens:\s*([^.\n]+)/i) || [])[1] || 'N/A',
+        settings: (body.match(/Settings:\s*([^.\n]+)/i) || [])[1] || 'N/A'
       };
 
       return data;
@@ -272,7 +233,7 @@
         link.classList.toggle('active', path === href || (href !== '/' && path.startsWith(href)));
       });
 
-      if (path === '/' || path === '/about/') renderPageContent('about', root);
+      if (path === '/' || path === '/about/') renderPageContent('welcome', root);
       else if (path === '/arts/') renderGallery(root);
       else if (path.includes('/arts/view/')) renderEntryView(path.split('/').pop(), root);
       else if (path === '/skills/') renderPageContent('skills', root);
@@ -284,15 +245,15 @@
     }
 
     function renderPageContent(key, root) {
-      const page = siteData.pages[key === 'about' ? 'welcome' : key];
+      const page = siteData.pages[key];
       if (!page) return render404(root);
       root.innerHTML = `
         <div class="text-content">
           <span class="section-label">${key}</span>
           <h2>${page.title}</h2>
-          ${page.html}
+          <div class="page-body-html">${page.html}</div>
         </div>
-        ${key === 'about' ? `<footer>&copy; ${new Date().getFullYear()} Fern Carleton. Built with <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></footer>` : ''}
+        ${key === 'welcome' ? `<footer>&copy; ${new Date().getFullYear()} Fern Carleton. Built with <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></footer>` : ''}
       `;
     }
 
@@ -351,7 +312,7 @@
             <a href="/arts/" data-link style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; margin-bottom:2rem; display:block;">← Back to Gallery</a>
             <span class="meta-tag">${item.type}</span>
             <h2>${item.title}</h2>
-            <p style="color:var(--muted);">${item.description}</p>
+            <p style="color:var(--muted); margin-bottom:1.5rem;">${item.description}</p>
             ${extras}
           </div>
         </div>
@@ -365,24 +326,24 @@
           <span class="section-label">Inquiry</span>
           <h2>${page.title}</h2>
           ${page.html}
-          <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent (Demo).');">
-            <div class="form-group"><label>Name</label><input type="text" required></div>
-            <div class="form-group"><label>Email</label><input type="email" required></div>
-            <div class="form-group"><label>Message</label><textarea rows="5" required></textarea></div>
-            <button type="submit" class="submit-btn">Send Message</button>
+          <form class="contact-form" onsubmit="event.preventDefault(); this.innerHTML='<h3>Message Sent.</h3>';">
+            <div style="margin-bottom:1.5rem;"><label style="display:block; font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; margin-bottom:5px;">Name</label><input type="text" style="width:100%; padding:15px; border:1px solid var(--border); background:var(--cream);" required></div>
+            <div style="margin-bottom:1.5rem;"><label style="display:block; font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; margin-bottom:5px;">Email</label><input type="email" style="width:100%; padding:15px; border:1px solid var(--border); background:var(--cream);" required></div>
+            <div style="margin-bottom:1.5rem;"><label style="display:block; font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; margin-bottom:5px;">Message</label><textarea rows="5" style="width:100%; padding:15px; border:1px solid var(--border); background:var(--cream);" required></textarea></div>
+            <button type="submit" style="background:var(--ink); color:var(--white); border:none; padding:15px 40px; font-family:var(--font-mono); font-size:0.8rem; text-transform:uppercase; cursor:pointer;">Send Message</button>
           </form>
         </div>
       `;
     }
 
-    function render404(root) { root.innerHTML = `<h2 style="font-family:var(--font-header); font-size:3rem;">404</h2><p>Content not found.</p>`; }
+    function render404(root) { root.innerHTML = `<h2 style="font-family:var(--font-header); font-size:3rem;">404</h2><p>Page missing from archive.</p>`; }
 
     window.setFilter = (f) => { currentFilter = f; renderGallery(document.getElementById('main-content')); };
     window.navigateTo = (url) => { history.pushState(null, null, url); renderPage(); };
     window.addEventListener('popstate', renderPage);
     document.body.addEventListener('click', e => {
-      const target = e.target.closest('[data-link]');
-      if (link) { e.preventDefault(); navigateTo(target.getAttribute('href')); }
+      const link = e.target.closest('[data-link]');
+      if (link) { e.preventDefault(); navigateTo(link.getAttribute('href')); }
     });
 
     function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
