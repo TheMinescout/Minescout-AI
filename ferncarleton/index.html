@@ -16,14 +16,18 @@
 
   <style>
     :root {
-      --cream: #F8F7F2;     
-      --pink: #FDEEF4;      
-      --white: #FFFFFF;     
-      --ink: #000000;       
-      --muted: #666666;     
-      --border: #e0e0e0;
+      /* Watercolor Palette */
+      --paper: #fdfcf8;
+      --ink: #1a1a1a;
+      --muted: #555555;
+      --border: rgba(0,0,0,0.06);
       --accent: #C2A378;    
       --forest: #2D3A2D;    
+
+      /* Translucent Washes */
+      --wc-blue: rgba(100, 149, 237, 0.08);
+      --wc-pink: rgba(255, 182, 193, 0.08);
+      --wc-gold: rgba(255, 215, 0, 0.05);
       
       --font-header: 'Lora', serif;
       --font-body: 'Inter', sans-serif;
@@ -36,16 +40,21 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background-color: var(--white);
+      background-color: var(--paper);
+      /* Paper texture + Watercolor splashes */
+      background-image: 
+        url("https://www.transparenttextures.com/patterns/paper.png"),
+        radial-gradient(at 0% 0%, var(--wc-blue) 0, transparent 50%),
+        radial-gradient(at 100% 0%, var(--wc-pink) 0, transparent 50%),
+        radial-gradient(at 50% 100%, var(--wc-gold) 0, transparent 50%);
+      background-attachment: fixed;
       font-family: var(--font-body);
       color: var(--ink);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.4s ease;
       overflow-x: hidden;
     }
 
-    body.wallpaper-active { background-color: var(--pink); }
     body.menu-open { overflow: hidden; }
 
     a { color: var(--accent); text-decoration: none; transition: 0.2s; font-weight: 600; }
@@ -56,7 +65,8 @@
     /* --- MOBILE UI --- */
     .mobile-bar {
       display: none; position: fixed; top: 0; left: 0; right: 0;
-      height: var(--mobile-header-height); background: var(--cream);
+      height: var(--mobile-header-height); background: rgba(253, 252, 248, 0.9);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border); z-index: 1100;
       padding: 0 1.5rem; align-items: center; justify-content: space-between;
     }
@@ -67,8 +77,10 @@
     /* --- SIDEBAR --- */
     .sidebar {
       width: var(--sidebar-width); padding: 4rem 3rem; position: fixed; height: 100vh;
-      display: flex; flex-direction: column; background: var(--cream);
-      border-right: 1px solid rgba(0,0,0,0.05); z-index: 1200;
+      display: flex; flex-direction: column; 
+      background: rgba(253, 252, 248, 0.4);
+      backdrop-filter: blur(15px);
+      border-right: 1px solid var(--border); z-index: 1200;
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .brand { margin-bottom: 5rem; cursor: pointer; }
@@ -80,48 +92,48 @@
     .nav-links a { text-decoration: none; color: var(--ink); font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.75rem; opacity: 0.4; transition: 0.3s; padding: 5px 0; border: none; }
     .nav-links a:hover, .nav-links a.active { opacity: 1; padding-left: 5px; color: var(--ink); border: none; }
 
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1150; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.1); backdrop-filter: blur(2px); z-index: 1150; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
 
     /* --- MAIN CONTENT --- */
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1400px; width: 100%; }
 
     #hero-container { display: none; grid-template-columns: 1.1fr 1.2fr; gap: 5rem; align-items: center; margin-bottom: 6rem; }
-    .hero-img-wrap { background: white; padding: 1rem; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
-    .hero-img-wrap img { width: 100%; display: block; filter: contrast(1.05); border-radius: 2px; }
+    .hero-img-wrap { background: white; padding: 1rem; box-shadow: 0 15px 40px rgba(0,0,0,0.04); border-radius: 2px; }
+    .hero-img-wrap img { width: 100%; display: block; filter: contrast(1.02); }
     .hero-text h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 1.5rem; line-height: 1.1; font-weight: 400; }
 
     .filter-bar { display: flex; gap: 0.5rem; margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
     .filter-btn { background: none; border: none; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; color: var(--muted); padding: 8px 12px; border-radius: 4px; transition: 0.2s; }
-    .filter-btn.active { color: var(--ink); font-weight: 700; background: var(--white); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    .filter-btn.active { color: var(--ink); font-weight: 700; background: rgba(255,255,255,0.6); box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
 
     .arts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 3rem; }
     .art-card { text-decoration: none; color: inherit; display: block; transition: 0.3s; }
     .art-card:hover { transform: translateY(-5px); }
-    .art-img-wrap { background: var(--cream); aspect-ratio: 1; overflow: hidden; margin-bottom: 1rem; border: 1px solid rgba(0,0,0,0.05); }
+    .art-img-wrap { background: rgba(255,255,255,0.4); aspect-ratio: 1; overflow: hidden; margin-bottom: 1rem; border: 1px solid var(--border); }
     .art-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .art-info h4 { font-family: var(--font-header); font-size: 1.2rem; font-weight: 600; }
     .art-info span { font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
 
     .entry-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; }
-    .entry-visual img { width: 100%; border: 10px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    .entry-visual img { width: 100%; border: 10px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
     .entry-details h2 { font-family: var(--font-header); font-size: 3rem; margin-bottom: 1rem; line-height: 1.1; }
     .section-label { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; display: block; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-top: 2rem; }
     
     .text-content { max-width: 850px; }
     .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2.5rem; }
     
-    /* The "Standard" Grid Layout */
+    /* Watercolor Grid Layout */
     .row-grid { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 4rem; align-items: start; }
-    .row-label { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--accent); padding-left: 18px; line-height: 1.4; }
+    .row-label { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--wc-blue); padding-left: 18px; line-height: 1.4; }
     .row-content h3 { font-family: var(--font-header); font-size: 1.3rem; margin-bottom: 8px; color: var(--ink); }
     .row-content strong { display: block; font-size: 1.15rem; color: var(--ink); margin-bottom: 5px; }
-    .row-content p { color: #333; font-size: 1.05rem; margin-bottom: 1rem; }
-    .row-content ul { list-style: square; margin-left: 1.5rem; color: #444; }
+    .row-content p { color: #222; font-size: 1.05rem; margin-bottom: 1rem; }
+    .row-content ul { list-style: square; margin-left: 1.5rem; color: #333; }
 
-    .contact-form { background: var(--cream); padding: 2.5rem; border: 1px solid var(--border); margin-top: 2rem; border-radius: 4px; }
+    .contact-form { background: rgba(255,255,255,0.3); padding: 2.5rem; border: 1px solid var(--border); margin-top: 2rem; border-radius: 4px; backdrop-filter: blur(5px); }
     .form-group { margin-bottom: 1.5rem; }
     .form-group label { display: block; font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem; }
-    .form-group input, .form-group textarea { width: 100%; padding: 1rem; border: 1px solid var(--border); font-family: var(--font-body); font-size: 1rem; outline: none; background: #fff; }
+    .form-group input, .form-group textarea { width: 100%; padding: 1rem; border: 1px solid var(--border); font-family: var(--font-body); font-size: 1rem; outline: none; background: rgba(255,255,255,0.8); }
     .submit-btn { background: var(--ink); color: #fff; border: none; padding: 1rem 2.5rem; font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; font-weight: 700; width: 100%; transition: 0.3s; }
     .submit-btn:disabled { opacity: 0.5; cursor: wait; }
 
@@ -129,7 +141,7 @@
 
     @media (max-width: 1024px) {
       .mobile-bar { display: flex; }
-      .sidebar { transform: translateX(-100%); width: 280px; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
+      .sidebar { transform: translateX(-100%); width: 280px; box-shadow: 10px 0 30px rgba(0,0,0,0.05); background: var(--paper); }
       .sidebar-overlay { display: block; }
       body.menu-open .sidebar { transform: translateX(0); }
       body.menu-open .sidebar-overlay { opacity: 1; pointer-events: auto; }
@@ -165,7 +177,7 @@
         <a href="/about/" class="nav-link" data-link>About</a>
         <a href="/contact/" class="nav-link" data-link>Contact</a>
       </div>
-      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v13.0 Connected</span></div>
+      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v14.0 Watercolor</span></div>
     </nav>
 
     <main id="main-content">
@@ -179,7 +191,7 @@
 
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygWtwrPzJUbH2nrt4JRxTqs2FXfGwFYU-6kP2ORKcbESaY2HswOiAKyceLOgdNI4KBuA/exec'; 
-    const CACHE_KEY = 'fern_master_v12_cache';
+    const CACHE_KEY = 'fern_master_v14_cache';
     const CACHE_TIME = 3600000; 
 
     const HERO_HOME = "https://i.postimg.cc/prL9JMHh/PXL_20251223_225914443.jpg"; 
@@ -280,7 +292,8 @@
       const heroTarget = document.getElementById('hero-target');
       
       if (!siteData.isLoaded) return;
-      bodyTag.classList.toggle('wallpaper-active', path.includes('/arts/view/'));
+      
+      // Removed wallpaper-active class logic as requested
       document.querySelectorAll('.nav-link').forEach(link => {
         const href = link.getAttribute('href');
         link.classList.toggle('active', path === href || (href !== '/' && path.startsWith(href)));
@@ -414,7 +427,6 @@
       btn.innerText = 'Sending...';
 
       try {
-        // We use 'no-cors' for Google Apps Script POST requests
         await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
