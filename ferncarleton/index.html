@@ -82,7 +82,7 @@
 
     .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1150; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
 
-    /* --- MAIN --- */
+    /* --- MAIN CONTENT --- */
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1400px; width: 100%; }
 
     #hero-container { display: none; grid-template-columns: 1.1fr 1.2fr; gap: 5rem; align-items: center; margin-bottom: 6rem; }
@@ -94,7 +94,7 @@
     .filter-btn { background: none; border: none; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; color: var(--muted); padding: 8px 12px; border-radius: 4px; transition: 0.2s; }
     .filter-btn.active { color: var(--ink); font-weight: 700; background: var(--white); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-    .arts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+    .arts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 3rem; }
     .art-card { text-decoration: none; color: inherit; display: block; transition: 0.3s; }
     .art-card:hover { transform: translateY(-5px); }
     .art-img-wrap { background: var(--cream); aspect-ratio: 1; overflow: hidden; margin-bottom: 1rem; border: 1px solid rgba(0,0,0,0.05); }
@@ -107,14 +107,16 @@
     .entry-details h2 { font-family: var(--font-header); font-size: 3rem; margin-bottom: 1rem; line-height: 1.1; }
     .section-label { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; display: block; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-top: 2rem; }
     
-    .text-content { max-width: 800px; }
-    .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2rem; }
+    .text-content { max-width: 850px; }
+    .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2.5rem; }
     
-    /* Dynamic Grid Layout (Resume/Skills) */
-    .row-grid { display: grid; grid-template-columns: 220px 1fr; gap: 3rem; margin-bottom: 3.5rem; align-items: start; }
-    .row-label { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--accent); padding-left: 15px; }
-    .row-content h3 { font-family: var(--font-header); font-size: 1.3rem; margin-bottom: 5px; color: var(--ink); }
-    .row-content strong { display: block; font-size: 1.1rem; color: var(--ink); margin-bottom: 2px; }
+    /* The "Standard" Grid Layout */
+    .row-grid { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 4rem; align-items: start; }
+    .row-label { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--accent); padding-left: 18px; line-height: 1.4; }
+    .row-content h3 { font-family: var(--font-header); font-size: 1.3rem; margin-bottom: 8px; color: var(--ink); }
+    .row-content strong { display: block; font-size: 1.15rem; color: var(--ink); margin-bottom: 5px; }
+    .row-content p { color: #333; font-size: 1.05rem; margin-bottom: 1rem; }
+    .row-content ul { list-style: square; margin-left: 1.5rem; color: #444; }
 
     .contact-form { background: var(--cream); padding: 2.5rem; border: 1px solid var(--border); margin-top: 2rem; border-radius: 4px; }
     .form-group { margin-bottom: 1.5rem; }
@@ -133,7 +135,7 @@
       main { margin-left: 0; padding: calc(var(--mobile-header-height) + 3rem) 1.5rem 3rem 1.5rem; }
       #hero-container { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
       .entry-layout { grid-template-columns: 1fr; gap: 3rem; }
-      .row-grid { grid-template-columns: 1fr; gap: 0.75rem; margin-bottom: 2.5rem; }
+      .row-grid { grid-template-columns: 1fr; gap: 1rem; margin-bottom: 3rem; }
     }
   </style>
 </head>
@@ -162,7 +164,7 @@
         <a href="/about/" class="nav-link" data-link>About</a>
         <a href="/contact/" class="nav-link" data-link>Contact</a>
       </div>
-      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v11.0 Master</span></div>
+      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v12.0 The Standard</span></div>
     </nav>
 
     <main id="main-content">
@@ -176,7 +178,7 @@
 
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygWtwrPzJUbH2nrt4JRxTqs2FXfGwFYU-6kP2ORKcbESaY2HswOiAKyceLOgdNI4KBuA/exec'; 
-    const CACHE_KEY = 'fern_master_v11_cache';
+    const CACHE_KEY = 'fern_master_v12_cache';
     const CACHE_TIME = 3600000; 
 
     const HERO_HOME = "https://i.postimg.cc/prL9JMHh/PXL_20251223_225914443.jpg"; 
@@ -217,13 +219,8 @@
       } catch (e) { console.error("Sync error", e); }
     }
 
-    /** * MARKDOWN PROFESSIONAL PARSER 
-     * Uses # and ### to create the professional layout.
-     */
     function parseMarkdownDoc(text) {
       siteData = { pages: {}, entries: [], isLoaded: true };
-      
-      // Standardize the splitting by "# " headers
       const rawSections = text.split(/(?=^#\s+)/m).map(s => s.trim()).filter(s => s.length > 0);
       
       for (let section of rawSections) {
@@ -246,37 +243,40 @@
     function parseMarkdownEntry(title, body) {
       const data = { title, id: slugify(title) };
       
-      // Extraction Helpers for bolded fields or bullet points
       const extract = (key) => {
-        // Look for **Key:** Value or - **Key:** Value
+        // More robust extraction that handles bolding, bullets, and standard text
         const regex = new RegExp(`(?:-?\\s*\\*\\*${key}:\\*\\*|${key}:)\\s*(.*)`, "mi");
         const match = body.match(regex);
         return match ? match[1].trim() : "";
       };
 
-      // Find the first Markdown image: ![alt](url)
       const imgMatch = body.match(/!\[.*?\]\((.*?)\)/i);
       data.img = imgMatch ? imgMatch[1].trim() : "https://via.placeholder.com/800x1000?text=Syncing+Artwork...";
 
       data.type = extract("Type").toLowerCase() || "art";
       
-      // Description is often the first non-field, non-image paragraph
-      const fieldList = ["Type", "Materials", "Process", "Location", "Camera", "Lens", "Settings"];
-      const paragraphs = body.split('\n\n').map(p => p.trim());
-      data.description = paragraphs.find(p => {
-        const isField = fieldList.some(f => p.toLowerCase().includes(f.toLowerCase() + ':'));
-        const isImg = p.startsWith('![');
-        return !isField && !isImg && p.length > 5;
-      }) || "";
+      // Specifically extract and CLEAN the description
+      let desc = extract("Description");
+      if (!desc) {
+         const fieldList = ["Type", "Materials", "Process", "Location", "Camera", "Lens", "Settings", "Description"];
+         const paragraphs = body.split('\n\n').map(p => p.trim());
+         desc = paragraphs.find(p => {
+           const isField = fieldList.some(f => p.toLowerCase().includes(f.toLowerCase() + ':'));
+           const isImg = p.startsWith('![');
+           return !isField && !isImg && p.length > 5;
+         }) || "";
+      }
+      // Remove any lingering Markdown wrappers from description
+      data.description = desc.replace(/^\*\*Description:\*\*\s*/i, '').replace(/^Description:\s*/i, '').replace(/\*\*$/g, '');
 
       data.materials = extract("Materials").split(",").map(m => m.trim()).filter(m => m);
       data.process = extract("Process") || "";
       
       data.specs = {
-        location: extract("Location") || "Unknown",
-        camera: extract("Camera") || "N/A",
-        lens: extract("Lens") || "N/A",
-        settings: extract("Settings") || "N/A"
+        location: extract("Location").replace(/\*\*$/g, '') || "Unknown",
+        camera: extract("Camera").replace(/\*\*$/g, '') || "N/A",
+        lens: extract("Lens").replace(/\*\*$/g, '') || "N/A",
+        settings: extract("Settings").replace(/\*\*$/g, '') || "N/A"
       };
       return data;
     }
@@ -315,6 +315,9 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    /** * THE "STANDARD" SMART GRID RENDERER
+     * High accuracy grid that respects standard Markdown H3 and Bold lines.
+     */
     function renderSmartGrid(key, root) {
       const page = siteData.pages[key];
       if (!page) return render404(root);
@@ -331,15 +334,15 @@
         if (node.nodeType === 3 && !node.textContent.trim()) return;
 
         const text = node.textContent.trim();
-        const isHeader = /^H[1-6]$/.test(node.tagName);
-        // Special logic for Resume/Skills: Any short line that looks like a label
-        const isLabel = isHeader || (node.tagName === 'P' && node.querySelector('strong') && text.length < 50);
+        // TRIGGER: Treat H3 or very short bold lines as the left-hand category label
+        const isHeader = (node.tagName === 'H3');
+        const isBoldLabel = (node.tagName === 'P' && node.querySelector('strong') && text.length < 50);
 
-        if (isLabel) {
+        if (isHeader || isBoldLabel) {
           if (currentLabel || currentContent) {
             rows.push({ label: currentLabel || "DETAILS", content: currentContent });
           }
-          currentLabel = text;
+          currentLabel = text.replace(/^\*\*|\*\*$/g, ''); // Strip outer bold asterisks
           currentContent = "";
         } else {
           currentContent += node.outerHTML || node.textContent;
@@ -351,7 +354,11 @@
         html += page.html;
       } else {
         rows.forEach(row => {
-          html += `<div class="row-grid"><div class="row-label">${row.label}</div><div class="row-content">${row.content}</div></div>`;
+          html += `
+            <div class="row-grid">
+              <div class="row-label">${row.label}</div>
+              <div class="row-content">${row.content}</div>
+            </div>`;
         });
       }
       html += `</div>`;
@@ -395,11 +402,11 @@
               <div class="article-body">${marked.parse(item.process)}</div>
             ` : `
               <span class="section-label">Specs</span>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                <div><b style="display:block; font-size:0.6rem; color:var(--muted);">LOCATION</b>${item.specs.location}</div>
-                <div><b style="display:block; font-size:0.6rem; color:var(--muted);">CAMERA</b>${item.specs.camera}</div>
-                <div><b style="display:block; font-size:0.6rem; color:var(--muted);">LENS</b>${item.specs.lens}</div>
-                <div><b style="display:block; font-size:0.6rem; color:var(--muted);">SETTINGS</b>${item.specs.settings}</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+                <div><b style="display:block; font-size:0.6rem; color:var(--muted); margin-bottom:4px;">LOCATION</b>${item.specs.location}</div>
+                <div><b style="display:block; font-size:0.6rem; color:var(--muted); margin-bottom:4px;">CAMERA</b>${item.specs.camera}</div>
+                <div><b style="display:block; font-size:0.6rem; color:var(--muted); margin-bottom:4px;">LENS</b>${item.specs.lens}</div>
+                <div><b style="display:block; font-size:0.6rem; color:var(--muted); margin-bottom:4px;">SETTINGS</b>${item.specs.settings}</div>
               </div>
             `}
           </div>
