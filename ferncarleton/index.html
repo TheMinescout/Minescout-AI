@@ -22,8 +22,8 @@
       --ink: #000000;       
       --muted: #666666;     
       --border: #e0e0e0;
-      --accent: #C2A378;    /* Carleton Family Wood-Gold */
-      --forest: #2D3A2D;    /* Carleton Family Forest-Green */
+      --accent: #C2A378;    
+      --forest: #2D3A2D;    
       
       --font-header: 'Lora', serif;
       --font-body: 'Inter', sans-serif;
@@ -48,7 +48,6 @@
     body.wallpaper-active { background-color: var(--pink); }
     body.menu-open { overflow: hidden; }
 
-    /* Standardized Carleton Links */
     a { color: var(--accent); text-decoration: none; transition: 0.2s; font-weight: 600; }
     a:hover { color: var(--forest); border-bottom: 1px solid var(--forest); }
 
@@ -83,8 +82,8 @@
 
     .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1150; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
 
-    /* --- MAIN CONTENT --- */
-    main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1300px; width: 100%; }
+    /* --- MAIN --- */
+    main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1400px; width: 100%; }
 
     #hero-container { display: none; grid-template-columns: 1.1fr 1.2fr; gap: 5rem; align-items: center; margin-bottom: 6rem; }
     .hero-img-wrap { background: white; padding: 1rem; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
@@ -111,11 +110,11 @@
     .text-content { max-width: 800px; }
     .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2rem; }
     
-    /* Smart Grid Row Layout (Resumes/Skills) */
+    /* Dynamic Grid Layout (Resume/Skills) */
     .row-grid { display: grid; grid-template-columns: 220px 1fr; gap: 3rem; margin-bottom: 3.5rem; align-items: start; }
-    .row-label { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--accent); padding-left: 15px; }
-    .row-content strong { display: block; font-size: 1.2rem; font-family: var(--font-header); margin-bottom: 5px; color: var(--ink); }
-    .row-content p { color: #333; font-size: 1.05rem; }
+    .row-label { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--accent); padding-left: 15px; }
+    .row-content h3 { font-family: var(--font-header); font-size: 1.3rem; margin-bottom: 5px; color: var(--ink); }
+    .row-content strong { display: block; font-size: 1.1rem; color: var(--ink); margin-bottom: 2px; }
 
     .contact-form { background: var(--cream); padding: 2.5rem; border: 1px solid var(--border); margin-top: 2rem; border-radius: 4px; }
     .form-group { margin-bottom: 1.5rem; }
@@ -163,7 +162,7 @@
         <a href="/about/" class="nav-link" data-link>About</a>
         <a href="/contact/" class="nav-link" data-link>Contact</a>
       </div>
-      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v9.0 Natural Flow</span></div>
+      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v11.0 Master</span></div>
     </nav>
 
     <main id="main-content">
@@ -177,7 +176,7 @@
 
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygWtwrPzJUbH2nrt4JRxTqs2FXfGwFYU-6kP2ORKcbESaY2HswOiAKyceLOgdNI4KBuA/exec'; 
-    const CACHE_KEY = 'fern_master_v9_cache';
+    const CACHE_KEY = 'fern_master_v11_cache';
     const CACHE_TIME = 3600000; 
 
     const HERO_HOME = "https://i.postimg.cc/prL9JMHh/PXL_20251223_225914443.jpg"; 
@@ -203,7 +202,7 @@
       if (cached) {
         const { timestamp, data } = JSON.parse(cached);
         if (Date.now() - timestamp < CACHE_TIME) {
-          parseNaturalDoc(data); renderPage(); fetchFresh(); return;
+          parseMarkdownDoc(data); renderPage(); fetchFresh(); return;
         }
       }
       await fetchFresh();
@@ -214,46 +213,62 @@
         const res = await fetch(APPS_SCRIPT_URL);
         const text = await res.text();
         localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: text }));
-        parseNaturalDoc(text); renderPage();
+        parseMarkdownDoc(text); renderPage();
       } catch (e) { console.error("Sync error", e); }
     }
 
-    function parseNaturalDoc(text) {
+    /** * MARKDOWN PROFESSIONAL PARSER 
+     * Uses # and ### to create the professional layout.
+     */
+    function parseMarkdownDoc(text) {
       siteData = { pages: {}, entries: [], isLoaded: true };
-      const keywords = ["Welcome", "About", "Skills", "Resume", "Contact", "Entry:"];
       
-      let cleanText = text.replace(/^-{3,}/gm, "---DIVIDER---");
-      const regex = new RegExp(`---DIVIDER---|(?=${keywords.join("|")})`, "g");
-      const rawChunks = cleanText.split(regex).map(c => c.trim()).filter(c => c.length > 0);
+      // Standardize the splitting by "# " headers
+      const rawSections = text.split(/(?=^#\s+)/m).map(s => s.trim()).filter(s => s.length > 0);
       
-      for (let chunk of rawChunks) {
-        if (chunk.startsWith("Instructions") || chunk.startsWith("Arts")) continue;
+      for (let section of rawSections) {
+        const lines = section.split('\n');
+        const titleLine = lines[0].replace(/^#\s*/, '').trim();
+        const bodyContent = lines.slice(1).join('\n').trim();
+        const slug = slugify(titleLine);
 
-        if (chunk.toLowerCase().startsWith("entry:")) {
-          siteData.entries.push(parseSmartEntry(chunk));
+        if (slug === 'instructions') continue;
+
+        if (titleLine.toLowerCase().startsWith('entry:')) {
+          const entryTitle = titleLine.replace(/entry:\s*/i, '');
+          siteData.entries.push(parseMarkdownEntry(entryTitle, bodyContent));
         } else {
-          const foundKey = keywords.find(k => chunk.startsWith(k));
-          if (foundKey) {
-            const content = chunk.substring(foundKey.length).trim();
-            siteData.pages[foundKey.toLowerCase()] = { title: foundKey, html: marked.parse(content) };
-          }
+          siteData.pages[slug] = { title: titleLine, html: marked.parse(bodyContent) };
         }
       }
     }
 
-    function parseSmartEntry(text) {
-      const titleMatch = text.match(/Entry:\s*([\s\S]*?)(?=Type:|Image:|Description:|Materials:|Process:|Location:|Camera:|Lens:|Settings:|$)/i);
-      const title = titleMatch ? titleMatch[1].trim() : "Untitled Artwork";
+    function parseMarkdownEntry(title, body) {
       const data = { title, id: slugify(title) };
-
+      
+      // Extraction Helpers for bolded fields or bullet points
       const extract = (key) => {
-        const regex = new RegExp(`${key}:\\s*([\\s\\S]*?)(?=Type:|Image:|Description:|Materials:|Process:|Location:|Camera:|Lens:|Settings:|Entry:|$)`, "i");
-        return (text.match(regex) || [])[1]?.trim() || "";
+        // Look for **Key:** Value or - **Key:** Value
+        const regex = new RegExp(`(?:-?\\s*\\*\\*${key}:\\*\\*|${key}:)\\s*(.*)`, "mi");
+        const match = body.match(regex);
+        return match ? match[1].trim() : "";
       };
 
+      // Find the first Markdown image: ![alt](url)
+      const imgMatch = body.match(/!\[.*?\]\((.*?)\)/i);
+      data.img = imgMatch ? imgMatch[1].trim() : "https://via.placeholder.com/800x1000?text=Syncing+Artwork...";
+
       data.type = extract("Type").toLowerCase() || "art";
-      data.img = extract("Image").replace(/\s/g, '') || "https://via.placeholder.com/800x1000?text=Syncing+Image...";
-      data.description = extract("Description") || "";
+      
+      // Description is often the first non-field, non-image paragraph
+      const fieldList = ["Type", "Materials", "Process", "Location", "Camera", "Lens", "Settings"];
+      const paragraphs = body.split('\n\n').map(p => p.trim());
+      data.description = paragraphs.find(p => {
+        const isField = fieldList.some(f => p.toLowerCase().includes(f.toLowerCase() + ':'));
+        const isImg = p.startsWith('![');
+        return !isField && !isImg && p.length > 5;
+      }) || "";
+
       data.materials = extract("Materials").split(",").map(m => m.trim()).filter(m => m);
       data.process = extract("Process") || "";
       
@@ -293,14 +308,14 @@
         hero.style.display = 'none';
         if (path === '/arts/') renderGallery(root);
         else if (path.includes('/arts/view/')) renderEntryView(path.split('/').pop(), root);
-        else if (path === '/skills/') renderAdaptiveGrid('skills', root);
-        else if (path === '/resume/') renderAdaptiveGrid('resume', root);
+        else if (path === '/skills/') renderSmartGrid('skills', root);
+        else if (path === '/resume/') renderSmartGrid('resume', root);
         else render404(root);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function renderAdaptiveGrid(key, root) {
+    function renderSmartGrid(key, root) {
       const page = siteData.pages[key];
       if (!page) return render404(root);
       
@@ -313,16 +328,14 @@
       let currentContent = "";
 
       tempDiv.childNodes.forEach(node => {
-        // Skip empty text nodes
         if (node.nodeType === 3 && !node.textContent.trim()) return;
 
         const text = node.textContent.trim();
         const isHeader = /^H[1-6]$/.test(node.tagName);
-        const isBold = (node.querySelector && node.querySelector('strong')) || (node.tagName === 'STRONG');
-        const isShort = text.split(' ').length < 6;
+        // Special logic for Resume/Skills: Any short line that looks like a label
+        const isLabel = isHeader || (node.tagName === 'P' && node.querySelector('strong') && text.length < 50);
 
-        // If it's a short line or header, it's a label for the left column
-        if (isHeader || (isBold && isShort) || isShort) {
+        if (isLabel) {
           if (currentLabel || currentContent) {
             rows.push({ label: currentLabel || "DETAILS", content: currentContent });
           }
@@ -379,7 +392,7 @@
               <span class="section-label">Materials</span>
               <ul style="list-style:none; margin-bottom:2rem;">${item.materials.map(m => `<li>☐ ${m}</li>`).join('')}</ul>
               <span class="section-label">Process</span>
-              <div>${marked.parse(item.process)}</div>
+              <div class="article-body">${marked.parse(item.process)}</div>
             ` : `
               <span class="section-label">Specs</span>
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
