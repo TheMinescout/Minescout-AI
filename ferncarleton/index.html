@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FERN CARLETON | Art & Reasoning</title>
   
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png">
 
   <!-- Fonts -->
@@ -84,7 +85,7 @@
     .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1150; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
 
     /* --- MAIN CONTENT --- */
-    main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1400px; width: 100%; }
+    main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1300px; width: 100%; }
 
     #hero-container { display: none; grid-template-columns: 1.1fr 1.2fr; gap: 5rem; align-items: center; margin-bottom: 6rem; }
     .hero-img-wrap { background: white; padding: 1rem; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
@@ -111,7 +112,7 @@
     .text-content { max-width: 800px; }
     .text-content h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 2rem; }
     
-    /* Dynamic Resume & Skills Grid Layout */
+    /* Adaptive Row Grid for messy lists */
     .row-grid { display: grid; grid-template-columns: 220px 1fr; gap: 3rem; margin-bottom: 3.5rem; align-items: start; }
     .row-label { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--accent); padding-left: 15px; }
     .row-content strong { display: block; font-size: 1.2rem; font-family: var(--font-header); margin-bottom: 5px; }
@@ -163,7 +164,7 @@
         <a href="/about/" class="nav-link" data-link>About</a>
         <a href="/contact/" class="nav-link" data-link>Contact</a>
       </div>
-      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v7.5 Smart-Lists</span></div>
+      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v8.0 Adaptive</span></div>
     </nav>
 
     <main id="main-content">
@@ -177,13 +178,12 @@
 
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygWtwrPzJUbH2nrt4JRxTqs2FXfGwFYU-6kP2ORKcbESaY2HswOiAKyceLOgdNI4KBuA/exec'; 
-    const CACHE_KEY = 'fern_master_v7_cache';
+    const CACHE_KEY = 'fern_master_v8_cache';
     const CACHE_TIME = 3600000; 
 
     const HERO_HOME = "https://i.postimg.cc/prL9JMHh/PXL_20251223_225914443.jpg"; 
     const HERO_CONTACT = "https://i.postimg.cc/RhZ3LxBZ/PXL_20260209_161536343.jpg"; 
 
-    // Enable Soft Line Breaks in Marked
     marked.setOptions({ breaks: true });
 
     let siteData = { pages: {}, entries: [], isLoaded: false };
@@ -204,7 +204,7 @@
       if (cached) {
         const { timestamp, data } = JSON.parse(cached);
         if (Date.now() - timestamp < CACHE_TIME) {
-          parseHybridDoc(data); renderPage(); fetchFresh(); return;
+          parseAdaptiveDoc(data); renderPage(); fetchFresh(); return;
         }
       }
       await fetchFresh();
@@ -215,45 +215,54 @@
         const res = await fetch(APPS_SCRIPT_URL);
         const text = await res.text();
         localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: text }));
-        parseHybridDoc(text); renderPage();
+        parseAdaptiveDoc(text); renderPage();
       } catch (e) { console.error("Sync error", e); }
     }
 
-    function parseHybridDoc(text) {
+    /** * ADAPTIVE INTELLIGENCE PARSER
+     * Optimized for Fern's bunched-up Google Doc format.
+     */
+    function parseAdaptiveDoc(text) {
       siteData = { pages: {}, entries: [], isLoaded: true };
       const keywords = ["Welcome", "About", "Skills", "Resume", "Contact", "Entry:"];
+      
+      // Step 1: Pre-process text to handle dividers and keywords as split points
       let cleanText = text.replace(/^-{3,}/gm, "---DIVIDER---");
       const regex = new RegExp(`---DIVIDER---|(?=${keywords.join("|")})`, "g");
       const rawChunks = cleanText.split(regex).map(c => c.trim()).filter(c => c.length > 0);
       
       for (let chunk of rawChunks) {
-        if (chunk.startsWith("Instructions")) continue;
+        if (chunk.startsWith("Instructions") || chunk.startsWith("Arts")) continue;
+
         if (chunk.toLowerCase().startsWith("entry:")) {
           siteData.entries.push(parseSmartEntry(chunk));
         } else {
           const foundKey = keywords.find(k => chunk.startsWith(k));
           if (foundKey) {
-            const title = foundKey;
             const content = chunk.substring(foundKey.length).trim();
-            siteData.pages[foundKey.toLowerCase()] = { title, html: marked.parse(content) };
+            siteData.pages[foundKey.toLowerCase()] = { title: foundKey, html: marked.parse(content) };
           }
         }
       }
     }
 
     function parseSmartEntry(text) {
+      // Find the entry title from the first line
       const titleMatch = text.match(/Entry:\s*([\s\S]*?)(?=Type:|Image:|Description:|Materials:|Process:|Location:|Camera:|Lens:|Settings:|$)/i);
       const title = titleMatch ? titleMatch[1].trim() : "Untitled Art";
       const data = { title, id: slugify(title) };
+
       const extract = (key) => {
         const regex = new RegExp(`${key}:\\s*([\\s\\S]*?)(?=Type:|Image:|Description:|Materials:|Process:|Location:|Camera:|Lens:|Settings:|Entry:|$)`, "i");
         return (text.match(regex) || [])[1]?.trim() || "";
       };
+
       data.type = extract("Type").toLowerCase() || "art";
       data.img = extract("Image").replace(/\s/g, '') || "https://via.placeholder.com/800x1000?text=Syncing+Artwork...";
       data.description = extract("Description") || "";
       data.materials = extract("Materials").split(",").map(m => m.trim()).filter(m => m);
       data.process = extract("Process") || "";
+      
       data.specs = {
         location: extract("Location") || "Unknown",
         camera: extract("Camera") || "N/A",
@@ -292,37 +301,62 @@
         hero.style.display = 'none';
         if (path === '/arts/') renderGallery(root);
         else if (path.includes('/arts/view/')) renderEntryView(path.split('/').pop(), root);
-        else if (path === '/skills/') renderSmartListView('skills', root);
-        else if (path === '/resume/') renderSmartListView('resume', root);
+        else if (path === '/skills/') renderAdaptiveGrid('skills', root);
+        else if (path === '/resume/') renderAdaptiveGrid('resume', root);
         else render404(root);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // NEW: Smart List View - Handles both Resume and Skills layouts
-    function renderSmartListView(key, root) {
+    /** * ADAPTIVE GRID RENDERER
+     * Splits text into labeled rows by detecting short header-like paragraphs or bold tags.
+     */
+    function renderAdaptiveGrid(key, root) {
       const page = siteData.pages[key];
       if (!page) return render404(root);
       
       let html = `<div class="text-content"><h2>${page.title}</h2>`;
       
-      // We look for headers (h3) or bold items to start new rows
-      const blocks = page.html.split(/(?=<h[1-6]>|<strong>)/g).filter(b => b.trim().length > 0);
+      // Detect common resume/skills headers even if not bolded
+      const commonHeaders = ["Artistic Foundations", "Digital & Photography", "Theater Experience", "Education", "Experience", "Skills", "2026 plays", "2025 plays", "Showcase"];
       
-      if (blocks.length <= 1) {
-        // Fallback to normal view if no structure detected
+      // Temporary div to parse the marked HTML
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = page.html;
+      
+      let rows = [];
+      let currentLabel = "";
+      let currentContent = "";
+
+      // Walk through paragraphs to find labels
+      tempDiv.childNodes.forEach(node => {
+        const text = node.textContent.trim();
+        const isHeaderTag = /^H[1-6]$/.test(node.tagName);
+        const isShortLine = text.length > 0 && text.split(' ').length < 5;
+        const isStrong = node.querySelector && node.querySelector('strong');
+        const isKnownHeader = commonHeaders.some(h => text.toLowerCase().includes(h.toLowerCase()));
+
+        if (isHeaderTag || isStrong || (isShortLine && isKnownHeader)) {
+          // Push previous row
+          if (currentLabel || currentContent) {
+            rows.push({ label: currentLabel || "Details", content: currentContent });
+          }
+          currentLabel = text;
+          currentContent = "";
+        } else {
+          currentContent += node.outerHTML || node.textContent;
+        }
+      });
+      // Push final row
+      if (currentLabel || currentContent) {
+        rows.push({ label: currentLabel || "Details", content: currentContent });
+      }
+
+      if (rows.length === 0) {
         html += page.html;
       } else {
-        blocks.forEach(block => {
-          // If a block starts with a tag, we treat that as the label
-          const labelMatch = block.match(/^<(h[1-6]|strong)>(.*?)<\/\1>/i);
-          if (labelMatch) {
-            const label = labelMatch[2];
-            const content = block.substring(labelMatch[0].length);
-            html += `<div class="row-grid"><div class="row-label">${label}</div><div class="row-content">${content}</div></div>`;
-          } else {
-            html += block;
-          }
+        rows.forEach(row => {
+          html += `<div class="row-grid"><div class="row-label">${row.label}</div><div class="row-content">${row.content}</div></div>`;
         });
       }
 
