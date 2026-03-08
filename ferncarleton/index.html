@@ -1,1 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERN CARLETON | Coming Soon</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png">
 
+  <!-- Google Fonts: Graffiti and Retro Tech -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --neon-yellow: #FFDE00;
+      --hot-pink: #FF007F;
+      --cyan: #00E5FF;
+      --black: #111111;
+      --white: #FAFAFA;
+      
+      --font-graffiti: 'Permanent Marker', cursive;
+      --font-body: 'Space Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--neon-yellow);
+      background-image: radial-gradient(var(--black) 2px, transparent 2px);
+      background-size: 30px 30px;
+      font-family: var(--font-body);
+      color: var(--black);
+      line-height: 1.6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+    }
+
+    /* --- HEADER --- */
+    header {
+      background: var(--black);
+      color: var(--cyan);
+      padding: 3rem 2rem;
+      border: 6px solid var(--black);
+      box-shadow: 15px 15px 0px var(--cyan);
+      text-align: center;
+      margin-bottom: 4rem;
+      transform: rotate(-2deg);
+    }
+
+    header h1 {
+      font-family: var(--font-graffiti);
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 5px 5px 0px var(--hot-pink);
+      line-height: 1;
+    }
+
+    /* --- MAIN CONTENT --- */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .profile-wrap {
+      position: relative;
+      transform: rotate(3deg);
+    }
+
+    .profile-card {
+      background: var(--hot-pink);
+      border: 5px solid var(--black);
+      box-shadow: 12px 12px 0px var(--black);
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .profile-card .img-placeholder {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--white);
+      border: 4px solid var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-graffiti);
+      font-size: 3rem;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .profile-card h2 {
+      font-family: var(--font-graffiti);
+      color: var(--neon-yellow);
+      text-shadow: 2px 2px 0px var(--black);
+      font-size: 1.8rem;
+    }
+
+    .welcome-box {
+      background: var(--white);
+      border: 5px solid var(--black);
+      box-shadow: 12px 12px 0px var(--black);
+      padding: 3rem;
+      position: relative;
+    }
+
+    .welcome-box h2 {
+      font-family: var(--font-graffiti);
+      color: var(--hot-pink);
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .welcome-box p {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+
+    .status-tag {
+      display: inline-block;
+      background: var(--black);
+      color: var(--neon-yellow);
+      padding: 10px 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.8rem;
+      transform: skew(-10deg);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      margin-top: 5rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 1.5rem 3rem;
+      border: 4px solid var(--black);
+      box-shadow: 8px 8px 0px var(--hot-pink);
+    }
+
+    footer p {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    footer a {
+      color: var(--cyan);
+      text-decoration: underline;
+    }
+
+    /* --- DECORATIVE ELEMENTS --- */
+    .sticker {
+      position: absolute;
+      background: var(--cyan);
+      color: var(--black);
+      padding: 5px 15px;
+      font-family: var(--font-graffiti);
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 3px solid var(--black);
+      z-index: 10;
+    }
+
+    @media (max-width: 800px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      header { transform: rotate(0); }
+      .profile-wrap { transform: rotate(0); max-width: 300px; margin: 0 auto; }
+      .welcome-box { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="sticker" style="top: -20px; left: -10px; transform: rotate(-15deg);">New Drop</div>
+    <div class="sticker" style="bottom: 50px; right: -20px; transform: rotate(10deg); background: var(--hot-pink); color: white;">Static Version 1.0</div>
+
+    <header>
+      <h1>Fern Carleton</h1>
+    </header>
+
+    <div class="hero-grid">
+      <div class="profile-wrap">
+        <div class="profile-card">
+          <div class="img-placeholder">FC</div>
+          <h2>Creative Mind</h2>
+        </div>
+      </div>
+
+      <div class="welcome-box">
+        <h2>Stay Tuned.</h2>
+        <p>I am currently architecting a new digital space to share my projects, thoughts, and latest updates.</p>
+        <div class="status-tag">Status: Syncing Content...</div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2015-<span id="year">2026</span> Fern Carleton | All Rights Reserved</p>
+        <p style="margin-top: 10px; font-size: 0.6rem; opacity: 0.7;">Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Auto-update year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
