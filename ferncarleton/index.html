@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FERN CARLETON | Photography & Reasoning</title>
+  <title>FERN CARLETON | Art & Reasoning</title>
   
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png">
 
-  <!-- Fonts: Structured Serif and Modern Sans -->
+  <!-- Fonts: Structured Serif for headers, clean Sans for body, Mono for specs -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
     :root {
-      --bg: #f7f7f5;
-      --card-bg: #ffffff;
-      --ink: #1a1a1a;
-      --muted: #7a7a7a;
-      --accent: #c9a96e; /* Gold accent for reasoning/technical items */
+      --cream: #F8F7F2;     /* Sidebar / Accents */
+      --pink: #FDEEF4;      /* Wallpaper background for art pages */
+      --white: #FFFFFF;     /* Base background */
+      --ink: #000000;       /* Primary text */
+      --muted: #666666;     /* Secondary text */
+      --border: #e0e0e0;
       
       --font-header: 'Lora', serif;
       --font-body: 'Inter', sans-serif;
@@ -30,41 +32,42 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background-color: var(--bg);
+      background-color: var(--white);
       font-family: var(--font-body);
       color: var(--ink);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.4s ease;
     }
+
+    /* Change background to pink for specific pages */
+    body.wallpaper-active {
+      background-color: var(--pink);
+    }
+
+    .site-wrapper { display: flex; min-height: 100vh; }
 
     /* --- SIDEBAR --- */
     .sidebar {
-      width: 280px;
-      padding: 4rem 2.5rem;
+      width: 300px;
+      padding: 4rem 3rem;
       position: fixed;
       height: 100vh;
       display: flex;
       flex-direction: column;
-      background: var(--card-bg);
+      background: var(--cream);
       border-right: 1px solid rgba(0,0,0,0.05);
       z-index: 1000;
     }
 
-    .brand { margin-bottom: 5rem; cursor: pointer; text-align: center; }
-    .brand img {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 1rem;
-      opacity: 0.8;
-      mix-blend-mode: multiply;
-    }
+    .brand { margin-bottom: 5rem; cursor: pointer; }
     .brand h1 {
       font-family: var(--font-header);
-      font-size: 1.6rem;
-      font-weight: 500;
+      font-size: 1.8rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      line-height: 1.1;
+      letter-spacing: 0.05em;
+      line-height: 1;
     }
     .brand span {
       font-family: var(--font-mono);
@@ -76,153 +79,148 @@
       margin-top: 10px;
     }
 
-    .nav-links { display: flex; flex-direction: column; gap: 1.25rem; }
+    .nav-links { display: flex; flex-direction: column; gap: 1.5rem; }
     .nav-links a {
       text-decoration: none;
       color: var(--ink);
       font-family: var(--font-body);
-      font-weight: 500;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.15em;
       font-size: 0.75rem;
-      opacity: 0.5;
+      opacity: 0.4;
       transition: 0.3s;
     }
     .nav-links a:hover, .nav-links a.active {
       opacity: 1;
-      color: var(--accent);
       padding-left: 5px;
     }
 
     /* --- MAIN CONTENT --- */
     main {
-      margin-left: 280px;
-      padding: 5rem;
-      max-width: 1400px;
-      min-height: 100vh;
+      margin-left: 300px;
+      padding: 5rem 6rem;
+      flex: 1;
+      max-width: 1300px;
     }
 
-    /* --- HERO PORTRAIT --- */
-    #hero-section {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 5rem;
-      align-items: center;
-      margin-bottom: 10rem;
-    }
-
-    .hero-img-wrap {
-      position: relative;
-      background: white;
-      padding: 1.5rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-    }
-    .hero-img-wrap img {
-      width: 100%;
-      display: block;
-      filter: sepia(0.1) contrast(1.05);
-    }
-    .hero-img-wrap::after {
-      content: 'FERN CARLETON // PORTRAIT 01';
-      position: absolute;
-      bottom: -30px;
-      right: 0;
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-    }
-
-    .hero-text h2 {
-      font-family: var(--font-header);
-      font-size: 3.5rem;
-      margin-bottom: 2rem;
-      font-weight: 400;
-      line-height: 1.1;
-    }
-    .hero-text p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      margin-bottom: 2rem;
-      max-width: 450px;
-    }
-
-    /* --- PHOTO GALLERY (Masonry) --- */
-    .masonry-gallery {
-      columns: 2;
-      column-gap: 2rem;
-    }
-    .gallery-item {
-      break-inside: avoid;
-      margin-bottom: 2rem;
-      background: white;
-      padding: 1rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-      transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-      cursor: pointer;
-      position: relative;
-    }
-    .gallery-item:hover {
-      transform: scale(1.02);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.1);
-      z-index: 10;
-    }
-    .gallery-item img { width: 100%; display: block; }
-    .gallery-item .meta {
-      margin-top: 1rem;
+    /* --- FILTERS --- */
+    .filter-bar {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
     }
-    .gallery-item h4 {
-      font-family: var(--font-header);
-      font-size: 1.1rem;
-      font-weight: 500;
-    }
-    .gallery-item .tag {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      background: var(--bg);
-      padding: 4px 8px;
-      border-radius: 2px;
-    }
-
-    /* --- FOOTER --- */
-    footer {
-      margin-top: 10rem;
-      padding-top: 3rem;
-      border-top: 1px solid rgba(0,0,0,0.05);
+    .filter-btn {
+      background: none;
+      border: none;
       font-family: var(--font-mono);
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
+      cursor: pointer;
       color: var(--muted);
+      padding: 5px 10px;
     }
-    footer a { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--accent); }
+    .filter-btn.active {
+      color: var(--ink);
+      font-weight: 700;
+      background: var(--cream);
+    }
 
-    @media (max-width: 1024px) {
-      .sidebar { width: 100%; height: auto; position: relative; padding: 2rem; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    /* --- ARTS GALLERY GRID --- */
+    .arts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2.5rem;
+    }
+    .art-card {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: 0.3s;
+    }
+    .art-card:hover { transform: translateY(-5px); }
+    .art-img-wrap {
+      background: var(--cream);
+      aspect-ratio: 1;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .art-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .art-info h4 { font-family: var(--font-header); font-size: 1.2rem; font-weight: 600; }
+    .art-info span { font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
+
+    /* --- INDIVIDUAL ENTRY PAGE --- */
+    .entry-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; }
+    .entry-visual img { width: 100%; border: 10px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    
+    .entry-details h2 { font-family: var(--font-header); font-size: 3rem; margin-bottom: 1rem; }
+    .entry-details .meta-tag { font-family: var(--font-mono); font-size: 0.7rem; background: var(--ink); color: var(--white); padding: 4px 12px; border-radius: 50px; display: inline-block; margin-bottom: 2rem; }
+    
+    .section-label { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; display: block; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-top: 2rem; }
+    
+    /* Tutorial Styling */
+    .materials-list { list-style: none; margin-bottom: 2rem; }
+    .materials-list li { font-weight: 600; margin-bottom: 5px; }
+    .steps-list { padding-left: 1.5rem; }
+    .steps-list li { margin-bottom: 1rem; padding-left: 0.5rem; }
+
+    /* Photo Specs Styling */
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .spec-item b { display: block; font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); text-transform: uppercase; }
+    .spec-item span { font-weight: 600; font-size: 0.9rem; }
+
+    /* --- TEXT PAGES (About, Skills, Resume) --- */
+    .text-content { max-width: 800px; }
+    .text-content h2 { font-family: var(--font-header); font-size: 3rem; margin-bottom: 2rem; }
+    .text-content h3 { font-family: var(--font-header); font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1rem; border-bottom: 2px solid var(--ink); padding-bottom: 0.5rem; }
+    .text-content p { font-size: 1.1rem; margin-bottom: 1.5rem; color: #333; }
+    .text-content ul { margin-left: 1.5rem; margin-bottom: 2rem; }
+    .text-content li { margin-bottom: 0.5rem; }
+
+    /* --- CONTACT FORM --- */
+    .contact-form { background: var(--cream); padding: 3rem; border: 1px solid var(--border); }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .form-group input, .form-group textarea { width: 100%; padding: 1rem; border: 1px solid var(--border); font-family: var(--font-body); font-size: 1rem; outline: none; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--ink); }
+    .submit-btn { background: var(--ink); color: var(--white); border: none; padding: 1rem 2.5rem; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; }
+    .submit-btn:hover { background: var(--muted); }
+
+    /* --- FOOTER --- */
+    footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
+    footer a { color: var(--ink); font-weight: 700; text-decoration: underline; }
+
+    @media (max-width: 1100px) {
+      .sidebar { width: 100%; height: auto; position: relative; padding: 2rem; border-right: none; border-bottom: 1px solid var(--border); }
       main { margin-left: 0; padding: 3rem 1.5rem; }
-      #hero-section { grid-template-columns: 1fr; gap: 4rem; }
-      .masonry-gallery { columns: 1; }
+      .entry-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .brand { margin-bottom: 2rem; }
+      .nav-links { flex-direction: row; flex-wrap: wrap; gap: 1rem; }
     }
   </style>
 </head>
-<body>
+<body id="body">
 
   <div class="site-wrapper">
     <nav class="sidebar">
       <div class="brand" onclick="navigateTo('/')">
-        <!-- Circular Leaf Logo Integrated -->
-        <img src="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png" alt="Logo">
         <h1>Fern<br>Carleton</h1>
-        <span>Photography & Reasoning</span>
+        <span>Art & Reasoning</span>
       </div>
       <div class="nav-links">
-        <a href="/gallery/" class="nav-link" data-link>Portfolio</a>
-        <a href="/journal/" class="nav-link" data-link>Journal</a>
+        <a href="/arts/" class="nav-link" data-link>Arts</a>
+        <a href="/skills/" class="nav-link" data-link>Skills</a>
+        <a href="/resume/" class="nav-link" data-link>Resume</a>
         <a href="/about/" class="nav-link" data-link>About</a>
         <a href="/contact/" class="nav-link" data-link>Contact</a>
+      </div>
+      
+      <div style="margin-top: auto;">
+        <span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Digital Archive v2.0</span>
       </div>
     </nav>
 
@@ -232,21 +230,49 @@
   </div>
 
   <script>
+    // --- APP DATA ---
     const siteData = {
-      welcome: {
-        title: "Observing with *Intent.*",
-        text: "I am a student at the Renaissance School of Art and Reasoning. My photography is a tool for documenting the intersection of natural chaos and human logic.",
-        // Using the mountain portrait you provided
-        img: "https://i.postimg.cc/mD3631qf/image-74ced8.jpg"
+      about: {
+        title: "Fern Carleton",
+        bio: "I am a student at the Renaissance School of Art and Reasoning. My work exists in the space where creative expression meets structured logic. This digital archive is a collection of my explorations in visual art, theater, and photography."
       },
-      portfolio: [
-        { title: "Volcanic Textures", tag: "Landscape", img: "https://i.postimg.cc/mD3631qf/image-74ced8.jpg" },
-        { title: "Geometric Shadow", tag: "Architecture", img: "https://via.placeholder.com/800x1000?text=Portrait+Photography" },
-        { title: "The Reasoning Lab", tag: "Process", img: "https://via.placeholder.com/1200x800?text=Landscape+Photography" },
-        { title: "Symmetry Study", tag: "Abstract", img: "https://via.placeholder.com/800x800?text=Still+Life" }
+      arts: [
+        { 
+          id: 'watercolor-basics',
+          type: 'art', 
+          title: "Easy Watercolor Bloom", 
+          difficulty: "Beginner",
+          img: "https://via.placeholder.com/800x800?text=Art+Tutorial",
+          materials: ["Watercolor Paper", "Soft Round Brush", "Ultramarine Blue Paint", "Clean Water"],
+          process: "1. Wet a circular area of your paper with clean water. 2. Drop a concentrated amount of blue paint into the center. 3. Watch the pigment 'bloom' outward. 4. Let dry completely before adding detail.",
+          description: "A simple guide to understanding how water moves pigment on a page."
+        },
+        { 
+          id: 'mountain-specs',
+          type: 'photography', 
+          title: "Volcanic Ridge", 
+          img: "https://i.postimg.cc/mD3631qf/image-74ced8.jpg",
+          specs: {
+            location: "Mount Rainier National Park",
+            camera: "Nikon Z6 II",
+            lens: "24-70mm f/4",
+            settings: "f/11, 1/125s, ISO 100"
+          },
+          description: "Capturing the stark contrast of volcanic rock against the soft morning mist."
+        },
+        { 
+          id: 'stage-study',
+          type: 'theater', 
+          title: "The Renaissance Set", 
+          img: "https://via.placeholder.com/800x600?text=Theater+Project",
+          description: "Technical study of perspective and depth for a minimalist stage design."
+        }
       ]
     };
 
+    let currentFilter = 'all';
+
+    // --- NAVIGATION ---
     function navigateTo(url) {
       history.pushState(null, null, url);
       renderPage();
@@ -255,63 +281,173 @@
     function renderPage() {
       const path = window.location.pathname;
       const root = document.getElementById('main-content');
+      const body = document.getElementById('body');
       
+      // Handle "Wallpaper" effect
+      if (path.includes('/arts/view/')) {
+        body.classList.add('wallpaper-active');
+      } else {
+        body.classList.remove('wallpaper-active');
+      }
+
+      // Update active nav
       document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.toggle('active', link.getAttribute('href') === path);
+        const href = link.getAttribute('href');
+        link.classList.toggle('active', path.startsWith(href) && href !== '/');
       });
 
-      if (path === '/' || path === '/about/') {
-        root.innerHTML = `
-          <section id="hero-section">
-            <div class="hero-img-wrap">
-              <img src="${siteData.welcome.img}" alt="Fern Carleton">
-            </div>
-            <div class="hero-text">
-              <h2>${siteData.welcome.title}</h2>
-              <p>${siteData.welcome.text}</p>
-              <p>Welcome to my digital gallery.</p>
-              <a href="/gallery/" data-link style="font-family:var(--font-mono); font-size:0.8rem; text-transform:uppercase; color:var(--accent); font-weight:700; border-bottom:2px solid var(--accent); padding-bottom:5px;">Enter Portfolio ➔</a>
-            </div>
-          </section>
-          <footer>
-            <p>&copy; ${new Date().getFullYear()} Fern Carleton. Built with <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></p>
-          </footer>
-        `;
-      } else if (path === '/gallery/') {
-        root.innerHTML = `
-          <h2 style="font-family:var(--font-header); margin-bottom:4rem; font-size:2.8rem; border-bottom:1px solid #ddd; padding-bottom:1rem;">Selected Works</h2>
-          <div class="masonry-gallery">
-            ${siteData.portfolio.map(item => `
-              <div class="gallery-item">
-                <img src="${item.img}" alt="${item.title}">
-                <div class="meta">
-                  <h4>${item.title}</h4>
-                  <span class="tag">${item.tag}</span>
-                </div>
+      // --- ROUTER ---
+      if (path === '/' || path === '/about/') renderAbout(root);
+      else if (path === '/arts/') renderArtsGallery(root);
+      else if (path.includes('/arts/view/')) renderEntry(root, path.split('/').pop());
+      else if (path === '/skills/') renderSkills(root);
+      else if (path === '/resume/') renderResume(root);
+      else if (path === '/contact/') renderContact(root);
+      else render404(root);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- VIEW RENDERERS ---
+
+    function renderAbout(root) {
+      root.innerHTML = `
+        <div class="text-content">
+          <span class="section-label">Identity</span>
+          <h2>${siteData.about.title}</h2>
+          <p>${siteData.about.bio}</p>
+          <a href="/arts/" data-link class="submit-btn" style="text-decoration:none; display:inline-block; margin-top:1rem;">Explore Work</a>
+        </div>
+        <footer>&copy; ${new Date().getFullYear()} Fern Carleton. Built with <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></footer>
+      `;
+    }
+
+    function renderArtsGallery(root) {
+      const filtered = currentFilter === 'all' ? siteData.arts : siteData.arts.filter(a => a.type === currentFilter);
+      
+      root.innerHTML = `
+        <h2 style="font-family:var(--font-header); font-size:3rem; margin-bottom:2rem;">Arts</h2>
+        <div class="filter-bar">
+          <button class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>
+          <button class="filter-btn ${currentFilter === 'art' ? 'active' : ''}" onclick="setFilter('art')">Art</button>
+          <button class="filter-btn ${currentFilter === 'photography' ? 'active' : ''}" onclick="setFilter('photography')">Photography</button>
+          <button class="filter-btn ${currentFilter === 'theater' ? 'active' : ''}" onclick="setFilter('theater')">Theater</button>
+        </div>
+        <div class="arts-grid">
+          ${filtered.map(item => `
+            <a href="/arts/view/${item.id}" class="art-card" data-link>
+              <div class="art-img-wrap"><img src="${item.img}" alt="${item.title}"></div>
+              <div class="art-info">
+                <span>${item.type}</span>
+                <h4>${item.title}</h4>
               </div>
-            `).join('')}
-          </div>
+            </a>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderEntry(root, id) {
+      const item = siteData.arts.find(a => a.id === id);
+      if (!item) return render404(root);
+
+      let detailContent = '';
+      if (item.type === 'art') {
+        detailContent = `
+          <span class="section-label">Materials</span>
+          <ul class="materials-list">${item.materials.map(m => `<li>${m}</li>`).join('')}</ul>
+          <span class="section-label">The Process</span>
+          <ol class="steps-list">${item.process.split('.').filter(s => s.trim()).map(s => `<li>${s.trim()}.</li>`).join('')}</ol>
         `;
-      } else {
-        root.innerHTML = `
-          <div style="text-align:center; padding-top:10vh;">
-            <h2 style="font-family:var(--font-header); font-size:3rem;">Development in Progress</h2>
-            <p style="font-family:var(--font-mono); color:var(--muted); margin-top:1rem;">Loading archives...</p>
+      } else if (item.type === 'photography') {
+        detailContent = `
+          <span class="section-label">Specifications</span>
+          <div class="specs-grid">
+            <div class="spec-item"><b>Location</b><span>${item.specs.location}</span></div>
+            <div class="spec-item"><b>Camera</b><span>${item.specs.camera}</span></div>
+            <div class="spec-item"><b>Lens</b><span>${item.specs.lens}</span></div>
+            <div class="spec-item"><b>Settings</b><span>${item.specs.settings}</span></div>
           </div>
         `;
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      root.innerHTML = `
+        <div class="entry-layout">
+          <div class="entry-visual">
+            <img src="${item.img}" alt="${item.title}">
+          </div>
+          <div class="entry-details">
+            <a href="/arts/" data-link style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; margin-bottom:2rem; display:block;">← Back to Grid</a>
+            <span class="meta-tag">${item.type}</span>
+            <h2>${item.title}</h2>
+            <p style="color:var(--muted);">${item.description}</p>
+            ${detailContent}
+          </div>
+        </div>
+      `;
     }
+
+    function renderSkills(root) {
+      root.innerHTML = `
+        <div class="text-content">
+          <span class="section-label">Creative Reasoning</span>
+          <h2>Skillset</h2>
+          <h3>Artistic Foundations</h3>
+          <p>Proficient in watercolor techniques, acrylic study, and charcoal sketching. Focus on light theory and color blending.</p>
+          <h3>Digital & Photography</h3>
+          <p>Manual photography settings, composition study, and digital asset management. Experience with high-contrast minimalist editing.</p>
+          <h3>Theater & Production</h3>
+          <p>Set design modeling, character reasoning, and technical stage coordination.</p>
+        </div>
+      `;
+    }
+
+    function renderResume(root) {
+      root.innerHTML = `
+        <div class="text-content">
+          <span class="section-label">Career & Education</span>
+          <h2>Resume</h2>
+          <h3>Education</h3>
+          <p><b>Renaissance School of Art and Reasoning</b><br>Class of 2027</p>
+          <h3>Experience</h3>
+          <p><b>Visual Arts Collective</b><br>Curator (2025 - Present)</p>
+          <p><b>Stage Mechanics Lab</b><br>Technical Assistant (2024 - 2025)</p>
+        </div>
+      `;
+    }
+
+    function renderContact(root) {
+      root.innerHTML = `
+        <div class="text-content">
+          <span class="section-label">Inquiry</span>
+          <h2>Get in Touch</h2>
+          <p>Please use the form below to send a message. I will respond to all creative and professional inquiries within 48 hours.</p>
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully (Simulation).');">
+            <div class="form-group"><label>Name</label><input type="text" required></div>
+            <div class="form-group"><label>Email</label><input type="email" required></div>
+            <div class="form-group"><label>Subject</label><input type="text"></div>
+            <div class="form-group"><label>Message</label><textarea rows="5" required></textarea></div>
+            <button type="submit" class="submit-btn">Send Message</button>
+          </form>
+        </div>
+      `;
+    }
+
+    function render404(root) {
+      root.innerHTML = `<h2 style="font-family:var(--font-header); font-size:3rem;">404</h2><p>Page missing from archive.</p>`;
+    }
+
+    window.setFilter = (f) => {
+      currentFilter = f;
+      renderArtsGallery(document.getElementById('main-content'));
+    };
 
     window.addEventListener('popstate', renderPage);
     window.onload = renderPage;
 
     document.body.addEventListener('click', e => {
       const link = e.target.closest('[data-link]');
-      if (link) {
-        e.preventDefault();
-        navigateTo(link.getAttribute('href'));
-      }
+      if (link) { e.preventDefault(); navigateTo(link.getAttribute('href')); }
     });
   </script>
 
