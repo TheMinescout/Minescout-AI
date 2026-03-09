@@ -11,8 +11,6 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  
-  <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <!-- Fonts -->
@@ -21,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- MINESCOUT BACKEND SYSTEM v48.0 --- */
+    /* --- MINESCOUT BACKEND SYSTEM v50.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -48,14 +46,14 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Background Washes */
+    /* Background Environment */
     .bg-wash-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
     .wash { position: absolute; border-radius: 50%; filter: blur(100px); mix-blend-mode: multiply; opacity: 0.8; }
     .wash-1 { top: -5%; left: 5%; width: 55vw; height: 55vh; background: var(--wc-blue); }
     .wash-2 { bottom: -10%; right: -5%; width: 45vw; height: 65vh; background: var(--wc-gold); }
     .wash-3 { top: 25%; right: 10%; width: 40vw; height: 45vh; background: var(--wc-lavender); }
 
-    /* The Torn Edge Sidebar */
+    /* The High-Detail Torn Sidebar */
     .sidebar {
       width: var(--sidebar-width); padding: 2.5rem 3rem 4rem; position: fixed; height: 100vh;
       display: flex; flex-direction: column; 
@@ -76,7 +74,7 @@
 
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
-    /* Admin Card Styles */
+    /* Admin Styles */
     .admin-card { background: white; padding: 3rem; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); width: 100%; max-width: 900px; margin: 0 auto; }
     .input-group { margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
     .input-group label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
@@ -85,7 +83,7 @@
 
     /* Content Styling */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; }
-    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 5.5rem; align-items: start; }
     .hero-img-wrap { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transform: rotate(-1.5deg); }
     .hero-img-wrap img { width: 100%; }
 
@@ -104,6 +102,7 @@
       main { margin-left: 0; padding: 2rem; }
       .smart-row { grid-template-columns: 1fr; gap: 1rem; }
       .page-title { font-size: 2.8rem; }
+      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
     }
   </style>
 </head>
@@ -113,8 +112,13 @@
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
-    // --- CONFIGURATION ---
+    /**
+     * MINESCOUT BACKEND CONFIG
+     * thomas: If you get a 302 or CORS error, ensure your URL below is exactly what
+     * Cloudflare shows in the Worker dash. If it ends in a slash (/), keep it!
+     */
     const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
+
     const EMAILJS_KEY = "1tk_WpVfkT1oGuS4P";
     const EMAILJS_SERVICE = "service_91osf0m";
     const EMAILJS_TEMPLATE = "template_n98oiz5";
@@ -130,10 +134,10 @@
       useEffect(() => {
         if (window.emailjs) emailjs.init(EMAILJS_KEY);
 
-        // Fetch Archive Data
+        // Fetch Data from Cloudflare Worker
         fetch(WORKER_URL)
           .then(res => {
-            if (!res.ok) throw new Error("Status: " + res.status);
+            if (!res.ok) throw new Error("Worker responded with error " + res.status);
             return res.json();
           })
           .then(d => { setData(d); setLoading(false); })
@@ -154,19 +158,27 @@
             body: JSON.stringify({ key: adminKey, data: data })
           });
           if (response.ok) { alert("Archive Updated Instantly!"); } 
-          else { alert("Key Verification Failed."); }
+          else { alert("Verification Failed. Access Denied."); }
         } catch (e) { alert("Backend Unreachable."); }
       };
 
-      if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Lora', fontStyle:'italic'}}>Restoring Archive...</div>;
+      const addPhoto = () => {
+        const photos = [...data.photos, { title: "Untitled", url: "" }];
+        setData({ ...data, photos });
+      };
+
+      if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Lora', fontStyle:'italic', color: '#c2a378'}}>Restoring Archive...</div>;
       
-      // Connection Error Recovery
       if (!data) return (
         <div style={{padding:'5rem', textAlign:'center'}}>
           <h2 className="page-title">Connection Blocked</h2>
-          <p className="font-mono text-xs opacity-50">Browser Console: {errorMsg}</p>
-          <div style={{marginTop:'3rem', fontSize:'0.85rem', maxWidth:'500px', margin:'3rem auto'}}>
-            This is likely a <strong>CORS Error</strong>. Please update your Cloudflare Worker with the "extra-strength" headers I provided in our conversation.
+          <p className="font-mono text-xs opacity-50">Browser Error: {errorMsg}</p>
+          <div style={{marginTop:'3rem', fontSize:'0.85rem', maxWidth:'500px', margin:'3rem auto', lineHeight: '1.8'}}>
+            This is a <strong>Cloudflare CORS / Redirect</strong> issue.<br/><br/>
+            1. Go to your Cloudflare Worker Dashboard.<br/>
+            2. Update your code with the <strong>"Wildcard CORS"</strong> snippet I just gave you.<br/>
+            3. Ensure <strong>Bot Fight Mode</strong> is OFF in Security settings.<br/>
+            4. Verify your URL: <strong>{WORKER_URL}</strong>
           </div>
         </div>
       );
@@ -186,7 +198,7 @@
                   <button key={tab} onClick={() => setView(tab)} className={view === tab ? 'active' : ''}>{tab}</button>
                 ))}
               </nav>
-              <div style={{marginTop: 'auto', opacity: 0.3, fontSize: '9px', fontFamily: 'Space Mono'}}>BACKEND CORE v48.0</div>
+              <div style={{marginTop: 'auto', opacity: 0.3, fontSize: '9px', fontFamily: 'Space Mono'}}>BACKEND CORE v50.0</div>
             </aside>
           )}
 
@@ -196,17 +208,37 @@
                 <h2 className="font-serif text-3xl mb-10 border-b pb-4">Studio Backstage</h2>
                 {!isAuthed ? (
                   <div className="space-y-6">
-                    <label className="font-mono text-[10px] uppercase font-bold text-[#c2a378]">Authorization Required</label>
+                    <label className="font-mono text-[10px] uppercase font-bold text-[#c2a378]">Verification Required</label>
                     <input type="password" placeholder="ADMIN_SECRET..." className="admin-input border-b border-black w-full outline-none py-2" onChange={e => setAdminKey(e.target.value)} />
                     <button className="btn-action" onClick={() => setIsAuthed(true)}>Verify Access</button>
                   </div>
                 ) : (
                   <div className="space-y-12">
                     <section>
-                      <h3 className="font-mono text-xs font-bold text-blue-600 uppercase mb-6">Global Text</h3>
+                      <h3 className="font-mono text-xs font-bold text-blue-600 uppercase mb-6 tracking-widest">Global Archive</h3>
                       <div className="input-group"><label>Portfolio Headline</label><input value={data.welcome.title} onChange={e => setData({...data, welcome: {...data.welcome, title: e.target.value}})} /></div>
                       <div className="input-group"><label>Bio Text</label><textarea value={data.welcome.text} onChange={e => setData({...data, welcome: {...data.welcome, text: e.target.value}})} /></div>
                       <div className="input-group"><label>Hero Image URL</label><input value={data.welcome.image} onChange={e => setData({...data, welcome: {...data.welcome, image: e.target.value}})} /></div>
+                    </section>
+
+                    <section>
+                        <div className="flex justify-between items-center mb-8 border-b pb-2">
+                            <h3 className="font-mono text-xs font-bold text-blue-600 uppercase">Manage Gallery</h3>
+                            <button onClick={addPhoto} className="text-[10px] font-bold border border-black px-4 py-1 uppercase hover:bg-black hover:text-white transition">+ Add Photo</button>
+                        </div>
+                        <div className="grid grid-cols-2 gap-8">
+                            {data.photos.map((p, i) => (
+                                <div key={i} className="p-6 border border-dashed border-gray-200 rounded">
+                                    <div className="input-group"><label>Title</label><input value={p.title} onChange={e => {
+                                        const ps = [...data.photos]; ps[i].title = e.target.value; setData({...data, photos: ps});
+                                    }} /></div>
+                                    <div className="input-group"><label>URL</label><input value={p.url} onChange={e => {
+                                        const ps = [...data.photos]; ps[i].url = e.target.value; setData({...data, photos: ps});
+                                    }} /></div>
+                                    <button onClick={() => setData({...data, photos: data.photos.filter((_, idx) => idx !== i)})} className="text-[9px] uppercase font-bold text-red-500">Remove</button>
+                                </div>
+                            ))}
+                        </div>
                     </section>
                     
                     <button className="btn-action w-full" onClick={saveChanges}>Push Changes Instantly</button>
@@ -215,7 +247,7 @@
                 )}
               </div>
             ) : (
-              <div className="animate-in fade-in duration-700">
+              <div className="animate-in fade-in duration-1000">
                 {view === 'home' && <Hero data={data.welcome} />}
                 {view === 'about' && <Hero data={data.about} />}
                 {view === 'photos' && <Gallery items={data.photos} />}
@@ -266,7 +298,7 @@
                 .catch(() => setStatus("Error - Try Again"));
         };
 
-        if (sent) return <div className="contact-card"><h2 className="font-serif text-3xl mb-4 text-green-700">Inquiry Sent.</h2><p className="italic">Your message is now in the archive.</p></div>;
+        if (sent) return <div className="contact-card text-center"><h2 className="font-serif text-3xl mb-4 text-green-700">Inquiry Sent.</h2><p className="italic">Your message is now in the archive.</p></div>;
 
         return (
             <div className="contact-card">
