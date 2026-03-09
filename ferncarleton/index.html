@@ -1,25 +1,29 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
-<html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/namespaces/b/template' xmlns:data='http://www.google.com/namespaces/data' xmlns:expr='http://www.google.com/namespaces/expr'>
+<html lang="en">
 <head>
-  <meta charset='UTF-8'/>
-  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
-  <title><data:blog.pageTitle/></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERN CARLETON | Art & Reasoning</title>
+  
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png">
 
-  <b:include data='blog' name='all-head-content'/>
+  <!-- Core Frameworks -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- High-End Typography -->
-  <link href='https://fonts.googleapis.com' rel='preconnect'/>
-  <link crossorigin='' href='https://fonts.gstatic.com' rel='preconnect'/>
-  <link href='https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&amp;family=Inter:wght@300;400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;family=Caveat:wght@400;700&amp;display=swap' rel='stylesheet'/>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
-  <b:skin><![CDATA[
-    /* --- MINESCOUT DESIGN SYSTEM v34.0 --- */
+  <style>
+    /* --- FILTER-PROOF INTERNAL CSS --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
       --muted: #555555;
-      --wc-blue: rgba(100, 149, 237, 0.35);
+      --wc-blue: rgba(65, 105, 225, 0.35);
       --wc-gold: rgba(194, 163, 120, 0.35);
       --wc-lavender: rgba(147, 112, 219, 0.3);
       --forest: #2D3A2D;
@@ -36,8 +40,8 @@
       font-family: 'Inter', sans-serif;
       color: var(--ink);
       line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* Background Watercolor Elements */
@@ -47,9 +51,9 @@
     .wash-2 { bottom: -10%; right: -5%; width: 45vw; height: 65vh; background: var(--wc-gold); }
     .wash-3 { top: 25%; right: 10%; width: 40vw; height: 45vh; background: var(--wc-lavender); }
 
-    /* The Torn Edge Sidebar */
+    /* The High-Detail Torn Sidebar */
     .sidebar {
-      width: var(--sidebar-width); padding: 2.5rem 3rem; position: fixed; height: 100vh;
+      width: var(--sidebar-width); padding: 2.5rem 3rem 4rem; position: fixed; height: 100vh;
       display: flex; flex-direction: column; 
       background: linear-gradient(165deg, rgba(100, 149, 237, 0.4) 0%, rgba(253, 252, 248, 0.9) 60%, rgba(253, 252, 248, 1) 100%);
       backdrop-filter: blur(15px);
@@ -57,97 +61,167 @@
       z-index: 1200;
     }
 
-    .brand { margin-bottom: 3.5rem; text-decoration: none; color: inherit; display: block; }
+    .brand { margin-bottom: 3.5rem; cursor: pointer; }
     .brand h1 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
     .brand span { font-family: 'Space Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 8px; }
 
-    nav ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1.5rem; }
-    nav a { text-decoration: none; color: var(--ink); font-weight: 700; text-transform: uppercase; font-size: 0.78rem; opacity: 0.55; transition: 0.3s; }
-    nav a:hover, .active-link { opacity: 1; padding-left: 10px; border-left: 2px solid var(--forest); }
+    nav ul { list-style: none; display: flex; flex-direction: column; gap: 1.5rem; }
+    nav button { background: none; border: none; font-family: 'Lora', serif; font-style: italic; font-size: 1.1rem; text-align: left; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; opacity: 0.5; transition: 0.3s; color: var(--ink); outline: none; }
+    nav button.active { opacity: 1; border-left: 2px solid var(--forest); padding-left: 10px; }
 
-    main { margin-left: calc(var(--sidebar-width) - 20px); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
+    main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
-    /* Page Content */
-    .post-outer { margin-bottom: 5rem; }
-    .post-title { font-family: 'Lora', serif; font-size: 3.5rem; color: var(--forest); margin-bottom: 2rem; font-weight: 400; }
-    .post-body { font-size: 1.15rem; color: #222; }
+    /* Content Styles */
+    .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; line-height: 1; }
     
-    /* Photography Grid (For Home Feed) */
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .hero-text { max-width: 550px; font-size: 1.15rem; color: #333; }
+    .hero-img-wrap { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transform: rotate(-1.5deg); border-radius: 2px; }
+    .hero-img-wrap img { width: 100%; border-radius: 1px; }
+
+    .smart-row { display: grid; grid-template-columns: 260px 1fr; gap: 4rem; margin-bottom: 4.5rem; align-items: start; }
+    .smart-label { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border-left: 6px solid var(--wc-blue); padding-left: 22px; }
+
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3.5rem; }
-    .photo-card { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); border-radius: 2px; }
+    .photo-card { background: white; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-radius: 2px; transition: transform 0.4s; }
+    .photo-card:hover { transform: translateY(-10px) rotate(1deg); }
     .photo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
-    .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 12px; color: var(--muted); }
+    .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 10px; color: var(--muted); }
 
-    /* Smart Grid Support (H3 headings) */
-    .post-body h3 { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 6px solid var(--wc-blue); padding-left: 22px; margin-top: 4rem; margin-bottom: 1rem; }
+    .contact-card { background: rgba(255,255,255,0.6); padding: 4rem; border-radius: 2px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); backdrop-filter: blur(10px); max-width: 700px; clip-path: polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%); }
 
-    footer { margin-top: 10rem; padding: 5rem 0; border-top: 1px solid var(--wc-blue); font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
+    footer { margin-top: 10rem; padding: 5rem 0; border-top: 1px solid var(--wc-blue); font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
 
     @media (max-width: 1024px) {
       .sidebar { display: none; }
       main { margin-left: 0; padding: 4rem 1.5rem; }
+      .hero-grid, .smart-row { grid-template-columns: 1fr; gap: 2rem; }
     }
-  ]]></b:skin>
+  </style>
 </head>
 <body>
+  <div id="root"></div>
 
-  <div class='bg-wash-container'>
-    <div class='wash wash-1'/>
-    <div class='wash wash-2'/>
-    <div class='wash wash-3'/>
-  </div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
 
-  <aside class='sidebar'>
-    <a class='brand' expr:href='data:blog.homepageUrl'>
-      <h1>Fern<br/>Carleton</h1>
-      <span>Art and Reasoning</span>
-    </a>
-    <nav>
-      <ul>
-        <li><a expr:href='data:blog.homepageUrl'>Photos</a></li>
-        <li><a href='/p/about.html'>About</a></li>
-        <li><a href='/p/skills.html'>Skills</a></li>
-        <li><a href='/p/resume.html'>Resume</a></li>
-        <li><a href='/p/contact.html'>Contact</a></li>
-      </ul>
-    </nav>
-  </aside>
+    const App = () => {
+      const [activeTab, setActiveTab] = useState('home');
+      const [siteContent, setSiteContent] = useState(null);
+      const [loading, setLoading] = useState(true);
 
-  <main>
-    <b:section id='main-content' showaddelement='yes'>
-      <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
-        <b:includable id='main'>
-          <b:if cond='data:view.isHomepage'>
-            <h2 class='post-title'>Photography</h2>
-            <div class='photo-grid'>
-              <b:loop values='data:posts' var='post'>
-                <div class='photo-card'>
-                  <b:if cond='data:post.firstImageUrl'>
-                    <img expr:src='data:post.firstImageUrl'/>
-                  </b:if>
-                  <h3><data:post.title/></h3>
-                </div>
-              </b:loop>
-            </div>
-          <b:else/>
-            <b:loop values='data:posts' var='post'>
-              <div class='post-outer'>
-                <h2 class='post-title'><data:post.title/></h2>
-                <div class='post-body'>
-                  <data:post.body/>
-                </div>
+      useEffect(() => {
+        // Fetch CMS data with cache-busting timestamp
+        fetch('./content/site-data.json?t=' + Date.now())
+          .then(res => res.json())
+          .then(data => {
+            setSiteContent(data);
+            setLoading(false);
+          })
+          .catch(err => {
+            console.warn("Content initialized via CMS required.");
+            setLoading(false);
+          });
+      }, []);
+
+      if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lora', fontStyle: 'italic', color: '#c2a378'}}>Preparing the canvas...</div>;
+      if (!siteContent) return <div style={{padding: '5rem', fontFamily: 'monospace', opacity: 0.4}}>Please set up content/site-data.json in your GitHub repository.</div>;
+
+      return (
+        <div>
+          <div className="bg-wash-container">
+            <div className="wash wash-1"></div>
+            <div className="wash wash-2"></div>
+            <div className="wash wash-3"></div>
+          </div>
+
+          <aside className="sidebar">
+            <div className="brand" onClick={() => setActiveTab('home')}>
+              <div style={{width: '60px', height: '60px', background: 'gray', borderRadius: '50%', marginBottom: '20px', overflow: 'hidden'}}>
+                 <img src="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
               </div>
-            </b:loop>
-          </b:if>
-        </b:includable>
-      </b:widget>
-    </b:section>
+              <h1>Fern<br/>Carleton</h1>
+              <span>Art & Reasoning</span>
+            </div>
+            <nav>
+              <ul>
+                {['photos', 'skills', 'resume', 'about', 'contact'].map(t => (
+                  <li key={t}><button onClick={() => setActiveTab(t)} className={activeTab === t ? 'active' : ''}>{t}</button></li>
+                ))}
+              </ul>
+            </nav>
+            <div style={{marginTop: 'auto', opacity: 0.3, fontFamily: 'Space Mono', fontSize: '9px'}}>ARCHIVE v37.0 MASTER</div>
+          </aside>
 
-    <footer>
-      &copy; <data:blog.copyrightResharable/> Fern Carleton &bull; Minescout Archive v34.0
-    </footer>
-  </main>
+          <main>
+            {activeTab === 'home' && <HeroView data={siteContent.welcome} />}
+            {activeTab === 'about' && <HeroView data={siteContent.about} />}
+            {activeTab === 'skills' && <GridView title="Skills" items={siteContent.skills} />}
+            {activeTab === 'resume' && <GridView title="Resume" items={siteContent.resume} />}
+            {activeTab === 'photos' && <GalleryView items={siteContent.photos} />}
+            {activeTab === 'contact' && <ContactView data={siteContent.contact} />}
 
-  <b:include data='blog' name='all-head-content'/>
+            <footer>
+              <span>&copy; 2026 Fern Carleton &bull; Minescout Studio</span>
+              <a href="./admin/" style={{color: 'inherit', textDecoration: 'none', fontSize: '10px'}}>[Studio Login]</a>
+            </footer>
+          </main>
+        </div>
+      );
+    };
+
+    const HeroView = ({ data }) => (
+      <div className="hero-grid">
+        <div className="hero-text">
+          <h2 className="page-title">{data.title}</h2>
+          <p>{data.text}</p>
+        </div>
+        <div className="hero-img-wrap">
+          <img src={data.image} alt="Studio Visual" />
+        </div>
+      </div>
+    );
+
+    const GridView = ({ title, items }) => (
+      <div>
+        <h2 className="page-title">{title}</h2>
+        {items && items.map((item, idx) => (
+          <div key={idx} className="smart-row">
+            <div className="smart-label">{item.label}</div>
+            <div className="smart-content" dangerouslySetInnerHTML={{__html: item.content}}></div>
+          </div>
+        ))}
+      </div>
+    );
+
+    const GalleryView = ({ items }) => (
+      <div>
+        <h2 className="page-title">Photography</h2>
+        <div className="photo-grid">
+          {items && items.map((img, idx) => (
+            <div key={idx} className="photo-card">
+              <img src={img.url} />
+              <h3>{img.title}</h3>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+
+    const ContactView = ({ data }) => (
+      <div className="contact-card">
+        <h2 style={{fontFamily: 'Lora', fontSize: '3rem', marginBottom: '1rem'}}>{data.title}</h2>
+        <p style={{fontStyle: 'italic', marginBottom: '2rem'}}>{data.text}</p>
+        <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
+          <div style={{borderBottom: '1px solid #ddd', paddingBottom: '10px'}}><label style={{fontSize: '9px', fontWeight: 'bold', textTransform: 'uppercase', color: '#c2a378'}}>Name</label></div>
+          <div style={{borderBottom: '1px solid #ddd', paddingBottom: '10px'}}><label style={{fontSize: '9px', fontWeight: 'bold', textTransform: 'uppercase', color: '#c2a378'}}>Email</label></div>
+          <button style={{background: '#2d3a2d', color: 'white', padding: '1.2rem', border: 'none', borderRadius: '2px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.2em'}}>Send Message</button>
+        </div>
+      </div>
+    );
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
 </body>
 </html>
