@@ -7,7 +7,7 @@
   
   <link rel="icon" type="image/png" href="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png">
 
-  <!-- Core Frameworks -->
+  <!-- Core Frameworks (Using unpkg for school compatibility) -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -71,7 +71,7 @@
 
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
-    /* Content Styles */
+    /* Component Layouts */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; line-height: 1; }
     
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
@@ -119,13 +119,22 @@
             setLoading(false);
           })
           .catch(err => {
-            console.warn("Content initialized via CMS required.");
+            console.warn("Initializing site content via JSON required.");
             setLoading(false);
           });
       }, []);
 
       if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lora', fontStyle: 'italic', color: '#c2a378'}}>Preparing the canvas...</div>;
-      if (!siteContent) return <div style={{padding: '5rem', fontFamily: 'monospace', opacity: 0.4}}>Please set up content/site-data.json in your GitHub repository.</div>;
+      
+      // Error recovery for missing data
+      if (!siteContent) return (
+        <div style={{height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '2rem'}}>
+          <p style={{fontFamily: 'Space Mono', fontSize: '14px', color: '#555', maxWidth: '400px', marginBottom: '2rem'}}>
+            Please set up <strong>content/site-data.json</strong> in your GitHub repository to display the studio content.
+          </p>
+          <a href="./admin/" style={{color: '#c2a378', textDecoration: 'none', border: '1px solid', padding: '10px 20px', fontSize: '12px'}}>Login to Backstage</a>
+        </div>
+      );
 
       return (
         <div>
