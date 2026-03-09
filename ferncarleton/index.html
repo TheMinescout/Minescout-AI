@@ -11,6 +11,9 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- EmailJS SDK Integration -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- THE MINESCOUT FILTER-PROOF SYSTEM v41.0 --- */
+    /* --- THE MINESCOUT FILTER-PROOF SYSTEM v44.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -45,7 +48,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Background Watercolor Elements */
     .bg-wash-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
     .wash { position: absolute; border-radius: 50%; filter: blur(100px); mix-blend-mode: multiply; opacity: 0.8; }
     .wash-1 { top: -5%; left: 5%; width: 55vw; height: 55vh; background: var(--wc-blue); }
@@ -71,7 +73,6 @@
     nav button { background: none; border: none; font-family: 'Lora', serif; font-style: italic; font-size: 1.1rem; text-align: left; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; opacity: 0.5; transition: 0.3s; color: var(--ink); outline: none; }
     nav button.active { opacity: 1; border-left: 2px solid var(--forest); padding-left: 10px; }
 
-    /* Mobile Bar */
     .mobile-header {
       display: none;
       position: fixed; top: 0; left: 0; right: 0;
@@ -93,7 +94,6 @@
 
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; transition: 0.3s; }
 
-    /* Page Component Styling */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; line-height: 1; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
     .hero-text { max-width: 550px; font-size: 1.15rem; color: #333; }
@@ -108,7 +108,6 @@
     .photo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
     .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 10px; color: var(--muted); }
 
-    /* --- CONTACT CARD (DECKLED EDGE) --- */
     .contact-card { 
       background: rgba(255,255,255,0.6); 
       padding: 4rem; 
@@ -133,7 +132,6 @@
       padding: 5px 0;
     }
     .form-group textarea { resize: none; min-height: 100px; }
-    .form-group input::placeholder, .form-group textarea::placeholder { color: #ccc; }
 
     .submit-btn {
       background: var(--forest);
@@ -170,7 +168,12 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useRef } = React;
+
+    // --- EMAILJS ACTIVATION ---
+    const EMAILJS_SERVICE_ID = "service_91osf0m"; 
+    const EMAILJS_TEMPLATE_ID = "template_n98oiz5";
+    const EMAILJS_PUBLIC_KEY = "1tk_WpVfkT1oGuS4P";
 
     const App = () => {
       const [activeTab, setActiveTab] = useState('home');
@@ -179,17 +182,23 @@
       const [loading, setLoading] = useState(true);
 
       useEffect(() => {
+        // Initialize EmailJS with Fern's public key
+        if (typeof emailjs !== 'undefined') {
+          emailjs.init(EMAILJS_PUBLIC_KEY);
+        }
+
+        // Fetch the PNW archive content
         fetch('./content/site-data.json?v=' + Date.now())
           .then(res => res.json())
           .then(data => { setSiteContent(data); setLoading(false); })
-          .catch(err => { console.warn("Content loading fallback..."); setLoading(false); });
+          .catch(err => { console.warn("Content sync required."); setLoading(false); });
       }, []);
 
       const changeTab = (t) => { setActiveTab(t); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
-      if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lora', fontStyle: 'italic', color: '#c2a378'}}>Preparing the archive...</div>;
+      if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lora', fontStyle: 'italic', color: '#c2a378'}}>Preparing the studio...</div>;
       
-      if (!siteContent) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5}}>Missing content/site-data.json</div>;
+      if (!siteContent) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5}}>Awaiting Content Sync.</div>;
 
       return (
         <div>
@@ -219,7 +228,7 @@
                 <li key={t}><button onClick={() => changeTab(t)} className={activeTab === t ? 'active' : ''}>{t}</button></li>
               ))}</ul>
             </nav>
-            <div style={{marginTop: 'auto', opacity: 0.3, fontFamily: 'Space Mono', fontSize: '9px'}}>ARCHIVE v41.0 LIVE</div>
+            <div style={{marginTop: 'auto', opacity: 0.3, fontFamily: 'Space Mono', fontSize: '9px'}}>ARCHIVE v44.0 ACTIVE</div>
           </aside>
 
           <main>
@@ -240,7 +249,7 @@
     const HeroView = ({ data }) => (
       <div className="hero-grid">
         <div className="hero-text"><h2 className="page-title">{data.title}</h2><p>{data.text}</p></div>
-        <div className="hero-img-wrap"><img src={data.image} alt="Work" /></div>
+        <div className="hero-img-wrap"><img src={data.image} alt="Studio Work" /></div>
       </div>
     );
 
@@ -257,30 +266,28 @@
     );
 
     const ContactView = ({ data }) => {
+      const form = useRef();
       const [submitted, setSubmitted] = useState(false);
       const [status, setStatus] = useState("Deliver Inquiry");
 
-      const handleSubmit = async (e) => {
+      const handleSubmit = (e) => {
         e.preventDefault();
         setStatus("Sending...");
-        const formData = new FormData(e.target);
         
-        try {
-          const response = await fetch("https://formspree.io/f/xreyedej", {
-            method: "POST",
-            body: formData,
-            headers: { 'Accept': 'application/json' }
+        emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form.current)
+          .then((result) => {
+            setSubmitted(true);
+          }, (error) => {
+            console.error(error.text);
+            setStatus("Error - Try Again");
           });
-          if (response.ok) { setSubmitted(true); } 
-          else { setStatus("Error - Try Again"); }
-        } catch (error) { setStatus("Error - Try Again"); }
       };
 
       if (submitted) {
         return (
           <div className="contact-card">
-            <h2 style={{fontFamily: 'Lora', fontSize: '3rem', marginBottom: '1rem', color: 'var(--forest)'}}>Inquiry Sent.</h2>
-            <p style={{fontStyle: 'italic'}}>Your message has been delivered to the archive. I will respond to your reasoning shortly.</p>
+            <h2 style={{fontFamily: 'Lora', fontSize: '3rem', marginBottom: '1rem', color: 'var(--forest)'}}>Message Sent.</h2>
+            <p style={{fontStyle: 'italic'}}>Your inquiry has been delivered directly to the studio inbox.</p>
           </div>
         );
       }
@@ -290,14 +297,14 @@
           <h2 style={{fontFamily: 'Lora', fontSize: '3rem', marginBottom: '1rem', color: 'var(--forest)'}}>{data.title}</h2>
           <p style={{fontStyle: 'italic', marginBottom: '3rem', color: 'var(--muted)'}}>{data.text}</p>
           
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form ref={form} onSubmit={handleSubmit} className="space-y-8">
             <div className="form-group">
               <label>Name</label>
-              <input type="text" name="name" required placeholder="Who is writing?" />
+              <input type="text" name="user_name" required placeholder="Who is writing?" />
             </div>
             <div className="form-group">
               <label>Email</label>
-              <input type="email" name="email" required placeholder="Where should I reply?" />
+              <input type="email" name="user_email" required placeholder="Where should I reply?" />
             </div>
             <div className="form-group">
               <label>Message</label>
