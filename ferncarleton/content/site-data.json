@@ -1,1 +1,25 @@
-
+{
+  "welcome": {
+    "title": "Art and Reasoning",
+    "text": "I am a student at the Renaissance School of Art and Reasoning. My work exists in the space where creative expression meets structured logic.",
+    "image": "https://i.postimg.cc/RhZ3LxBZ/PXL_20260209_161536343.jpg"
+  },
+  "about": {
+    "title": "The Creative Process",
+    "text": "Art has always been my primary way of processing the world around me. I focus on how reasoning and logic provide a skeleton for creative 'flesh'.",
+    "image": "https://i.postimg.cc/RhZ3LxBZ/PXL_20260209_161536343.jpg"
+  },
+  "skills": [
+    { "label": "Foundations", "content": "Proficient in watercolor techniques, charcoal sketching, and light theory study." }
+  ],
+  "resume": [
+    { "label": "Education", "content": "Renaissance School of Art and Reasoning — Class of 2027" }
+  ],
+  "photos": [
+    { "title": "Mountain Peak", "url": "https://i.postimg.cc/prL9JMHh/PXL_20251223_225914443.jpg" }
+  ],
+  "contact": {
+    "title": "Studio Inquiry",
+    "text": "Thank you for visiting! Please use the form below for inquiries or collaborations."
+  }
+}
