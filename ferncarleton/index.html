@@ -7,7 +7,7 @@
   
   <link rel="icon" type="image/png" href="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png">
 
-  <!-- Core Frameworks (Using unpkg for school compatibility) -->
+  <!-- Core Frameworks -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -18,7 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- FILTER-PROOF INTERNAL CSS --- */
+    /* --- THE MINESCOUT FILTER-PROOF SYSTEM v38.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -71,9 +71,8 @@
 
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
-    /* Component Layouts */
+    /* Page Component Styling */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; line-height: 1; }
-    
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
     .hero-text { max-width: 550px; font-size: 1.15rem; color: #333; }
     .hero-img-wrap { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transform: rotate(-1.5deg); border-radius: 2px; }
@@ -84,13 +83,12 @@
 
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3.5rem; }
     .photo-card { background: white; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-radius: 2px; transition: transform 0.4s; }
-    .photo-card:hover { transform: translateY(-10px) rotate(1deg); }
     .photo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
     .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 10px; color: var(--muted); }
 
     .contact-card { background: rgba(255,255,255,0.6); padding: 4rem; border-radius: 2px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); backdrop-filter: blur(10px); max-width: 700px; clip-path: polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%); }
 
-    footer { margin-top: 10rem; padding: 5rem 0; border-top: 1px solid var(--wc-blue); font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+    footer { margin-top: 10rem; padding: 5rem 0; border-top: 1px solid var(--wc-blue); font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); }
 
     @media (max-width: 1024px) {
       .sidebar { display: none; }
@@ -111,28 +109,25 @@
       const [loading, setLoading] = useState(true);
 
       useEffect(() => {
-        // Fetch CMS data with cache-busting timestamp
-        fetch('./content/site-data.json?t=' + Date.now())
+        // FETCH FROM THE CONTENT FOLDER
+        fetch('./content/site-data.json?v=' + Date.now())
           .then(res => res.json())
           .then(data => {
             setSiteContent(data);
             setLoading(false);
           })
           .catch(err => {
-            console.warn("Initializing site content via JSON required.");
+            console.warn("Content folder not found. Loading fallback...");
             setLoading(false);
           });
       }, []);
 
-      if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lora', fontStyle: 'italic', color: '#c2a378'}}>Preparing the canvas...</div>;
+      if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lora', fontStyle: 'italic', color: '#c2a378'}}>Restoring the canvas...</div>;
       
-      // Error recovery for missing data
+      // Fallback in case JSON is missing or broken
       if (!siteContent) return (
-        <div style={{height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '2rem'}}>
-          <p style={{fontFamily: 'Space Mono', fontSize: '14px', color: '#555', maxWidth: '400px', marginBottom: '2rem'}}>
-            Please set up <strong>content/site-data.json</strong> in your GitHub repository to display the studio content.
-          </p>
-          <a href="./admin/" style={{color: '#c2a378', textDecoration: 'none', border: '1px solid', padding: '10px 20px', fontSize: '12px'}}>Login to Backstage</a>
+        <div style={{height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', textAlign: 'center'}}>
+          <p style={{fontFamily: 'Space Mono', fontSize: '12px', opacity: 0.5}}>Structure restored. Please push <strong>content/site-data.json</strong> to GitHub.</p>
         </div>
       );
 
@@ -146,7 +141,7 @@
 
           <aside className="sidebar">
             <div className="brand" onClick={() => setActiveTab('home')}>
-              <div style={{width: '60px', height: '60px', background: 'gray', borderRadius: '50%', marginBottom: '20px', overflow: 'hidden'}}>
+              <div style={{width: '64px', height: '64px', borderRadius: '50%', marginBottom: '20px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.05)', background: 'white'}}>
                  <img src="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
               </div>
               <h1>Fern<br/>Carleton</h1>
@@ -159,20 +154,21 @@
                 ))}
               </ul>
             </nav>
-            <div style={{marginTop: 'auto', opacity: 0.3, fontFamily: 'Space Mono', fontSize: '9px'}}>ARCHIVE v37.0 MASTER</div>
+            <div style={{marginTop: 'auto', opacity: 0.3, fontFamily: 'Space Mono', fontSize: '9px'}}>ARCHIVE v38.0 HERITAGE</div>
           </aside>
 
           <main>
-            {activeTab === 'home' && <HeroView data={siteContent.welcome} />}
-            {activeTab === 'about' && <HeroView data={siteContent.about} />}
-            {activeTab === 'skills' && <GridView title="Skills" items={siteContent.skills} />}
-            {activeTab === 'resume' && <GridView title="Resume" items={siteContent.resume} />}
-            {activeTab === 'photos' && <GalleryView items={siteContent.photos} />}
-            {activeTab === 'contact' && <ContactView data={siteContent.contact} />}
+            <div className="fade-in" key={activeTab}>
+                {activeTab === 'home' && <HeroView data={siteContent.welcome} />}
+                {activeTab === 'about' && <HeroView data={siteContent.about} />}
+                {activeTab === 'skills' && <GridView title="Skills" items={siteContent.skills} />}
+                {activeTab === 'resume' && <GridView title="Resume" items={siteContent.resume} />}
+                {activeTab === 'photos' && <GalleryView items={siteContent.photos} />}
+                {activeTab === 'contact' && <ContactView data={siteContent.contact} />}
+            </div>
 
             <footer>
-              <span>&copy; 2026 Fern Carleton &bull; Minescout Studio</span>
-              <a href="./admin/" style={{color: 'inherit', textDecoration: 'none', fontSize: '10px'}}>[Studio Login]</a>
+              <span>&copy; 2026 Fern Carleton &bull; Developed by Thomas Carleton</span>
             </footer>
           </main>
         </div>
@@ -186,7 +182,7 @@
           <p>{data.text}</p>
         </div>
         <div className="hero-img-wrap">
-          <img src={data.image} alt="Studio Visual" />
+          <img src={data.image} alt="Studio Work" />
         </div>
       </div>
     );
@@ -209,7 +205,7 @@
         <div className="photo-grid">
           {items && items.map((img, idx) => (
             <div key={idx} className="photo-card">
-              <img src={img.url} />
+              <img src={img.url} alt={img.title} />
               <h3>{img.title}</h3>
             </div>
           ))}
