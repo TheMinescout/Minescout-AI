@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- MINESCOUT BACKEND SYSTEM v52.0 --- */
+    /* --- MINESCOUT BACKEND SYSTEM v53.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -48,14 +48,14 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Washes */
+    /* Background Environment */
     .bg-wash-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
     .wash { position: absolute; border-radius: 50%; filter: blur(100px); mix-blend-mode: multiply; opacity: 0.8; }
     .wash-1 { top: -5%; left: 5%; width: 55vw; height: 55vh; background: var(--wc-blue); }
     .wash-2 { bottom: -10%; right: -5%; width: 45vw; height: 65vh; background: var(--wc-gold); }
     .wash-3 { top: 25%; right: 10%; width: 40vw; height: 45vh; background: var(--wc-lavender); }
 
-    /* Sidebar Fix */
+    /* The High-Detail Torn Sidebar */
     .sidebar {
       width: var(--sidebar-width); padding: 2.5rem 3rem 4rem; position: fixed; height: 100vh;
       display: flex; flex-direction: column; 
@@ -69,36 +69,44 @@
     .brand h1 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
     .brand span { font-family: 'Space Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 8px; }
 
-    /* Navigation Fix */
+    /* Navigation */
     .nav-list { display: flex; flex-direction: column; gap: 1.5rem; }
     .nav-btn { background: none; border: none; font-family: 'Lora', serif; font-style: italic; font-size: 1.1rem; text-align: left; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; opacity: 0.5; transition: 0.3s; color: var(--ink); outline: none; }
     .nav-btn.active { opacity: 1; border-left: 2px solid var(--forest); padding-left: 10px; }
 
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
-    /* Admin UI Enhancement */
-    .admin-card { background: white; padding: 3rem; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: 0 auto; }
-    .admin-instruction { background: #f4f7f4; border-left: 4px solid var(--forest); padding: 1.5rem; margin-bottom: 2rem; font-size: 0.85rem; color: #444; }
-    .admin-instruction code { background: white; padding: 2px 4px; border-radius: 2px; font-weight: bold; }
+    /* Admin UI CSS Update */
+    .admin-card { background: white; padding: 0; border-radius: 8px; box-shadow: 0 30px 60px rgba(0,0,0,0.12); width: 100%; max-width: 1100px; margin: 0 auto; overflow: hidden; }
+    .admin-header { background: var(--forest); color: white; padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .admin-header h2 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 400; }
     
-    .admin-section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; margin: 3rem 0 2rem; padding-bottom: 0.5rem; }
-    .admin-section-header h3 { font-family: 'Lora', serif; font-size: 1.5rem; }
-    
-    .input-group { margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
-    .input-group label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; font-weight: 700; }
-    .input-group input, .input-group textarea { width: 100%; border: none; background: none; font-size: 1.1rem; outline: none; color: var(--ink); font-family: inherit; }
-    .input-group textarea { min-height: 80px; resize: vertical; }
+    .admin-nav { display: flex; background: #f8f9f8; border-bottom: 1px solid #eee; padding: 0 2rem; }
+    .admin-nav-btn { background: none; border: none; padding: 1.2rem 1.5rem; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; font-weight: 700; color: #888; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.2s; }
+    .admin-nav-btn.active { color: var(--forest); border-bottom-color: var(--forest); }
+    .admin-nav-btn:hover:not(.active) { color: #333; }
 
-    .btn-action { background: var(--forest); color: white; border: none; padding: 1.2rem 2.5rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: 0.2s; }
-    .btn-action:hover { background: var(--ink); transform: translateY(-2px); }
-    .btn-outline { background: none; border: 1px solid #ccc; color: #666; padding: 0.5rem 1rem; font-size: 10px; text-transform: uppercase; cursor: pointer; font-family: 'Space Mono'; }
-    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+    .admin-content { padding: 3rem; max-height: 70vh; overflow-y: auto; }
+    .admin-instruction { background: #fdfaf3; border: 1px solid #eee; padding: 1.5rem; margin-bottom: 2.5rem; font-size: 0.85rem; border-radius: 4px; }
+    
+    .input-row { margin-bottom: 2.5rem; }
+    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 9px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+    .input-row input, .input-row textarea { width: 100%; border: 1px solid #eee; background: #fafafa; border-radius: 4px; padding: 12px 15px; font-size: 1rem; outline: none; color: var(--ink); font-family: inherit; transition: 0.2s; }
+    .input-row input:focus, .input-row textarea:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 4px rgba(194, 163, 120, 0.05); }
+
+    .btn-save { background: var(--forest); color: white; border: none; padding: 1.2rem 2.5rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.2s; width: 100%; border-radius: 0 0 8px 8px; }
+    .btn-save:hover { background: var(--ink); letter-spacing: 0.05em; }
+
+    .post-box { background: #fff; border: 1px solid #eee; padding: 2rem; border-radius: 6px; margin-bottom: 1.5rem; position: relative; transition: 0.3s; }
+    .post-box:hover { border-color: #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+    .btn-delete { color: #ff5c5c; background: none; border: none; font-size: 9px; font-weight: bold; text-transform: uppercase; cursor: pointer; position: absolute; top: 2rem; right: 2rem; opacity: 0.5; }
+    .btn-delete:hover { opacity: 1; text-decoration: underline; }
 
     /* Content Styling */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 5.5rem; align-items: start; }
     .hero-img-wrap { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transform: rotate(-1.5deg); }
-    .hero-img-wrap img { width: 100%; }
+    .hero-img-wrap img { width: 100%; border-radius: 1px; }
 
     .smart-row { display: grid; grid-template-columns: 260px 1fr; gap: 4rem; margin-bottom: 4.5rem; }
     .smart-label { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border-left: 6px solid var(--wc-blue); padding-left: 22px; }
@@ -132,6 +140,7 @@
 
     const App = () => {
       const [view, setView] = useState('home');
+      const [adminTab, setAdminTab] = useState('photos');
       const [data, setData] = useState(null);
       const [loading, setLoading] = useState(true);
       const [adminKey, setAdminKey] = useState("");
@@ -140,11 +149,9 @@
       useEffect(() => {
         if (window.emailjs) emailjs.init(EMAILJS_KEY);
 
-        // Fetch Archive Data
         fetch(WORKER_URL)
           .then(res => res.json())
           .then(d => { 
-            // Fallback for missing arrays
             if(!d.photos) d.photos = [];
             if(!d.skills) d.skills = [];
             if(!d.resume) d.resume = [];
@@ -162,27 +169,26 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ key: adminKey, data: data })
         });
-        if (response.ok) { alert("Archive Updated Instantly!"); } 
+        if (response.ok) { alert("Archive Successfully Deployed."); } 
         else { alert("Verification Failed."); }
       };
 
-      const addListItem = (target) => {
-        const newItem = target === 'photos' ? { title: "New Entry", url: "" } : { label: "Category", content: "Details..." };
-        setData({ ...data, [target]: [...(data[target] || []), newItem] });
+      const addItem = (target) => {
+        const newItem = target === 'photos' ? { title: "Untitled Entry", url: "" } : { label: "Category", content: "Write details here..." };
+        setData({ ...data, [target]: [newItem, ...(data[target] || [])] });
       };
 
-      const updateListItem = (target, index, field, value) => {
+      const updateItem = (target, index, field, value) => {
         const newList = [...data[target]];
         newList[index][field] = value;
         setData({ ...data, [target]: newList });
       };
 
-      const removeListItem = (target, index) => {
+      const removeItem = (target, index) => {
         setData({ ...data, [target]: data[target].filter((_, i) => i !== index) });
       };
 
       if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Lora', fontStyle:'italic', color: '#c2a378'}}>Restoring Archive...</div>;
-      
       if (!data) return <div style={{padding:'5rem', textAlign:'center'}}>Connection to backend failed.</div>;
 
       return (
@@ -200,89 +206,93 @@
                   <button key={tab} onClick={() => setView(tab)} className={`nav-btn ${view === tab ? 'active' : ''}`}>{tab}</button>
                 ))}
               </nav>
+              <div style={{marginTop:'auto', opacity:0.2, fontSize:'9px', fontFamily:'Space Mono'}}>ARCHIVE v53.0</div>
             </aside>
           )}
 
-          <main className={view === 'admin' ? 'w-full ml-0 py-20 flex justify-center' : ''}>
+          <main className={view === 'admin' ? 'w-full ml-0 py-20 flex justify-center bg-gray-50/50 min-h-screen' : ''}>
             {view === 'admin' ? (
-              <div className="admin-card">
-                <h2 className="font-serif text-3xl mb-4 border-b pb-4">Studio Backstage</h2>
+              <div className="admin-card animate-in fade-in duration-500">
+                <header className="admin-header">
+                    <h2>Studio Backstage</h2>
+                    <button onClick={() => setView('home')} style={{background:'rgba(255,255,255,0.1)', border:'none', color:'white', padding:'8px 15px', borderRadius:'4px', cursor:'pointer', fontSize:'10px', fontWeight:'bold', textTransform:'uppercase'}}>Exit Dashboard</button>
+                </header>
                 
                 {!isAuthed ? (
-                  <div className="space-y-6">
+                  <div className="p-12 space-y-8">
                     <div className="admin-instruction">
-                      Enter your <code>ADMIN_SECRET</code> key below to unlock editing for all pages.
+                      Enter your <code>ADMIN_SECRET</code> key below to manage the digital archive.
                     </div>
-                    <label className="font-mono text-[10px] uppercase font-bold text-[#c2a378]">Verification Required</label>
-                    <input type="password" placeholder="ADMIN_SECRET..." className="admin-input border-b border-black w-full outline-none py-2" onChange={e => setAdminKey(e.target.value)} />
-                    <button className="btn-action" onClick={() => setIsAuthed(true)}>Verify Access</button>
+                    <div className="input-row">
+                        <label>Secret Reasoning Key</label>
+                        <input type="password" placeholder="••••••••" onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
+                    </div>
+                    <button className="btn-save" style={{borderRadius:'4px'}} onClick={() => setIsAuthed(true)}>Verify Access</button>
                   </div>
                 ) : (
-                  <div className="space-y-12 animate-in fade-in duration-500">
-                    <div className="admin-instruction">
-                      <strong>Instructions:</strong> To add photos, use <a href="https://postimg.cc" target="_blank" style={{textDecoration:'underline'}}>PostImg.cc</a>. Upload your photo, then copy the <code>Direct Link</code> (it must end in .jpg or .png) and paste it into the URL box below.
-                    </div>
-
-                    <section>
-                      <div className="admin-section-header"><h3>Welcome Page</h3></div>
-                      <div className="input-group"><label>Headline</label><input value={data.welcome?.title || ''} onChange={e => setData({...data, welcome: {...data.welcome, title: e.target.value}})} /></div>
-                      <div className="input-group"><label>Description</label><textarea value={data.welcome?.text || ''} onChange={e => setData({...data, welcome: {...data.welcome, text: e.target.value}})} /></div>
-                      <div className="input-group"><label>Hero Image URL</label><input value={data.welcome?.image || ''} onChange={e => setData({...data, welcome: {...data.welcome, image: e.target.value}})} /></div>
-                    </section>
-
-                    <section>
-                      <div className="admin-section-header"><h3>About Page</h3></div>
-                      <div className="input-group"><label>Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
-                      <div className="input-group"><label>Bio Body Text</label><textarea value={data.about?.text || ''} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
-                      <div className="input-group"><label>Portrait URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
-                    </section>
-
-                    <section>
-                      <div className="admin-section-header">
-                        <h3>Photography Gallery</h3>
-                        <button onClick={() => addListItem('photos')} className="btn-outline">+ Post New Photo</button>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {data.photos.map((p, i) => (
-                          <div key={i} className="p-6 border border-dashed border-gray-200 rounded">
-                            <div className="input-group"><label>Title</label><input value={p.title} onChange={e => updateListItem('photos', i, 'title', e.target.value)} /></div>
-                            <div className="input-group"><label>Direct Image URL (.jpg)</label><input value={p.url} onChange={e => updateListItem('photos', i, 'url', e.target.value)} /></div>
-                            <button onClick={() => removeListItem('photos', i)} className="text-[9px] font-bold text-red-500 uppercase">Delete Post</button>
-                          </div>
+                  <div>
+                    <nav className="admin-nav">
+                        {['photos', 'skills', 'resume', 'about', 'contact'].map(t => (
+                            <button key={t} onClick={() => setAdminTab(t)} className={`admin-nav-btn ${adminTab === t ? 'active' : ''}`}>{t}</button>
                         ))}
-                      </div>
-                    </section>
+                    </nav>
 
-                    <section>
-                      <div className="admin-section-header">
-                        <h3>Skills Grid</h3>
-                        <button onClick={() => addListItem('skills')} className="btn-outline">+ Add Skill Row</button>
-                      </div>
-                      {data.skills.map((s, i) => (
-                        <div key={i} className="flex gap-10 mb-8 border-l-4 border-gray-100 pl-4">
-                          <div className="w-1/3 input-group"><label>Label</label><input value={s.label} onChange={e => updateListItem('skills', i, 'label', e.target.value)} /></div>
-                          <div className="w-2/3 input-group"><label>Details</label><textarea value={s.content} onChange={e => updateListItem('skills', i, 'content', e.target.value)} /></div>
-                          <button onClick={() => removeListItem('skills', i)} className="text-red-300">×</button>
-                        </div>
-                      ))}
-                    </section>
+                    <div className="admin-content">
+                        {adminTab === 'photos' && (
+                            <section className="animate-in slide-in-from-bottom-4 duration-500">
+                                <div className="admin-instruction">
+                                    <strong>Photography Workflow:</strong> Use <a href="https://postimg.cc" target="_blank" style={{color:'var(--forest)', fontWeight:'bold'}}>PostImg.cc</a>. Upload your photo, click "Share," then copy the <code>Direct Link</code> (ends in .jpg) and paste it below.
+                                </div>
+                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem'}}>
+                                    <h3 style={{fontFamily:'Lora', fontSize:'1.4rem'}}>Gallery Library</h3>
+                                    <button onClick={() => addItem('photos')} className="btn-outline">+ Post New Photo</button>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {data.photos.map((p, i) => (
+                                        <div key={i} className="post-box">
+                                            <button className="btn-delete" onClick={() => removeItem('photos', i)}>Remove Post</button>
+                                            <div className="input-row"><label>Post Title</label><input value={p.title} onChange={e => updateItem('photos', i, 'title', e.target.value)} /></div>
+                                            <div className="input-row" style={{marginBottom:0}}><label>Direct Link (.jpg)</label><input value={p.url} onChange={e => updateItem('photos', i, 'url', e.target.value)} /></div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
 
-                    <section>
-                      <div className="admin-section-header">
-                        <h3>Resume Grid</h3>
-                        <button onClick={() => addListItem('resume')} className="btn-outline">+ Add Resume Row</button>
-                      </div>
-                      {data.resume.map((r, i) => (
-                        <div key={i} className="flex gap-10 mb-8 border-l-4 border-gray-100 pl-4">
-                          <div className="w-1/3 input-group"><label>Year / Category</label><input value={r.label} onChange={e => updateListItem('resume', i, 'label', e.target.value)} /></div>
-                          <div className="w-2/3 input-group"><label>Experience Details</label><textarea value={r.content} onChange={e => updateListItem('resume', i, 'content', e.target.value)} /></div>
-                          <button onClick={() => removeListItem('resume', i)} className="text-red-300">×</button>
-                        </div>
-                      ))}
-                    </section>
-                    
-                    <button className="btn-action w-full" onClick={saveChanges}>Push Changes Instantly</button>
-                    <button onClick={() => setView('home')} className="block mx-auto text-[10px] uppercase opacity-40 font-bold mt-10">Return to Portfolio</button>
+                        {(adminTab === 'skills' || adminTab === 'resume') && (
+                            <section className="animate-in slide-in-from-bottom-4 duration-500">
+                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem'}}>
+                                    <h3 style={{fontFamily:'Lora', fontSize:'1.4rem'}}>{adminTab.charAt(0).toUpperCase() + adminTab.slice(1)} Grid</h3>
+                                    <button onClick={() => addItem(adminTab)} className="btn-outline">+ Add Row</button>
+                                </div>
+                                {data[adminTab].map((item, i) => (
+                                    <div key={i} className="post-box" style={{display:'flex', gap:'2rem'}}>
+                                        <button className="btn-delete" onClick={() => removeItem(adminTab, i)}>Delete Row</button>
+                                        <div className="input-row" style={{width:'240px', marginBottom:0}}><label>Label</label><input value={item.label} onChange={e => updateItem(adminTab, i, 'label', e.target.value)} /></div>
+                                        <div className="input-row" style={{flex:1, marginBottom:0}}><label>Details</label><textarea value={item.content} onChange={e => updateItem(adminTab, i, 'content', e.target.value)} /></div>
+                                    </div>
+                                ))}
+                            </section>
+                        )}
+
+                        {adminTab === 'about' && (
+                            <section className="animate-in slide-in-from-bottom-4 duration-500">
+                                <h3 style={{fontFamily:'Lora', fontSize:'1.4rem', marginBottom:'2rem'}}>Bio & Identity</h3>
+                                <div className="input-row"><label>Biography Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
+                                <div className="input-row"><label>Bio Body Text</label><textarea value={data.about?.text || ''} style={{minHeight:'250px'}} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
+                                <div className="input-row"><label>About Page Photo URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
+                            </section>
+                        )}
+
+                        {adminTab === 'contact' && (
+                            <section className="animate-in slide-in-from-bottom-4 duration-500">
+                                <h3 style={{fontFamily:'Lora', fontSize:'1.4rem', marginBottom:'2rem'}}>Inquiry Page</h3>
+                                <div className="input-row"><label>Page Headline</label><input value={data.contact?.title || ''} onChange={e => setData({...data, contact: {...data.contact, title: e.target.value}})} /></div>
+                                <div className="input-row"><label>Instructional Text</label><textarea value={data.contact?.text || ''} onChange={e => setData({...data, contact: {...data.contact, text: e.target.value}})} /></div>
+                            </section>
+                        )}
+                    </div>
+                    <button className="btn-save" onClick={saveChanges}>Push Changes Instantly</button>
                   </div>
                 )}
               </div>
@@ -312,14 +322,17 @@
     const Gallery = ({ items }) => (
         <div><h2 className="page-title">Photography</h2><div className="photo-grid">
             {items && items.map((p, i) => (
-                <div key={i} className="photo-card"><img src={p.url} alt={p.title} /><h3 className="font-handwriting text-2xl text-right mt-4 text-[#555]">{p.title}</h3></div>
+                <div key={i} className="photo-card group hover:-translate-y-2 transition-transform duration-500">
+                    <img src={p.url} alt={p.title} />
+                    <h3 className="font-handwriting text-2xl text-right mt-4 text-[#555]">{p.title}</h3>
+                </div>
             ))}
         </div></div>
     );
 
     const SmartGrid = ({ title, items }) => (
         <div><h2 className="page-title">{title}</h2>{items && items.map((item, i) => (
-            <div key={i} className="smart-row"><div className="smart-label">{item.label}</div><div className="text-lg text-gray-700 leading-relaxed">{item.content}</div></div>
+            <div key={i} className="smart-row"><div className="smart-label">{item.label}</div><div className="text-lg text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{__html: item.content}}></div></div>
         ))}</div>
     );
 
@@ -348,10 +361,10 @@
                 <h2 className="font-serif text-5xl mb-6">{data?.title}</h2>
                 <p className="italic text-gray-600 mb-12">{data?.text}</p>
                 <form ref={formRef} onSubmit={sendEmail}>
-                    <div className="input-group"><label>Your Name</label><input className="w-full font-serif text-xl italic" type="text" name="user_name" required /></div>
-                    <div className="input-group"><label>Your Email</label><input className="w-full font-serif text-xl italic" type="email" name="user_email" required /></div>
-                    <div className="input-group" style={{border:'none'}}><label>Share your reasoning</label><textarea className="w-full font-serif text-xl italic min-h-[150px] border-b outline-none" name="message" required></textarea></div>
-                    <button type="submit" className="btn-action w-full">{status}</button>
+                    <div className="input-group"><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Name</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic'}} type="text" name="user_name" required /></div>
+                    <div className="input-group" style={{marginTop:'20px'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Email</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic'}} type="email" name="user_email" required /></div>
+                    <div className="input-group" style={{marginTop:'20px'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Share your reasoning</label><textarea style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', minHeight:'120px', resize:'none'}} name="message" required></textarea></div>
+                    <button type="submit" className="btn-action w-full" style={{marginTop:'40px'}}>{status}</button>
                 </form>
             </div>
         );
