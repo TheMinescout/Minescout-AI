@@ -1,0 +1,56 @@
+# THE BRAIN OF THE STUDIO
+backend:
+  name: github
+  repo: Minescout-AI # thomas: change this to your actual repo path!
+  branch: main
+
+media_folder: "assets/images" # Where images uploaded via the CMS will go
+public_folder: "/assets/images"
+
+collections:
+  - name: "content"
+    label: "Site Content"
+    delete: false # Prevent Fern from accidentally deleting the whole file
+    editor:
+      preview: false
+    files:
+      - name: "master"
+        label: "Master Website Content"
+        file: "content/site-data.json"
+        fields:
+          - label: "Welcome Section"
+            name: "welcome"
+            widget: "object"
+            fields:
+              - {label: "Headline", name: "title", widget: "string"}
+              - {label: "Intro Text", name: "text", widget: "text"}
+              - {label: "Hero Image URL", name: "image", widget: "image"}
+          
+          - label: "About Section"
+            name: "about"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Bio Body", name: "text", widget: "markdown"}
+              - {label: "Portrait Image URL", name: "image", widget: "image"}
+
+          - label: "Photography Gallery"
+            name: "photos"
+            widget: "list"
+            fields:
+              - {label: "Photo Title", name: "title", widget: "string"}
+              - {label: "Image", name: "url", widget: "image"}
+
+          - label: "Skills Grid"
+            name: "skills"
+            widget: "list"
+            fields:
+              - {label: "Category Name", name: "label", widget: "string"}
+              - {label: "Details", name: "content", widget: "text"}
+
+          - label: "Resume Grid"
+            name: "resume"
+            widget: "list"
+            fields:
+              - {label: "Year/Category", name: "label", widget: "string"}
+              - {label: "Experience Details", name: "content", widget: "markdown"}
