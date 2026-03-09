@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- THE MINESCOUT FILTER-PROOF SYSTEM v44.0 --- */
+    /* --- MINESCOUT CUSTOM BACKEND SYSTEM v46.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -48,6 +48,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* Background Environment */
     .bg-wash-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
     .wash { position: absolute; border-radius: 50%; filter: blur(100px); mix-blend-mode: multiply; opacity: 0.8; }
     .wash-1 { top: -5%; left: 5%; width: 55vw; height: 55vh; background: var(--wc-blue); }
@@ -73,94 +74,44 @@
     nav button { background: none; border: none; font-family: 'Lora', serif; font-style: italic; font-size: 1.1rem; text-align: left; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; opacity: 0.5; transition: 0.3s; color: var(--ink); outline: none; }
     nav button.active { opacity: 1; border-left: 2px solid var(--forest); padding-left: 10px; }
 
-    .mobile-header {
-      display: none;
-      position: fixed; top: 0; left: 0; right: 0;
-      height: var(--header-height);
-      background: rgba(253, 252, 248, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 0 1.5rem;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      z-index: 1500;
-    }
-    .mobile-logo { font-family: 'Lora', serif; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; }
-    .hamburger { background: none; border: none; cursor: pointer; padding: 10px; display: flex; flex-direction: column; gap: 5px; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: 0.3s; }
-
-    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.1); backdrop-filter: blur(2px); z-index: 1900; opacity: 0; pointer-events: none; transition: 0.3s; }
-    .overlay.active { opacity: 1; pointer-events: auto; }
-
-    main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; transition: 0.3s; }
-
-    .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; line-height: 1; }
+    /* Layout Components */
+    .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
-    .hero-text { max-width: 550px; font-size: 1.15rem; color: #333; }
-    .hero-img-wrap { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transform: rotate(-1.5deg); border-radius: 2px; }
+    .hero-img-wrap { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transform: rotate(-1.5deg); }
     .hero-img-wrap img { width: 100%; border-radius: 1px; }
 
     .smart-row { display: grid; grid-template-columns: 260px 1fr; gap: 4rem; margin-bottom: 4.5rem; align-items: start; }
     .smart-label { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border-left: 6px solid var(--wc-blue); padding-left: 22px; }
 
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3.5rem; }
-    .photo-card { background: white; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-radius: 2px; transition: transform 0.4s; }
+    .photo-card { background: white; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-radius: 2px; }
     .photo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
     .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 10px; color: var(--muted); }
 
+    /* Admin Interface */
+    .admin-card { background: white; padding: 3rem; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); width: 100%; max-width: 900px; margin: 0 auto; }
+    .input-group { margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
+    .input-group label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+    .input-group input, .input-group textarea { width: 100%; border: none; background: none; font-size: 1.1rem; outline: none; }
+    .btn-action { background: var(--forest); color: white; border: none; padding: 1.2rem 2.5rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; border-radius: 2px; }
+
+    /* Contact Form Deckled Edge */
     .contact-card { 
-      background: rgba(255,255,255,0.6); 
-      padding: 4rem; 
-      border-radius: 2px; 
-      box-shadow: 0 15px 35px rgba(0,0,0,0.04); 
-      backdrop-filter: blur(10px); 
-      max-width: 700px; 
-      clip-path: polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%); 
+        background: rgba(255,255,255,0.6); 
+        padding: 4rem; 
+        border-radius: 2px; 
+        box-shadow: 0 15px 35px rgba(0,0,0,0.04); 
+        backdrop-filter: blur(10px); 
+        max-width: 700px; 
+        margin: 0 auto;
+        clip-path: polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%); 
     }
-    
-    .form-group { position: relative; margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px; }
-    .form-group label { display: block; font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      background: none;
-      border: none;
-      font-family: 'Lora', serif;
-      font-style: italic;
-      font-size: 1.2rem;
-      color: var(--ink);
-      outline: none;
-      padding: 5px 0;
-    }
-    .form-group textarea { resize: none; min-height: 100px; }
 
-    .submit-btn {
-      background: var(--forest);
-      color: white;
-      padding: 1.5rem;
-      border: none;
-      width: 100%;
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 0.3em;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(45, 58, 45, 0.2);
-      transition: 0.3s;
-    }
-    .submit-btn:hover { background: var(--ink); transform: translateY(-2px); }
-    .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
-
-    footer { margin-top: 10rem; padding: 5rem 0; border-top: 1px solid var(--wc-blue); font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+    main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
     @media (max-width: 1024px) {
-      .mobile-header { display: flex; }
-      .sidebar { transform: translateX(-100%); }
-      .sidebar.active { transform: translateX(0); box-shadow: 20px 0 50px rgba(0,0,0,0.1); }
-      main { margin-left: 0; padding: calc(var(--header-height) + 3rem) 1.5rem 4rem 1.5rem; }
-      .hero-grid, .smart-row { grid-template-columns: 1fr; gap: 2rem; }
-      .page-title { font-size: 2.8rem; }
-      .contact-card { padding: 3rem 1.5rem; }
+      .sidebar { display: none; }
+      main { margin-left: 0; padding: 2rem; }
     }
   </style>
 </head>
@@ -170,151 +121,191 @@
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
-    // --- EMAILJS ACTIVATION ---
-    const EMAILJS_SERVICE_ID = "service_91osf0m"; 
-    const EMAILJS_TEMPLATE_ID = "template_n98oiz5";
-    const EMAILJS_PUBLIC_KEY = "1tk_WpVfkT1oGuS4P";
+    // --- YOUR ENDPOINTS ---
+    const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
+    const EMAILJS_KEY = "1tk_WpVfkT1oGuS4P";
+    const EMAILJS_SERVICE = "service_91osf0m";
+    const EMAILJS_TEMPLATE = "template_n98oiz5";
 
     const App = () => {
-      const [activeTab, setActiveTab] = useState('home');
-      const [isMenuOpen, setIsMenuOpen] = useState(false);
-      const [siteContent, setSiteContent] = useState(null);
+      const [view, setView] = useState('home');
+      const [data, setData] = useState(null);
       const [loading, setLoading] = useState(true);
+      const [adminKey, setAdminKey] = useState("");
+      const [isAuthed, setIsAuthed] = useState(false);
 
       useEffect(() => {
-        // Initialize EmailJS with Fern's public key
-        if (typeof emailjs !== 'undefined') {
-          emailjs.init(EMAILJS_PUBLIC_KEY);
+        // Initialize EmailJS
+        if (window.emailjs) {
+            emailjs.init(EMAILJS_KEY);
         }
 
-        // Fetch the PNW archive content
-        fetch('./content/site-data.json?v=' + Date.now())
+        // Fetch data from Worker
+        fetch(WORKER_URL)
           .then(res => res.json())
-          .then(data => { setSiteContent(data); setLoading(false); })
-          .catch(err => { console.warn("Content sync required."); setLoading(false); });
+          .then(d => { setData(d); setLoading(false); })
+          .catch(e => { console.error("Database connection failed", e); setLoading(false); });
+
+        if (window.location.hash === "#admin") setView('admin');
       }, []);
 
-      const changeTab = (t) => { setActiveTab(t); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+      const saveChanges = async () => {
+        const response = await fetch(WORKER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: adminKey, data: data })
+        });
+        if (response.ok) { 
+          alert("Archive Updated Successfully!"); 
+        } else { 
+          alert("Verification Failed. Access Denied."); 
+        }
+      };
 
-      if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lora', fontStyle: 'italic', color: '#c2a378'}}>Preparing the studio...</div>;
-      
-      if (!siteContent) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5}}>Awaiting Content Sync.</div>;
+      const addPhoto = () => {
+        const photos = [...data.photos, { title: "Untitled", url: "" }];
+        setData({ ...data, photos });
+      };
+
+      if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lora', fontStyle: 'italic'}}>Restoring Archive...</div>;
+      if (!data) return <div style={{padding: '5rem'}}>Database not initialized. Please deploy your Worker.</div>;
 
       return (
-        <div>
+        <div className="flex">
           <div className="bg-wash-container"><div className="wash wash-1"></div><div className="wash wash-2"></div><div className="wash wash-3"></div></div>
-          
-          <header className="mobile-header">
-              <div className="mobile-logo">Fern Carleton</div>
-              <button className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                  <span style={{transform: isMenuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none'}}></span>
-                  <span style={{opacity: isMenuOpen ? '0' : '1'}}></span>
-                  <span style={{transform: isMenuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none'}}></span>
-              </button>
-          </header>
 
-          <div className={`overlay ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
-
-          <aside className={`sidebar ${isMenuOpen ? 'active' : ''}`}>
-            <div className="brand" onClick={() => changeTab('home')}>
-              <div style={{width: '64px', height: '64px', borderRadius: '50%', marginBottom: '20px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.05)', background: 'white'}}>
-                 <img src="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+          {view !== 'admin' && (
+            <aside className="sidebar">
+              <div className="brand" onClick={() => setView('home')}>
+                <h1>Fern<br/>Carleton</h1>
+                <span className="font-mono text-[10px] uppercase text-[#c2a378] mt-2 block tracking-widest">Art & Reasoning</span>
               </div>
-              <h1>Fern<br/>Carleton</h1>
-              <span>Art & Reasoning</span>
-            </div>
-            <nav>
-              <ul>{['photos', 'skills', 'resume', 'about', 'contact'].map(t => (
-                <li key={t}><button onClick={() => changeTab(t)} className={activeTab === t ? 'active' : ''}>{t}</button></li>
-              ))}</ul>
-            </nav>
-            <div style={{marginTop: 'auto', opacity: 0.3, fontFamily: 'Space Mono', fontSize: '9px'}}>ARCHIVE v44.0 ACTIVE</div>
-          </aside>
+              <nav className="mt-12 flex flex-col">
+                {['home', 'photos', 'skills', 'resume', 'about', 'contact'].map(tab => (
+                  <button key={tab} onClick={() => setView(tab)} className={view === tab ? 'active' : ''}>{tab}</button>
+                ))}
+              </nav>
+              <div style={{marginTop: 'auto', opacity: 0.3, fontSize: '9px', fontFamily: 'Space Mono'}}>BACKEND CORE v46.0</div>
+            </aside>
+          )}
 
-          <main>
-            <div key={activeTab}>
-                {activeTab === 'home' && <HeroView data={siteContent.welcome} />}
-                {activeTab === 'about' && <HeroView data={siteContent.about} />}
-                {activeTab === 'skills' && <GridView title="Skills" items={siteContent.skills} />}
-                {activeTab === 'resume' && <GridView title="Resume" items={siteContent.resume} />}
-                {activeTab === 'photos' && <GalleryView items={siteContent.photos} />}
-                {activeTab === 'contact' && <ContactView data={siteContent.contact} />}
-            </div>
-            <footer><span>&copy; 2026 Fern Carleton &bull; Developed by Thomas Carleton</span></footer>
+          <main className={view === 'admin' ? 'w-full ml-0 py-20 flex justify-center' : ''}>
+            {view === 'admin' ? (
+              <div className="admin-card">
+                <h2 className="font-serif text-3xl mb-10 border-b pb-4">Studio Backstage</h2>
+                {!isAuthed ? (
+                  <div className="space-y-6">
+                    <label className="font-mono text-[10px] uppercase font-bold text-[#c2a378]">Authorization Required</label>
+                    <input type="password" placeholder="Enter Secret Key..." className="admin-input border-b border-black w-full outline-none py-2" onChange={e => setAdminKey(e.target.value)} />
+                    <button className="btn-action" onClick={() => setIsAuthed(true)}>Enter Archive</button>
+                  </div>
+                ) : (
+                  <div className="space-y-12">
+                    <section>
+                      <h3 className="font-mono text-xs font-bold mb-6 text-blue-600 uppercase">Welcome & About Content</h3>
+                      <div className="input-group"><label>Headline</label><input value={data.welcome.title} onChange={e => setData({...data, welcome: {...data.welcome, title: e.target.value}})} /></div>
+                      <div className="input-group"><label>Welcome Bio</label><textarea value={data.welcome.text} onChange={e => setData({...data, welcome: {...data.welcome, text: e.target.value}})} /></div>
+                      <div className="input-group"><label>Hero Image URL</label><input value={data.welcome.image} onChange={e => setData({...data, welcome: {...data.welcome, image: e.target.value}})} /></div>
+                    </section>
+
+                    <section>
+                      <div className="flex justify-between items-center mb-8 border-b pb-2">
+                        <h3 className="font-mono text-xs font-bold text-blue-600 uppercase">Photography Gallery</h3>
+                        <button onClick={addPhoto} className="text-[10px] font-bold border border-black px-4 py-1 uppercase">+ Add Post</button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-8">
+                        {data.photos.map((p, i) => (
+                          <div key={i} className="p-6 border border-dashed border-gray-200">
+                            <div className="input-group"><label>Photo Title</label><input value={p.title} onChange={e => {
+                                const ps = [...data.photos]; ps[i].title = e.target.value; setData({...data, photos: ps});
+                            }} /></div>
+                            <div className="input-group"><label>Image URL</label><input value={p.url} onChange={e => {
+                                const ps = [...data.photos]; ps[i].url = e.target.value; setData({...data, photos: ps});
+                            }} /></div>
+                            <button onClick={() => setData({...data, photos: data.photos.filter((_, idx) => idx !== i)})} className="text-[9px] uppercase font-bold text-red-400">Remove Post</button>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+                    
+                    <button className="btn-action w-full" onClick={saveChanges}>Push Changes Instantly</button>
+                    <button onClick={() => setView('home')} className="block mx-auto text-[10px] uppercase opacity-40 font-bold mt-10">Return to Portfolio</button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="animate-in fade-in duration-700">
+                {view === 'home' && <Hero data={data.welcome} />}
+                {view === 'about' && <Hero data={data.about} />}
+                {view === 'photos' && <Gallery items={data.photos} />}
+                {view === 'skills' && <SmartGrid title="Skills" items={data.skills} />}
+                {view === 'resume' && <SmartGrid title="Resume" items={data.resume} />}
+                {view === 'contact' && <ContactView data={data.contact} service={EMAILJS_SERVICE} template={EMAILJS_TEMPLATE} />}
+              </div>
+            )}
           </main>
         </div>
       );
     };
 
-    const HeroView = ({ data }) => (
-      <div className="hero-grid">
-        <div className="hero-text"><h2 className="page-title">{data.title}</h2><p>{data.text}</p></div>
-        <div className="hero-img-wrap"><img src={data.image} alt="Studio Work" /></div>
-      </div>
-    );
-
-    const GridView = ({ title, items }) => (
-      <div><h2 className="page-title">{title}</h2>{items && items.map((item, idx) => (
-        <div key={idx} className="smart-row"><div className="smart-label">{item.label}</div><div className="smart-content" dangerouslySetInnerHTML={{__html: item.content}}></div></div>
-      ))}</div>
-    );
-
-    const GalleryView = ({ items }) => (
-      <div><h2 className="page-title">Photography</h2><div className="photo-grid">{items && items.map((img, idx) => (
-        <div key={idx} className="photo-card"><img src={img.url} alt={img.title} /><h3>{img.title}</h3></div>
-      ))}</div></div>
-    );
-
-    const ContactView = ({ data }) => {
-      const form = useRef();
-      const [submitted, setSubmitted] = useState(false);
-      const [status, setStatus] = useState("Deliver Inquiry");
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        setStatus("Sending...");
-        
-        emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form.current)
-          .then((result) => {
-            setSubmitted(true);
-          }, (error) => {
-            console.error(error.text);
-            setStatus("Error - Try Again");
-          });
-      };
-
-      if (submitted) {
-        return (
-          <div className="contact-card">
-            <h2 style={{fontFamily: 'Lora', fontSize: '3rem', marginBottom: '1rem', color: 'var(--forest)'}}>Message Sent.</h2>
-            <p style={{fontStyle: 'italic'}}>Your inquiry has been delivered directly to the studio inbox.</p>
-          </div>
-        );
-      }
-
-      return (
-        <div className="contact-card">
-          <h2 style={{fontFamily: 'Lora', fontSize: '3rem', marginBottom: '1rem', color: 'var(--forest)'}}>{data.title}</h2>
-          <p style={{fontStyle: 'italic', marginBottom: '3rem', color: 'var(--muted)'}}>{data.text}</p>
-          
-          <form ref={form} onSubmit={handleSubmit} className="space-y-8">
-            <div className="form-group">
-              <label>Name</label>
-              <input type="text" name="user_name" required placeholder="Who is writing?" />
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input type="email" name="user_email" required placeholder="Where should I reply?" />
-            </div>
-            <div className="form-group">
-              <label>Message</label>
-              <textarea name="message" required placeholder="Share your reasoning..."></textarea>
-            </div>
-            <button type="submit" className="submit-btn">{status}</button>
-          </form>
+    /** --- SUB-COMPONENTS --- */
+    const Hero = ({ data }) => (
+        <div className="hero-grid">
+            <div className="hero-text"><h2 className="page-title leading-tight">{data.title}</h2><p className="text-xl text-gray-700">{data.text}</p></div>
+            <div className="hero-img-wrap"><img src={data.image} className="w-full" alt="Visual" /></div>
         </div>
-      );
-    };
+    );
+
+    const Gallery = ({ items }) => (
+        <div><h2 className="page-title">Photography</h2><div className="photo-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {items.map((p, i) => (
+                <div key={i} className="photo-card group hover:-translate-y-2 transition-transform">
+                    <img src={p.url} alt={p.title} />
+                    <h3 className="font-handwriting text-2xl text-right mt-4 text-[#555]">{p.title}</h3>
+                </div>
+            ))}
+        </div></div>
+    );
+
+    const SmartGrid = ({ title, items }) => (
+        <div><h2 className="page-title">{title}</h2>{items && items.map((item, i) => (
+            <div key={i} className="smart-row"><div className="smart-label">{item.label}</div><div className="text-lg text-gray-700">{item.content}</div></div>
+        ))}</div>
+    );
+
+    const ContactView = ({ data, service, template }) => {
+        const formRef = useRef();
+        const [sent, setSent] = useState(false);
+        const [status, setStatus] = useState("Deliver Inquiry");
+
+        const sendEmail = (e) => {
+            e.preventDefault(); 
+            setStatus("Sending...");
+            emailjs.sendForm(service, template, formRef.current)
+                .then(() => setSent(true))
+                .catch((err) => { console.error(err); setStatus("Error - Try Again"); });
+        };
+
+        if (sent) return (
+            <div className="contact-card">
+                <h2 className="font-serif text-3xl mb-4">Thank You.</h2>
+                <p className="italic">Your message has been delivered to the archive.</p>
+            </div>
+        );
+
+        return (
+            <div className="contact-card">
+                <h2 className="font-serif text-5xl mb-6">{data.title}</h2>
+                <p className="italic text-gray-600 mb-12">{data.text}</p>
+                <form ref={formRef} onSubmit={sendEmail}>
+                    <div className="input-group"><label>Your Name</label><input className="w-full font-serif text-xl italic" type="text" name="user_name" required /></div>
+                    <div className="input-group"><label>Your Email</label><input className="w-full font-serif text-xl italic" type="email" name="user_email" required /></div>
+                    <div className="input-group" style={{border:'none'}}><label>Message</label><textarea className="w-full font-serif text-xl italic min-h-[150px] border-b outline-none" name="message" required></textarea></div>
+                    <button type="submit" className="btn-action w-full">{status}</button>
+                </form>
+            </div>
+        );
+    }
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
