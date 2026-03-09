@@ -1,16 +1,19 @@
-# THE BRAIN OF THE STUDIO
+# MINESCOUT BACKSTAGE CONFIG (v37.0 - GitHub Pages Optimized)
 backend:
   name: github
-  repo: Minescout-AI # thomas: change this to your actual repo path!
+  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME # thomas: update this!
   branch: main
+  # This base_url points to a public OAuth gateway to fix the "Not Found" error
+  base_url: https://static-cms-auth.minescout.workers.dev
+  auth_endpoint: auth
 
-media_folder: "assets/images" # Where images uploaded via the CMS will go
+media_folder: "assets/images"
 public_folder: "/assets/images"
 
 collections:
   - name: "content"
     label: "Site Content"
-    delete: false # Prevent Fern from accidentally deleting the whole file
+    delete: false
     editor:
       preview: false
     files:
@@ -24,22 +27,22 @@ collections:
             fields:
               - {label: "Headline", name: "title", widget: "string"}
               - {label: "Intro Text", name: "text", widget: "text"}
-              - {label: "Hero Image URL", name: "image", widget: "image"}
+              - {label: "Hero Image (URL)", name: "image", widget: "string"}
           
           - label: "About Section"
             name: "about"
             widget: "object"
             fields:
-              - {label: "Title", name: "title", widget: "string"}
-              - {label: "Bio Body", name: "text", widget: "markdown"}
-              - {label: "Portrait Image URL", name: "image", widget: "image"}
+              - {label: "Headline", name: "title", widget: "string"}
+              - {label: "Bio Text", name: "text", widget: "text"}
+              - {label: "Portrait (URL)", name: "image", widget: "string"}
 
           - label: "Photography Gallery"
             name: "photos"
             widget: "list"
             fields:
               - {label: "Photo Title", name: "title", widget: "string"}
-              - {label: "Image", name: "url", widget: "image"}
+              - {label: "Image (URL)", name: "url", widget: "string"}
 
           - label: "Skills Grid"
             name: "skills"
@@ -53,4 +56,11 @@ collections:
             widget: "list"
             fields:
               - {label: "Year/Category", name: "label", widget: "string"}
-              - {label: "Experience Details", name: "content", widget: "markdown"}
+              - {label: "Experience Details", name: "content", widget: "text"}
+          
+          - label: "Contact Section"
+            name: "contact"
+            widget: "object"
+            fields:
+              - {label: "Headline", name: "title", widget: "string"}
+              - {label: "Text", name: "text", widget: "text"}
