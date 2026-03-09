@@ -1,10 +1,10 @@
-# MINESCOUT BACKSTAGE CONFIG (v37.0 - GitHub Pages Optimized)
+# MINESCOUT BACKSTAGE CONFIG (v37.0 - GitHub Native)
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME # thomas: update this!
+  repo: theminescout/ferncarleton # thomas: update this!
   branch: main
-  # This base_url points to a public OAuth gateway to fix the "Not Found" error
-  base_url: https://static-cms-auth.minescout.workers.dev
+  # Proxy service that handles the GitHub login on non-Netlify domains
+  base_url: https://github-cms-proxy.herokuapp.com
   auth_endpoint: auth
 
 media_folder: "assets/images"
@@ -18,7 +18,7 @@ collections:
       preview: false
     files:
       - name: "master"
-        label: "Master Website Content"
+        label: "Master Website Data"
         file: "content/site-data.json"
         fields:
           - label: "Welcome Section"
