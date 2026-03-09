@@ -1,519 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
-<html lang="en">
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/namespaces/b/template' xmlns:data='http://www.google.com/namespaces/data' xmlns:expr='http://www.google.com/namespaces/expr'>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FERN CARLETON | Art & Reasoning</title>
-  
-  <link rel="icon" type="image/png" href="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png">
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="[https://identity.netlify.com/v1/netlify-identity-widget.js](https://identity.netlify.com/v1/netlify-identity-widget.js)"></script>
+  <b:include data='blog' name='all-head-content'/>
 
-  <style>
+  <!-- High-End Typography -->
+  <link href='https://fonts.googleapis.com' rel='preconnect'/>
+  <link crossorigin='' href='https://fonts.gstatic.com' rel='preconnect'/>
+  <link href='https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&amp;family=Inter:wght@300;400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;family=Caveat:wght@400;700&amp;display=swap' rel='stylesheet'/>
+
+  <b:skin><![CDATA[
+    /* --- MINESCOUT DESIGN SYSTEM v34.0 --- */
     :root {
-      /* Watercolor Palette - Refined for Visibility */
       --paper: #fdfcf8;
       --ink: #1a1a1a;
       --muted: #555555;
-      --border: rgba(0,0,0,0.06);
-      --accent: #C2A378;    
-      --forest: #2D3A2D;    
-
-      /* High-Visibility Watercolor Washes (approx 25-40% opacity) */
-      --wc-blue: rgba(65, 105, 225, 0.35);
-      --wc-green: rgba(45, 58, 45, 0.3);
-      --wc-lavender: rgba(147, 112, 219, 0.3);
+      --wc-blue: rgba(100, 149, 237, 0.35);
       --wc-gold: rgba(194, 163, 120, 0.35);
-      
-      --font-header: 'Lora', serif;
-      --font-body: 'Inter', sans-serif;
-      --font-mono: 'Space Mono', monospace;
-      
+      --wc-lavender: rgba(147, 112, 219, 0.3);
+      --forest: #2D3A2D;
+      --accent: #C2A378;
       --sidebar-width: 320px;
-      --mobile-header-height: 60px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
+    
     body {
       background-color: var(--paper);
       background-image: url("https://www.transparenttextures.com/patterns/paper.png");
       background-attachment: fixed;
-      font-family: var(--font-body);
+      font-family: 'Inter', sans-serif;
       color: var(--ink);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    body.menu-open { overflow: hidden; }
-
-    /* --- ENHANCED WATERCOLOR BACKGROUND WASHES --- */
-    .bg-wash-container {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .wash {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      mix-blend-mode: multiply;
-      opacity: 0.8;
-    }
+    /* Background Watercolor Elements */
+    .bg-wash-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .wash { position: absolute; border-radius: 50%; filter: blur(100px); mix-blend-mode: multiply; opacity: 0.8; }
     .wash-1 { top: -5%; left: 5%; width: 55vw; height: 55vh; background: var(--wc-blue); }
     .wash-2 { bottom: -10%; right: -5%; width: 45vw; height: 65vh; background: var(--wc-gold); }
     .wash-3 { top: 25%; right: 10%; width: 40vw; height: 45vh; background: var(--wc-lavender); }
-    .wash-4 { bottom: 15%; left: 0%; width: 50vw; height: 40vh; background: var(--wc-green); }
 
-    a { color: var(--forest); text-decoration: none; transition: 0.2s; font-weight: 600; position: relative; }
-    a:hover { color: var(--accent); }
-
-    .site-wrapper { display: flex; min-height: 100vh; }
-
-    /* --- MOBILE UI --- */
-    .mobile-bar {
-      display: none; position: fixed; top: 0; left: 0; right: 0;
-      height: var(--mobile-header-height); background: rgba(253, 252, 248, 0.98);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border); z-index: 1100;
-      padding: 0 1.5rem; align-items: center; justify-content: space-between;
-    }
-    .mobile-brand { font-family: var(--font-header); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; }
-    .hamburger { background: none; border: none; cursor: pointer; width: 30px; height: 20px; display: flex; flex-direction: column; justify-content: space-between; }
-    .hamburger span { display: block; width: 100%; height: 2px; background: var(--ink); transition: 0.3s; }
-
-    /* --- SIDEBAR - VIVID TORN EDGE --- */
+    /* The Torn Edge Sidebar */
     .sidebar {
-      width: var(--sidebar-width); 
-      padding: 2.5rem 3rem 4rem; 
-      position: fixed; height: 100vh;
+      width: var(--sidebar-width); padding: 2.5rem 3rem; position: fixed; height: 100vh;
       display: flex; flex-direction: column; 
-      /* More visible Blue/Indigo watercolor wash */
       background: linear-gradient(165deg, rgba(100, 149, 237, 0.4) 0%, rgba(253, 252, 248, 0.9) 60%, rgba(253, 252, 248, 1) 100%);
       backdrop-filter: blur(15px);
-      /* High-detail erratic deckled edge clip-path */
-      clip-path: polygon(
-        0% 0%, 100% 0%, 
-        98% 3%, 99.5% 7%, 97.2% 11%, 98.8% 15%, 96.1% 19%, 99.8% 24%, 97.6% 28%, 99.2% 33%, 96.4% 38%, 98.2% 44%, 95.7% 49%, 99.4% 55%, 97.1% 61%, 98.6% 67%, 96.3% 73%, 99.1% 79%, 97.4% 85%, 99.6% 92%, 98.1% 97%, 100% 100%, 
-        0% 100%
-      );
+      clip-path: polygon(0% 0%, 100% 0%, 98% 3%, 99.5% 7%, 97.2% 11%, 98.8% 15%, 96.1% 19%, 99.8% 24%, 97.6% 28%, 99.2% 33%, 96.4% 38%, 98.2% 44%, 95.7% 49%, 99.4% 55%, 97.1% 61%, 98.6% 67%, 96.3% 73%, 99.1% 79%, 97.4% 85%, 99.6% 92%, 98.1% 97%, 100% 100%, 0% 100%);
       z-index: 1200;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+    .brand { margin-bottom: 3.5rem; text-decoration: none; color: inherit; display: block; }
+    .brand h1 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
+    .brand span { font-family: 'Space Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 8px; }
+
+    nav ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1.5rem; }
+    nav a { text-decoration: none; color: var(--ink); font-weight: 700; text-transform: uppercase; font-size: 0.78rem; opacity: 0.55; transition: 0.3s; }
+    nav a:hover, .active-link { opacity: 1; padding-left: 10px; border-left: 2px solid var(--forest); }
+
+    main { margin-left: calc(var(--sidebar-width) - 20px); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
+
+    /* Page Content */
+    .post-outer { margin-bottom: 5rem; }
+    .post-title { font-family: 'Lora', serif; font-size: 3.5rem; color: var(--forest); margin-bottom: 2rem; font-weight: 400; }
+    .post-body { font-size: 1.15rem; color: #222; }
     
-    /* Subtle paper texture fiber highlight on edge */
-    .sidebar::after {
-      content: '';
-      position: absolute;
-      top: 0; right: 0; bottom: 0;
-      width: 4px;
-      background: linear-gradient(to right, transparent, rgba(255,255,255,0.6));
-      z-index: 1;
-      pointer-events: none;
-    }
+    /* Photography Grid (For Home Feed) */
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3.5rem; }
+    .photo-card { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); border-radius: 2px; }
+    .photo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+    .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 12px; color: var(--muted); }
 
-    .brand { margin-bottom: 3.5rem; cursor: pointer; }
-    .brand img.sidebar-logo { 
-      width: 64px; height: 64px; margin-bottom: 1.2rem; border-radius: 50%; 
-      display: block; object-fit: cover; mix-blend-mode: multiply; 
-    }
-    .brand h1 { font-family: var(--font-header); font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
-    .brand span { font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 8px; }
+    /* Smart Grid Support (H3 headings) */
+    .post-body h3 { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 6px solid var(--wc-blue); padding-left: 22px; margin-top: 4rem; margin-bottom: 1rem; }
 
-    .nav-links { display: flex; flex-direction: column; gap: 1.5rem; }
-    .nav-links a { 
-      text-decoration: none; color: var(--ink); font-family: var(--font-body); 
-      font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; 
-      font-size: 0.78rem; opacity: 0.55; transition: 0.3s; padding: 5px 0; border: none; 
-    }
-    .nav-links a:hover, .nav-links a.active { 
-      opacity: 1; padding-left: 10px; color: var(--ink); border: none; 
-    }
-
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.03); backdrop-filter: blur(2px); z-index: 1150; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
-
-    /* --- MAIN CONTENT --- */
-    main { margin-left: calc(var(--sidebar-width) - 20px); padding: 5rem 6rem; flex: 1; max-width: 1450px; width: 100%; position: relative; }
-
-    #hero-container { display: none; grid-template-columns: 1.1fr 1.2fr; gap: 5rem; align-items: center; margin-bottom: 6rem; position: relative; z-index: 2; }
-    .hero-img-wrap { 
-      background: white; padding: 1rem; 
-      box-shadow: 15px 15px 40px rgba(0,0,0,0.04); 
-      border-radius: 4px;
-      transform: rotate(-1deg);
-    }
-    .hero-img-wrap img { width: 100%; display: block; filter: contrast(1.02); border-radius: 2px; }
-    .hero-text h2 { font-family: var(--font-header); font-size: 3.8rem; margin-bottom: 1.5rem; line-height: 1.1; font-weight: 400; color: var(--forest); }
-
-    /* --- FILTERS - HIGH VISIBILITY --- */
-    .filter-bar { 
-      display: flex; gap: 0.8rem; margin-bottom: 4.5rem; 
-      border-bottom: 1.5px solid var(--border); padding-bottom: 1.5rem; 
-      overflow-x: auto; white-space: nowrap; scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    .filter-bar::-webkit-scrollbar { display: none; }
-
-    .filter-btn { 
-      background: rgba(255, 255, 255, 0.4); border: 1px solid var(--border); 
-      font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; 
-      letter-spacing: 0.15em; cursor: pointer; color: var(--muted); 
-      padding: 10px 22px; border-radius: 50px; transition: all 0.3s ease; 
-    }
-    .filter-btn:hover { border-color: var(--forest); color: var(--forest); }
-    /* Clear Active State */
-    .filter-btn.active { 
-      color: #fff; font-weight: 700; background: var(--forest); 
-      border-color: var(--forest); box-shadow: 0 4px 15px rgba(45, 58, 45, 0.25);
-    }
-
-    .arts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3.5rem; position: relative; z-index: 2; }
-    .art-card { text-decoration: none; color: inherit; display: block; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .art-card:hover { transform: translateY(-10px); }
-    .art-img-wrap { background: rgba(255,255,255,0.6); aspect-ratio: 1; overflow: hidden; margin-bottom: 1.5rem; border: 1px solid var(--border); border-radius: 4px; }
-    .art-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .art-info h4 { font-family: var(--font-header); font-size: 1.3rem; font-weight: 600; }
-
-    .entry-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 6rem; position: relative; z-index: 2; }
-    .entry-visual img { width: 100%; border: 10px solid white; box-shadow: 0 25px 50px rgba(0,0,0,0.06); border-radius: 2px; }
-    .entry-details h2 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 1.5rem; line-height: 1.1; color: var(--forest); }
-    .section-label { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.8rem; display: block; border-bottom: 2.5px solid var(--wc-blue); padding-bottom: 8px; margin-top: 2.5rem; }
-    
-    .text-content { max-width: 900px; position: relative; z-index: 2; }
-    .text-content h2 { font-family: var(--font-header); font-size: 3.8rem; margin-bottom: 3rem; color: var(--forest); }
-    
-    .row-grid { display: grid; grid-template-columns: 260px 1fr; gap: 4rem; margin-bottom: 4.5rem; align-items: start; }
-    .row-label { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--ink); border-left: 6px solid var(--wc-blue); padding-left: 22px; }
-
-    .contact-form { background: rgba(255,255,255,0.4); padding: 3.5rem; border: 1px solid var(--border); margin-top: 2.5rem; border-radius: 8px; backdrop-filter: blur(5px); }
-    .submit-btn { background: var(--forest); color: #fff; border: none; padding: 1.2rem 3rem; font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer; font-weight: 700; width: 100%; border-radius: 4px; box-shadow: 0 10px 20px rgba(45, 58, 45, 0.15); }
-
-    footer { margin-top: 10rem; padding: 5rem 0; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    footer { margin-top: 10rem; padding: 5rem 0; border-top: 1px solid var(--wc-blue); font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
 
     @media (max-width: 1024px) {
-      .mobile-bar { display: flex; }
-      .sidebar { transform: translateX(-100%); width: 300px; box-shadow: 10px 0 30px rgba(0,0,0,0.06); background: var(--paper); clip-path: none; padding-top: 3rem; }
-      .sidebar-overlay { display: block; }
-      body.menu-open .sidebar { transform: translateX(0); }
-      body.menu-open .sidebar-overlay { opacity: 1; pointer-events: auto; }
-      main { margin-left: 0; padding: calc(var(--mobile-header-height) + 4rem) 1.5rem 4rem 1.5rem; }
-      #hero-container { grid-template-columns: 1fr; gap: 4rem; text-align: center; }
-      .entry-layout { grid-template-columns: 1fr; gap: 4rem; }
-      .row-grid { grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 4rem; }
-      
-      .filter-bar { margin-bottom: 3rem; padding-bottom: 1rem; }
-      .filter-btn { padding: 8px 16px; font-size: 0.65rem; }
+      .sidebar { display: none; }
+      main { margin-left: 0; padding: 4rem 1.5rem; }
     }
-  </style>
+  ]]></b:skin>
 </head>
-<body id="body">
+<body>
 
-  <!-- Background Watercolor Pigment Elements -->
-  <div class="bg-wash-container">
-    <div class="wash wash-1"></div>
-    <div class="wash wash-2"></div>
-    <div class="wash wash-3"></div>
-    <div class="wash wash-4"></div>
+  <div class='bg-wash-container'>
+    <div class='wash wash-1'/>
+    <div class='wash wash-2'/>
+    <div class='wash wash-3'/>
   </div>
 
-  <div class="mobile-bar">
-    <div class="mobile-brand" onclick="navigateTo('/')">Fern Carleton</div>
-    <button class="hamburger" id="menu-toggle" aria-label="Toggle Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-  
-  <div class="sidebar-overlay" id="overlay"></div>
-
-  <div class="site-wrapper">
-    <nav class="sidebar" id="sidebar">
-      <div class="brand" onclick="navigateTo('/')">
-        <img src="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png" alt="Logo" class="sidebar-logo">
-        <h1>Fern<br>Carleton</h1>
-        <span>Art & Reasoning</span>
-      </div>
-      <div class="nav-links">
-        <a href="/arts/" class="nav-link" data-link>Arts</a>
-        <a href="/skills/" class="nav-link" data-link>Skills</a>
-        <a href="/resume/" class="nav-link" data-link>Resume</a>
-        <a href="/about/" class="nav-link" data-link>About</a>
-        <a href="/contact/" class="nav-link" data-link>Contact</a>
-      </div>
-      <div style="margin-top: auto;"><span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--muted); text-transform:uppercase;">Archive v18.0 Vivid</span></div>
+  <aside class='sidebar'>
+    <a class='brand' expr:href='data:blog.homepageUrl'>
+      <h1>Fern<br/>Carleton</h1>
+      <span>Art and Reasoning</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a expr:href='data:blog.homepageUrl'>Photos</a></li>
+        <li><a href='/p/about.html'>About</a></li>
+        <li><a href='/p/skills.html'>Skills</a></li>
+        <li><a href='/p/resume.html'>Resume</a></li>
+        <li><a href='/p/contact.html'>Contact</a></li>
+      </ul>
     </nav>
+  </aside>
 
-    <main id="main-content">
-      <div id="hero-container">
-        <div class="hero-img-wrap"><img id="hero-image" src="" alt="Fern"></div>
-        <div class="hero-text" id="hero-target"></div>
-      </div>
-      <div id="app-root"></div>
-    </main>
-  </div>
-
-  <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygWtwrPzJUbH2nrt4JRxTqs2FXfGwFYU-6kP2ORKcbESaY2HswOiAKyceLOgdNI4KBuA/exec'; 
-    const CACHE_KEY = 'fern_master_v18_cache';
-    const CACHE_TIME = 3600000; 
-
-    // Swap: Nature first for Home, Mountain for Contact
-    const HERO_HOME = "https://i.postimg.cc/RhZ3LxBZ/PXL_20260209_161536343.jpg"; // Nature Selfie
-    const HERO_CONTACT = "https://i.postimg.cc/prL9JMHh/PXL_20251223_225914443.jpg"; // Mountain Selfie
-
-    marked.setOptions({ breaks: true });
-
-    let siteData = { pages: {}, entries: [], isLoaded: false };
-    let currentFilter = 'all';
-
-    const menuToggle = document.getElementById('menu-toggle');
-    const overlay = document.getElementById('overlay');
-    const bodyTag = document.getElementById('body');
-
-    function toggleMenu() { bodyTag.classList.toggle('menu-open'); }
-    function closeMenu() { bodyTag.classList.remove('menu-open'); }
-
-    menuToggle.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', closeMenu);
-
-    async function initApp() {
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        const { timestamp, data } = JSON.parse(cached);
-        if (Date.now() - timestamp < CACHE_TIME) {
-          parseMarkdownDoc(data); renderPage(); fetchFresh(); return;
-        }
-      }
-      await fetchFresh();
-    }
-
-    async function fetchFresh() {
-      try {
-        const res = await fetch(APPS_SCRIPT_URL);
-        const text = await res.text();
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: text }));
-        parseMarkdownDoc(text); renderPage();
-      } catch (e) { console.error("Sync error", e); }
-    }
-
-    function parseMarkdownDoc(text) {
-      siteData = { pages: {}, entries: [], isLoaded: true };
-      const rawSections = text.split(/(?=^#\s+)/m).map(s => s.trim()).filter(s => s.length > 0);
-      
-      for (let section of rawSections) {
-        const lines = section.split('\n');
-        const titleLine = lines[0].replace(/^#\s*/, '').trim();
-        const bodyContent = lines.slice(1).join('\n').trim();
-        const slug = slugify(titleLine);
-
-        if (slug === 'instructions') continue;
-
-        if (titleLine.toLowerCase().startsWith('entry:')) {
-          const entryTitle = titleLine.replace(/entry:\s*/i, '');
-          siteData.entries.push(parseMarkdownEntry(entryTitle, bodyContent));
-        } else {
-          siteData.pages[slug] = { title: titleLine, html: marked.parse(bodyContent) };
-        }
-      }
-    }
-
-    function parseMarkdownEntry(title, body) {
-      const data = { title, id: slugify(title) };
-      const extract = (key) => {
-        const regex = new RegExp(`(?:-?\\s*\\*\\*${key}:\\*\\*|${key}:)\\s*(.*)`, "mi");
-        const match = body.match(regex);
-        return match ? match[1].trim() : "";
-      };
-      const imgMatch = body.match(/!\[.*?\]\((.*?)\)/i);
-      data.img = imgMatch ? imgMatch[1].trim() : "https://via.placeholder.com/800x1000?text=Syncing+Artwork...";
-      data.type = extract("Type").toLowerCase() || "art";
-      let desc = extract("Description");
-      if (!desc) {
-         const paragraphs = body.split('\n\n').map(p => p.trim());
-         desc = paragraphs.find(p => !p.includes(':') && !p.startsWith('![') && p.length > 5) || "";
-      }
-      data.description = desc.replace(/^\*\*Description:\*\*\s*/i, '').replace(/^Description:\s*/i, '').replace(/\*\*$/g, '');
-      data.materials = extract("Materials").split(",").map(m => m.trim()).filter(m => m);
-      data.process = extract("Process") || "";
-      data.specs = {
-        location: extract("Location").replace(/\*\*$/g, '') || "Unknown",
-        camera: extract("Camera").replace(/\*\*$/g, '') || "N/A",
-        lens: extract("Lens").replace(/\*\*$/g, '') || "N/A",
-        settings: extract("Settings").replace(/\*\*$/g, '') || "N/A"
-      };
-      return data;
-    }
-
-    function renderPage() {
-      const path = window.location.pathname;
-      const root = document.getElementById('app-root');
-      const hero = document.getElementById('hero-container');
-      const heroTarget = document.getElementById('hero-target');
-      
-      if (!siteData.isLoaded) return;
-      
-      document.querySelectorAll('.nav-link').forEach(link => {
-        const href = link.getAttribute('href');
-        link.classList.toggle('active', path === href || (href !== '/' && path.startsWith(href)));
-      });
-
-      if (path === '/' || path === '/about/' || path === '/contact/') {
-        hero.style.display = 'grid';
-        root.innerHTML = '';
-        const pageKey = path === '/contact/' ? 'contact' : (path === '/about/' ? 'about' : 'welcome');
-        const page = siteData.pages[pageKey];
-        if (page) {
-          document.getElementById('hero-image').src = path === '/contact/' ? HERO_CONTACT : HERO_HOME;
-          heroTarget.innerHTML = `<span class="section-label">${pageKey}</span><h2>${page.title}</h2>${page.html}`;
-          if (path === '/contact/') heroTarget.insertAdjacentHTML('beforeend', renderContactForm());
-        }
-      } else {
-        hero.style.display = 'none';
-        if (path === '/arts/') renderGallery(root);
-        else if (path.includes('/arts/view/')) renderEntryView(path.split('/').pop(), root);
-        else if (path === '/skills/') renderSmartGrid('skills', root);
-        else if (path === '/resume/') renderSmartGrid('resume', root);
-        else render404(root);
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function renderSmartGrid(key, root) {
-      const page = siteData.pages[key];
-      if (!page) return render404(root);
-      let html = `<div class="text-content"><h2>${page.title}</h2>`;
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = page.html;
-      let rows = [];
-      let currentLabel = "";
-      let currentContent = "";
-      tempDiv.childNodes.forEach(node => {
-        if (node.nodeType === 3 && !node.textContent.trim()) return;
-        const text = node.textContent.trim();
-        const isHeader = (node.tagName === 'H3');
-        const isBoldLabel = (node.tagName === 'P' && node.querySelector('strong') && text.length < 50);
-        if (isHeader || isBoldLabel) {
-          if (currentLabel || currentContent) {
-            rows.push({ label: currentLabel || "DETAILS", content: currentContent });
-          }
-          currentLabel = text.replace(/^\*\*|\*\*$/g, '');
-          currentContent = "";
-        } else {
-          currentContent += node.outerHTML || node.textContent;
-        }
-      });
-      if (currentLabel || currentContent) rows.push({ label: currentLabel || "DETAILS", content: currentContent });
-      if (rows.length === 0) {
-        html += page.html;
-      } else {
-        rows.forEach(row => {
-          html += `<div class="row-grid"><div class="row-label">${row.label}</div><div class="row-content">${row.content}</div></div>`;
-        });
-      }
-      html += `</div>`;
-      root.innerHTML = html;
-    }
-
-    function renderGallery(root) {
-      const filtered = currentFilter === 'all' ? siteData.entries : siteData.entries.filter(e => e.type === currentFilter);
-      root.innerHTML = `
-        <h2 style="font-family:var(--font-header); font-size:clamp(2rem, 8vw, 3rem); margin-bottom:2.5rem; color:var(--forest);">Arts Gallery</h2>
-        <div class="filter-bar">
-          ${['all', 'art', 'photography', 'theater'].map(f => `<button class="filter-btn ${currentFilter === f ? 'active' : ''}" onclick="setFilter('${f}')">${f}</button>`).join('')}
-        </div>
-        <div class="arts-grid">
-          ${filtered.map(item => `
-            <a href="/arts/view/${item.id}" class="art-card" data-link>
-              <div class="art-img-wrap"><img src="${item.img}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/800x1000?text=Syncing+Image...'"></div>
-              <div class="art-info"><span>${item.type}</span><h4>${item.title}</h4></div>
-            </a>
-          `).join('')}
-        </div>
-      `;
-    }
-
-    function renderEntryView(id, root) {
-      const item = siteData.entries.find(e => e.id === id);
-      if (!item) return render404(root);
-      const isArt = item.type === 'art';
-      root.innerHTML = `
-        <div class="entry-layout">
-          <div class="entry-visual"><img src="${item.img}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/800x1000?text=Syncing+Image...'"></div>
-          <div class="entry-details">
-            <a href="/arts/" data-link style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; margin-bottom:2rem; display:block;">← Back to Grid</a>
-            <span class="section-label">${item.type}</span>
-            <h2>${item.title}</h2>
-            <p style="color:var(--muted); margin-bottom:1.5rem; font-size:1.1rem;">${item.description}</p>
-            ${isArt ? `
-              <span class="section-label">Materials</span>
-              <ul style="list-style:none; margin-bottom:2rem;">${item.materials.map(m => `<li style="font-weight:600; margin-bottom:8px;">☐ ${m}</li>`).join('')}</ul>
-              <span class="section-label">Process</span>
-              <div class="article-body" style="color:#333;">${marked.parse(item.process)}</div>
-            ` : `
-              <span class="section-label">Specs</span>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
-                <div><b style="display:block; font-size:0.6rem; color:var(--muted); margin-bottom:4px;">LOCATION</b><span style="font-weight:700;">${item.specs.location}</span></div>
-                <div><b style="display:block; font-size:0.6rem; color:var(--muted); margin-bottom:4px;">CAMERA</b><span style="font-weight:700;">${item.specs.camera}</span></div>
-                <div><b style="display:block; font-size:0.6rem; color:var(--muted); margin-bottom:4px;">LENS</b><span style="font-weight:700;">${item.specs.lens}</span></div>
-                <div><b style="display:block; font-size:0.6rem; color:var(--muted); margin-bottom:4px;">SETTINGS</b><span style="font-weight:700;">${item.specs.settings}</span></div>
+  <main>
+    <b:section id='main-content' showaddelement='yes'>
+      <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
+        <b:includable id='main'>
+          <b:if cond='data:view.isHomepage'>
+            <h2 class='post-title'>Photography</h2>
+            <div class='photo-grid'>
+              <b:loop values='data:posts' var='post'>
+                <div class='photo-card'>
+                  <b:if cond='data:post.firstImageUrl'>
+                    <img expr:src='data:post.firstImageUrl'/>
+                  </b:if>
+                  <h3><data:post.title/></h3>
+                </div>
+              </b:loop>
+            </div>
+          <b:else/>
+            <b:loop values='data:posts' var='post'>
+              <div class='post-outer'>
+                <h2 class='post-title'><data:post.title/></h2>
+                <div class='post-body'>
+                  <data:post.body/>
+                </div>
               </div>
-            `}
-          </div>
-        </div>
-      `;
-    }
+            </b:loop>
+          </b:if>
+        </b:includable>
+      </b:widget>
+    </b:section>
 
-    function renderContactForm() {
-      return `
-        <form class="contact-form" id="contact-form" onsubmit="handleContactSubmit(event)">
-          <div class="form-group"><label>Name</label><input type="text" name="name" required></div>
-          <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
-          <div class="form-group"><label>Message</label><textarea name="message" rows="4" required></textarea></div>
-          <button type="submit" class="submit-btn" id="contact-submit">Send Message</button>
-        </form>
-      `;
-    }
+    <footer>
+      &copy; <data:blog.copyrightResharable/> Fern Carleton &bull; Minescout Archive v34.0
+    </footer>
+  </main>
 
-    async function handleContactSubmit(e) {
-      e.preventDefault();
-      const form = e.target;
-      const btn = document.getElementById('contact-submit');
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      btn.disabled = true;
-      btn.innerText = 'Sending...';
-      try {
-        await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'sendEmail', ...data })
-        });
-        form.innerHTML = '<h3 style="font-family:var(--font-header); font-size:2rem; color:var(--forest);">Message Sent.</h3><p style="font-family:var(--font-mono);font-size:0.7rem;margin-top:10px;text-transform:uppercase;color:var(--muted)">I will get back to you within 24 hours.</p>';
-      } catch (err) {
-        btn.disabled = false;
-        btn.innerText = 'Error - Try Again';
-      }
-    }
-
-    function render404(root) { root.innerHTML = `<h2>404</h2><p>Page missing.</p>`; }
-    window.setFilter = (f) => { currentFilter = f; renderPage(); };
-    window.navigateTo = (url) => { closeMenu(); history.pushState(null, null, url); renderPage(); };
-    window.addEventListener('popstate', renderPage);
-    document.body.addEventListener('click', e => {
-      const link = e.target.closest('[data-link]');
-      if (link) { e.preventDefault(); navigateTo(link.getAttribute('href')); }
-    });
-    function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
-    window.onload = initApp;
-  </script>
+  <b:include data='blog' name='all-head-content'/>
 </body>
 </html>
