@@ -18,7 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- THE MINESCOUT FILTER-PROOF SYSTEM v38.0 --- */
+    /* --- THE MINESCOUT FILTER-PROOF SYSTEM v39.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -29,6 +29,7 @@
       --forest: #2D3A2D;
       --accent: #C2A378;
       --sidebar-width: 320px;
+      --header-height: 70px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,7 +59,8 @@
       background: linear-gradient(165deg, rgba(100, 149, 237, 0.4) 0%, rgba(253, 252, 248, 0.9) 60%, rgba(253, 252, 248, 1) 100%);
       backdrop-filter: blur(15px);
       clip-path: polygon(0% 0%, 100% 0%, 98% 3%, 99.5% 7%, 97.2% 11%, 98.8% 15%, 96.1% 19%, 99.8% 24%, 97.6% 28%, 99.2% 33%, 96.4% 38%, 98.2% 44%, 95.7% 49%, 99.4% 55%, 97.1% 61%, 98.6% 67%, 96.3% 73%, 99.1% 79%, 97.4% 85%, 99.6% 92%, 98.1% 97%, 100% 100%, 0% 100%);
-      z-index: 1200;
+      z-index: 2000;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .brand { margin-bottom: 3.5rem; cursor: pointer; }
@@ -69,7 +71,33 @@
     nav button { background: none; border: none; font-family: 'Lora', serif; font-style: italic; font-size: 1.1rem; text-align: left; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; opacity: 0.5; transition: 0.3s; color: var(--ink); outline: none; }
     nav button.active { opacity: 1; border-left: 2px solid var(--forest); padding-left: 10px; }
 
-    main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
+    /* Mobile Bar */
+    .mobile-header {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--header-height);
+      background: rgba(253, 252, 248, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 0 1.5rem;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      z-index: 1500;
+    }
+    .mobile-logo { font-family: 'Lora', serif; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; }
+    .hamburger { 
+        background: none; border: none; cursor: pointer; padding: 10px;
+        display: flex; flex-direction: column; gap: 5px;
+    }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: 0.3s; }
+
+    .overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.1); backdrop-filter: blur(2px);
+        z-index: 1900; opacity: 0; pointer-events: none; transition: 0.3s;
+    }
+    .overlay.active { opacity: 1; pointer-events: auto; }
+
+    main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; transition: 0.3s; }
 
     /* Page Component Styling */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; line-height: 1; }
@@ -91,9 +119,12 @@
     footer { margin-top: 10rem; padding: 5rem 0; border-top: 1px solid var(--wc-blue); font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); }
 
     @media (max-width: 1024px) {
-      .sidebar { display: none; }
-      main { margin-left: 0; padding: 4rem 1.5rem; }
+      .mobile-header { display: flex; }
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.active { transform: translateX(0); box-shadow: 20px 0 50px rgba(0,0,0,0.1); }
+      main { margin-left: 0; padding: calc(var(--header-height) + 3rem) 1.5rem 4rem 1.5rem; }
       .hero-grid, .smart-row { grid-template-columns: 1fr; gap: 2rem; }
+      .page-title { font-size: 2.8rem; }
     }
   </style>
 </head>
@@ -105,11 +136,11 @@
 
     const App = () => {
       const [activeTab, setActiveTab] = useState('home');
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
       const [siteContent, setSiteContent] = useState(null);
       const [loading, setLoading] = useState(true);
 
       useEffect(() => {
-        // FETCH FROM THE CONTENT FOLDER
         fetch('./content/site-data.json?v=' + Date.now())
           .then(res => res.json())
           .then(data => {
@@ -117,14 +148,19 @@
             setLoading(false);
           })
           .catch(err => {
-            console.warn("Content folder not found. Loading fallback...");
+            console.warn("Content folder missing. Use placeholder...");
             setLoading(false);
           });
       }, []);
 
+      const changeTab = (t) => {
+          setActiveTab(t);
+          setIsMenuOpen(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
       if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lora', fontStyle: 'italic', color: '#c2a378'}}>Restoring the canvas...</div>;
       
-      // Fallback in case JSON is missing or broken
       if (!siteContent) return (
         <div style={{height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', textAlign: 'center'}}>
           <p style={{fontFamily: 'Space Mono', fontSize: '12px', opacity: 0.5}}>Structure restored. Please push <strong>content/site-data.json</strong> to GitHub.</p>
@@ -139,8 +175,19 @@
             <div className="wash wash-3"></div>
           </div>
 
-          <aside className="sidebar">
-            <div className="brand" onClick={() => setActiveTab('home')}>
+          <header className="mobile-header">
+              <div className="mobile-logo">Fern Carleton</div>
+              <button className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                  <span style={{transform: isMenuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none'}}></span>
+                  <span style={{opacity: isMenuOpen ? '0' : '1'}}></span>
+                  <span style={{transform: isMenuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none'}}></span>
+              </button>
+          </header>
+
+          <div className={`overlay ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
+
+          <aside className={`sidebar ${isMenuOpen ? 'active' : ''}`}>
+            <div className="brand" onClick={() => changeTab('home')}>
               <div style={{width: '64px', height: '64px', borderRadius: '50%', marginBottom: '20px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.05)', background: 'white'}}>
                  <img src="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
               </div>
@@ -150,15 +197,15 @@
             <nav>
               <ul>
                 {['photos', 'skills', 'resume', 'about', 'contact'].map(t => (
-                  <li key={t}><button onClick={() => setActiveTab(t)} className={activeTab === t ? 'active' : ''}>{t}</button></li>
+                  <li key={t}><button onClick={() => changeTab(t)} className={activeTab === t ? 'active' : ''}>{t}</button></li>
                 ))}
               </ul>
             </nav>
-            <div style={{marginTop: 'auto', opacity: 0.3, fontFamily: 'Space Mono', fontSize: '9px'}}>ARCHIVE v38.0 HERITAGE</div>
+            <div style={{marginTop: 'auto', opacity: 0.3, fontFamily: 'Space Mono', fontSize: '9px'}}>ARCHIVE v39.0 MOBILE</div>
           </aside>
 
           <main>
-            <div className="fade-in" key={activeTab}>
+            <div key={activeTab}>
                 {activeTab === 'home' && <HeroView data={siteContent.welcome} />}
                 {activeTab === 'about' && <HeroView data={siteContent.about} />}
                 {activeTab === 'skills' && <GridView title="Skills" items={siteContent.skills} />}
