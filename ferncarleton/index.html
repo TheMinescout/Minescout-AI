@@ -11,8 +11,6 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  
-  <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <!-- Fonts -->
@@ -21,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- MINESCOUT BACKEND SYSTEM v55.0 --- */
+    /* --- THE MINESCOUT ENGINE CSS v57.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -32,7 +30,6 @@
       --forest: #2D3A2D;
       --accent: #C2A378;
       --sidebar-width: 320px;
-      --header-height: 70px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -48,7 +45,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Background Environment */
+    /* Background Washes */
     .bg-wash-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
     .wash { position: absolute; border-radius: 50%; filter: blur(100px); mix-blend-mode: multiply; opacity: 0.8; }
     .wash-1 { top: -5%; left: 5%; width: 55vw; height: 55vh; background: var(--wc-blue); }
@@ -76,7 +73,7 @@
 
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
-    /* --- ADMIN UI v55.0 --- */
+    /* --- ADMIN UI v57.0 --- */
     .admin-card { background: white; padding: 0; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.15); width: 95%; max-width: 1250px; margin: 0 auto; overflow: hidden; }
     .admin-header { background: var(--forest); color: white; padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
     .admin-header h2 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 400; letter-spacing: 0.02em; }
@@ -84,11 +81,11 @@
     .admin-nav { display: flex; background: #f1f3f1; border-bottom: 1px solid #e0e4e0; padding: 0 2rem; overflow-x: auto; }
     .admin-nav-btn { background: none; border: none; padding: 1.25rem 2rem; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: 0.2s; white-space: nowrap; }
     .admin-nav-btn.active { color: var(--forest); border-bottom-color: var(--forest); }
-    .admin-nav-btn:hover:not(.active) { color: #333; }
 
     .admin-content { padding: 3.5rem; max-height: 75vh; overflow-y: auto; background: #fafafa; }
     .admin-instruction { background: #fffde7; border: 1px solid #f9e79f; padding: 1.5rem; margin-bottom: 3rem; font-size: 0.9rem; border-radius: 6px; color: #7d6608; }
     
+    /* Styled Input Boxes */
     .input-box { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
     .input-row { margin-bottom: 1.5rem; }
     .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
@@ -101,16 +98,18 @@
     .btn-delete { color: #e74c3c; background: none; border: none; font-size: 9px; font-weight: bold; text-transform: uppercase; cursor: pointer; position: absolute; top: 2rem; right: 2rem; opacity: 0.6; }
     .btn-delete:hover { opacity: 1; text-decoration: underline; }
 
-    /* --- PAGE STYLING (Respecting Line Breaks) --- */
+    .btn-outline { background: white; border: 2px solid var(--forest); color: var(--forest); padding: 0.6rem 1.5rem; font-size: 11px; text-transform: uppercase; cursor: pointer; font-family: 'Space Mono'; font-weight: 700; border-radius: 4px; }
+
+    /* Content Styling (Respecting Breaks) */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 5.5rem; align-items: start; }
-    .hero-text p { white-space: pre-wrap; font-size: 1.1rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .hero-text p { white-space: pre-wrap; font-size: 1.1rem; color: var(--muted); }
     .hero-img-wrap { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transform: rotate(-1.5deg); }
     .hero-img-wrap img { width: 100%; border-radius: 1px; }
 
     .smart-row { display: grid; grid-template-columns: 260px 1fr; gap: 4rem; margin-bottom: 4.5rem; }
     .smart-label { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border-left: 6px solid var(--wc-blue); padding-left: 22px; }
-    .smart-content { white-space: pre-wrap; text-lg text-gray-700 leading-relaxed; }
+    .smart-content { white-space: pre-wrap; font-size: 1.1rem; color: #333; }
 
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3.5rem; }
     .photo-card { background: white; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-radius: 2px; }
@@ -133,7 +132,8 @@
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
-    // --- CONFIGURATION ---
+    // --- PLATFORM CONFIGURATION ---
+    const SITE_ID = "fern"; // Identify this client (e.g., 'fern', 'offc', 'sbgs')
     const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
     const EMAILJS_KEY = "1tk_WpVfkT1oGuS4P";
     const EMAILJS_SERVICE = "service_91osf0m";
@@ -150,7 +150,10 @@
       useEffect(() => {
         if (window.emailjs) emailjs.init(EMAILJS_KEY);
 
-        fetch(WORKER_URL)
+        // Fetch using the unique SITE_ID header
+        fetch(WORKER_URL, {
+          headers: { 'X-Site-Id': SITE_ID }
+        })
           .then(res => res.json())
           .then(d => { 
             if(!d.photos) d.photos = [];
@@ -167,15 +170,18 @@
       const saveChanges = async () => {
         const response = await fetch(WORKER_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'X-Site-Id': SITE_ID
+          },
           body: JSON.stringify({ key: adminKey, data: data })
         });
-        if (response.ok) { alert("Archive Successfully Deployed."); } 
+        if (response.ok) { alert(`${SITE_ID.toUpperCase()} Archive Successfully Deployed.`); } 
         else { alert("Verification Failed."); }
       };
 
       const addItem = (target) => {
-        const newItem = target === 'photos' ? { title: "New Entry", url: "" } : { label: "New Category", content: "Details..." };
+        const newItem = target === 'photos' ? { title: "Untitled Entry", url: "" } : { label: "New Category", content: "Details..." };
         setData({ ...data, [target]: [newItem, ...(data[target] || [])] });
       };
 
@@ -189,8 +195,8 @@
         setData({ ...data, [target]: data[target].filter((_, i) => i !== index) });
       };
 
-      if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Lora', fontStyle:'italic', color: '#c2a378'}}>Restoring Archive...</div>;
-      if (!data) return <div style={{padding:'5rem', textAlign:'center'}}>Connection to backend failed. Check Worker settings.</div>;
+      if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Lora', fontStyle:'italic', color: '#c2a378'}}>Synchronizing {SITE_ID} Archive...</div>;
+      if (!data) return <div style={{padding:'5rem', textAlign:'center'}}>Engine connection failed.</div>;
 
       return (
         <div className="flex">
@@ -207,7 +213,7 @@
                   <button key={tab} onClick={() => setView(tab)} className={`nav-btn ${view === tab ? 'active' : ''}`}>{tab}</button>
                 ))}
               </nav>
-              <div style={{marginTop:'auto', opacity:0.2, fontSize:'9px', fontFamily:'Space Mono'}}>STUDIO ARCHIVE v55.0</div>
+              <div style={{marginTop:'auto', opacity:0.2, fontSize:'9px', fontFamily:'Space Mono'}}>MULTI-TENANT ENGINE v57.0 | {SITE_ID.toUpperCase()}</div>
             </aside>
           )}
 
@@ -215,18 +221,18 @@
             {view === 'admin' ? (
               <div className="admin-card animate-in fade-in duration-500">
                 <header className="admin-header">
-                    <h2>Studio Backstage</h2>
+                    <h2>{SITE_ID.toUpperCase()} Backstage</h2>
                     <button onClick={() => setView('home')} style={{background:'rgba(255,255,255,0.15)', border:'1px solid rgba(255,255,255,0.2)', color:'white', padding:'8px 18px', borderRadius:'4px', cursor:'pointer', fontSize:'11px', fontWeight:'700', textTransform:'uppercase', letterSpacing:'0.1em'}}>Exit to Site</button>
                 </header>
                 
                 {!isAuthed ? (
                   <div className="p-16 space-y-10 bg-white">
                     <div className="admin-instruction">
-                      <strong>Access Limited:</strong> Enter your <code>ADMIN_SECRET</code> key below to manage the digital archive across all pages.
+                      <strong>Admin Node: {SITE_ID}</strong>. Enter the global secret key to edit.
                     </div>
                     <div className="input-row">
-                        <label>Secret Reasoning Key</label>
-                        <input type="password" placeholder="Enter key..." style={{fontSize: '1.5rem', letterSpacing:'0.2em'}} onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
+                        <label>Secret Key</label>
+                        <input type="password" placeholder="••••••••" style={{fontSize: '1.5rem', letterSpacing:'0.2em'}} onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
                     </div>
                     <button className="btn-save" style={{borderRadius:'4px'}} onClick={() => setIsAuthed(true)}>Verify Access</button>
                   </div>
@@ -241,10 +247,10 @@
                     <div className="admin-content">
                         {adminTab === 'home' && (
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Landing Experience (Welcome)</h3>
+                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Landing Experience</h3>
                                 <div className="input-box">
                                     <div className="input-row"><label>Main Headline</label><input value={data.welcome?.title || ''} onChange={e => setData({...data, welcome: {...data.welcome, title: e.target.value}})} /></div>
-                                    <div className="input-row"><label>Intro Narrative</label><textarea value={data.welcome?.text || ''} style={{minHeight:'180px'}} onChange={e => setData({...data, welcome: {...data.welcome, text: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Intro Narrative (Supports line breaks)</label><textarea value={data.welcome?.text || ''} style={{minHeight:'180px'}} onChange={e => setData({...data, welcome: {...data.welcome, text: e.target.value}})} /></div>
                                     <div className="input-row"><label>Hero Image Direct URL</label><input value={data.welcome?.image || ''} onChange={e => setData({...data, welcome: {...data.welcome, image: e.target.value}})} /></div>
                                 </div>
                             </section>
@@ -253,15 +259,15 @@
                         {adminTab === 'photos' && (
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
                                 <div className="admin-instruction">
-                                    <strong>Workflow Tip:</strong> Use <a href="https://postimg.cc" target="_blank" style={{color:'var(--forest)', fontWeight:'bold', textDecoration:'underline'}}>PostImg.cc</a> for hosting. Copy the <code>Direct Link</code> ending in .jpg or .png and paste it below.
+                                    <strong>Hosting Tip:</strong> Use <a href="https://postimg.cc" target="_blank" style={{color:'var(--forest)', fontWeight:'bold'}}>PostImg.cc</a>. Copy the <code>Direct Link</code> (.jpg) and paste it below.
                                 </div>
                                 <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
                                     <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>Photography Archive</h3>
-                                    <button onClick={() => addItem('photos')} style={{background: 'white', border: '2px solid var(--forest)', color: 'var(--forest)', padding: '0.6rem 1.5rem', fontSize: '11px', textTransform: 'uppercase', cursor: 'pointer', fontFamily: 'Space Mono', fontWeight: '700', borderRadius: '4px'}}>+ Add Photo Post</button>
+                                    <button onClick={() => addItem('photos')} className="btn-outline">+ Add Photo Post</button>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     {data.photos.map((p, i) => (
-                                        <div key={i} className="input-box" style={{position:'relative'}}>
+                                        <div key={i} className="post-box" style={{position:'relative'}}>
                                             <button className="btn-delete" onClick={() => removeItem('photos', i)}>Remove Post</button>
                                             <div className="input-row"><label>Post Title</label><input value={p.title} onChange={e => updateItem('photos', i, 'title', e.target.value)} /></div>
                                             <div className="input-row" style={{marginBottom:0}}><label>Image URL (.jpg)</label><input value={p.url} onChange={e => updateItem('photos', i, 'url', e.target.value)} /></div>
@@ -274,14 +280,14 @@
                         {(adminTab === 'skills' || adminTab === 'resume') && (
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
                                 <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
-                                    <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>{adminTab.charAt(0).toUpperCase() + adminTab.slice(1)} Grid Content</h3>
-                                    <button onClick={() => addItem(adminTab)} style={{background: 'white', border: '2px solid var(--forest)', color: 'var(--forest)', padding: '0.6rem 1.5rem', fontSize: '11px', textTransform: 'uppercase', cursor: 'pointer', fontFamily: 'Space Mono', fontWeight: '700', borderRadius: '4px'}}>+ Add Data Row</button>
+                                    <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>{adminTab.charAt(0).toUpperCase() + adminTab.slice(1)} Content</h3>
+                                    <button onClick={() => addItem(adminTab)} className="btn-outline">+ Add Data Row</button>
                                 </div>
                                 {data[adminTab].map((item, i) => (
                                     <div key={i} className="input-box" style={{display:'flex', gap:'2.5rem', position:'relative'}}>
                                         <button className="btn-delete" onClick={() => removeItem(adminTab, i)}>Delete</button>
-                                        <div className="input-row" style={{width:'280px', marginBottom:0}}><label>Category Label</label><input value={item.label} onChange={e => updateItem(adminTab, i, 'label', e.target.value)} /></div>
-                                        <div className="input-row" style={{flex:1, marginBottom:0}}><label>Experience Details</label><textarea value={item.content} style={{minHeight:'100px'}} onChange={e => updateItem(adminTab, i, 'content', e.target.value)} /></div>
+                                        <div className="input-row" style={{width:'280px', marginBottom:0}}><label>Label</label><input value={item.label} onChange={e => updateItem(adminTab, i, 'label', e.target.value)} /></div>
+                                        <div className="input-row" style={{flex:1, marginBottom:0}}><label>Details (Supports line breaks)</label><textarea value={item.content} style={{minHeight:'100px'}} onChange={e => updateItem(adminTab, i, 'content', e.target.value)} /></div>
                                     </div>
                                 ))}
                             </section>
@@ -291,19 +297,19 @@
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
                                 <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Bio & Identity</h3>
                                 <div className="input-box">
-                                    <div className="input-row"><label>Biography Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
-                                    <div className="input-row"><label>Bio Narrative Text</label><textarea value={data.about?.text || ''} style={{minHeight:'300px'}} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
-                                    <div className="input-row"><label>About Photo URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Bio Narrative (Supports line breaks)</label><textarea value={data.about?.text || ''} style={{minHeight:'300px'}} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Bio Photo URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
                                 </div>
                             </section>
                         )}
 
                         {adminTab === 'contact' && (
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Inquiry Page Controls</h3>
+                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Contact Setup</h3>
                                 <div className="input-box">
-                                    <div className="input-row"><label>Contact Page Headline</label><input value={data.contact?.title || ''} onChange={e => setData({...data, contact: {...data.contact, title: e.target.value}})} /></div>
-                                    <div className="input-row"><label>Sub-text Instructions</label><textarea value={data.contact?.text || ''} style={{minHeight:'120px'}} onChange={e => setData({...data, contact: {...data.contact, text: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Headline</label><input value={data.contact?.title || ''} onChange={e => setData({...data, contact: {...data.contact, title: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Sub-text</label><textarea value={data.contact?.text || ''} style={{minHeight:'120px'}} onChange={e => setData({...data, contact: {...data.contact, text: e.target.value}})} /></div>
                                 </div>
                             </section>
                         )}
@@ -330,8 +336,8 @@
     /** --- UI COMPONENTS --- */
     const Hero = ({ data }) => (
         <div className="hero-grid">
-            <div className="hero-text"><h2 className="page-title leading-tight">{data?.title}</h2><p className="text-xl text-gray-700">{data?.text}</p></div>
-            <div className="hero-img-wrap"><img src={data?.image} className="w-full shadow-xl" alt="Studio Context" /></div>
+            <div className="hero-text"><h2 className="page-title leading-tight">{data?.title}</h2><p>{data?.text}</p></div>
+            <div className="hero-img-wrap"><img src={data?.image} className="w-full shadow-xl" alt="View" /></div>
         </div>
     );
 
@@ -348,7 +354,7 @@
 
     const SmartGrid = ({ title, items }) => (
         <div><h2 className="page-title">{title}</h2>{items && items.map((item, i) => (
-            <div key={i} className="smart-row"><div className="smart-label">{item.label}</div><div className="smart-content" dangerouslySetInnerHTML={{__html: item.content}}></div></div>
+            <div key={i} className="smart-row"><div className="smart-label">{item.label}</div><div className="smart-content">{item.content}</div></div>
         ))}</div>
     );
 
@@ -358,8 +364,7 @@
         const [status, setStatus] = useState("Deliver Inquiry");
 
         const sendEmail = (e) => {
-            e.preventDefault(); 
-            setStatus("Sending...");
+            e.preventDefault(); setStatus("Sending...");
             emailjs.sendForm(service, template, formRef.current)
                 .then(() => setSent(true))
                 .catch((err) => { console.error(err); setStatus("Error - Try Again"); });
