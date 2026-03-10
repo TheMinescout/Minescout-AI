@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- THE MINESCOUT ENGINE CSS v61.0 --- */
+    /* --- THE MINESCOUT ENGINE CSS v62.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -126,11 +126,56 @@
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3.5rem; }
     .photo-card { background: white; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-radius: 2px; }
     .photo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
-    .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 10px; color: var(--muted); }
+    .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: center; margin-top: 10px; color: var(--muted); }
 
     /* Hamburger Animation */
     .hamburger { width: 30px; height: 20px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; border: none; background: none; }
     .hamburger span { display: block; width: 100%; height: 2px; background: var(--ink); transition: 0.3s; }
+
+    /* --- RESTORED CONTACT STYLING --- */
+    .contact-card { 
+      background: rgba(255,255,255,0.7); 
+      padding: 5rem 4rem; 
+      border-radius: 2px; 
+      box-shadow: 0 20px 50px rgba(0,0,0,0.05); 
+      backdrop-filter: blur(15px); 
+      max-width: 800px; 
+      margin: 0 auto; 
+      clip-path: polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%); 
+    }
+
+    .contact-field {
+      margin-bottom: 3rem;
+      border-bottom: 1.5px solid var(--border);
+      transition: border-color 0.3s ease;
+    }
+    
+    .contact-field:focus-within {
+      border-bottom-color: var(--forest);
+    }
+
+    .contact-field label {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-field input, .contact-field textarea {
+      width: 100%;
+      border: none;
+      background: none;
+      outline: none;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      padding: 0.5rem 0;
+      color: var(--ink);
+    }
 
     @media (max-width: 1024px) {
       .mobile-bar { display: flex; }
@@ -140,6 +185,7 @@
       .admin-card { width: 100%; border-radius: 0; }
       .page-title { font-size: 2.8rem; }
       .hero-grid, .smart-row { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-card { padding: 3rem 1.5rem; clip-path: none; border-radius: 8px; }
     }
   </style>
 </head>
@@ -384,7 +430,7 @@
             {items && items.map((p, i) => (
                 <div key={i} className="photo-card group hover:-translate-y-2 transition-transform duration-500">
                     <img src={p.url} alt={p.title} />
-                    <h3 className="font-handwriting text-2xl text-right mt-4 text-[#555]">{p.title}</h3>
+                    <h3 className="font-handwriting text-2xl text-[#555]">{p.title}</h3>
                 </div>
             ))}
         </div></div>
@@ -420,9 +466,18 @@
                 <h2 className="font-serif text-5xl mb-6">{data?.title}</h2>
                 <p className="italic text-gray-600 mb-12">{data?.text}</p>
                 <form ref={formRef} onSubmit={sendEmail}>
-                    <div className="input-group-field" style={{marginBottom:'2rem'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Name</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', fontSize:'1.2rem'}} type="text" name="user_name" required /></div>
-                    <div className="input-group-field" style={{marginBottom:'2rem'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Email</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', fontSize:'1.2rem'}} type="email" name="user_email" required /></div>
-                    <div className="input-group-field" style={{marginBottom:'2rem'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Share your reasoning</label><textarea style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', minHeight:'120px', resize:'none', fontSize:'1.1rem'}} name="message" required></textarea></div>
+                    <div className="contact-field">
+                        <label>Your Name</label>
+                        <input type="text" name="user_name" required placeholder="Name..." />
+                    </div>
+                    <div className="contact-field">
+                        <label>Your Email</label>
+                        <input type="email" name="user_email" required placeholder="Email..." />
+                    </div>
+                    <div className="contact-field" style={{border: 'none'}}>
+                        <label>Share your reasoning</label>
+                        <textarea name="message" required placeholder="Message..." style={{minHeight: '150px'}}></textarea>
+                    </div>
                     <button type="submit" className="btn-save" style={{marginTop:'40px', borderRadius:'4px'}}>{status}</button>
                 </form>
             </div>
