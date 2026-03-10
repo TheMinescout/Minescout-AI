@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- MINESCOUT BACKEND SYSTEM v54.0 --- */
+    /* --- MINESCOUT BACKEND SYSTEM v55.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -69,14 +69,14 @@
     .brand h1 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
     .brand span { font-family: 'Space Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 8px; }
 
-    /* Portfolio Navigation (Home Removed per request) */
+    /* Portfolio Navigation */
     .nav-list { display: flex; flex-direction: column; gap: 1.5rem; }
     .nav-btn { background: none; border: none; font-family: 'Lora', serif; font-style: italic; font-size: 1.1rem; text-align: left; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; opacity: 0.5; transition: 0.3s; color: var(--ink); outline: none; }
     .nav-btn.active { opacity: 1; border-left: 2px solid var(--forest); padding-left: 10px; }
 
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
-    /* --- ADMIN UI ENHANCEMENTS --- */
+    /* --- ADMIN UI v55.0 --- */
     .admin-card { background: white; padding: 0; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.15); width: 95%; max-width: 1250px; margin: 0 auto; overflow: hidden; }
     .admin-header { background: var(--forest); color: white; padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
     .admin-header h2 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 400; letter-spacing: 0.02em; }
@@ -89,45 +89,41 @@
     .admin-content { padding: 3.5rem; max-height: 75vh; overflow-y: auto; background: #fafafa; }
     .admin-instruction { background: #fffde7; border: 1px solid #f9e79f; padding: 1.5rem; margin-bottom: 3rem; font-size: 0.9rem; border-radius: 6px; color: #7d6608; }
     
-    /* Styled Input Boxes */
     .input-box { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
     .input-row { margin-bottom: 1.5rem; }
-    .input-row:last-child { margin-bottom: 0; }
-    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; letter-spacing: 0.05em; }
-    .input-row input, .input-row textarea { width: 100%; border: 1.5px solid #eee; background: #fdfdfd; border-radius: 4px; padding: 14px 18px; font-size: 1rem; outline: none; color: var(--ink); font-family: inherit; transition: all 0.3s ease; }
-    .input-row input:focus, .input-row textarea:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 4px rgba(194, 163, 120, 0.1); }
+    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+    .input-row input, .input-row textarea { width: 100%; border: 1.5px solid #eee; background: #fdfdfd; border-radius: 4px; padding: 14px 18px; font-size: 1rem; outline: none; color: var(--ink); font-family: inherit; }
+    .input-row input:focus, .input-row textarea:focus { border-color: var(--accent); background: white; }
 
-    .btn-save { background: var(--forest); color: white; border: none; padding: 1.5rem 3rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.3s; width: 100%; border-radius: 0 0 8px 8px; letter-spacing: 0.2em; font-size: 12px; }
-    .btn-save:hover { background: var(--ink); letter-spacing: 0.3em; }
+    .btn-save { background: var(--forest); color: white; border: none; padding: 1.5rem 3rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.3s; width: 100%; letter-spacing: 0.2em; font-size: 12px; }
+    .btn-save:hover { background: var(--ink); }
 
-    .post-box { background: white; border: 1px solid #e0e0e0; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; position: relative; transition: transform 0.3s; }
-    .post-box:hover { border-color: var(--accent); }
     .btn-delete { color: #e74c3c; background: none; border: none; font-size: 9px; font-weight: bold; text-transform: uppercase; cursor: pointer; position: absolute; top: 2rem; right: 2rem; opacity: 0.6; }
     .btn-delete:hover { opacity: 1; text-decoration: underline; }
 
-    .btn-outline { background: white; border: 2px solid var(--forest); color: var(--forest); padding: 0.6rem 1.5rem; font-size: 11px; text-transform: uppercase; cursor: pointer; font-family: 'Space Mono'; font-weight: 700; border-radius: 4px; transition: 0.2s; }
-    .btn-outline:hover { background: var(--forest); color: white; }
-
-    /* Content Styling */
+    /* --- PAGE STYLING (Respecting Line Breaks) --- */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 5.5rem; align-items: start; }
+    .hero-text p { white-space: pre-wrap; font-size: 1.1rem; color: var(--muted); margin-bottom: 1.5rem; }
     .hero-img-wrap { background: white; padding: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transform: rotate(-1.5deg); }
     .hero-img-wrap img { width: 100%; border-radius: 1px; }
 
     .smart-row { display: grid; grid-template-columns: 260px 1fr; gap: 4rem; margin-bottom: 4.5rem; }
     .smart-label { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border-left: 6px solid var(--wc-blue); padding-left: 22px; }
+    .smart-content { white-space: pre-wrap; text-lg text-gray-700 leading-relaxed; }
 
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3.5rem; }
     .photo-card { background: white; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-radius: 2px; }
     .photo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
     .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 10px; color: var(--muted); }
 
+    .contact-card { background: rgba(255,255,255,0.6); padding: 4rem; border-radius: 2px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); backdrop-filter: blur(10px); max-width: 700px; margin: 0 auto; clip-path: polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%); }
+
     @media (max-width: 1024px) {
       .sidebar { display: none; }
       main { margin-left: 0; padding: 2rem; }
       .page-title { font-size: 2.8rem; }
       .hero-grid, .smart-row { grid-template-columns: 1fr; gap: 2rem; }
-      .admin-card { width: 100%; border-radius: 0; }
     }
   </style>
 </head>
@@ -207,12 +203,11 @@
                 <span className="font-mono text-[10px] uppercase text-[#c2a378] mt-2 block tracking-widest">Art & Reasoning</span>
               </div>
               <nav className="nav-list mt-12">
-                {/* Home link removed from sidebar list as requested */}
                 {['photos', 'skills', 'resume', 'about', 'contact'].map(tab => (
                   <button key={tab} onClick={() => setView(tab)} className={`nav-btn ${view === tab ? 'active' : ''}`}>{tab}</button>
                 ))}
               </nav>
-              <div style={{marginTop:'auto', opacity:0.2, fontSize:'9px', fontFamily:'Space Mono'}}>STUDIO ARCHIVE v54.0</div>
+              <div style={{marginTop:'auto', opacity:0.2, fontSize:'9px', fontFamily:'Space Mono'}}>STUDIO ARCHIVE v55.0</div>
             </aside>
           )}
 
@@ -262,11 +257,11 @@
                                 </div>
                                 <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
                                     <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>Photography Archive</h3>
-                                    <button onClick={() => addItem('photos')} className="btn-outline">+ Add Photo Post</button>
+                                    <button onClick={() => addItem('photos')} style={{background: 'white', border: '2px solid var(--forest)', color: 'var(--forest)', padding: '0.6rem 1.5rem', fontSize: '11px', textTransform: 'uppercase', cursor: 'pointer', fontFamily: 'Space Mono', fontWeight: '700', borderRadius: '4px'}}>+ Add Photo Post</button>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     {data.photos.map((p, i) => (
-                                        <div key={i} className="post-box">
+                                        <div key={i} className="input-box" style={{position:'relative'}}>
                                             <button className="btn-delete" onClick={() => removeItem('photos', i)}>Remove Post</button>
                                             <div className="input-row"><label>Post Title</label><input value={p.title} onChange={e => updateItem('photos', i, 'title', e.target.value)} /></div>
                                             <div className="input-row" style={{marginBottom:0}}><label>Image URL (.jpg)</label><input value={p.url} onChange={e => updateItem('photos', i, 'url', e.target.value)} /></div>
@@ -280,7 +275,7 @@
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
                                 <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
                                     <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>{adminTab.charAt(0).toUpperCase() + adminTab.slice(1)} Grid Content</h3>
-                                    <button onClick={() => addItem(adminTab)} className="btn-outline">+ Add Data Row</button>
+                                    <button onClick={() => addItem(adminTab)} style={{background: 'white', border: '2px solid var(--forest)', color: 'var(--forest)', padding: '0.6rem 1.5rem', fontSize: '11px', textTransform: 'uppercase', cursor: 'pointer', fontFamily: 'Space Mono', fontWeight: '700', borderRadius: '4px'}}>+ Add Data Row</button>
                                 </div>
                                 {data[adminTab].map((item, i) => (
                                     <div key={i} className="input-box" style={{display:'flex', gap:'2.5rem', position:'relative'}}>
@@ -353,7 +348,7 @@
 
     const SmartGrid = ({ title, items }) => (
         <div><h2 className="page-title">{title}</h2>{items && items.map((item, i) => (
-            <div key={i} className="smart-row"><div className="smart-label">{item.label}</div><div className="text-lg text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{__html: item.content}}></div></div>
+            <div key={i} className="smart-row"><div className="smart-label">{item.label}</div><div className="smart-content" dangerouslySetInnerHTML={{__html: item.content}}></div></div>
         ))}</div>
     );
 
@@ -385,7 +380,7 @@
                     <div className="input-group-field" style={{marginBottom:'2rem'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Name</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', fontSize:'1.2rem'}} type="text" name="user_name" required /></div>
                     <div className="input-group-field" style={{marginBottom:'2rem'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Email</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', fontSize:'1.2rem'}} type="email" name="user_email" required /></div>
                     <div className="input-group-field" style={{marginBottom:'2rem'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Share your reasoning</label><textarea style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', minHeight:'120px', resize:'none', fontSize:'1.1rem'}} name="message" required></textarea></div>
-                    <button type="submit" className="btn-save w-full" style={{marginTop:'40px', borderRadius:'4px'}}>{status}</button>
+                    <button type="submit" className="btn-save" style={{marginTop:'40px', borderRadius:'4px'}}>{status}</button>
                 </form>
             </div>
         );
