@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- THE MINESCOUT ENGINE CSS v57.0 --- */
+    /* --- THE MINESCOUT ENGINE CSS v61.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -30,6 +30,7 @@
       --forest: #2D3A2D;
       --accent: #C2A378;
       --sidebar-width: 320px;
+      --mobile-header: 70px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,14 +46,27 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Background Washes */
+    /* Background Environment */
     .bg-wash-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
     .wash { position: absolute; border-radius: 50%; filter: blur(100px); mix-blend-mode: multiply; opacity: 0.8; }
     .wash-1 { top: -5%; left: 5%; width: 55vw; height: 55vh; background: var(--wc-blue); }
     .wash-2 { bottom: -10%; right: -5%; width: 45vw; height: 65vh; background: var(--wc-gold); }
     .wash-3 { top: 25%; right: 10%; width: 40vw; height: 45vh; background: var(--wc-lavender); }
 
-    /* Portfolio Sidebar */
+    /* Mobile Header Bar */
+    .mobile-bar {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; height: var(--mobile-header);
+      background: rgba(253, 252, 248, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      z-index: 2500;
+      padding: 0 1.5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Portfolio Sidebar (Desktop & Mobile) */
     .sidebar {
       width: var(--sidebar-width); padding: 2.5rem 3rem 4rem; position: fixed; height: 100vh;
       display: flex; flex-direction: column; 
@@ -60,47 +74,45 @@
       backdrop-filter: blur(15px);
       clip-path: polygon(0% 0%, 100% 0%, 98% 3%, 99.5% 7%, 97.2% 11%, 98.8% 15%, 96.1% 19%, 99.8% 24%, 97.6% 28%, 99.2% 33%, 96.4% 38%, 98.2% 44%, 95.7% 49%, 99.4% 55%, 97.1% 61%, 98.6% 67%, 96.3% 73%, 99.1% 79%, 97.4% 85%, 99.6% 92%, 98.1% 97%, 100% 100%, 0% 100%);
       z-index: 2000;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .brand { margin-bottom: 3.5rem; cursor: pointer; }
     .brand h1 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
     .brand span { font-family: 'Space Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 8px; }
 
-    /* Portfolio Navigation */
     .nav-list { display: flex; flex-direction: column; gap: 1.5rem; }
     .nav-btn { background: none; border: none; font-family: 'Lora', serif; font-style: italic; font-size: 1.1rem; text-align: left; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; opacity: 0.5; transition: 0.3s; color: var(--ink); outline: none; }
     .nav-btn.active { opacity: 1; border-left: 2px solid var(--forest); padding-left: 10px; }
 
+    /* Overlay for Mobile Sidebar */
+    .sidebar-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(2px); z-index: 1500;
+      opacity: 0; pointer-events: none; transition: 0.3s;
+    }
+    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
+
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
-    /* --- ADMIN UI v57.0 --- */
+    /* Admin UI */
     .admin-card { background: white; padding: 0; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.15); width: 95%; max-width: 1250px; margin: 0 auto; overflow: hidden; }
     .admin-header { background: var(--forest); color: white; padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
-    .admin-header h2 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 400; letter-spacing: 0.02em; }
+    .admin-header h2 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 400; }
     
     .admin-nav { display: flex; background: #f1f3f1; border-bottom: 1px solid #e0e4e0; padding: 0 2rem; overflow-x: auto; }
     .admin-nav-btn { background: none; border: none; padding: 1.25rem 2rem; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: 0.2s; white-space: nowrap; }
     .admin-nav-btn.active { color: var(--forest); border-bottom-color: var(--forest); }
 
     .admin-content { padding: 3.5rem; max-height: 75vh; overflow-y: auto; background: #fafafa; }
-    .admin-instruction { background: #fffde7; border: 1px solid #f9e79f; padding: 1.5rem; margin-bottom: 3rem; font-size: 0.9rem; border-radius: 6px; color: #7d6608; }
-    
-    /* Styled Input Boxes */
-    .input-box { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+    .input-box { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; }
     .input-row { margin-bottom: 1.5rem; }
     .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
-    .input-row input, .input-row textarea { width: 100%; border: 1.5px solid #eee; background: #fdfdfd; border-radius: 4px; padding: 14px 18px; font-size: 1rem; outline: none; color: var(--ink); font-family: inherit; }
-    .input-row input:focus, .input-row textarea:focus { border-color: var(--accent); background: white; }
+    .input-row input, .input-row textarea { width: 100%; border: 1.5px solid #eee; background: #fdfdfd; border-radius: 4px; padding: 14px 18px; font-size: 1rem; outline: none; font-family: inherit; }
 
-    .btn-save { background: var(--forest); color: white; border: none; padding: 1.5rem 3rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.3s; width: 100%; letter-spacing: 0.2em; font-size: 12px; }
-    .btn-save:hover { background: var(--ink); }
+    .btn-save { background: var(--forest); color: white; border: none; padding: 1.5rem 3rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; width: 100%; font-size: 12px; }
 
-    .btn-delete { color: #e74c3c; background: none; border: none; font-size: 9px; font-weight: bold; text-transform: uppercase; cursor: pointer; position: absolute; top: 2rem; right: 2rem; opacity: 0.6; }
-    .btn-delete:hover { opacity: 1; text-decoration: underline; }
-
-    .btn-outline { background: white; border: 2px solid var(--forest); color: var(--forest); padding: 0.6rem 1.5rem; font-size: 11px; text-transform: uppercase; cursor: pointer; font-family: 'Space Mono'; font-weight: 700; border-radius: 4px; }
-
-    /* Content Styling (Respecting Breaks) */
+    /* Content Styling */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 5.5rem; align-items: start; }
     .hero-text p { white-space: pre-wrap; font-size: 1.1rem; color: var(--muted); }
@@ -116,11 +128,16 @@
     .photo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
     .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 10px; color: var(--muted); }
 
-    .contact-card { background: rgba(255,255,255,0.6); padding: 4rem; border-radius: 2px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); backdrop-filter: blur(10px); max-width: 700px; margin: 0 auto; clip-path: polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%); }
+    /* Hamburger Animation */
+    .hamburger { width: 30px; height: 20px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; border: none; background: none; }
+    .hamburger span { display: block; width: 100%; height: 2px; background: var(--ink); transition: 0.3s; }
 
     @media (max-width: 1024px) {
-      .sidebar { display: none; }
-      main { margin-left: 0; padding: 2rem; }
+      .mobile-bar { display: flex; }
+      .sidebar { transform: translateX(-100%); clip-path: none; background: white; width: 300px; padding-top: 5rem; }
+      .sidebar.open { transform: translateX(0); }
+      main { margin-left: 0; padding: calc(var(--mobile-header) + 3rem) 1.5rem 3rem; }
+      .admin-card { width: 100%; border-radius: 0; }
       .page-title { font-size: 2.8rem; }
       .hero-grid, .smart-row { grid-template-columns: 1fr; gap: 2rem; }
     }
@@ -132,8 +149,7 @@
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
-    // --- PLATFORM CONFIGURATION ---
-    const SITE_ID = "fern"; // Identify this client (e.g., 'fern', 'offc', 'sbgs')
+    const SITE_ID = "fern"; 
     const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
     const EMAILJS_KEY = "1tk_WpVfkT1oGuS4P";
     const EMAILJS_SERVICE = "service_91osf0m";
@@ -146,23 +162,20 @@
       const [loading, setLoading] = useState(true);
       const [adminKey, setAdminKey] = useState("");
       const [isAuthed, setIsAuthed] = useState(false);
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
 
       useEffect(() => {
         if (window.emailjs) emailjs.init(EMAILJS_KEY);
 
-        // Fetch using the unique SITE_ID header
         fetch(WORKER_URL, {
           headers: { 'X-Site-Id': SITE_ID }
         })
           .then(res => res.json())
           .then(d => { 
-            if(!d.photos) d.photos = [];
-            if(!d.skills) d.skills = [];
-            if(!d.resume) d.resume = [];
             setData(d); 
             setLoading(false); 
           })
-          .catch(e => { console.error("Archive sync failed", e); setLoading(false); });
+          .catch(e => { console.error("Sync error:", e); setLoading(false); });
 
         if (window.location.hash === "#admin") setView('admin');
       }, []);
@@ -176,12 +189,87 @@
           },
           body: JSON.stringify({ key: adminKey, data: data })
         });
-        if (response.ok) { alert(`${SITE_ID.toUpperCase()} Archive Successfully Deployed.`); } 
+        if (response.ok) { alert("Archive Successfully Deployed."); } 
         else { alert("Verification Failed."); }
       };
 
+      const changeView = (v) => {
+        setView(v);
+        setIsMenuOpen(false);
+        window.scrollTo(0, 0);
+      };
+
+      if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Lora', fontStyle:'italic', color: '#c2a378'}}>Synchronizing {SITE_ID.toUpperCase()} Archive...</div>;
+      if (!data) return <div style={{padding:'5rem', textAlign:'center'}}>Engine offline. Check Cloudflare DNS.</div>;
+
+      return (
+        <div className="flex">
+          <div className="bg-wash-container"><div className="wash wash-1"></div><div className="wash wash-2"></div><div className="wash wash-3"></div></div>
+
+          {view !== 'admin' && (
+            <>
+              {/* Mobile Header */}
+              <div className="mobile-bar">
+                <div className="mobile-brand" onClick={() => changeView('home')}>FERN CARLETON</div>
+                <button className="hamburger" onClick={() => setIsMenuOpen(true)}>
+                    <span></span><span></span><span></span>
+                </button>
+              </div>
+
+              {/* Mobile Overlay */}
+              <div className={`sidebar-overlay ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
+
+              <aside className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
+                <div className="brand" onClick={() => changeView('home')}>
+                  <h1>Fern<br/>Carleton</h1>
+                  <span className="font-mono text-[10px] uppercase text-[#c2a378] mt-2 block tracking-widest">Art & Reasoning</span>
+                </div>
+                <nav className="nav-list mt-12">
+                  {['photos', 'skills', 'portfolio', 'about', 'contact'].map(tab => (
+                    <button key={tab} onClick={() => changeView(tab)} className={`nav-btn ${view === tab ? 'active' : ''}`}>
+                      {tab === 'portfolio' ? 'Portfolio' : tab}
+                    </button>
+                  ))}
+                </nav>
+              </aside>
+            </>
+          )}
+
+          <main className={view === 'admin' ? 'w-full ml-0 py-12 flex justify-center bg-gray-100/50 min-h-screen' : ''}>
+            {view === 'admin' ? (
+              <AdminPanel 
+                data={data} 
+                setData={setData} 
+                adminTab={adminTab} 
+                setAdminTab={setAdminTab} 
+                isAuthed={isAuthed} 
+                setIsAuthed={setIsAuthed} 
+                adminKey={adminKey} 
+                setAdminKey={setAdminKey} 
+                saveChanges={saveChanges}
+                exit={() => setView('home')} 
+                SITE_ID={SITE_ID}
+              />
+            ) : (
+              <div className="animate-in fade-in duration-700">
+                {view === 'home' && <Hero data={data.welcome} />}
+                {view === 'about' && <Hero data={data.about} />}
+                {view === 'photos' && <Gallery items={data.photos} />}
+                {view === 'skills' && <SmartGrid title="Skills" items={data.skills} />}
+                {view === 'portfolio' && <SmartGrid title="Portfolio" items={data.resume} />}
+                {view === 'contact' && <ContactView data={data.contact} service={EMAILJS_SERVICE} template={EMAILJS_TEMPLATE} />}
+              </div>
+            )}
+          </main>
+        </div>
+      );
+    };
+
+    /** --- SUB-COMPONENTS --- */
+
+    const AdminPanel = ({ data, setData, adminTab, setAdminTab, isAuthed, setIsAuthed, adminKey, setAdminKey, saveChanges, exit, SITE_ID }) => {
       const addItem = (target) => {
-        const newItem = target === 'photos' ? { title: "Untitled Entry", url: "" } : { label: "New Category", content: "Details..." };
+        const newItem = target === 'photos' ? { title: "New Entry", url: "" } : { label: "Category", content: "Details..." };
         setData({ ...data, [target]: [newItem, ...(data[target] || [])] });
       };
 
@@ -195,149 +283,99 @@
         setData({ ...data, [target]: data[target].filter((_, i) => i !== index) });
       };
 
-      if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Lora', fontStyle:'italic', color: '#c2a378'}}>Synchronizing {SITE_ID} Archive...</div>;
-      if (!data) return <div style={{padding:'5rem', textAlign:'center'}}>Engine connection failed.</div>;
-
       return (
-        <div className="flex">
-          <div className="bg-wash-container"><div className="wash wash-1"></div><div className="wash wash-2"></div><div className="wash wash-3"></div></div>
-
-          {view !== 'admin' && (
-            <aside className="sidebar">
-              <div className="brand" onClick={() => setView('home')}>
-                <h1>Fern<br/>Carleton</h1>
-                <span className="font-mono text-[10px] uppercase text-[#c2a378] mt-2 block tracking-widest">Art & Reasoning</span>
+        <div className="admin-card animate-in fade-in duration-500">
+          <header className="admin-header">
+              <h2>{SITE_ID.toUpperCase()} Backstage</h2>
+              <button onClick={exit} style={{background:'rgba(255,255,255,0.15)', border:'none', color:'white', padding:'8px 18px', borderRadius:'4px', cursor:'pointer', fontSize:'11px', fontWeight:'700', textTransform:'uppercase'}}>Exit</button>
+          </header>
+          
+          {!isAuthed ? (
+            <div className="p-16 space-y-10 bg-white">
+              <div className="input-row">
+                  <label>Secret Reasoning Key</label>
+                  <input type="password" placeholder="••••••••" style={{fontSize: '1.5rem', letterSpacing:'0.2em'}} value={adminKey} onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
               </div>
-              <nav className="nav-list mt-12">
-                {['photos', 'skills', 'resume', 'about', 'contact'].map(tab => (
-                  <button key={tab} onClick={() => setView(tab)} className={`nav-btn ${view === tab ? 'active' : ''}`}>{tab}</button>
-                ))}
+              <button className="btn-save" style={{borderRadius:'4px'}} onClick={() => setIsAuthed(true)}>Verify Access</button>
+            </div>
+          ) : (
+            <div>
+              <nav className="admin-nav">
+                  {['home', 'photos', 'skills', 'portfolio', 'about', 'contact'].map(t => (
+                      <button key={t} onClick={() => setAdminTab(t)} className={`admin-nav-btn ${adminTab === t ? 'active' : ''}`}>{t === 'portfolio' ? 'Portfolio' : t}</button>
+                  ))}
               </nav>
-              <div style={{marginTop:'auto', opacity:0.2, fontSize:'9px', fontFamily:'Space Mono'}}>MULTI-TENANT ENGINE v57.0 | {SITE_ID.toUpperCase()}</div>
-            </aside>
-          )}
-
-          <main className={view === 'admin' ? 'w-full ml-0 py-12 flex justify-center bg-gray-100/50 min-h-screen' : ''}>
-            {view === 'admin' ? (
-              <div className="admin-card animate-in fade-in duration-500">
-                <header className="admin-header">
-                    <h2>{SITE_ID.toUpperCase()} Backstage</h2>
-                    <button onClick={() => setView('home')} style={{background:'rgba(255,255,255,0.15)', border:'1px solid rgba(255,255,255,0.2)', color:'white', padding:'8px 18px', borderRadius:'4px', cursor:'pointer', fontSize:'11px', fontWeight:'700', textTransform:'uppercase', letterSpacing:'0.1em'}}>Exit to Site</button>
-                </header>
-                
-                {!isAuthed ? (
-                  <div className="p-16 space-y-10 bg-white">
-                    <div className="admin-instruction">
-                      <strong>Admin Node: {SITE_ID}</strong>. Enter the global secret key to edit.
+              <div className="admin-content">
+                {adminTab === 'home' && (
+                  <section>
+                    <div className="input-box">
+                      <div className="input-row"><label>Headline</label><input value={data.welcome?.title || ''} onChange={e => setData({...data, welcome: {...data.welcome, title: e.target.value}})} /></div>
+                      <div className="input-row"><label>Intro Narrative</label><textarea value={data.welcome?.text || ''} style={{minHeight:'180px'}} onChange={e => setData({...data, welcome: {...data.welcome, text: e.target.value}})} /></div>
+                      <div className="input-row"><label>Hero Image URL</label><input value={data.welcome?.image || ''} onChange={e => setData({...data, welcome: {...data.welcome, image: e.target.value}})} /></div>
                     </div>
-                    <div className="input-row">
-                        <label>Secret Key</label>
-                        <input type="password" placeholder="••••••••" style={{fontSize: '1.5rem', letterSpacing:'0.2em'}} onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
+                  </section>
+                )}
+                {adminTab === 'photos' && (
+                  <section>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
+                        <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>Photography Archive</h3>
+                        <button onClick={() => addItem('photos')} style={{background:'white', border:'2px solid var(--forest)', color:'var(--forest)', padding:'0.6rem 1.5rem', fontSize:'11px', textTransform:'uppercase', fontWeight:'bold', borderRadius:'4px', cursor:'pointer'}}>+ Add Photo</button>
                     </div>
-                    <button className="btn-save" style={{borderRadius:'4px'}} onClick={() => setIsAuthed(true)}>Verify Access</button>
-                  </div>
-                ) : (
-                  <div>
-                    <nav className="admin-nav">
-                        {['home', 'photos', 'skills', 'resume', 'about', 'contact'].map(t => (
-                            <button key={t} onClick={() => setAdminTab(t)} className={`admin-nav-btn ${adminTab === t ? 'active' : ''}`}>{t}</button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {data.photos.map((p, i) => (
+                            <div key={i} className="input-box" style={{position:'relative'}}>
+                                <button onClick={() => removeItem('photos', i)} style={{color:'red', background:'none', border:'none', position:'absolute', top:'1rem', right:'1rem', fontSize:'9px', fontWeight:'bold', cursor:'pointer'}}>REMOVE</button>
+                                <div className="input-row"><label>Title</label><input value={p.title} onChange={e => updateItem('photos', i, 'title', e.target.value)} /></div>
+                                <div className="input-row" style={{marginBottom:0}}><label>Image URL (.jpg)</label><input value={p.url} onChange={e => updateItem('photos', i, 'url', e.target.value)} /></div>
+                            </div>
                         ))}
-                    </nav>
-
-                    <div className="admin-content">
-                        {adminTab === 'home' && (
-                            <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Landing Experience</h3>
-                                <div className="input-box">
-                                    <div className="input-row"><label>Main Headline</label><input value={data.welcome?.title || ''} onChange={e => setData({...data, welcome: {...data.welcome, title: e.target.value}})} /></div>
-                                    <div className="input-row"><label>Intro Narrative (Supports line breaks)</label><textarea value={data.welcome?.text || ''} style={{minHeight:'180px'}} onChange={e => setData({...data, welcome: {...data.welcome, text: e.target.value}})} /></div>
-                                    <div className="input-row"><label>Hero Image Direct URL</label><input value={data.welcome?.image || ''} onChange={e => setData({...data, welcome: {...data.welcome, image: e.target.value}})} /></div>
-                                </div>
-                            </section>
-                        )}
-
-                        {adminTab === 'photos' && (
-                            <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <div className="admin-instruction">
-                                    <strong>Hosting Tip:</strong> Use <a href="https://postimg.cc" target="_blank" style={{color:'var(--forest)', fontWeight:'bold'}}>PostImg.cc</a>. Copy the <code>Direct Link</code> (.jpg) and paste it below.
-                                </div>
-                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
-                                    <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>Photography Archive</h3>
-                                    <button onClick={() => addItem('photos')} className="btn-outline">+ Add Photo Post</button>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    {data.photos.map((p, i) => (
-                                        <div key={i} className="post-box" style={{position:'relative'}}>
-                                            <button className="btn-delete" onClick={() => removeItem('photos', i)}>Remove Post</button>
-                                            <div className="input-row"><label>Post Title</label><input value={p.title} onChange={e => updateItem('photos', i, 'title', e.target.value)} /></div>
-                                            <div className="input-row" style={{marginBottom:0}}><label>Image URL (.jpg)</label><input value={p.url} onChange={e => updateItem('photos', i, 'url', e.target.value)} /></div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
-
-                        {(adminTab === 'skills' || adminTab === 'resume') && (
-                            <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
-                                    <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>{adminTab.charAt(0).toUpperCase() + adminTab.slice(1)} Content</h3>
-                                    <button onClick={() => addItem(adminTab)} className="btn-outline">+ Add Data Row</button>
-                                </div>
-                                {data[adminTab].map((item, i) => (
-                                    <div key={i} className="input-box" style={{display:'flex', gap:'2.5rem', position:'relative'}}>
-                                        <button className="btn-delete" onClick={() => removeItem(adminTab, i)}>Delete</button>
-                                        <div className="input-row" style={{width:'280px', marginBottom:0}}><label>Label</label><input value={item.label} onChange={e => updateItem(adminTab, i, 'label', e.target.value)} /></div>
-                                        <div className="input-row" style={{flex:1, marginBottom:0}}><label>Details (Supports line breaks)</label><textarea value={item.content} style={{minHeight:'100px'}} onChange={e => updateItem(adminTab, i, 'content', e.target.value)} /></div>
-                                    </div>
-                                ))}
-                            </section>
-                        )}
-
-                        {adminTab === 'about' && (
-                            <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Bio & Identity</h3>
-                                <div className="input-box">
-                                    <div className="input-row"><label>Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
-                                    <div className="input-row"><label>Bio Narrative (Supports line breaks)</label><textarea value={data.about?.text || ''} style={{minHeight:'300px'}} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
-                                    <div className="input-row"><label>Bio Photo URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
-                                </div>
-                            </section>
-                        )}
-
-                        {adminTab === 'contact' && (
-                            <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Contact Setup</h3>
-                                <div className="input-box">
-                                    <div className="input-row"><label>Headline</label><input value={data.contact?.title || ''} onChange={e => setData({...data, contact: {...data.contact, title: e.target.value}})} /></div>
-                                    <div className="input-row"><label>Sub-text</label><textarea value={data.contact?.text || ''} style={{minHeight:'120px'}} onChange={e => setData({...data, contact: {...data.contact, text: e.target.value}})} /></div>
-                                </div>
-                            </section>
-                        )}
                     </div>
-                    <button className="btn-save" onClick={saveChanges}>Push Changes Instantly</button>
-                  </div>
+                  </section>
+                )}
+                {(adminTab === 'skills' || adminTab === 'portfolio') && (
+                  <section>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
+                        <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>{adminTab.toUpperCase()} Content</h3>
+                        <button onClick={() => addItem(adminTab === 'portfolio' ? 'resume' : 'skills')} style={{background:'white', border:'2px solid var(--forest)', color:'var(--forest)', padding:'0.6rem 1.5rem', fontSize:'11px', textTransform:'uppercase', fontWeight:'bold', borderRadius:'4px', cursor:'pointer'}}>+ Add Row</button>
+                    </div>
+                    {(adminTab === 'portfolio' ? data.resume : data.skills).map((item, i) => (
+                        <div key={i} className="input-box" style={{display:'flex', gap:'2.5rem', position:'relative'}}>
+                            <button onClick={() => removeItem(adminTab === 'portfolio' ? 'resume' : 'skills', i)} style={{color:'red', background:'none', border:'none', position:'absolute', top:'1rem', right:'1rem', fontSize:'9px', fontWeight:'bold', cursor:'pointer'}}>REMOVE</button>
+                            <div className="input-row" style={{width:'280px', marginBottom:0}}><label>Label</label><input value={item.label} onChange={e => updateItem(adminTab === 'portfolio' ? 'resume' : 'skills', i, 'label', e.target.value)} /></div>
+                            <div className="input-row" style={{flex:1, marginBottom:0}}><label>Details</label><textarea value={item.content} style={{minHeight:'100px'}} onChange={e => updateItem(adminTab === 'portfolio' ? 'resume' : 'skills', i, 'content', e.target.value)} /></div>
+                        </div>
+                    ))}
+                  </section>
+                )}
+                {adminTab === 'about' && (
+                  <section>
+                    <div className="input-box">
+                        <div className="input-row"><label>Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
+                        <div className="input-row"><label>Bio Narrative</label><textarea value={data.about?.text || ''} style={{minHeight:'300px'}} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
+                        <div className="input-row"><label>Photo URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
+                    </div>
+                  </section>
+                )}
+                {adminTab === 'contact' && (
+                  <section>
+                    <div className="input-box">
+                        <div className="input-row"><label>Contact Headline</label><input value={data.contact?.title || ''} onChange={e => setData({...data, contact: {...data.contact, title: e.target.value}})} /></div>
+                        <div className="input-row"><label>Sub-text</label><textarea value={data.contact?.text || ''} style={{minHeight:'120px'}} onChange={e => setData({...data, contact: {...data.contact, text: e.target.value}})} /></div>
+                    </div>
+                  </section>
                 )}
               </div>
-            ) : (
-              <div className="animate-in fade-in duration-700">
-                {view === 'home' && <Hero data={data.welcome} />}
-                {view === 'about' && <Hero data={data.about} />}
-                {view === 'photos' && <Gallery items={data.photos} />}
-                {view === 'skills' && <SmartGrid title="Skills" items={data.skills} />}
-                {view === 'resume' && <SmartGrid title="Resume" items={data.resume} />}
-                {view === 'contact' && <ContactView data={data.contact} service={EMAILJS_SERVICE} template={EMAILJS_TEMPLATE} />}
-              </div>
-            )}
-          </main>
+              <button className="btn-save" onClick={saveChanges}>Push Changes Instantly</button>
+            </div>
+          )}
         </div>
       );
-    };
+    }
 
-    /** --- UI COMPONENTS --- */
     const Hero = ({ data }) => (
         <div className="hero-grid">
             <div className="hero-text"><h2 className="page-title leading-tight">{data?.title}</h2><p>{data?.text}</p></div>
-            <div className="hero-img-wrap"><img src={data?.image} className="w-full shadow-xl" alt="View" /></div>
+            <div className="hero-img-wrap"><img src={data?.image} className="w-full shadow-xl" alt="Visual" /></div>
         </div>
     );
 
