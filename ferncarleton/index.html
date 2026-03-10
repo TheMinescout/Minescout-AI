@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- MINESCOUT BACKEND SYSTEM v53.0 --- */
+    /* --- MINESCOUT BACKEND SYSTEM v54.0 --- */
     :root {
       --paper: #fdfcf8;
       --ink: #1a1a1a;
@@ -55,7 +55,7 @@
     .wash-2 { bottom: -10%; right: -5%; width: 45vw; height: 65vh; background: var(--wc-gold); }
     .wash-3 { top: 25%; right: 10%; width: 40vw; height: 45vh; background: var(--wc-lavender); }
 
-    /* The High-Detail Torn Sidebar */
+    /* Portfolio Sidebar */
     .sidebar {
       width: var(--sidebar-width); padding: 2.5rem 3rem 4rem; position: fixed; height: 100vh;
       display: flex; flex-direction: column; 
@@ -69,38 +69,44 @@
     .brand h1 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
     .brand span { font-family: 'Space Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); display: block; margin-top: 8px; }
 
-    /* Navigation */
+    /* Portfolio Navigation (Home Removed per request) */
     .nav-list { display: flex; flex-direction: column; gap: 1.5rem; }
     .nav-btn { background: none; border: none; font-family: 'Lora', serif; font-style: italic; font-size: 1.1rem; text-align: left; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; opacity: 0.5; transition: 0.3s; color: var(--ink); outline: none; }
     .nav-btn.active { opacity: 1; border-left: 2px solid var(--forest); padding-left: 10px; }
 
     main { margin-left: var(--sidebar-width); padding: 5rem 6rem; flex: 1; max-width: 1450px; }
 
-    /* Admin UI CSS Update */
-    .admin-card { background: white; padding: 0; border-radius: 8px; box-shadow: 0 30px 60px rgba(0,0,0,0.12); width: 100%; max-width: 1100px; margin: 0 auto; overflow: hidden; }
+    /* --- ADMIN UI ENHANCEMENTS --- */
+    .admin-card { background: white; padding: 0; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.15); width: 95%; max-width: 1250px; margin: 0 auto; overflow: hidden; }
     .admin-header { background: var(--forest); color: white; padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
-    .admin-header h2 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 400; }
+    .admin-header h2 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 400; letter-spacing: 0.02em; }
     
-    .admin-nav { display: flex; background: #f8f9f8; border-bottom: 1px solid #eee; padding: 0 2rem; }
-    .admin-nav-btn { background: none; border: none; padding: 1.2rem 1.5rem; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; font-weight: 700; color: #888; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.2s; }
+    .admin-nav { display: flex; background: #f1f3f1; border-bottom: 1px solid #e0e4e0; padding: 0 2rem; overflow-x: auto; }
+    .admin-nav-btn { background: none; border: none; padding: 1.25rem 2rem; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: 0.2s; white-space: nowrap; }
     .admin-nav-btn.active { color: var(--forest); border-bottom-color: var(--forest); }
     .admin-nav-btn:hover:not(.active) { color: #333; }
 
-    .admin-content { padding: 3rem; max-height: 70vh; overflow-y: auto; }
-    .admin-instruction { background: #fdfaf3; border: 1px solid #eee; padding: 1.5rem; margin-bottom: 2.5rem; font-size: 0.85rem; border-radius: 4px; }
+    .admin-content { padding: 3.5rem; max-height: 75vh; overflow-y: auto; background: #fafafa; }
+    .admin-instruction { background: #fffde7; border: 1px solid #f9e79f; padding: 1.5rem; margin-bottom: 3rem; font-size: 0.9rem; border-radius: 6px; color: #7d6608; }
     
-    .input-row { margin-bottom: 2.5rem; }
-    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 9px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
-    .input-row input, .input-row textarea { width: 100%; border: 1px solid #eee; background: #fafafa; border-radius: 4px; padding: 12px 15px; font-size: 1rem; outline: none; color: var(--ink); font-family: inherit; transition: 0.2s; }
-    .input-row input:focus, .input-row textarea:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 4px rgba(194, 163, 120, 0.05); }
+    /* Styled Input Boxes */
+    .input-box { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+    .input-row { margin-bottom: 1.5rem; }
+    .input-row:last-child { margin-bottom: 0; }
+    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; letter-spacing: 0.05em; }
+    .input-row input, .input-row textarea { width: 100%; border: 1.5px solid #eee; background: #fdfdfd; border-radius: 4px; padding: 14px 18px; font-size: 1rem; outline: none; color: var(--ink); font-family: inherit; transition: all 0.3s ease; }
+    .input-row input:focus, .input-row textarea:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 4px rgba(194, 163, 120, 0.1); }
 
-    .btn-save { background: var(--forest); color: white; border: none; padding: 1.2rem 2.5rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.2s; width: 100%; border-radius: 0 0 8px 8px; }
-    .btn-save:hover { background: var(--ink); letter-spacing: 0.05em; }
+    .btn-save { background: var(--forest); color: white; border: none; padding: 1.5rem 3rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.3s; width: 100%; border-radius: 0 0 8px 8px; letter-spacing: 0.2em; font-size: 12px; }
+    .btn-save:hover { background: var(--ink); letter-spacing: 0.3em; }
 
-    .post-box { background: #fff; border: 1px solid #eee; padding: 2rem; border-radius: 6px; margin-bottom: 1.5rem; position: relative; transition: 0.3s; }
-    .post-box:hover { border-color: #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
-    .btn-delete { color: #ff5c5c; background: none; border: none; font-size: 9px; font-weight: bold; text-transform: uppercase; cursor: pointer; position: absolute; top: 2rem; right: 2rem; opacity: 0.5; }
+    .post-box { background: white; border: 1px solid #e0e0e0; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; position: relative; transition: transform 0.3s; }
+    .post-box:hover { border-color: var(--accent); }
+    .btn-delete { color: #e74c3c; background: none; border: none; font-size: 9px; font-weight: bold; text-transform: uppercase; cursor: pointer; position: absolute; top: 2rem; right: 2rem; opacity: 0.6; }
     .btn-delete:hover { opacity: 1; text-decoration: underline; }
+
+    .btn-outline { background: white; border: 2px solid var(--forest); color: var(--forest); padding: 0.6rem 1.5rem; font-size: 11px; text-transform: uppercase; cursor: pointer; font-family: 'Space Mono'; font-weight: 700; border-radius: 4px; transition: 0.2s; }
+    .btn-outline:hover { background: var(--forest); color: white; }
 
     /* Content Styling */
     .page-title { font-family: 'Lora', serif; font-size: 4rem; color: var(--forest); margin-bottom: 2.5rem; font-weight: 400; }
@@ -116,13 +122,12 @@
     .photo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
     .photo-card h3 { font-family: 'Caveat', cursive; font-size: 1.6rem; text-align: right; margin-top: 10px; color: var(--muted); }
 
-    .contact-card { background: rgba(255,255,255,0.6); padding: 4rem; border-radius: 2px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); backdrop-filter: blur(10px); max-width: 700px; margin: 0 auto; clip-path: polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%); }
-
     @media (max-width: 1024px) {
       .sidebar { display: none; }
       main { margin-left: 0; padding: 2rem; }
       .page-title { font-size: 2.8rem; }
       .hero-grid, .smart-row { grid-template-columns: 1fr; gap: 2rem; }
+      .admin-card { width: 100%; border-radius: 0; }
     }
   </style>
 </head>
@@ -140,7 +145,7 @@
 
     const App = () => {
       const [view, setView] = useState('home');
-      const [adminTab, setAdminTab] = useState('photos');
+      const [adminTab, setAdminTab] = useState('home');
       const [data, setData] = useState(null);
       const [loading, setLoading] = useState(true);
       const [adminKey, setAdminKey] = useState("");
@@ -174,7 +179,7 @@
       };
 
       const addItem = (target) => {
-        const newItem = target === 'photos' ? { title: "Untitled Entry", url: "" } : { label: "Category", content: "Write details here..." };
+        const newItem = target === 'photos' ? { title: "New Entry", url: "" } : { label: "New Category", content: "Details..." };
         setData({ ...data, [target]: [newItem, ...(data[target] || [])] });
       };
 
@@ -189,7 +194,7 @@
       };
 
       if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Lora', fontStyle:'italic', color: '#c2a378'}}>Restoring Archive...</div>;
-      if (!data) return <div style={{padding:'5rem', textAlign:'center'}}>Connection to backend failed.</div>;
+      if (!data) return <div style={{padding:'5rem', textAlign:'center'}}>Connection to backend failed. Check Worker settings.</div>;
 
       return (
         <div className="flex">
@@ -202,57 +207,69 @@
                 <span className="font-mono text-[10px] uppercase text-[#c2a378] mt-2 block tracking-widest">Art & Reasoning</span>
               </div>
               <nav className="nav-list mt-12">
-                {['home', 'photos', 'skills', 'resume', 'about', 'contact'].map(tab => (
+                {/* Home link removed from sidebar list as requested */}
+                {['photos', 'skills', 'resume', 'about', 'contact'].map(tab => (
                   <button key={tab} onClick={() => setView(tab)} className={`nav-btn ${view === tab ? 'active' : ''}`}>{tab}</button>
                 ))}
               </nav>
-              <div style={{marginTop:'auto', opacity:0.2, fontSize:'9px', fontFamily:'Space Mono'}}>ARCHIVE v53.0</div>
+              <div style={{marginTop:'auto', opacity:0.2, fontSize:'9px', fontFamily:'Space Mono'}}>STUDIO ARCHIVE v54.0</div>
             </aside>
           )}
 
-          <main className={view === 'admin' ? 'w-full ml-0 py-20 flex justify-center bg-gray-50/50 min-h-screen' : ''}>
+          <main className={view === 'admin' ? 'w-full ml-0 py-12 flex justify-center bg-gray-100/50 min-h-screen' : ''}>
             {view === 'admin' ? (
               <div className="admin-card animate-in fade-in duration-500">
                 <header className="admin-header">
                     <h2>Studio Backstage</h2>
-                    <button onClick={() => setView('home')} style={{background:'rgba(255,255,255,0.1)', border:'none', color:'white', padding:'8px 15px', borderRadius:'4px', cursor:'pointer', fontSize:'10px', fontWeight:'bold', textTransform:'uppercase'}}>Exit Dashboard</button>
+                    <button onClick={() => setView('home')} style={{background:'rgba(255,255,255,0.15)', border:'1px solid rgba(255,255,255,0.2)', color:'white', padding:'8px 18px', borderRadius:'4px', cursor:'pointer', fontSize:'11px', fontWeight:'700', textTransform:'uppercase', letterSpacing:'0.1em'}}>Exit to Site</button>
                 </header>
                 
                 {!isAuthed ? (
-                  <div className="p-12 space-y-8">
+                  <div className="p-16 space-y-10 bg-white">
                     <div className="admin-instruction">
-                      Enter your <code>ADMIN_SECRET</code> key below to manage the digital archive.
+                      <strong>Access Limited:</strong> Enter your <code>ADMIN_SECRET</code> key below to manage the digital archive across all pages.
                     </div>
                     <div className="input-row">
                         <label>Secret Reasoning Key</label>
-                        <input type="password" placeholder="••••••••" onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
+                        <input type="password" placeholder="Enter key..." style={{fontSize: '1.5rem', letterSpacing:'0.2em'}} onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
                     </div>
                     <button className="btn-save" style={{borderRadius:'4px'}} onClick={() => setIsAuthed(true)}>Verify Access</button>
                   </div>
                 ) : (
                   <div>
                     <nav className="admin-nav">
-                        {['photos', 'skills', 'resume', 'about', 'contact'].map(t => (
+                        {['home', 'photos', 'skills', 'resume', 'about', 'contact'].map(t => (
                             <button key={t} onClick={() => setAdminTab(t)} className={`admin-nav-btn ${adminTab === t ? 'active' : ''}`}>{t}</button>
                         ))}
                     </nav>
 
                     <div className="admin-content">
+                        {adminTab === 'home' && (
+                            <section className="animate-in slide-in-from-bottom-4 duration-500">
+                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Landing Experience (Welcome)</h3>
+                                <div className="input-box">
+                                    <div className="input-row"><label>Main Headline</label><input value={data.welcome?.title || ''} onChange={e => setData({...data, welcome: {...data.welcome, title: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Intro Narrative</label><textarea value={data.welcome?.text || ''} style={{minHeight:'180px'}} onChange={e => setData({...data, welcome: {...data.welcome, text: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Hero Image Direct URL</label><input value={data.welcome?.image || ''} onChange={e => setData({...data, welcome: {...data.welcome, image: e.target.value}})} /></div>
+                                </div>
+                            </section>
+                        )}
+
                         {adminTab === 'photos' && (
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
                                 <div className="admin-instruction">
-                                    <strong>Photography Workflow:</strong> Use <a href="https://postimg.cc" target="_blank" style={{color:'var(--forest)', fontWeight:'bold'}}>PostImg.cc</a>. Upload your photo, click "Share," then copy the <code>Direct Link</code> (ends in .jpg) and paste it below.
+                                    <strong>Workflow Tip:</strong> Use <a href="https://postimg.cc" target="_blank" style={{color:'var(--forest)', fontWeight:'bold', textDecoration:'underline'}}>PostImg.cc</a> for hosting. Copy the <code>Direct Link</code> ending in .jpg or .png and paste it below.
                                 </div>
-                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem'}}>
-                                    <h3 style={{fontFamily:'Lora', fontSize:'1.4rem'}}>Gallery Library</h3>
-                                    <button onClick={() => addItem('photos')} className="btn-outline">+ Post New Photo</button>
+                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
+                                    <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>Photography Archive</h3>
+                                    <button onClick={() => addItem('photos')} className="btn-outline">+ Add Photo Post</button>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     {data.photos.map((p, i) => (
                                         <div key={i} className="post-box">
                                             <button className="btn-delete" onClick={() => removeItem('photos', i)}>Remove Post</button>
                                             <div className="input-row"><label>Post Title</label><input value={p.title} onChange={e => updateItem('photos', i, 'title', e.target.value)} /></div>
-                                            <div className="input-row" style={{marginBottom:0}}><label>Direct Link (.jpg)</label><input value={p.url} onChange={e => updateItem('photos', i, 'url', e.target.value)} /></div>
+                                            <div className="input-row" style={{marginBottom:0}}><label>Image URL (.jpg)</label><input value={p.url} onChange={e => updateItem('photos', i, 'url', e.target.value)} /></div>
                                         </div>
                                     ))}
                                 </div>
@@ -261,15 +278,15 @@
 
                         {(adminTab === 'skills' || adminTab === 'resume') && (
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem'}}>
-                                    <h3 style={{fontFamily:'Lora', fontSize:'1.4rem'}}>{adminTab.charAt(0).toUpperCase() + adminTab.slice(1)} Grid</h3>
-                                    <button onClick={() => addItem(adminTab)} className="btn-outline">+ Add Row</button>
+                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
+                                    <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>{adminTab.charAt(0).toUpperCase() + adminTab.slice(1)} Grid Content</h3>
+                                    <button onClick={() => addItem(adminTab)} className="btn-outline">+ Add Data Row</button>
                                 </div>
                                 {data[adminTab].map((item, i) => (
-                                    <div key={i} className="post-box" style={{display:'flex', gap:'2rem'}}>
-                                        <button className="btn-delete" onClick={() => removeItem(adminTab, i)}>Delete Row</button>
-                                        <div className="input-row" style={{width:'240px', marginBottom:0}}><label>Label</label><input value={item.label} onChange={e => updateItem(adminTab, i, 'label', e.target.value)} /></div>
-                                        <div className="input-row" style={{flex:1, marginBottom:0}}><label>Details</label><textarea value={item.content} onChange={e => updateItem(adminTab, i, 'content', e.target.value)} /></div>
+                                    <div key={i} className="input-box" style={{display:'flex', gap:'2.5rem', position:'relative'}}>
+                                        <button className="btn-delete" onClick={() => removeItem(adminTab, i)}>Delete</button>
+                                        <div className="input-row" style={{width:'280px', marginBottom:0}}><label>Category Label</label><input value={item.label} onChange={e => updateItem(adminTab, i, 'label', e.target.value)} /></div>
+                                        <div className="input-row" style={{flex:1, marginBottom:0}}><label>Experience Details</label><textarea value={item.content} style={{minHeight:'100px'}} onChange={e => updateItem(adminTab, i, 'content', e.target.value)} /></div>
                                     </div>
                                 ))}
                             </section>
@@ -277,18 +294,22 @@
 
                         {adminTab === 'about' && (
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <h3 style={{fontFamily:'Lora', fontSize:'1.4rem', marginBottom:'2rem'}}>Bio & Identity</h3>
-                                <div className="input-row"><label>Biography Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
-                                <div className="input-row"><label>Bio Body Text</label><textarea value={data.about?.text || ''} style={{minHeight:'250px'}} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
-                                <div className="input-row"><label>About Page Photo URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
+                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Bio & Identity</h3>
+                                <div className="input-box">
+                                    <div className="input-row"><label>Biography Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Bio Narrative Text</label><textarea value={data.about?.text || ''} style={{minHeight:'300px'}} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
+                                    <div className="input-row"><label>About Photo URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
+                                </div>
                             </section>
                         )}
 
                         {adminTab === 'contact' && (
                             <section className="animate-in slide-in-from-bottom-4 duration-500">
-                                <h3 style={{fontFamily:'Lora', fontSize:'1.4rem', marginBottom:'2rem'}}>Inquiry Page</h3>
-                                <div className="input-row"><label>Page Headline</label><input value={data.contact?.title || ''} onChange={e => setData({...data, contact: {...data.contact, title: e.target.value}})} /></div>
-                                <div className="input-row"><label>Instructional Text</label><textarea value={data.contact?.text || ''} onChange={e => setData({...data, contact: {...data.contact, text: e.target.value}})} /></div>
+                                <h3 style={{fontFamily:'Lora', fontSize:'1.6rem', marginBottom:'2rem'}}>Inquiry Page Controls</h3>
+                                <div className="input-box">
+                                    <div className="input-row"><label>Contact Page Headline</label><input value={data.contact?.title || ''} onChange={e => setData({...data, contact: {...data.contact, title: e.target.value}})} /></div>
+                                    <div className="input-row"><label>Sub-text Instructions</label><textarea value={data.contact?.text || ''} style={{minHeight:'120px'}} onChange={e => setData({...data, contact: {...data.contact, text: e.target.value}})} /></div>
+                                </div>
                             </section>
                         )}
                     </div>
@@ -315,7 +336,7 @@
     const Hero = ({ data }) => (
         <div className="hero-grid">
             <div className="hero-text"><h2 className="page-title leading-tight">{data?.title}</h2><p className="text-xl text-gray-700">{data?.text}</p></div>
-            <div className="hero-img-wrap"><img src={data?.image} className="w-full shadow-lg" alt="Studio View" /></div>
+            <div className="hero-img-wrap"><img src={data?.image} className="w-full shadow-xl" alt="Studio Context" /></div>
         </div>
     );
 
@@ -361,10 +382,10 @@
                 <h2 className="font-serif text-5xl mb-6">{data?.title}</h2>
                 <p className="italic text-gray-600 mb-12">{data?.text}</p>
                 <form ref={formRef} onSubmit={sendEmail}>
-                    <div className="input-group"><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Name</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic'}} type="text" name="user_name" required /></div>
-                    <div className="input-group" style={{marginTop:'20px'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Email</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic'}} type="email" name="user_email" required /></div>
-                    <div className="input-group" style={{marginTop:'20px'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Share your reasoning</label><textarea style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', minHeight:'120px', resize:'none'}} name="message" required></textarea></div>
-                    <button type="submit" className="btn-action w-full" style={{marginTop:'40px'}}>{status}</button>
+                    <div className="input-group-field" style={{marginBottom:'2rem'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Name</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', fontSize:'1.2rem'}} type="text" name="user_name" required /></div>
+                    <div className="input-group-field" style={{marginBottom:'2rem'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Your Email</label><input style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', fontSize:'1.2rem'}} type="email" name="user_email" required /></div>
+                    <div className="input-group-field" style={{marginBottom:'2rem'}}><label style={{fontSize:'9px', textTransform:'uppercase', fontWeight:'bold', color:'var(--accent)', marginBottom:'8px', display:'block'}}>Share your reasoning</label><textarea style={{width:'100%', border:'none', borderBottom:'1px solid #eee', padding:'10px 0', outline:'none', background:'none', fontStyle:'italic', minHeight:'120px', resize:'none', fontSize:'1.1rem'}} name="message" required></textarea></div>
+                    <button type="submit" className="btn-save w-full" style={{marginTop:'40px', borderRadius:'4px'}}>{status}</button>
                 </form>
             </div>
         );
