@@ -1,1 +1,485 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overlake Fly Fishing Club</title>
+  
+  <link rel="icon" type="image/jpeg" href="https://offc.org/wp-content/uploads/2019/01/cropped-OFFC-logo-color-512x512-32x32.jpg">
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- OFFC.ORG CLEAN BRANDING --- */
+    :root {
+      --bg-body: #f4f7f9;
+      --bg-surface: #ffffff; 
+      --text-main: #1a1a1a;
+      --text-muted: #555555;
+      
+      /* OFFC Official Colors */
+      --primary: #0d6efd; 
+      --primary-hover: #0654c4;
+      --accent-light: #b6f2f8; 
+      --border-color: #dadada;
+      
+      --sidebar-width: 280px;
+      --mobile-header: 70px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-body);
+      font-family: 'Manrope', sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Mobile Header Bar */
+    .mobile-bar {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; height: var(--mobile-header);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 2500;
+      padding: 0 1.5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .mobile-brand { font-weight: 700; font-size: 1.2rem; cursor: pointer; color: var(--primary); }
+
+    /* Clean Sidebar */
+    .sidebar {
+      width: var(--sidebar-width); padding: 3rem 2.5rem; position: fixed; height: 100vh;
+      display: flex; flex-direction: column; 
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-color);
+      z-index: 2000;
+      transition: transform 0.3s ease;
+    }
+
+    .brand { margin-bottom: 3rem; cursor: pointer; text-align: center; }
+    .brand img { width: 100px; margin-bottom: 15px; }
+    .brand h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-main); line-height: 1.2; }
+    .brand span { font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .nav-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .nav-btn { 
+      background: none; border: none; font-family: 'Manrope', sans-serif; font-size: 1.05rem; 
+      text-align: left; padding: 12px 16px; border-radius: 9px; cursor: pointer; 
+      color: var(--text-muted); font-weight: 600; transition: all 0.2s; 
+    }
+    .nav-btn:hover { background: var(--bg-body); color: var(--primary); }
+    .nav-btn.active { background: var(--accent-light); color: var(--text-main); }
+
+    /* Overlay for Mobile Sidebar */
+    .sidebar-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      z-index: 1500; opacity: 0; pointer-events: none; transition: 0.3s;
+    }
+    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
+
+    main { margin-left: var(--sidebar-width); padding: 4rem 5rem; flex: 1; max-width: 1400px; }
+
+    /* Admin UI */
+    .admin-card { background: white; padding: 0; border-radius: 9px; border: 1px solid var(--border-color); width: 100%; max-width: 1000px; margin: 0 auto; overflow: hidden; }
+    .admin-header { background: var(--text-main); color: white; padding: 1.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .admin-header h2 { font-size: 1.4rem; font-weight: 600; }
+    
+    .admin-nav { display: flex; background: #f8f9fa; border-bottom: 1px solid var(--border-color); padding: 0 1rem; overflow-x: auto; }
+    .admin-nav-btn { background: none; border: none; padding: 1rem 1.5rem; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; transition: 0.2s; white-space: nowrap; }
+    .admin-nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    .admin-content { padding: 2.5rem; max-height: 70vh; overflow-y: auto; background: white; }
+    .input-box { background: #fafafa; border: 1px solid var(--border-color); border-radius: 9px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .input-row { margin-bottom: 1rem; }
+    .input-row label { display: block; font-size: 12px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; }
+    .input-row input, .input-row textarea { width: 100%; border: 1px solid var(--border-color); background: white; border-radius: 6px; padding: 12px; font-size: 1rem; outline: none; font-family: inherit; }
+    .input-row input:focus, .input-row textarea:focus { border-color: var(--primary); }
+
+    .btn-save { background: var(--primary); color: white; border: none; border-radius: 9px; padding: 12px 24px; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 16px; cursor: pointer; transition: 0.2s; display: inline-block; text-align: center; text-decoration: none;}
+    .btn-save:hover { background: var(--primary-hover); }
+
+    /* Content Styling */
+    .page-title { font-size: 2.5rem; color: var(--text-main); margin-bottom: 1rem; font-weight: 700; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 4rem;}
+    .hero-text p { white-space: pre-wrap; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .hero-img-wrap img { width: 100%; border-radius: 9px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+
+    .smart-row { background: white; border: 1px solid var(--border-color); border-radius: 9px; padding: 2rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .smart-label { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+    .smart-content { white-space: pre-wrap; font-size: 1rem; color: var(--text-muted); }
+
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+    .photo-card { background: white; border: 1px solid var(--border-color); border-radius: 9px; overflow: hidden; display: flex; flex-direction: column; }
+    .photo-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-bottom: 1px solid var(--border-color); }
+    .photo-card h3 { font-size: 1rem; font-weight: 600; padding: 1rem; text-align: center; color: var(--text-main); }
+
+    /* Hamburger Animation */
+    .hamburger { width: 24px; height: 18px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; border: none; background: none; }
+    .hamburger span { display: block; width: 100%; height: 2px; background: var(--text-main); border-radius: 2px; }
+
+    /* Contact Styling */
+    .contact-card { 
+      background: white; 
+      padding: 3rem; 
+      border-radius: 9px; 
+      border: 1px solid var(--border-color);
+      max-width: 600px; 
+    }
+
+    .contact-field { margin-bottom: 1.5rem; }
+    .contact-field label { display: block; font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem; }
+    .contact-field input, .contact-field textarea { width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; font-size: 1rem; font-family: inherit; outline: none; }
+    .contact-field input:focus, .contact-field textarea:focus { border-color: var(--primary); }
+
+    @media (max-width: 1024px) {
+      .mobile-bar { display: flex; }
+      .sidebar { transform: translateX(-100%); width: 280px; padding-top: calc(var(--mobile-header) + 2rem); border-right: none; }
+      .sidebar.open { transform: translateX(0); }
+      main { margin-left: 0; padding: calc(var(--mobile-header) + 2rem) 1.5rem 3rem; }
+      .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .page-title { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const SITE_ID = "OFFC"; // Used for visual UI labels
+    const DATA_KEY = "site_data_OFFC"; // Used for querying the backend
+    
+    const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
+    const EMAILJS_KEY = "1tk_WpVfkT1oGuS4P";
+    const EMAILJS_SERVICE = "service_91osf0m";
+    const EMAILJS_TEMPLATE = "template_n98oiz5";
+
+    const App = () => {
+      const [view, setView] = useState('home');
+      const [adminTab, setAdminTab] = useState('home');
+      const [data, setData] = useState(null); 
+      const [loading, setLoading] = useState(true);
+      const [adminKey, setAdminKey] = useState("");
+      const [isAuthed, setIsAuthed] = useState(false);
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+      useEffect(() => {
+        if (window.emailjs) emailjs.init(EMAILJS_KEY);
+
+        fetch(WORKER_URL, {
+          headers: { 'X-Site-Id': DATA_KEY }
+        })
+          .then(res => res.json())
+          .then(d => { 
+            if(d && Object.keys(d).length > 0) {
+              setData(d);
+            } 
+            setLoading(false); 
+          })
+          .catch(e => { 
+            console.error("Sync error:", e); 
+            setLoading(false); 
+          });
+
+        if (window.location.hash === "#admin") setView('admin');
+      }, []);
+
+      const saveChanges = async () => {
+        const response = await fetch(WORKER_URL, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'X-Site-Id': DATA_KEY
+          },
+          body: JSON.stringify({ key: adminKey, data: data })
+        });
+        if (response.ok) { alert("Data successfully saved to server."); } 
+        else { alert("Authorization failed. Check your admin key."); }
+      };
+
+      const changeView = (v) => {
+        setView(v);
+        setIsMenuOpen(false);
+        window.scrollTo(0, 0);
+      };
+
+      if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontWeight: 'bold', color: 'var(--primary)'}}>Synchronizing {SITE_ID} Archive...</div>;
+      
+      if (!data) return <div style={{padding:'5rem', textAlign:'center'}}>Engine offline or empty. Check Cloudflare DNS or initialize data for {DATA_KEY}.<br/><br/><button onClick={() => setView('admin')} className="btn-save">Access Admin Panel</button></div>;
+
+      return (
+        <div className="flex">
+
+          {view !== 'admin' && (
+            <>
+              {/* Mobile Header */}
+              <div className="mobile-bar">
+                <div className="mobile-brand" onClick={() => changeView('home')}>{SITE_ID}</div>
+                <button className="hamburger" onClick={() => setIsMenuOpen(true)}>
+                    <span></span><span></span><span></span>
+                </button>
+              </div>
+
+              {/* Mobile Overlay */}
+              <div className={`sidebar-overlay ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
+
+              <aside className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
+                <div className="brand" onClick={() => changeView('home')}>
+                  <img src="https://offc.org/wp-content/uploads/2019/05/offclogo.png" alt="OFFC Logo" />
+                  <h1>{SITE_ID}</h1>
+                  <span>Overlake Fly Fishing</span>
+                </div>
+                
+                <nav className="nav-list mt-8">
+                  {['home', 'about', 'activities', 'education', 'photos', 'contact'].map(tab => (
+                    <button key={tab} onClick={() => changeView(tab)} className={`nav-btn ${view === tab ? 'active' : ''}`}>
+                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                    </button>
+                  ))}
+                  
+                  <div style={{marginTop: '2rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem'}}>
+                    <a href="https://offc.org/membership-login" style={{width: '100%'}} className="btn-save" target="_blank">Member Login</a>
+                  </div>
+                </nav>
+              </aside>
+            </>
+          )}
+
+          <main className={view === 'admin' ? 'w-full ml-0 py-8 flex justify-center bg-gray-100 min-h-screen' : ''}>
+            {view === 'admin' ? (
+              <AdminPanel 
+                data={data} setData={setData} adminTab={adminTab} setAdminTab={setAdminTab} 
+                isAuthed={isAuthed} setIsAuthed={setIsAuthed} adminKey={adminKey} setAdminKey={setAdminKey} 
+                saveChanges={saveChanges} exit={() => setView('home')} SITE_ID={SITE_ID}
+              />
+            ) : (
+              <div className="animate-in fade-in duration-500">
+                {view === 'home' && <Hero data={data.welcome} />}
+                {view === 'about' && <Hero data={data.about} reverse={true} />}
+                {view === 'photos' && <Gallery items={data.photos} />}
+                {view === 'activities' && <SmartGrid title="Club Activities" items={data.skills} />}
+                {view === 'education' && <SmartGrid title="Education Programs" items={data.resume} />}
+                {view === 'contact' && <ContactView data={data.contact} service={EMAILJS_SERVICE} template={EMAILJS_TEMPLATE} />}
+              </div>
+            )}
+          </main>
+        </div>
+      );
+    };
+
+    /** --- SUB-COMPONENTS --- */
+
+    const AdminPanel = ({ data, setData, adminTab, setAdminTab, isAuthed, setIsAuthed, adminKey, setAdminKey, saveChanges, exit, SITE_ID }) => {
+      const addItem = (target) => {
+        const newItem = target === 'photos' ? { title: "New Entry", url: "" } : { label: "Category", content: "Details..." };
+        setData({ ...data, [target]: [newItem, ...(data?.[target] || [])] });
+      };
+
+      const updateItem = (target, index, field, value) => {
+        const newList = [...data[target]];
+        newList[index][field] = value;
+        setData({ ...data, [target]: newList });
+      };
+
+      const removeItem = (target, index) => {
+        setData({ ...data, [target]: data[target].filter((_, i) => i !== index) });
+      };
+      
+      const safeData = data || { welcome: {}, about: {}, photos: [], skills: [], resume: [], contact: {} };
+
+      return (
+        <div className="admin-card">
+          <header className="admin-header">
+              <h2>{SITE_ID} Content Manager</h2>
+              <button onClick={exit} style={{background:'rgba(255,255,255,0.2)', border:'none', color:'white', padding:'8px 16px', borderRadius:'6px', cursor:'pointer', fontSize:'12px', fontWeight:'700'}}>Close</button>
+          </header>
+          
+          {!isAuthed ? (
+            <div style={{padding: '3rem', maxWidth: '400px', margin: '0 auto'}}>
+              <div className="input-row">
+                  <label>Admin Access Key</label>
+                  <input type="password" placeholder="••••••••" value={adminKey} onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
+              </div>
+              <button className="btn-save" style={{width: '100%'}} onClick={() => setIsAuthed(true)}>Authenticate</button>
+            </div>
+          ) : (
+            <div>
+              <nav className="admin-nav">
+                  {['home', 'about', 'photos', 'skills', 'resume', 'contact'].map(t => (
+                      <button key={t} onClick={() => setAdminTab(t)} className={`admin-nav-btn ${adminTab === t ? 'active' : ''}`}>
+                        {t === 'skills' ? 'Activities' : t === 'resume' ? 'Education' : t.charAt(0).toUpperCase() + t.slice(1)}
+                      </button>
+                  ))}
+              </nav>
+              <div className="admin-content">
+                {adminTab === 'home' && (
+                  <section>
+                    <div className="input-box">
+                      <div className="input-row"><label>Homepage Headline</label><input value={safeData.welcome?.title || ''} onChange={e => setData({...safeData, welcome: {...safeData.welcome, title: e.target.value}})} /></div>
+                      <div className="input-row"><label>Intro Narrative</label><textarea value={safeData.welcome?.text || ''} style={{minHeight:'150px'}} onChange={e => setData({...safeData, welcome: {...safeData.welcome, text: e.target.value}})} /></div>
+                      <div className="input-row"><label>Feature Image URL</label><input value={safeData.welcome?.image || ''} onChange={e => setData({...safeData, welcome: {...safeData.welcome, image: e.target.value}})} /></div>
+                    </div>
+                  </section>
+                )}
+                {adminTab === 'about' && (
+                  <section>
+                    <div className="input-box">
+                        <div className="input-row"><label>About Headline</label><input value={safeData.about?.title || ''} onChange={e => setData({...safeData, about: {...safeData.about, title: e.target.value}})} /></div>
+                        <div className="input-row"><label>About Text</label><textarea value={safeData.about?.text || ''} style={{minHeight:'150px'}} onChange={e => setData({...safeData, about: {...safeData.about, text: e.target.value}})} /></div>
+                        <div className="input-row"><label>About Image URL</label><input value={safeData.about?.image || ''} onChange={e => setData({...safeData, about: {...safeData.about, image: e.target.value}})} /></div>
+                    </div>
+                  </section>
+                )}
+                {adminTab === 'photos' && (
+                  <section>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1.5rem'}}>
+                        <h3 style={{fontSize:'1.2rem', fontWeight: 700}}>Image Archive</h3>
+                        <button onClick={() => addItem('photos')} className="btn-save" style={{padding: '8px 16px', fontSize: '12px'}}>+ Add Photo</button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {safeData.photos && safeData.photos.map((p, i) => (
+                            <div key={i} className="input-box" style={{position:'relative', marginBottom: 0}}>
+                                <button onClick={() => removeItem('photos', i)} style={{color:'red', background:'none', border:'none', position:'absolute', top:'1rem', right:'1rem', fontSize:'11px', fontWeight:'700', cursor:'pointer'}}>REMOVE</button>
+                                <div className="input-row"><label>Caption</label><input value={p.title} onChange={e => updateItem('photos', i, 'title', e.target.value)} /></div>
+                                <div className="input-row" style={{marginBottom:0}}><label>Image URL</label><input value={p.url} onChange={e => updateItem('photos', i, 'url', e.target.value)} /></div>
+                            </div>
+                        ))}
+                    </div>
+                  </section>
+                )}
+                {(adminTab === 'skills' || adminTab === 'resume') && (
+                  <section>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1.5rem'}}>
+                        <h3 style={{fontSize:'1.2rem', fontWeight: 700}}>{adminTab === 'skills' ? 'Club Activities' : 'Education Programs'}</h3>
+                        <button onClick={() => addItem(adminTab)} className="btn-save" style={{padding: '8px 16px', fontSize: '12px'}}>+ Add Item</button>
+                    </div>
+                    {safeData[adminTab] && safeData[adminTab].map((item, i) => (
+                        <div key={i} className="input-box" style={{position:'relative'}}>
+                            <button onClick={() => removeItem(adminTab, i)} style={{color:'red', background:'none', border:'none', position:'absolute', top:'1rem', right:'1rem', fontSize:'11px', fontWeight:'700', cursor:'pointer'}}>REMOVE</button>
+                            <div className="input-row"><label>Title / Category</label><input value={item.label} onChange={e => updateItem(adminTab, i, 'label', e.target.value)} /></div>
+                            <div className="input-row" style={{marginBottom:0}}><label>Description</label><textarea value={item.content} style={{minHeight:'80px'}} onChange={e => updateItem(adminTab, i, 'content', e.target.value)} /></div>
+                        </div>
+                    ))}
+                  </section>
+                )}
+                {adminTab === 'contact' && (
+                  <section>
+                    <div className="input-box">
+                        <div className="input-row"><label>Contact Headline</label><input value={safeData.contact?.title || ''} onChange={e => setData({...safeData, contact: {...safeData.contact, title: e.target.value}})} /></div>
+                        <div className="input-row"><label>Sub-text</label><textarea value={safeData.contact?.text || ''} style={{minHeight:'80px'}} onChange={e => setData({...safeData, contact: {...safeData.contact, text: e.target.value}})} /></div>
+                    </div>
+                  </section>
+                )}
+              </div>
+              <div style={{padding: '1.5rem', background: '#f8f9fa', borderTop: '1px solid var(--border-color)'}}>
+                <button className="btn-save" style={{width: '100%'}} onClick={saveChanges}>Save Changes to Server</button>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const Hero = ({ data, reverse }) => (
+        <div className="hero-grid" style={{ direction: reverse ? 'rtl' : 'ltr' }}>
+            <div className="hero-text" style={{ direction: 'ltr' }}>
+              <h2 className="page-title">{data?.title}</h2>
+              <p>{data?.text}</p>
+              {!reverse && <button className="btn-save" onClick={() => window.open("https://offc.org/about-offc/#join", "_blank")}>Join OFFC Now</button>}
+            </div>
+            <div className="hero-img-wrap" style={{ direction: 'ltr' }}>
+              <img src={data?.image} alt="Feature" />
+            </div>
+        </div>
+    );
+
+    const Gallery = ({ items }) => (
+        <div>
+          <h2 className="page-title">Gallery</h2>
+          <div className="photo-grid">
+              {items && items.map((p, i) => (
+                  <div key={i} className="photo-card">
+                      <img src={p.url} alt={p.title} />
+                      <h3>{p.title}</h3>
+                  </div>
+              ))}
+          </div>
+        </div>
+    );
+
+    const SmartGrid = ({ title, items }) => (
+        <div>
+          <h2 className="page-title" style={{marginBottom: '2rem'}}>{title}</h2>
+          <div>
+            {items && items.map((item, i) => (
+                <div key={i} className="smart-row">
+                  <div className="smart-label">{item.label}</div>
+                  <div className="smart-content">{item.content}</div>
+                </div>
+            ))}
+          </div>
+        </div>
+    );
+
+    const ContactView = ({ data, service, template }) => {
+        const formRef = useRef();
+        const [sent, setSent] = useState(false);
+        const [status, setStatus] = useState("Send Message");
+
+        const sendEmail = (e) => {
+            e.preventDefault(); setStatus("Sending...");
+            emailjs.sendForm(service, template, formRef.current)
+                .then(() => setSent(true))
+                .catch((err) => { console.error(err); setStatus("Error - Try Again"); });
+        };
+
+        if (sent) return (
+            <div className="contact-card">
+                <h2 className="page-title" style={{color: 'var(--primary)', marginBottom: '1rem', fontSize: '2rem'}}>Message Delivered.</h2>
+                <p>Your message has been received. A member of the club will be in touch shortly.</p>
+            </div>
+        );
+
+        return (
+            <div className="contact-card">
+                <h2 className="page-title" style={{fontSize: '2.5rem', marginBottom: '1rem'}}>{data?.title}</h2>
+                <p style={{color: 'var(--text-muted)', marginBottom: '2rem'}}>{data?.text}</p>
+                <form ref={formRef} onSubmit={sendEmail}>
+                    <div className="contact-field">
+                        <label>Your Name</label>
+                        <input type="text" name="user_name" required placeholder="John Doe" />
+                    </div>
+                    <div className="contact-field">
+                        <label>Your Email</label>
+                        <input type="email" name="user_email" required placeholder="john@example.com" />
+                    </div>
+                    <div className="contact-field">
+                        <label>Your Message</label>
+                        <textarea name="message" required placeholder="How can we help you?" style={{minHeight: '120px'}}></textarea>
+                    </div>
+                    <button type="submit" className="btn-save" style={{marginTop:'10px', width: '100%'}}>{status}</button>
+                </form>
+            </div>
+        );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
