@@ -97,6 +97,11 @@
     .add-page-btn { width: 100%; padding: 10px; border: 1px dashed #444; background: none; color: #444; font-size: 0.65rem; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
     .add-page-btn:hover { color: #fff; border-color: #fff; }
 
+    /* Launcher Specifics */
+    .game-list { height: 300px; overflow-y: auto; margin-top: 10px; border: 2px solid var(--neon-pink); padding: 10px; background: rgba(0,0,0,0.4); }
+    .game-item { padding: 10px; border-bottom: 1px solid rgba(255,95,162,0.3); cursor: pointer; font-weight: bold; color: #444; font-size: 0.9rem; transition: 0.2s; }
+    .game-item:hover { background: var(--neon-pink); color: white; padding-left: 20px; }
+
     @keyframes flicker { 0%,100%{opacity:1;} 49%{opacity:0.95;} 50%{opacity:1;} 51%{opacity:0.97;} 52%{opacity:0.9;} }
   </style>
 </head>
@@ -210,7 +215,108 @@
         silly: {
           html: `<div id="launcher-mount"></div>` 
         }
-      }
+      },
+      games: [
+        "Silly things/10todawn/index.html",
+        "Silly things/A Difficult Game About Climbing (1).html",
+        "Silly things/A Small World Cup.html",
+        "Silly things/Amanda the Adventurer.html",
+        "Silly things/Aquapark.io.html",
+        "Silly things/Awesome Tanks.html",
+        "Silly things/Bad Parenting 1.html",
+        "Silly things/Baldi's Basics.html",
+        "Silly things/Basket Random.html",
+        "Silly things/Boxing Random.html",
+        "Silly things/Bridge Race.html",
+        "Silly things/Buckshot Roulette.html",
+        "Silly things/Celeste.html",
+        "Silly things/Cookie Clicker.html",
+        "Silly things/Count Masters_Stickman Games.html",
+        "Silly things/Crazy Cars.html",
+        "Silly things/EaglercraftX_1.8.html",
+        "Silly things/Five Nights at Freddy's.html",
+        "Silly things/Five Nights at Freddy's 2.html",
+        "Silly things/Five Nights at Freddy's 3.html",
+        "Silly things/Five Nights at Freddy's 4.html",
+        "Silly things/Five Nights at Freddy's Sister Location.html",
+        "Silly things/Flip Master.html",
+        "Silly things/Gn-math/index.html",
+        "Silly things/Getting Over It with Bennett Foddy.html",
+        "Silly things/Happy Wheels.html",
+        "Silly things/Hardest Game Ever.html",
+        "Silly things/Idle Breakout.html",
+        "Silly things/Minecraft 1.5.2.html",
+        "Silly things/Monkey Mart.html",
+        "Silly things/Moto X3M Pool Party.html",
+        "Silly things/Moto X3M Spooky Land.html",
+        "Silly things/Moto X3M Winter.html",
+        "Silly things/Moto X3M.html",
+        "Silly things/Narrow.one.html",
+        "Silly things/OVO.html",
+        "Silly things/Papier.io 2.html",
+        "Silly things/Penalty Shooters 2.html",
+        "Silly things/Pixel Gun Survival.html",
+        "Silly things/Rooftop Snipers.html",
+        "Silly things/Run 3.html",
+        "Silly things/Slope.html",
+        "Silly things/Snow Rider 3D.html",
+        "Silly things/Soccer Random.html",
+        "Silly things/Stickman Hook.html",
+        "Silly things/Subway Surfers.html",
+        "Silly things/Super Mario 64.html",
+        "Silly things/Temple Run 2.html",
+        "Silly things/The Binding of Isaac.html",
+        "Silly things/There Is No Game.html",
+        "Silly things/Tomb Mask.html",
+        "Silly things/Tunnel Rush.html",
+        "Silly things/Vex 3.html",
+        "Silly things/Vex 4.html",
+        "Silly things/Vex 5.html",
+        "Silly things/Vex 6.html",
+        "Silly things/Vex 7.html",
+        "Silly things/Volley Random.html",
+        "Silly things/bitlife/index.html",
+        "Silly things/bloonstd2/index.html",
+        "Silly things/brainrot.html",
+        "Silly things/buttongame.html",
+        "Silly things/cell-machine/index.html",
+        "Silly things/cellmachine/index.html",
+        "Silly things/chrome-dino/index.html",
+        "Silly things/clicker.html",
+        "Silly things/deal-or-no-deal/index.html",
+        "Silly things/death-run-3d/index.html",
+        "Silly things/DogeMiner/index.html",
+        "Silly things/doodle-jump/index.html",
+        "Silly things/draw-the-hill/index.html",
+        "Silly things/ducklife1/index.html",
+        "Silly things/ducklife2/index.html",
+        "Silly things/ducklife3/index.html",
+        "Silly things/exo/index.html",
+        "Silly things/finalearth2/index.html",
+        "Silly things/flappy-bird/index.html",
+        "Silly things/geometrydash/index.html",
+        "Silly things/getawayshootout/index.html",
+        "Silly things/hollowknight.html",
+        "Silly things/impossiblequiz/index.html",
+        "Silly things/interactivebuddy/index.html",
+        "Silly things/kittencannon/index.html",
+        "Silly things/motox3m/index.html",
+        "Silly things/papasscooperia/index.html",
+        "Silly things/papasfreezeria/index.html",
+        "Silly things/papaspancheria/index.html",
+        "Silly things/papas pizzeria/index.html",
+        "Silly things/plants-vs-zombies/index.html",
+        "Silly things/poptropica/index.html",
+        "Silly things/run3/index.html",
+        "Silly things/shellshockers/index.html",
+        "Silly things/slope/index.html",
+        "Silly things/stickman-hook/index.html",
+        "Silly things/supermario64/index.html",
+        "Silly things/tanuki-sunset/index.html",
+        "Silly things/terraria/index.html",
+        "Silly things/there-is-no-game/index.html",
+        "Silly things/world-hardest-game/index.html"
+      ]
     };
 
     let activeAdminTab = 'home';
@@ -231,10 +337,8 @@
       const root = document.getElementById('spa-content');
       const content = siteData.pages[pageKey] || siteData.pages['home'];
       
-      // Clear mount
       root.innerHTML = content.html;
       
-      // Update persistent UI based on page metadata
       const cursor = document.getElementById('customCursor');
       cursor.style.background = content.cursorColor || 'rgba(0, 255, 0, 0.7)';
       
@@ -242,7 +346,6 @@
       addHoverListeners();
       window.scrollTo(0,0);
       
-      // Page specific initializers
       if(pageKey === 'silly') initGameLauncher();
     }
 
@@ -285,11 +388,9 @@
     }
 
     function loadPageToEditor(key) {
-      // Autosave current local state
       if(activeAdminTab) {
         siteData.pages[activeAdminTab].html = document.getElementById('html-editor').value;
       }
-      
       activeAdminTab = key;
       document.getElementById('editor-label').innerText = `Editing: ${key}`;
       document.getElementById('html-editor').value = siteData.pages[key].html;
@@ -349,7 +450,7 @@
     animateCursor();
 
     function addHoverListeners(){
-      document.querySelectorAll('.box, button, a').forEach(el => {
+      document.querySelectorAll('.box, button, a, .game-item').forEach(el => {
         el.onmouseenter = () => cursor.classList.add('grow');
         el.onmouseleave = () => cursor.classList.remove('grow');
       });
@@ -357,22 +458,65 @@
 
     function slugify(t) { return t.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, ''); }
 
-    /* --- GAME LAUNCHER PORT --- */
+    /* --- CHAOS LAUNCHER PORT --- */
     function initGameLauncher() {
       const mount = document.getElementById('launcher-mount');
       if(!mount) return;
+      
       mount.innerHTML = `
         <div style="height:100vh; display:flex; align-items:center; justify-content:center; font-family:'Comic Sans MS', cursive;">
-          <div style="width:400px; padding:30px; background:rgba(255,255,255,0.9); border-radius:30px; color:#111; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
-            <h1 style="color:var(--neon-pink);">軸 CHAOS LAUNCHER</h1>
-            <input type="text" placeholder="Search your doom..." style="width:100%; padding:12px; margin: 15px 0; border:3px dashed var(--neon-pink); border-radius:15px; outline:none;">
-            <div style="height:200px; overflow-y:auto; font-weight:bold; color: #444;">
-              <p>Fetching silly items...</p>
-            </div>
-            <button class="box" onclick="navigateTo('home')" style="width:100%; border:none; background:var(--neon-pink); color:white; padding:10px; border-radius:10px; margin-top:15px; height:auto;">BACK_HOME</button>
+          <div style="width:450px; padding:30px; background:rgba(255,255,255,0.95); border-radius:30px; color:#111; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <h1 style="color:var(--neon-pink); text-align:center; font-size: 1.8rem; margin:0;">軸 CHAOS LAUNCHER</h1>
+            <p style="text-align:center; font-size:0.7rem; color:#888; margin-top:5px;">Silly Things Directory v2.0</p>
+            
+            <input type="text" id="game-search" placeholder="Search your doom..." 
+              style="width:100%; padding:12px 18px; margin: 20px 0; border:3px dashed var(--neon-pink); border-radius:15px; outline:none; font-family:inherit;">
+            
+            <div class="game-list" id="game-results"></div>
+            
+            <button class="box" onclick="navigateTo('home')" 
+              style="width:100%; border:none; background:var(--neon-pink); color:white; padding:12px; border-radius:10px; margin-top:20px; height:auto; font-size:0.8rem; box-shadow:none;">
+              BACK_TO_SAFETY
+            </button>
           </div>
         </div>
       `;
+
+      const searchInput = document.getElementById('game-search');
+      searchInput.addEventListener('input', (e) => renderGames(e.target.value.toLowerCase()));
+      renderGames();
+    }
+
+    function cleanName(p){
+      let parts = p.split("/");
+      let n = parts.at(-1) === "index.html" ? parts.at(-2) : parts.at(-1).replace(".html","");
+      return n.replace(/[-_]/g," ").replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function renderGames(filter = "") {
+      const listEl = document.getElementById('game-results');
+      if(!listEl) return;
+      
+      listEl.innerHTML = "";
+      const filtered = siteData.games.filter(g => cleanName(g).toLowerCase().includes(filter));
+      
+      if(filtered.length === 0) {
+        listEl.innerHTML = "<p style='text-align:center; color:#999; padding-top:20px;'>Nothing found in the void.</p>";
+        return;
+      }
+
+      filtered.forEach(path => {
+        const item = document.createElement("div");
+        item.className = "game-item";
+        item.textContent = cleanName(path);
+        item.onclick = () => {
+          // In a real scenario, this would open the path. 
+          // For the SPA demo, we just log it or alert.
+          alert("Launching: " + cleanName(path) + "\\nPath: " + path);
+        };
+        listEl.appendChild(item);
+      });
+      addHoverListeners();
     }
 
     window.onload = initApp;
