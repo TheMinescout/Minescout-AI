@@ -25,8 +25,7 @@
       --font-body: 'Inter', sans-serif;
     }
 
-    /* --- Core --- */
-    * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--wall);
@@ -37,18 +36,10 @@
       overflow-x: hidden;
     }
 
-    a { color: var(--wood); text-decoration: none; transition: 0.2s; cursor: pointer; }
+    a { color: var(--wood); text-decoration: none; transition: 0.2s; }
     a:hover { color: var(--forest); }
 
     .site-wrapper { display: flex; min-height: 100vh; }
-
-    /* Custom Cursor (Always visible) */
-    .custom-cursor {
-      position: fixed; top: 0; left: 0; width: 16px; height: 16px; border-radius: 50%;
-      background: rgba(45, 58, 45, 0.7); pointer-events: none; transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s; z-index: 100000; mix-blend-mode: difference;
-    }
-    .custom-cursor.grow { width: 28px; height: 28px; background: rgba(45, 58, 45, 0.4); }
 
     /* --- SIDEBAR --- */
     .sidebar {
@@ -70,426 +61,489 @@
     }
     .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
 
-    /* --- MOBILE HEADER --- */
+    /* --- MOBILE HEADER & HAMBURGER --- */
     .mobile-nav-bar { display: none; position: fixed; top: 0; left: 0; right: 0; height: 60px; background: var(--clay); z-index: 900; padding: 0 1.5rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); }
     .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; }
     .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1100; }
     .hamburger span { display: block; width: 22px; height: 2px; background: var(--forest); transition: 0.3s; }
-    .menu-open .sidebar { transform: translateX(0); }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 950; }
-    .menu-open .sidebar-overlay { display: block; }
+    .menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-open .hamburger span:nth-child(2) { opacity: 0; }
+    .menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s; }
 
     /* --- MAIN CONTENT --- */
     main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; transition: opacity 0.3s; }
 
-    /* --- HERO LAYOUTS --- */
-    #hero-container { display: grid; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; margin-bottom: 4rem; }
-    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; box-shadow: none; }
+    /* --- HERO LAYOUTS (Enlarged) --- */
+    #hero-container { display: none; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; }
+    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; filter: contrast(1.02) saturate(0.95); }
+    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; filter: contrast(1.1); margin: 0 auto; }
     
-    .hero-text h1 { font-family: var(--font-header); font-size: 2.8rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
-    .hero-text p { font-size: 1.15rem; margin-bottom: 1.5rem; color: #444; }
+    .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
+    .hero-text p { font-size: 1.1rem; margin-bottom: 1.5rem; color: #444; }
 
-    .shop-cta { display: inline-block; background-color: var(--forest); color: white; padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 700; margin-top: 2rem; border-radius: 2px; transition: 0.3s; cursor: pointer; border: none; }
-    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); }
+    .shop-cta { display: inline-block; background-color: var(--forest); color: white; padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 700; margin-top: 2rem; border-radius: 2px; transition: all 0.3s ease; border: none; cursor: pointer; text-align: center; }
+    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); color: #fff; }
 
-    /* --- JOURNAL / FEED --- */
-    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
-    .post-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 2px; background: var(--clay); }
-    .post-card h3 { font-family: var(--font-header); font-size: 2rem; color: var(--forest); text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 400; }
-    .post-excerpt { color: #666; margin-bottom: 1.5rem; }
-    .post-date { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); }
+    .signature { margin-top: 3rem; font-family: var(--font-header); font-weight: 500; color: var(--forest); text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.1em; }
+    .signature small { display: block; font-family: var(--font-body); font-weight: normal; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px; }
 
-    /* --- PORTFOLIO --- */
-    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
-    .portfolio-card { aspect-ratio: 1; overflow: hidden; position: relative; cursor: pointer; border-radius: 4px; background: var(--clay); }
-    .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    /* --- JOURNAL & PAGINATION --- */
+    .section-header-flex { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; border-bottom: 2px solid var(--clay); padding-bottom: 1.5rem; }
+    .section-title { font-family: var(--font-header); font-size: 2.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--forest); font-weight: 400; }
+    
+    .filter-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+    .pill { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; border: 1px solid var(--border); border-radius: 50px; cursor: pointer; background: var(--white); color: var(--muted); transition: 0.2s; }
+    .pill.active { background: var(--forest); color: var(--white); border-color: var(--forest); }
+
+    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: 0.3s ease; align-items: stretch; }
+    .post-card:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.04); }
+    .post-thumb { width: 100%; height: 100%; min-height: 200px; object-fit: cover; border-radius: 2px; background: var(--clay); }
+    .post-card h3 { font-family: var(--font-header); font-size: 2rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; line-height: 1.2; }
+    .post-excerpt { font-size: 1rem; color: #555; margin-bottom: 2rem; line-height: 1.7; }
+    .post-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--wall); }
+    .post-date { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); font-weight: 600; }
+
+    .load-more-btn { display: block; width: 100%; padding: 2rem; background: var(--clay); border: none; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; cursor: pointer; color: var(--forest); transition: 0.2s; margin-top: 1rem; border-radius: 4px; }
+    .load-more-btn:hover { background: #dfd7c8; }
+
+    /* --- ARTICLE PAGE --- */
+    .article-content { max-width: 900px; margin: 0 auto; background: var(--white); padding: 5rem; border-radius: 4px; }
+    .article-content h1 { font-family: var(--font-header); font-size: 3rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; color: var(--forest); font-weight: 400; }
+    .article-content .article-date { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); margin-bottom: 3.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+    .article-body { font-size: 1.15rem; line-height: 1.8; color: #333; }
+    .article-body p { margin-bottom: 1.5rem; }
+    .article-body img { display: block; max-width: 100%; height: auto; margin: 3.5rem auto; border-radius: 2px; }
+    
+    .article-tag-section { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+    .article-tag-section span { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); background: var(--wall); padding: 6px 16px; border-radius: 50px; }
+
+    /* --- RESUME (Professional/Printable) --- */
+    .resume-container { max-width: 1000px; margin: 0 auto; background: var(--white); padding: 6rem; border-radius: 4px; }
+    .resume-meta { text-align: center; margin-bottom: 5rem; border-bottom: 3px solid var(--forest); padding-bottom: 2rem; }
+    .resume-meta h1 { font-family: var(--font-header); font-size: 4rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; color: var(--forest); line-height: 1; }
+    .resume-meta p { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--sage); font-weight: 600; }
+    
+    .resume-container h2, .resume-container h3 { font-family: var(--font-header); font-size: 2.2rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-top: 4rem; margin-bottom: 2rem; width: 100%; }
+    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .res-row { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 3rem; align-items: start; }
+    .res-label { font-weight: 700; text-transform: uppercase; font-size: 0.95rem; color: var(--charcoal); letter-spacing: 0.05em; line-height: 1.3; }
+    .res-content strong { display: block; font-size: 1.1rem; margin-bottom: 2px; }
+    .res-content em { font-size: 0.95rem; color: var(--sage); display: block; margin-bottom: 12px; }
+    .res-content li { font-size: 1rem; margin-bottom: 6px; color: #444; line-height: 1.5; }
+
+    /* --- PORTFOLIO GRID --- */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3rem; margin-top: 1rem; }
+    .portfolio-card { position: relative; overflow: hidden; border-radius: 4px; background: var(--clay); aspect-ratio: 4/3; }
+    .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
     .portfolio-card:hover img { transform: scale(1.05); }
-    .portfolio-overlay { position: absolute; inset: 0; background: rgba(45,58,45,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; padding: 20px; text-align: center; }
+    .portfolio-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(45,58,45,0.9), transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; opacity: 0; transition: 0.3s; }
     .portfolio-card:hover .portfolio-overlay { opacity: 1; }
-    .portfolio-overlay h4 { color: #fff; font-family: var(--font-header); text-transform: uppercase; letter-spacing: 0.1em; }
+    .portfolio-overlay h4 { color: white; font-family: var(--font-header); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
 
-    /* --- BACKSTAGE (ADMIN) --- */
-    #admin-view { display: none; position: fixed; inset: 0; background: var(--wall); z-index: 5000; padding: 40px; overflow-y: auto; }
-    .admin-card { max-width: 1100px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); height: 85vh; display: flex; flex-direction: column; }
-    .admin-header { background: var(--forest); color: #fff; padding: 25px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px 8px 0 0; }
-    .admin-main { display: grid; grid-template-columns: 240px 1fr; flex: 1; overflow: hidden; }
-    .admin-sidebar { border-right: 1px solid var(--border); overflow-y: auto; padding: 20px; background: var(--wall); }
-    .admin-tab { width: 100%; padding: 15px; background: none; border: 1px solid transparent; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #999; text-align: left; transition: 0.2s; }
-    .admin-tab.active { color: var(--forest); border-color: var(--border); background: #fff; }
-    .admin-body { padding: 30px; overflow-y: auto; }
-    .admin-group { margin-bottom: 20px; }
-    .admin-group label { display: block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--sage); margin-bottom: 8px; }
-    .admin-group input, .admin-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px; outline: none; font-family: inherit; font-size: 0.9rem; }
-    .admin-group textarea { height: 120px; }
-    .admin-actions { padding: 20px 30px; background: var(--wall); text-align: right; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    /* --- FOOTER --- */
+    footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid rgba(0,0,0,0.05); }
+    footer .copyright { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); margin-bottom: 8px; font-weight: 600; }
+    footer .credit { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.6; color: var(--forest); }
+    footer .credit a { color: var(--forest); text-decoration: underline; font-weight: 700; }
 
-    /* Admin List UI */
-    .admin-item-card { border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin-bottom: 1rem; position: relative; background: #fff; transition: 0.2s; }
-    .admin-item-card:hover { border-color: var(--wood); }
-    .remove-item { position: absolute; top: 1rem; right: 1rem; color: #e11d48; font-size: 0.6rem; font-weight: 700; cursor: pointer; text-transform: uppercase; background: none; border: none; }
-    .add-row-btn { width: 100%; padding: 15px; border: 2px dashed var(--border); background: none; color: var(--muted); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-bottom: 2rem; transition: 0.2s; }
-    .add-row-btn:hover { border-color: var(--forest); color: var(--forest); }
-
-    /* Footer */
-    footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid var(--border); }
+    /* --- PRINT --- */
+    @media print {
+      @page { size: letter; margin: 0.5in; }
+      body { background: white; color: black; font-size: 11pt; }
+      .sidebar, .mobile-nav-bar, .back-btn, .shop-cta, footer, .load-more-btn, .filter-pills { display: none !important; }
+      main { margin-left: 0 !important; padding: 0 !important; width: 100% !important; }
+      .resume-container { padding: 0 !important; max-width: 100% !important; }
+      .resume-meta h1 { font-size: 32pt; }
+      .resume-container h2, .resume-container h3 { font-size: 16pt; margin-top: 25pt; border-bottom: 1.5pt solid black; }
+      .res-row { grid-template-columns: 160pt 1fr; gap: 20pt; margin-bottom: 20pt; page-break-inside: avoid; }
+      .res-label { font-size: 10pt; }
+      .res-content strong { font-size: 11pt; }
+    }
 
     @media (max-width: 1024px) {
-      .sidebar { transform: translateX(-100%); width: 280px; }
+      .sidebar { transform: translateX(-100%); width: 80%; max-width: 300px; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
       .mobile-nav-bar { display: flex; }
-      main { margin-left: 0; padding: 80px 20px 40px; }
+      .menu-open .sidebar { transform: translateX(0); }
+      .menu-open .sidebar-overlay { display: block; opacity: 1; }
+      main { margin-left: 0; padding: 6rem 2rem 4rem 2rem; }
       #hero-container { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
-      .post-card { grid-template-columns: 1fr; }
+      .post-card { grid-template-columns: 1fr; gap: 1.5rem; }
+      .post-thumb { aspect-ratio: 16/9; }
+      .res-row { grid-template-columns: 1fr; gap: 1rem; }
+      .resume-container { padding: 3rem 1.5rem; }
     }
   </style>
 </head>
 <body id="body-context">
 
-  <div class="custom-cursor" id="customCursor"></div>
-
   <div class="mobile-nav-bar">
-    <div class="mobile-brand" onclick="switchView('home')">Jayme M. Carleton</div>
-    <button class="hamburger" onclick="toggleMenu()">
+    <div class="mobile-brand" onclick="navigateTo('/')">Jayme M. Carleton</div>
+    <button class="hamburger" id="menu-toggle" aria-label="Toggle Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
-  <div class="sidebar-overlay" onclick="toggleMenu()"></div>
+  <div class="sidebar-overlay" id="menu-overlay"></div>
 
   <div class="site-wrapper">
     <nav class="sidebar" id="sidebar">
-      <div class="sidebar-brand" onclick="switchView('home')">
+      <div class="sidebar-brand" onclick="navigateTo('/')">
         <h1>Jayme M.<br>Carleton</h1>
       </div>
       <div class="nav-links">
-        <a onclick="switchView('journal')" id="nav-journal">Journal</a>
-        <a onclick="switchView('portfolio')" id="nav-portfolio">Portfolio</a>
-        <a onclick="switchView('handmade')" id="nav-handmade">Handmade</a>
-        <a onclick="switchView('resume')" id="nav-resume">Resume</a>
-        <a onclick="switchView('contact')" id="nav-contact">Contact</a>
+        <a href="/journal/" class="nav-link" data-link>Journal</a>
+        <a href="/portfolio/" class="nav-link" data-link>Portfolio</a>
+        <a href="/handmade/" class="nav-link" data-link>Handmade</a>
+        <a href="/resume/" class="nav-link" data-link>Resume</a>
+        <a href="/contact/" class="nav-link" data-link>Contact</a>
       </div>
     </nav>
 
-    <main id="main-content">
+    <main>
       <div id="hero-container">
         <div class="profile-card">
-          <img id="hero-image" src="" alt="Jayme">
+          <img id="hero-image" src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme M. Carleton">
         </div>
-        <div class="hero-text" id="hero-text"></div>
+        <div class="hero-text" id="hero-target"></div>
       </div>
 
       <div id="app-root"></div>
 
       <footer>
         <div class="social-links" style="margin-bottom: 1.5rem;">
-          <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style="text-transform:uppercase; font-size:0.75rem; font-weight:700; letter-spacing:0.1em;">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style="text-decoration:none; font-weight:700; font-size:0.8rem; text-transform:uppercase; color:var(--forest); letter-spacing:0.1em;">LinkedIn</a>
         </div>
-        <div class="copyright">SECOND NATURE | &copy; 2015-<span id="copy-year">2026</span></div>
-        <div class="credit">Node Architecture by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
+        <div class="copyright">SECOND NATURE | &copy; 2015-<span id="copy-year">2026</span>. ALL RIGHTS RESERVED.</div>
+        <div class="credit">Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
       </footer>
     </main>
   </div>
 
-  <!-- Backstage Manager (Hidden) -->
-  <div id="admin-view">
-    <div class="admin-card">
-      <header class="admin-header">
-        <h2 style="font-family:'Playfair Display'; font-weight:400; letter-spacing:0.05em;">Backstage Node: HANDMADE_BY_JAYME</h2>
-        <button onclick="closeAdmin()" style="background:none; border:1px solid #fff; color:#fff; cursor:pointer; padding:5px 15px; font-size:0.6rem;">CLOSE</button>
-      </header>
-      
-      <div class="admin-main">
-        <aside class="admin-sidebar">
-          <div style="font-size:0.6rem; color:#999; text-transform:uppercase; margin-bottom:10px; font-weight:bold;">Managed Sections</div>
-          <button class="admin-tab active" onclick="switchAdminTab('welcome', this)">Welcome</button>
-          <button class="admin-tab" onclick="switchAdminTab('handmade', this)">Handmade (Intro)</button>
-          <button class="admin-tab" onclick="switchAdminTab('contact', this)">Contact</button>
-          <button class="admin-tab" onclick="switchAdminTab('resume', this)">Resume</button>
-          <button class="admin-tab" onclick="switchAdminTab('journal', this)" style="border-top:1px solid #ddd; margin-top:10px; padding-top:15px;">Journal & Archive</button>
-        </aside>
-
-        <div class="admin-body">
-          <div id="admin-editor-panels">
-            <!-- Dynamic Panels injected here -->
-          </div>
-        </div>
-      </div>
-
-      <div class="admin-actions">
-        <span id="sync-status" style="font-size:0.65rem; color:#999;">Ready for sync.</span>
-        <button class="shop-cta" style="margin-top:0;" id="save-btn" onclick="saveToWorker()">Publish Updates</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    /* --- CONFIG --- */
-    const BACKEND_URL = 'https://backend.tmcarleton11.workers.dev/';
-    const SITE_ID = 'handmadebyjayme';
-    
-    let siteData = {
-      welcome: "# Welcome\nMy name is Jayme.",
-      handmade: "# Handmade\nArtisanal creations.",
-      contact: "# Contact\nReach out below.",
-      resume: "# Resume\nProfessional history.",
-      journal: [] // The list of posts
-    };
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
+    const CACHE_KEY = 'jayme_v4_master_cache';
+    const CACHE_TIME = 3600000; 
 
-    let adminTab = 'welcome';
+    const HOME_PHOTO = "https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg";
+    const CONTACT_PHOTO = "https://jaymecarleton.com/wp-content/uploads/2015/11/jayme.jpg"; 
+    const HANDMADE_LOGO = "https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png";
+    const ETSY_LINK = "https://etsy.com/shop/HandmadeByJayme";
 
-    /* --- SPA ENGINE --- */
-    async function initSPA() {
+    let siteData = { pages: {}, posts: [], tags: new Set() };
+    let currentLimit = 5;
+    let currentFilter = 'all';
+
+    const body = document.getElementById('body-context');
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    function toggleMenu() { body.classList.toggle('menu-open'); }
+    function closeMenu() { body.classList.remove('menu-open'); }
+    menuToggle.onclick = toggleMenu;
+    menuOverlay.onclick = closeMenu;
+
+    document.body.addEventListener('click', e => {
+      const target = e.target.closest('[data-link]');
+      if (target) { e.preventDefault(); closeMenu(); navigateTo(target.getAttribute('href')); }
+    });
+
+    function navigateTo(url) { history.pushState(null, null, url); handleRoute(); }
+
+    async function initApp() {
       document.getElementById('copy-year').textContent = new Date().getFullYear();
-      await fetchSiteData();
-      
-      window.onpopstate = () => handleRoute();
-      handleRoute();
-      initCursor();
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { timestamp, data } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_TIME) {
+          parseGoogleDoc(data); handleRoute(); fetchFreshData(); return;
+        }
+      }
+      await fetchFreshData();
     }
 
-    async function fetchSiteData() {
+    async function fetchFreshData() {
       try {
-        const res = await fetch(BACKEND_URL, { headers: { 'X-Site-Id': SITE_ID } });
-        if (res.ok) {
-          const d = await res.json();
-          siteData = { ...siteData, ...d };
+        const response = await fetch(APPS_SCRIPT_URL);
+        const rawText = await response.text();
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: rawText }));
+        parseGoogleDoc(rawText);
+        handleRoute();
+      } catch (e) { console.error("Sync error", e); }
+    }
+
+    function parseGoogleDoc(text) {
+      siteData = { pages: {}, posts: [], tags: new Set() };
+      const sections = text.split(/(^#\s+.*$)/m);
+      for (let i = 1; i < sections.length; i += 2) {
+        const titleLine = sections[i];
+        let contentBody = sections[i + 1] ? sections[i + 1].trim() : '';
+        const rawTitle = titleLine.replace(/^#\s*/, '').trim();
+        const slug = slugify(rawTitle);
+        if (slug === 'instructions') continue;
+
+        const tags = [];
+        const tagMatch = contentBody.match(/Category:\s*([^\n\r]+)/i);
+        if (tagMatch) {
+            tagMatch[1].split(',').forEach(t => {
+                const tag = t.trim();
+                tags.push(tag);
+                siteData.tags.add(tag);
+            });
+            contentBody = contentBody.replace(tagMatch[0], ''); 
         }
-      } catch (e) { console.warn("Fetch failed, using local fallback."); }
+
+        const imgMatch = contentBody.match(/!\[.*?\]\((.*?)\)/);
+        const thumb = imgMatch ? imgMatch[1] : '';
+
+        // Excerpt cleaning - strip Markdown images and special chars
+        const cleanBody = contentBody.replace(/!\[.*?\]\(.*?\)/g, '').replace(/[#*\[\]\(\)>_]/g, '');
+        const plainExcerpt = cleanBody.substring(0, 180).trim() + '...';
+        
+        const dateMatch = contentBody.match(/\*\*Date:\s*(.*?)\*\*/i);
+        const dateStr = dateMatch ? dateMatch[1] : '';
+
+        if (['portfolio', 'resume', 'contact', 'welcome', 'handmade'].includes(slug)) {
+          siteData.pages[slug] = { title: rawTitle, content: marked.parse(contentBody) };
+        } else {
+          siteData.posts.push({ 
+            title: rawTitle, slug: slug, rawContent: contentBody, 
+            htmlContent: marked.parse(contentBody), thumb: thumb, 
+            excerpt: plainExcerpt, tags: tags, dateStr: dateStr,
+            dateObj: dateMatch ? new Date(dateMatch[1]) : new Date(0) 
+          });
+        }
+      }
+      siteData.posts.sort((a, b) => b.dateObj - a.dateObj);
     }
 
     function handleRoute() {
-      const hash = window.location.hash.replace('#', '') || 'home';
+      const urlParams = new URLSearchParams(window.location.search);
+      currentFilter = urlParams.get('tag') || 'all';
+      
+      let path = window.location.pathname;
+      let slug = path.replace(/^\/|\/$/g, '').split('/').pop() || 'home';
       const root = document.getElementById('app-root');
-      const hero = document.getElementById('hero-container');
-      const textMount = document.getElementById('hero-text');
-      const imgMount = document.getElementById('hero-image');
+      const heroContainer = document.getElementById('hero-container');
+      const heroTarget = document.getElementById('hero-target');
+      const heroImage = document.getElementById('hero-image');
+      
+      document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`a[href="/${slug === 'home' ? '' : slug}/"]`);
+      if(activeLink) activeLink.classList.add('active');
 
-      root.innerHTML = '';
-      hero.style.display = 'none';
-      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-
-      if (hash.startsWith('post/')) {
-        const slug = hash.split('/')[1];
-        const post = siteData.journal.find(p => p.id === slug);
-        if (post) renderPost(root, post);
-        return;
-      }
-
-      if (['home', 'handmade', 'contact'].includes(hash)) {
-        hero.style.display = 'grid';
-        const key = hash === 'home' ? 'welcome' : hash;
-        
-        if (hash === 'handmade') imgMount.src = "https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png";
-        else if (hash === 'contact') imgMount.src = "https://jaymecarleton.com/wp-content/uploads/2015/11/jayme.jpg";
-        else imgMount.src = "https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg";
-
-        textMount.innerHTML = marked.parse(siteData[key] || '');
-        if (hash === 'handmade') {
-          textMount.innerHTML += `<a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" class="shop-cta">Visit Shop on Etsy</a>`;
-          renderFeed(root, 'Creation Log', p => p.tags.toLowerCase().includes('handmade'));
+      if (slug === 'home' || slug === '' || slug === 'handmade' || slug === 'contact') {
+        const pageKey = (slug === 'home' || slug === '') ? 'welcome' : slug;
+        root.innerHTML = '';
+        if (siteData.pages[pageKey]) {
+            heroContainer.style.display = 'grid';
+            heroImage.className = ''; 
+            
+            if (slug === 'handmade') {
+                heroImage.src = HANDMADE_LOGO;
+                heroImage.classList.add('is-logo');
+                let content = siteData.pages[pageKey].content;
+                content += `<a href="${ETSY_LINK}" target="_blank" class="shop-cta">Visit Shop on Etsy</a>`;
+                heroTarget.innerHTML = content;
+                renderFeed(root, 'Creation Log', p => p.tags.includes('Handmade'), 2, true);
+                root.insertAdjacentHTML('beforeend', `<div style="text-align:center; margin-top:2rem;"><a href="/journal/?tag=Handmade" data-link style="font-size:0.75rem; font-weight:700; color:var(--wood); text-decoration:none; text-transform:uppercase; letter-spacing:0.1em; border-bottom:2px solid var(--wood); padding-bottom:4px;">View Full Creation Log in Journal ➔</a></div>`);
+            } else {
+                heroImage.src = slug === 'contact' ? CONTACT_PHOTO : HOME_PHOTO;
+                heroTarget.innerHTML = siteData.pages[pageKey].content;
+                if (slug === 'contact') {
+                    // Reformat LinkedIn link as a button
+                    heroTarget.innerHTML = heroTarget.innerHTML.replace(/<a /g, '<a class="shop-cta" ');
+                } else {
+                    heroTarget.insertAdjacentHTML('beforeend', `<div class="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>`);
+                }
+            }
         }
       } else {
-        if (hash === 'journal') renderJournal(root);
-        else if (hash === 'portfolio') renderPortfolio(root);
-        else if (hash === 'resume') renderResume(root);
+        heroContainer.style.display = 'none'; 
+        if (slug === 'journal') {
+            currentLimit = 5; 
+            renderJournalView(root);
+        }
+        else if (slug === 'portfolio') renderPortfolioHub(root);
+        else if (siteData.pages[slug]) renderPage(root, siteData.pages[slug], slug);
+        else {
+          const post = siteData.posts.find(p => p.slug === slug);
+          if (post) renderPost(root, post);
+          else root.innerHTML = `<h2 class="section-title">404</h2>`;
+        }
       }
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function switchView(slug) {
-      window.location.hash = slug;
-      handleRoute();
-    }
-
-    /* --- RENDERING --- */
-    function renderJournal(root) {
-      root.innerHTML = `<h2 class="section-title">Journal</h2><p style="margin-bottom:3rem; color:var(--sage); font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">Sustainable lifestyle and design updates.</p>`;
-      siteData.journal.forEach(post => {
-        root.innerHTML += `
-          <article class="post-card">
-            <img src="${post.image}" class="post-thumb" onerror="this.src='https://via.placeholder.com/400?text=Syncing...'">
-            <div>
-              <span class="post-date">${post.date}</span>
-              <h3>${post.title}</h3>
-              <p class="post-excerpt">${post.excerpt}</p>
-              <a onclick="switchView('post/${post.id}')" style="font-weight:700; border-bottom:1px solid;">READ ENTRY ➔</a>
+    function renderJournalView(root) {
+        let html = `
+            <div class="section-header-flex">
+                <h2 class="section-title">Journal</h2>
+                <div class="filter-pills">
+                    <span class="pill ${currentFilter === 'all' ? 'active' : ''}" onclick="applyFilter('all')">All</span>
+                    ${Array.from(siteData.tags).sort().map(t => `<span class="pill ${currentFilter === t ? 'active' : ''}" onclick="applyFilter('${t}')">${t}</span>`).join('')}
+                </div>
             </div>
-          </article>
+            <div id="post-feed-target"></div>
         `;
+        root.innerHTML = html;
+        updateFeed();
+    }
+
+    window.applyFilter = (tag) => {
+        const url = tag === 'all' ? '/journal/' : `/journal/?tag=${encodeURIComponent(tag)}`;
+        navigateTo(url);
+    };
+
+    function updateFeed() {
+        const target = document.getElementById('post-feed-target');
+        let posts = siteData.posts;
+        
+        if (currentFilter !== 'all') {
+            posts = posts.filter(p => p.tags.includes(currentFilter));
+        }
+
+        const visible = posts.slice(0, currentLimit);
+        target.innerHTML = visible.map(post => `
+            <article class="post-card">
+                <img src="${post.thumb || 'https://via.placeholder.com/600x600?text=Jayme+M.+Carleton'}" class="post-thumb" alt="${post.title}">
+                <div class="post-card-content">
+                    <div>
+                        <h3>${post.title}</h3>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                    </div>
+                    <div class="post-card-footer">
+                        <a href="/${post.slug}/" class="btn-read" data-link style="font-weight:700; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em; border-bottom:1px solid var(--wood);">Read Entry ➔</a>
+                        <span class="post-date">${post.dateStr}</span>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+
+        if (posts.length > currentLimit) {
+            const btn = document.createElement('button');
+            btn.className = 'load-more-btn';
+            btn.innerText = `Load 10 More Entries`;
+            btn.onclick = () => { currentLimit += 10; updateFeed(); };
+            target.appendChild(btn);
+        }
+    }
+
+    function renderFeed(root, title, filterFn, limit, skipTitle) {
+      if(!skipTitle) root.insertAdjacentHTML('beforeend', `<h2 class="section-title">${title}</h2>`);
+      let posts = siteData.posts.filter(filterFn);
+      if (limit) posts = posts.slice(0, limit);
+      posts.forEach(post => {
+        root.insertAdjacentHTML('beforeend', `<article class="post-card" style="grid-template-columns:200px 1fr; padding:1.5rem;"><img src="${post.thumb || 'https://via.placeholder.com/600x600?text=Jayme+M.+Carleton'}" class="post-thumb" style="height:200px;"><div class="post-card-content"><h3>${post.title}</h3><p class="post-excerpt" style="font-size:0.9rem;">${post.excerpt}</p><div class="post-card-footer"><a href="/${post.slug}/" class="btn-read" data-link style="font-weight:700; text-transform:uppercase; font-size:0.7rem;">Read Entry ➔</a><span class="post-date">${post.dateStr}</span></div></div></article>`);
       });
     }
 
-    function renderFeed(root, title, filterFn) {
-      root.innerHTML += `<h2 class="section-title" style="margin-top:5rem;">${title}</h2>`;
-      siteData.journal.filter(filterFn).forEach(post => {
-        root.innerHTML += `
-          <article class="post-card" style="grid-template-columns:200px 1fr; padding:1.5rem; margin-top:2rem;">
-            <img src="${post.image}" class="post-thumb" style="height:200px;" onerror="this.src='https://via.placeholder.com/200?text=Syncing...'">
-            <div>
-              <h3>${post.title}</h3>
-              <p class="post-excerpt" style="font-size:0.9rem;">${post.excerpt}</p>
-              <a onclick="switchView('post/${post.id}')" style="font-weight:700; font-size:0.75rem;">READ ENTRY ➔</a>
-            </div>
-          </article>`;
-      });
+    function renderPortfolioHub(root) {
+      let html = `<h2 class="section-title">Portfolio</h2><div class="portfolio-grid">`;
+      const portPosts = siteData.posts.filter(p => p.tags.includes('Portfolio'));
+      
+      if(portPosts.length === 0) {
+          html += `<p style="color:var(--sage)">Project archive syncing...</p>`;
+      } else {
+          portPosts.forEach(post => {
+            html += `<a href="/${post.slug}/" class="portfolio-card" data-link><img src="${post.thumb}" alt="${post.title}"><div class="portfolio-overlay"><h4>${post.title}</h4></div></a>`;
+          });
+      }
+      html += `</div>`;
+      root.innerHTML = html;
     }
 
-    function renderPortfolio(root) {
-      root.innerHTML = `<h2 class="section-title">Portfolio</h2><p style="margin-bottom:3rem; color:var(--sage); font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">Archive of Sustainable Projects.</p>`;
-      const portGrid = document.createElement('div');
-      portGrid.className = 'portfolio-grid';
-      siteData.journal.filter(p => p.tags.toLowerCase().includes('portfolio')).forEach(item => {
-        portGrid.innerHTML += `
-          <div class="portfolio-card" onclick="switchView('post/${item.id}')">
-            <img src="${item.image}" onerror="this.src='https://via.placeholder.com/400?text=Syncing...'">
-            <div class="portfolio-overlay"><h4>${item.title}</h4></div>
-          </div>`;
-      });
-      root.appendChild(portGrid);
-    }
-
-    function renderResume(root) {
-      root.innerHTML = `<div style="background:#fff; padding:5rem; border-radius:4px; box-shadow:0 10px 30px rgba(0,0,0,0.02);">${marked.parse(siteData.resume)}</div>`;
+    function renderPage(root, page, slug) { 
+        if (slug === 'resume') {
+            root.innerHTML = `
+                <div class="resume-container">
+                    <div class="resume-meta">
+                        <h1>Jayme M. Carleton</h1>
+                        <p>jayme@jaymecarleton.com &nbsp;|&nbsp; 425.289.6439</p>
+                    </div>
+                    ${formatResumeHtml(page.content)}
+                </div>`;
+        } else {
+            root.innerHTML = `<div class="article-content"><h1>${page.title}</h1>${page.content}</div>`;
+        }
     }
 
     function renderPost(root, post) {
+      const backUrl = post.tags.includes('Portfolio') ? '/portfolio/' : (post.tags.includes('Handmade') ? '/handmade/' : '/journal/');
+      
       root.innerHTML = `
-        <div style="max-width:900px; margin:0 auto; background:#fff; padding:5rem; border-radius:4px;">
-          <a onclick="window.history.back()" class="back-btn" style="display:inline-block; margin-bottom:2rem; font-size:0.7rem; font-weight:700; text-transform:uppercase; color:var(--wood);">← Back</a>
-          <span class="post-date" style="display:block; margin-bottom:1rem;">${post.date}</span>
-          <h1 style="font-family:var(--font-header); font-size:3rem; text-transform:uppercase; color:var(--forest); margin-bottom:3rem;">${post.title}</h1>
-          <div style="font-size:1.15rem; line-height:1.8; color:#333;">${marked.parse(post.content)}</div>
+        <div class="article-content">
+            <a href="${backUrl}" class="back-btn" data-link style="display:inline-block; margin-bottom:2rem; font-weight:700; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em; color:var(--wood);">← Back to Archive</a>
+            <h1>${post.title}</h1>
+            <span class="article-date">${post.dateStr}</span>
+            <div class="article-body">${post.htmlContent}</div>
+            ${post.tags.length > 0 ? `<div class="article-tag-section">${post.tags.map(t => `<span>${t}</span>`).join(' ')}</div>` : ''}
         </div>`;
     }
 
-    /* --- ADMIN LOGIC --- */
-    window.addEventListener('keydown', e => {
-      if (e.shiftKey && e.key.toLowerCase() === 'j') {
-        document.getElementById('admin-view').style.display = 'block';
-        loadAdminPanel();
-      }
-    });
-
-    function closeAdmin() { document.getElementById('admin-view').style.display = 'none'; }
-    function toggleMenu() { document.body.classList.toggle('menu-open'); }
-
-    function switchAdminTab(slug, btn) {
-      document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      saveAdminState();
-      adminTab = slug;
-      loadAdminPanel();
-    }
-
-    function loadAdminPanel() {
-      const container = document.getElementById('admin-editor-panels');
-      if (adminTab === 'journal') {
-        container.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
-            <p style="font-size:0.75rem; color:var(--sage); font-weight:bold;">JOURNAL & PORTFOLIO ARCHIVE</p>
-          </div>
-          <div id="admin-list-items"></div>
-          <button class="add-row-btn" onclick="addJournalItem()">+ Add New Entry</button>
-        `;
-        renderAdminList();
-      } else {
-        container.innerHTML = `
-          <div class="admin-group">
-            <label>EDITING: ${adminTab.toUpperCase()}</label>
-            <textarea id="admin-field-editor" spellcheck="false" style="height:450px;">${siteData[adminTab] || ''}</textarea>
-            <p style="font-size:0.6rem; color:#999; margin-top:10px;">Use Markdown formatting (standard bold/italic/headings).</p>
-          </div>
-        `;
-      }
-    }
-
-    function renderAdminList() {
-      const listDiv = document.getElementById('admin-list-items');
-      listDiv.innerHTML = siteData.journal.map((item, idx) => `
-        <div class="admin-item-card" data-index="${idx}">
-          <button class="remove-item" onclick="removeJournalItem(${idx})">Delete Entry</button>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
-            <div class="admin-group"><label>Title</label><input type="text" class="item-title" value="${item.title}"></div>
-            <div class="admin-group"><label>Date (e.g. March 3, 2026)</label><input type="text" class="item-date" value="${item.date}"></div>
-          </div>
-          <div class="admin-group"><label>Image Direct URL (from PostImg)</label><input type="text" class="item-image" value="${item.image}"></div>
-          <div class="admin-group"><label>Excerpt (Short Summary)</label><input type="text" class="item-excerpt" value="${item.excerpt}"></div>
-          <div class="admin-group"><label>Tags (Comma separated, e.g. Handmade, Portfolio)</label><input type="text" class="item-tags" value="${item.tags}"></div>
-          <div class="admin-group" style="margin-bottom:0;"><label>Full Content (Markdown)</label><textarea class="item-content" style="height:150px;">${item.content}</textarea></div>
-        </div>
-      `).join('');
-    }
-
-    function addJournalItem() {
-      saveAdminState();
-      siteData.journal.unshift({ 
-        id: 'new-entry-' + Date.now(), title: "New Title", date: "", image: "", excerpt: "", content: "", tags: "Handmade" 
-      });
-      renderAdminList();
-    }
-
-    function removeJournalItem(idx) {
-      if(!confirm("Erase this entry?")) return;
-      siteData.journal.splice(idx, 1);
-      renderAdminList();
-    }
-
-    function saveAdminState() {
-      if (adminTab === 'journal') {
-        const cards = Array.from(document.querySelectorAll('.admin-item-card'));
-        siteData.journal = cards.map(card => {
-          const title = card.querySelector('.item-title').value;
-          return {
-            id: slugify(title),
-            title: title,
-            date: card.querySelector('.item-date').value,
-            image: card.querySelector('.item-image').value,
-            excerpt: card.querySelector('.item-excerpt').value,
-            tags: card.querySelector('.item-tags').value,
-            content: card.querySelector('.item-content').value
-          };
+    /** * Enhanced Resume Formatter
+     * Detects headers and handles variable number of items dynamically.
+     */
+    function formatResumeHtml(html) {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        
+        div.querySelectorAll('h3').forEach(h => {
+            const section = h.innerText.toLowerCase();
+            const gridTypes = ['education', 'history', 'recognitions', 'certifications'];
+            
+            if(gridTypes.some(type => section.includes(type))) {
+                const list = h.nextElementSibling;
+                if(list && list.tagName === 'UL') {
+                    const grid = document.createElement('div');
+                    grid.className = 'res-grid';
+                    list.querySelectorAll('li').forEach(li => {
+                        const item = document.createElement('div');
+                        item.className = 'res-item';
+                        item.innerHTML = li.innerHTML;
+                        grid.appendChild(item);
+                    });
+                    list.replaceWith(grid);
+                }
+            } else if(section.includes('experience')) {
+                let current = h.nextElementSibling;
+                while(current && current.tagName !== 'H3') {
+                    if(current.tagName === 'P' && current.querySelector('strong')) {
+                        const row = document.createElement('div');
+                        row.className = 'res-row';
+                        const label = document.createElement('div');
+                        label.className = 'res-label';
+                        const strong = current.querySelector('strong');
+                        label.innerHTML = strong.innerHTML;
+                        const content = document.createElement('div');
+                        content.className = 'res-content';
+                        
+                        const clone = current.cloneNode(true);
+                        clone.querySelector('strong').remove();
+                        if(clone.innerText.trim()) content.appendChild(clone);
+                        
+                        let sibling = current.nextElementSibling;
+                        while(sibling && !(sibling.tagName === 'P' && sibling.querySelector('strong')) && sibling.tagName !== 'H3') {
+                            const next = sibling.nextElementSibling;
+                            content.appendChild(sibling);
+                            sibling = next;
+                        }
+                        row.appendChild(label);
+                        row.appendChild(content);
+                        const nextRef = sibling;
+                        current.replaceWith(row);
+                        current = nextRef;
+                    } else {
+                        current = current.nextElementSibling;
+                    }
+                }
+            }
         });
-      } else {
-        const editor = document.getElementById('admin-field-editor');
-        if(editor) siteData[adminTab] = editor.value;
-      }
+        return div.innerHTML;
     }
 
-    async function saveToWorker() {
-      saveAdminState();
-      const key = prompt("Enter Minescout Node Key:");
-      if (!key) return;
-      const status = document.getElementById('sync-status');
-      status.innerText = "Syncing with Cloudflare...";
-      try {
-        const res = await fetch(BACKEND_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Site-Id': SITE_ID },
-          body: JSON.stringify({ key, data: siteData })
-        });
-        if (res.ok) {
-          status.innerText = "Production Node Updated ✓";
-          handleRoute();
-          setTimeout(() => status.innerText = "Ready.", 3000);
-        } else {
-          alert("Authorization Failed.");
-          status.innerText = "Auth Rejected.";
-        }
-      } catch (e) { alert("Connectivity error."); }
-    }
-
-    /* --- HELPERS --- */
-    function initCursor() {
-      const cursor = document.getElementById('customCursor');
-      let mX=0, mY=0, cX=0, cY=0;
-      document.addEventListener('mousemove', e => { mX=e.clientX; mY=e.clientY; });
-      function anim() { cX+=(mX-cX)*0.15; cY+=(mY-cY)*0.15; cursor.style.left=cX+'px'; cursor.style.top=cY+'px'; requestAnimationFrame(anim); }
-      anim();
-      document.body.addEventListener('mouseenter', e => { if(e.target.closest('a, button, input, textarea')) cursor.classList.add('grow'); }, true);
-      document.body.addEventListener('mouseleave', e => { if(e.target.closest('a, button, input, textarea')) cursor.classList.remove('grow'); }, true);
-    }
     function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
-
-    window.onload = initSPA;
+    window.onload = initApp;
+    window.addEventListener('popstate', handleRoute);
   </script>
 </body>
 </html>
