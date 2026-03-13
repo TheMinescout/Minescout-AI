@@ -57,493 +57,302 @@
     .nav-links { display: flex; flex-direction: column; gap: 1.75rem; }
     .nav-links a {
       color: var(--charcoal); text-decoration: none; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.15em; font-size: 0.7rem; transition: all 0.3s ease; opacity: 0.5;
+      letter-spacing: 0.15em; font-size: 0.7rem; transition: all 0.3s ease; opacity: 0.5; cursor: pointer;
     }
     .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
 
-    /* --- MOBILE HEADER & HAMBURGER --- */
+    /* --- MOBILE HEADER --- */
     .mobile-nav-bar { display: none; position: fixed; top: 0; left: 0; right: 0; height: 60px; background: var(--clay); z-index: 900; padding: 0 1.5rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); }
-    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; }
+    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; cursor: pointer; }
     .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1100; }
     .hamburger span { display: block; width: 22px; height: 2px; background: var(--forest); transition: 0.3s; }
-    .menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .menu-open .hamburger span:nth-child(2) { opacity: 0; }
-    .menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s; }
+    .menu-open .sidebar { transform: translateX(0); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 950; }
+    .menu-open .sidebar-overlay { display: block; }
 
     /* --- MAIN CONTENT --- */
     main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; transition: opacity 0.3s; }
+    .fade-out { opacity: 0; }
 
-    /* --- HERO LAYOUTS (Enlarged) --- */
-    #hero-container { display: none; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; }
-    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; filter: contrast(1.02) saturate(0.95); }
-    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; filter: contrast(1.1); margin: 0 auto; }
+    /* --- HERO LAYOUTS --- */
+    #hero-container { display: grid; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; margin-bottom: 4rem; }
+    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; }
+    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; }
     
-    .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
-    .hero-text p { font-size: 1.1rem; margin-bottom: 1.5rem; color: #444; }
+    .hero-text h1 { font-family: var(--font-header); font-size: 2.8rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
+    .hero-text p { font-size: 1.15rem; margin-bottom: 1.5rem; color: #444; }
 
-    .shop-cta { display: inline-block; background-color: var(--forest); color: white; padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 700; margin-top: 2rem; border-radius: 2px; transition: all 0.3s ease; border: none; cursor: pointer; text-align: center; }
-    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); color: #fff; }
+    .shop-cta { display: inline-block; background-color: var(--forest); color: white; padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 700; margin-top: 2rem; border-radius: 2px; transition: 0.3s; cursor: pointer; }
+    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); }
 
-    .signature { margin-top: 3rem; font-family: var(--font-header); font-weight: 500; color: var(--forest); text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.1em; }
-    .signature small { display: block; font-family: var(--font-body); font-weight: normal; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px; }
+    /* --- JOURNAL / FEED --- */
+    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    .post-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 2px; }
+    .post-card h3 { font-family: var(--font-header); font-size: 2rem; color: var(--forest); text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 400; }
+    .post-excerpt { color: #666; margin-bottom: 1.5rem; }
+    .post-date { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); }
 
-    /* --- JOURNAL & PAGINATION --- */
-    .section-header-flex { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; border-bottom: 2px solid var(--clay); padding-bottom: 1.5rem; }
-    .section-title { font-family: var(--font-header); font-size: 2.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--forest); font-weight: 400; }
-    
-    .filter-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
-    .pill { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; border: 1px solid var(--border); border-radius: 50px; cursor: pointer; background: var(--white); color: var(--muted); transition: 0.2s; }
-    .pill.active { background: var(--forest); color: var(--white); border-color: var(--forest); }
-
-    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: 0.3s ease; align-items: stretch; }
-    .post-card:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.04); }
-    .post-thumb { width: 100%; height: 100%; min-height: 200px; object-fit: cover; border-radius: 2px; background: var(--clay); }
-    .post-card h3 { font-family: var(--font-header); font-size: 2rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; line-height: 1.2; }
-    .post-excerpt { font-size: 1rem; color: #555; margin-bottom: 2rem; line-height: 1.7; }
-    .post-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--wall); }
-    .post-date { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); font-weight: 600; }
-
-    .load-more-btn { display: block; width: 100%; padding: 2rem; background: var(--clay); border: none; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; cursor: pointer; color: var(--forest); transition: 0.2s; margin-top: 1rem; border-radius: 4px; }
-    .load-more-btn:hover { background: #dfd7c8; }
-
-    /* --- ARTICLE PAGE --- */
-    .article-content { max-width: 900px; margin: 0 auto; background: var(--white); padding: 5rem; border-radius: 4px; }
-    .article-content h1 { font-family: var(--font-header); font-size: 3rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; color: var(--forest); font-weight: 400; }
-    .article-content .article-date { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); margin-bottom: 3.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
-    .article-body { font-size: 1.15rem; line-height: 1.8; color: #333; }
-    .article-body p { margin-bottom: 1.5rem; }
-    .article-body img { display: block; max-width: 100%; height: auto; margin: 3.5rem auto; border-radius: 2px; }
-    
-    .article-tag-section { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; gap: 10px; }
-    .article-tag-section span { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); background: var(--wall); padding: 6px 16px; border-radius: 50px; }
-
-    /* --- RESUME (Professional/Printable) --- */
-    .resume-container { max-width: 1000px; margin: 0 auto; background: var(--white); padding: 6rem; border-radius: 4px; }
-    .resume-meta { text-align: center; margin-bottom: 5rem; border-bottom: 3px solid var(--forest); padding-bottom: 2rem; }
-    .resume-meta h1 { font-family: var(--font-header); font-size: 4rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; color: var(--forest); line-height: 1; }
-    .resume-meta p { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--sage); font-weight: 600; }
-    
-    .resume-container h2, .resume-container h3 { font-family: var(--font-header); font-size: 2.2rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-top: 4rem; margin-bottom: 2rem; width: 100%; }
-    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-    .res-row { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 3rem; align-items: start; }
-    .res-label { font-weight: 700; text-transform: uppercase; font-size: 0.95rem; color: var(--charcoal); letter-spacing: 0.05em; line-height: 1.3; }
-    .res-content strong { display: block; font-size: 1.1rem; margin-bottom: 2px; }
-    .res-content em { font-size: 0.95rem; color: var(--sage); display: block; margin-bottom: 12px; }
-    .res-content li { font-size: 1rem; margin-bottom: 6px; color: #444; line-height: 1.5; }
-
-    /* --- PORTFOLIO GRID --- */
-    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3rem; margin-top: 1rem; }
-    .portfolio-card { position: relative; overflow: hidden; border-radius: 4px; background: var(--clay); aspect-ratio: 4/3; }
-    .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
+    /* --- PORTFOLIO --- */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+    .portfolio-card { aspect-ratio: 1; overflow: hidden; position: relative; cursor: pointer; border-radius: 4px; }
+    .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
     .portfolio-card:hover img { transform: scale(1.05); }
-    .portfolio-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(45,58,45,0.9), transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; opacity: 0; transition: 0.3s; }
+    .portfolio-overlay { position: absolute; inset: 0; background: rgba(45,58,45,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
     .portfolio-card:hover .portfolio-overlay { opacity: 1; }
-    .portfolio-overlay h4 { color: white; font-family: var(--font-header); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .portfolio-overlay h4 { color: #fff; font-family: var(--font-header); text-transform: uppercase; letter-spacing: 0.1em; }
 
-    /* --- FOOTER --- */
-    footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid rgba(0,0,0,0.05); }
-    footer .copyright { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); margin-bottom: 8px; font-weight: 600; }
-    footer .credit { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.6; color: var(--forest); }
-    footer .credit a { color: var(--forest); text-decoration: underline; font-weight: 700; }
+    /* --- BACKSTAGE (ADMIN) --- */
+    #admin-view { display: none; position: fixed; inset: 0; background: var(--wall); z-index: 5000; padding: 40px; overflow-y: auto; }
+    .admin-card { max-width: 1000px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+    .admin-header { background: var(--forest); color: #fff; padding: 25px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px 8px 0 0; }
+    .admin-nav { display: flex; border-bottom: 1px solid var(--border); }
+    .admin-tab { flex: 1; padding: 15px; background: none; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #999; border-bottom: 2px solid transparent; }
+    .admin-tab.active { color: var(--forest); border-bottom-color: var(--forest); }
+    .admin-body { padding: 30px; }
+    .admin-group { margin-bottom: 20px; }
+    .admin-group label { display: block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--sage); margin-bottom: 8px; }
+    .admin-group input, .admin-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px; outline: none; font-family: inherit; }
+    .admin-group textarea { height: 300px; font-family: monospace; font-size: 0.85rem; }
+    .admin-actions { padding: 20px 30px; background: var(--wall); text-align: right; border-top: 1px solid var(--border); }
 
-    /* --- PRINT --- */
-    @media print {
-      @page { size: letter; margin: 0.5in; }
-      body { background: white; color: black; font-size: 11pt; }
-      .sidebar, .mobile-nav-bar, .back-btn, .shop-cta, footer, .load-more-btn, .filter-pills { display: none !important; }
-      main { margin-left: 0 !important; padding: 0 !important; width: 100% !important; }
-      .resume-container { padding: 0 !important; max-width: 100% !important; }
-      .resume-meta h1 { font-size: 32pt; }
-      .resume-container h2, .resume-container h3 { font-size: 16pt; margin-top: 25pt; border-bottom: 1.5pt solid black; }
-      .res-row { grid-template-columns: 160pt 1fr; gap: 20pt; margin-bottom: 20pt; page-break-inside: avoid; }
-      .res-label { font-size: 10pt; }
-      .res-content strong { font-size: 11pt; }
-    }
+    /* Footer */
+    footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid var(--border); }
+    .credit a { font-weight: 700; text-decoration: underline; }
 
     @media (max-width: 1024px) {
-      .sidebar { transform: translateX(-100%); width: 80%; max-width: 300px; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
+      .sidebar { transform: translateX(-100%); width: 280px; }
       .mobile-nav-bar { display: flex; }
-      .menu-open .sidebar { transform: translateX(0); }
-      .menu-open .sidebar-overlay { display: block; opacity: 1; }
-      main { margin-left: 0; padding: 6rem 2rem 4rem 2rem; }
+      main { margin-left: 0; padding: 80px 20px 40px; }
       #hero-container { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
-      .post-card { grid-template-columns: 1fr; gap: 1.5rem; }
-      .post-thumb { aspect-ratio: 16/9; }
-      .res-row { grid-template-columns: 1fr; gap: 1rem; }
-      .resume-container { padding: 3rem 1.5rem; }
     }
   </style>
 </head>
 <body id="body-context">
 
   <div class="mobile-nav-bar">
-    <div class="mobile-brand" onclick="navigateTo('/')">Jayme M. Carleton</div>
-    <button class="hamburger" id="menu-toggle" aria-label="Toggle Menu">
+    <div class="mobile-brand" onclick="switchView('home')">Jayme M. Carleton</div>
+    <button class="hamburger" onclick="toggleMenu()">
       <span></span><span></span><span></span>
     </button>
   </div>
-  <div class="sidebar-overlay" id="menu-overlay"></div>
+  <div class="sidebar-overlay" onclick="toggleMenu()"></div>
 
   <div class="site-wrapper">
     <nav class="sidebar" id="sidebar">
-      <div class="sidebar-brand" onclick="navigateTo('/')">
+      <div class="sidebar-brand" onclick="switchView('home')">
         <h1>Jayme M.<br>Carleton</h1>
       </div>
       <div class="nav-links">
-        <a href="/journal/" class="nav-link" data-link>Journal</a>
-        <a href="/portfolio/" class="nav-link" data-link>Portfolio</a>
-        <a href="/handmade/" class="nav-link" data-link>Handmade</a>
-        <a href="/resume/" class="nav-link" data-link>Resume</a>
-        <a href="/contact/" class="nav-link" data-link>Contact</a>
+        <a onclick="switchView('journal')" id="nav-journal">Journal</a>
+        <a onclick="switchView('portfolio')" id="nav-portfolio">Portfolio</a>
+        <a onclick="switchView('handmade')" id="nav-handmade">Handmade</a>
+        <a onclick="switchView('resume')" id="nav-resume">Resume</a>
+        <a onclick="switchView('contact')" id="nav-contact">Contact</a>
       </div>
     </nav>
 
-    <main>
+    <main id="main-content">
       <div id="hero-container">
         <div class="profile-card">
-          <img id="hero-image" src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme M. Carleton">
+          <img id="hero-image" src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme">
         </div>
-        <div class="hero-text" id="hero-target"></div>
+        <div class="hero-text" id="hero-text">
+          <!-- Populated by JS -->
+        </div>
       </div>
 
       <div id="app-root"></div>
 
       <footer>
         <div class="social-links" style="margin-bottom: 1.5rem;">
-          <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style="text-decoration:none; font-weight:700; font-size:0.8rem; text-transform:uppercase; color:var(--forest); letter-spacing:0.1em;">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style="text-transform:uppercase; font-size:0.75rem; font-weight:700; letter-spacing:0.1em;">LinkedIn</a>
         </div>
-        <div class="copyright">SECOND NATURE | &copy; 2015-<span id="copy-year">2026</span>. ALL RIGHTS RESERVED.</div>
-        <div class="credit">Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
+        <div class="copyright">SECOND NATURE | &copy; 2015-<span id="copy-year">2026</span></div>
+        <div class="credit">Node Architecture by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
       </footer>
     </main>
   </div>
 
+  <!-- Backstage Manager (Hidden) -->
+  <div id="admin-view">
+    <div class="admin-card">
+      <header class="admin-header">
+        <h2 style="font-family:'Playfair Display'; font-weight:400; letter-spacing:0.05em;">Backstage Manager</h2>
+        <button onclick="closeAdmin()" style="background:none; border:1px solid #fff; color:#fff; cursor:pointer; padding:5px 15px; font-size:0.6rem;">CLOSE</button>
+      </header>
+      <div class="admin-nav">
+        <button class="admin-tab active" onclick="switchAdminTab('welcome', this)">Welcome</button>
+        <button class="admin-tab" onclick="switchAdminTab('handmade', this)">Handmade</button>
+        <button class="admin-tab" onclick="switchAdminTab('contact', this)">Contact</button>
+        <button class="admin-tab" onclick="switchAdminTab('journal', this)">Journal Raw</button>
+      </div>
+      <div class="admin-body">
+        <div class="admin-group">
+          <label id="editor-label">Page Markdown Content</label>
+          <textarea id="admin-editor" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="admin-actions">
+        <button class="shop-cta" style="margin-top:0;" id="save-btn" onclick="saveToWorker()">Publish Updates</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5WP1tULDww98Dic3jsbntYEwhkGlsZKvz_ep_oX241gDrKKtorZjNWrjkHeMdczxP/exec'; 
-    const CACHE_KEY = 'jayme_v4_master_cache';
-    const CACHE_TIME = 3600000; 
+    /* --- CONFIG --- */
+    const BACKEND_URL = 'https://backend.tmcarleton11.workers.dev/';
+    const SITE_ID = 'handmadebyjayme';
+    
+    let siteData = {
+      welcome: "# Professional Excellence\nSpecializing in sustainability and brand strategy.",
+      handmade: "# Artisanal Creations\nSustainably sourced skincare and consulting.",
+      contact: "# Let's Connect\nAvailable for consulting and strategic partnerships.",
+      journal: [] // Array of posts
+    };
 
-    const HOME_PHOTO = "https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg";
-    const CONTACT_PHOTO = "https://jaymecarleton.com/wp-content/uploads/2015/11/jayme.jpg"; 
-    const HANDMADE_LOGO = "https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png";
-    const ETSY_LINK = "https://etsy.com/shop/HandmadeByJayme";
-
-    let siteData = { pages: {}, posts: [], tags: new Set() };
-    let currentLimit = 5;
-    let currentFilter = 'all';
-
-    const body = document.getElementById('body-context');
-    const menuToggle = document.getElementById('menu-toggle');
-    const menuOverlay = document.getElementById('menu-overlay');
-
-    function toggleMenu() { body.classList.toggle('menu-open'); }
-    function closeMenu() { body.classList.remove('menu-open'); }
-    menuToggle.onclick = toggleMenu;
-    menuOverlay.onclick = closeMenu;
-
-    document.body.addEventListener('click', e => {
-      const target = e.target.closest('[data-link]');
-      if (target) { e.preventDefault(); closeMenu(); navigateTo(target.getAttribute('href')); }
-    });
-
-    function navigateTo(url) { history.pushState(null, null, url); handleRoute(); }
-
-    async function initApp() {
+    /* --- SPA ENGINE --- */
+    async function initSPA() {
       document.getElementById('copy-year').textContent = new Date().getFullYear();
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        const { timestamp, data } = JSON.parse(cached);
-        if (Date.now() - timestamp < CACHE_TIME) {
-          parseGoogleDoc(data); handleRoute(); fetchFreshData(); return;
-        }
-      }
-      await fetchFreshData();
+      await fetchSiteData();
+      
+      window.onpopstate = () => handleRoute();
+      handleRoute();
     }
 
-    async function fetchFreshData() {
+    async function fetchSiteData() {
       try {
-        const response = await fetch(APPS_SCRIPT_URL);
-        const rawText = await response.text();
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: rawText }));
-        parseGoogleDoc(rawText);
-        handleRoute();
-      } catch (e) { console.error("Sync error", e); }
-    }
-
-    function parseGoogleDoc(text) {
-      siteData = { pages: {}, posts: [], tags: new Set() };
-      const sections = text.split(/(^#\s+.*$)/m);
-      for (let i = 1; i < sections.length; i += 2) {
-        const titleLine = sections[i];
-        let contentBody = sections[i + 1] ? sections[i + 1].trim() : '';
-        const rawTitle = titleLine.replace(/^#\s*/, '').trim();
-        const slug = slugify(rawTitle);
-        if (slug === 'instructions') continue;
-
-        const tags = [];
-        const tagMatch = contentBody.match(/Category:\s*([^\n\r]+)/i);
-        if (tagMatch) {
-            tagMatch[1].split(',').forEach(t => {
-                const tag = t.trim();
-                tags.push(tag);
-                siteData.tags.add(tag);
-            });
-            contentBody = contentBody.replace(tagMatch[0], ''); 
+        const res = await fetch(BACKEND_URL, { headers: { 'X-Site-Id': SITE_ID } });
+        if (res.ok) {
+          siteData = await res.json();
         }
-
-        const imgMatch = contentBody.match(/!\[.*?\]\((.*?)\)/);
-        const thumb = imgMatch ? imgMatch[1] : '';
-
-        // Excerpt cleaning - strip Markdown images and special chars
-        const cleanBody = contentBody.replace(/!\[.*?\]\(.*?\)/g, '').replace(/[#*\[\]\(\)>_]/g, '');
-        const plainExcerpt = cleanBody.substring(0, 180).trim() + '...';
-        
-        const dateMatch = contentBody.match(/\*\*Date:\s*(.*?)\*\*/i);
-        const dateStr = dateMatch ? dateMatch[1] : '';
-
-        if (['portfolio', 'resume', 'contact', 'welcome', 'handmade'].includes(slug)) {
-          siteData.pages[slug] = { title: rawTitle, content: marked.parse(contentBody) };
-        } else {
-          siteData.posts.push({ 
-            title: rawTitle, slug: slug, rawContent: contentBody, 
-            htmlContent: marked.parse(contentBody), thumb: thumb, 
-            excerpt: plainExcerpt, tags: tags, dateStr: dateStr,
-            dateObj: dateMatch ? new Date(dateMatch[1]) : new Date(0) 
-          });
-        }
-      }
-      siteData.posts.sort((a, b) => b.dateObj - a.dateObj);
+      } catch (e) { console.warn("Minescout: Fetch failed, using local fallback."); }
     }
 
     function handleRoute() {
-      const urlParams = new URLSearchParams(window.location.search);
-      currentFilter = urlParams.get('tag') || 'all';
-      
-      let path = window.location.pathname;
-      let slug = path.replace(/^\/|\/$/g, '').split('/').pop() || 'home';
+      const path = window.location.hash.replace('#', '') || 'home';
       const root = document.getElementById('app-root');
-      const heroContainer = document.getElementById('hero-container');
-      const heroTarget = document.getElementById('hero-target');
-      const heroImage = document.getElementById('hero-image');
-      
-      document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-      const activeLink = document.querySelector(`a[href="/${slug === 'home' ? '' : slug}/"]`);
-      if(activeLink) activeLink.classList.add('active');
+      const hero = document.getElementById('hero-container');
+      const textMount = document.getElementById('hero-text');
+      const imgMount = document.getElementById('hero-image');
 
-      if (slug === 'home' || slug === '' || slug === 'handmade' || slug === 'contact') {
-        const pageKey = (slug === 'home' || slug === '') ? 'welcome' : slug;
-        root.innerHTML = '';
-        if (siteData.pages[pageKey]) {
-            heroContainer.style.display = 'grid';
-            heroImage.className = ''; 
-            
-            if (slug === 'handmade') {
-                heroImage.src = HANDMADE_LOGO;
-                heroImage.classList.add('is-logo');
-                let content = siteData.pages[pageKey].content;
-                content += `<a href="${ETSY_LINK}" target="_blank" class="shop-cta">Visit Shop on Etsy</a>`;
-                heroTarget.innerHTML = content;
-                renderFeed(root, 'Creation Log', p => p.tags.includes('Handmade'), 2, true);
-                root.insertAdjacentHTML('beforeend', `<div style="text-align:center; margin-top:2rem;"><a href="/journal/?tag=Handmade" data-link style="font-size:0.75rem; font-weight:700; color:var(--wood); text-decoration:none; text-transform:uppercase; letter-spacing:0.1em; border-bottom:2px solid var(--wood); padding-bottom:4px;">View Full Creation Log in Journal ➔</a></div>`);
-            } else {
-                heroImage.src = slug === 'contact' ? CONTACT_PHOTO : HOME_PHOTO;
-                heroTarget.innerHTML = siteData.pages[pageKey].content;
-                if (slug === 'contact') {
-                    // Reformat LinkedIn link as a button
-                    heroTarget.innerHTML = heroTarget.innerHTML.replace(/<a /g, '<a class="shop-cta" ');
-                } else {
-                    heroTarget.insertAdjacentHTML('beforeend', `<div class="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>`);
-                }
-            }
-        }
-      } else {
-        heroContainer.style.display = 'none'; 
-        if (slug === 'journal') {
-            currentLimit = 5; 
-            renderJournalView(root);
-        }
-        else if (slug === 'portfolio') renderPortfolioHub(root);
-        else if (siteData.pages[slug]) renderPage(root, siteData.pages[slug], slug);
-        else {
-          const post = siteData.posts.find(p => p.slug === slug);
-          if (post) renderPost(root, post);
-          else root.innerHTML = `<h2 class="section-title">404</h2>`;
-        }
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+      // Reset UI
+      root.innerHTML = '';
+      hero.style.display = 'none';
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
-    function renderJournalView(root) {
-        let html = `
-            <div class="section-header-flex">
-                <h2 class="section-title">Journal</h2>
-                <div class="filter-pills">
-                    <span class="pill ${currentFilter === 'all' ? 'active' : ''}" onclick="applyFilter('all')">All</span>
-                    ${Array.from(siteData.tags).sort().map(t => `<span class="pill ${currentFilter === t ? 'active' : ''}" onclick="applyFilter('${t}')">${t}</span>`).join('')}
-                </div>
-            </div>
-            <div id="post-feed-target"></div>
-        `;
-        root.innerHTML = html;
-        updateFeed();
-    }
-
-    window.applyFilter = (tag) => {
-        const url = tag === 'all' ? '/journal/' : `/journal/?tag=${encodeURIComponent(tag)}`;
-        navigateTo(url);
-    };
-
-    function updateFeed() {
-        const target = document.getElementById('post-feed-target');
-        let posts = siteData.posts;
+      if (['home', 'handmade', 'contact'].includes(path)) {
+        hero.style.display = 'grid';
+        const key = path === 'home' ? 'welcome' : path;
         
-        if (currentFilter !== 'all') {
-            posts = posts.filter(p => p.tags.includes(currentFilter));
-        }
+        // Handle Photos
+        if (path === 'handmade') imgMount.src = "https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png";
+        else if (path === 'contact') imgMount.src = "https://jaymecarleton.com/wp-content/uploads/2015/11/jayme.jpg";
+        else imgMount.src = "https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg";
 
-        const visible = posts.slice(0, currentLimit);
-        target.innerHTML = visible.map(post => `
-            <article class="post-card">
-                <img src="${post.thumb || 'https://via.placeholder.com/600x600?text=Jayme+M.+Carleton'}" class="post-thumb" alt="${post.title}">
-                <div class="post-card-content">
-                    <div>
-                        <h3>${post.title}</h3>
-                        <p class="post-excerpt">${post.excerpt}</p>
-                    </div>
-                    <div class="post-card-footer">
-                        <a href="/${post.slug}/" class="btn-read" data-link style="font-weight:700; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em; border-bottom:1px solid var(--wood);">Read Entry ➔</a>
-                        <span class="post-date">${post.dateStr}</span>
-                    </div>
-                </div>
-            </article>
-        `).join('');
-
-        if (posts.length > currentLimit) {
-            const btn = document.createElement('button');
-            btn.className = 'load-more-btn';
-            btn.innerText = `Load 10 More Entries`;
-            btn.onclick = () => { currentLimit += 10; updateFeed(); };
-            target.appendChild(btn);
+        textMount.innerHTML = marked.parse(siteData[key] || '');
+        if (path === 'handmade') {
+          textMount.innerHTML += `<a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" class="shop-cta">Visit Shop on Etsy</a>`;
         }
+      } else if (path === 'journal') {
+        renderJournal(root);
+      } else if (path === 'portfolio') {
+        renderPortfolio(root);
+      } else if (path === 'resume') {
+        renderResume(root);
+      }
     }
 
-    function renderFeed(root, title, filterFn, limit, skipTitle) {
-      if(!skipTitle) root.insertAdjacentHTML('beforeend', `<h2 class="section-title">${title}</h2>`);
-      let posts = siteData.posts.filter(filterFn);
-      if (limit) posts = posts.slice(0, limit);
-      posts.forEach(post => {
-        root.insertAdjacentHTML('beforeend', `<article class="post-card" style="grid-template-columns:200px 1fr; padding:1.5rem;"><img src="${post.thumb || 'https://via.placeholder.com/600x600?text=Jayme+M.+Carleton'}" class="post-thumb" style="height:200px;"><div class="post-card-content"><h3>${post.title}</h3><p class="post-excerpt" style="font-size:0.9rem;">${post.excerpt}</p><div class="post-card-footer"><a href="/${post.slug}/" class="btn-read" data-link style="font-weight:700; text-transform:uppercase; font-size:0.7rem;">Read Entry ➔</a><span class="post-date">${post.dateStr}</span></div></div></article>`);
+    function switchView(slug) {
+      window.location.hash = slug;
+      handleRoute();
+    }
+
+    /* --- RENDERING --- */
+    function renderJournal(root) {
+      root.innerHTML = `<h2 class="hero-text"><h1>Journal</h1></h2>`;
+      if (!siteData.journal || siteData.journal.length === 0) {
+        root.innerHTML += `<p>Archive entries syncing...</p>`;
+        return;
+      }
+      siteData.journal.forEach(post => {
+        root.innerHTML += `
+          <article class="post-card">
+            <img src="${post.image}" class="post-thumb">
+            <div class="post-content">
+              <span class="post-date">${post.date}</span>
+              <h3>${post.title}</h3>
+              <p class="post-excerpt">${post.excerpt}</p>
+              <a onclick="viewPost('${post.id}')" style="cursor:pointer; font-weight:700; border-bottom:1px solid;">READ ENTRY ➔</a>
+            </div>
+          </article>
+        `;
       });
     }
 
-    function renderPortfolioHub(root) {
-      let html = `<h2 class="section-title">Portfolio</h2><div class="portfolio-grid">`;
-      const portPosts = siteData.posts.filter(p => p.tags.includes('Portfolio'));
-      
-      if(portPosts.length === 0) {
-          html += `<p style="color:var(--sage)">Project archive syncing...</p>`;
-      } else {
-          portPosts.forEach(post => {
-            html += `<a href="/${post.slug}/" class="portfolio-card" data-link><img src="${post.thumb}" alt="${post.title}"><div class="portfolio-overlay"><h4>${post.title}</h4></div></a>`;
-          });
+    function renderPortfolio(root) {
+      root.innerHTML = `<h1>Portfolio</h1><div class="portfolio-grid">
+        <div class="portfolio-card"><img src="https://images.unsplash.com/photo-1466632311177-0d58232f2042?auto=format&fit=crop&q=80&w=800"><div class="portfolio-overlay"><h4>Sustainability Audit</h4></div></div>
+        <div class="portfolio-card"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800"><div class="portfolio-overlay"><h4>Brand Identity</h4></div></div>
+      </div>`;
+    }
+
+    function renderResume(root) {
+      root.innerHTML = `<div style="background:#fff; padding:5rem; border-radius:4px;">
+        <h1 style="font-family:'Playfair Display'; text-transform:uppercase;">Jayme M. Carleton</h1>
+        <p style="text-transform:uppercase; letter-spacing:0.2em; border-bottom:2px solid; padding-bottom:10px; margin-bottom:20px;">Strategic Operations & Brand Sustainability</p>
+        <p>Curated professional history available upon request.</p>
+      </div>`;
+    }
+
+    /* --- ADMIN LOGIC --- */
+    let currentAdminPage = 'welcome';
+    function toggleMenu() { document.getElementById('body-context').classList.toggle('menu-open'); }
+
+    window.addEventListener('keydown', e => {
+      if (e.shiftKey && e.key.toLowerCase() === 'j') {
+        document.getElementById('admin-view').style.display = 'block';
+        loadAdminData();
       }
-      html += `</div>`;
-      root.innerHTML = html;
+    });
+
+    function closeAdmin() { document.getElementById('admin-view').style.display = 'none'; }
+
+    function switchAdminTab(slug, btn) {
+      document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      siteData[currentAdminPage] = document.getElementById('admin-editor').value;
+      currentAdminPage = slug;
+      loadAdminData();
     }
 
-    function renderPage(root, page, slug) { 
-        if (slug === 'resume') {
-            root.innerHTML = `
-                <div class="resume-container">
-                    <div class="resume-meta">
-                        <h1>Jayme M. Carleton</h1>
-                        <p>jayme@jaymecarleton.com &nbsp;|&nbsp; 425.289.6439</p>
-                    </div>
-                    ${formatResumeHtml(page.content)}
-                </div>`;
-        } else {
-            root.innerHTML = `<div class="article-content"><h1>${page.title}</h1>${page.content}</div>`;
-        }
+    function loadAdminData() {
+      document.getElementById('admin-editor').value = siteData[currentAdminPage] || '';
+      document.getElementById('editor-label').innerText = `Editing: ${currentAdminPage.toUpperCase()}`;
     }
 
-    function renderPost(root, post) {
-      const backUrl = post.tags.includes('Portfolio') ? '/portfolio/' : (post.tags.includes('Handmade') ? '/handmade/' : '/journal/');
+    async function saveToWorker() {
+      siteData[currentAdminPage] = document.getElementById('admin-editor').value;
+      const key = prompt("Enter Minescout Reason Key:");
+      if (!key) return;
+
+      const btn = document.getElementById('save-btn');
+      btn.innerText = "Publishing...";
       
-      root.innerHTML = `
-        <div class="article-content">
-            <a href="${backUrl}" class="back-btn" data-link style="display:inline-block; margin-bottom:2rem; font-weight:700; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em; color:var(--wood);">← Back to Archive</a>
-            <h1>${post.title}</h1>
-            <span class="article-date">${post.dateStr}</span>
-            <div class="article-body">${post.htmlContent}</div>
-            ${post.tags.length > 0 ? `<div class="article-tag-section">${post.tags.map(t => `<span>${t}</span>`).join(' ')}</div>` : ''}
-        </div>`;
-    }
-
-    /** * Enhanced Resume Formatter
-     * Detects headers and handles variable number of items dynamically.
-     */
-    function formatResumeHtml(html) {
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        
-        div.querySelectorAll('h3').forEach(h => {
-            const section = h.innerText.toLowerCase();
-            const gridTypes = ['education', 'history', 'recognitions', 'certifications'];
-            
-            if(gridTypes.some(type => section.includes(type))) {
-                const list = h.nextElementSibling;
-                if(list && list.tagName === 'UL') {
-                    const grid = document.createElement('div');
-                    grid.className = 'res-grid';
-                    list.querySelectorAll('li').forEach(li => {
-                        const item = document.createElement('div');
-                        item.className = 'res-item';
-                        item.innerHTML = li.innerHTML;
-                        grid.appendChild(item);
-                    });
-                    list.replaceWith(grid);
-                }
-            } else if(section.includes('experience')) {
-                let current = h.nextElementSibling;
-                while(current && current.tagName !== 'H3') {
-                    if(current.tagName === 'P' && current.querySelector('strong')) {
-                        const row = document.createElement('div');
-                        row.className = 'res-row';
-                        const label = document.createElement('div');
-                        label.className = 'res-label';
-                        const strong = current.querySelector('strong');
-                        label.innerHTML = strong.innerHTML;
-                        const content = document.createElement('div');
-                        content.className = 'res-content';
-                        
-                        const clone = current.cloneNode(true);
-                        clone.querySelector('strong').remove();
-                        if(clone.innerText.trim()) content.appendChild(clone);
-                        
-                        let sibling = current.nextElementSibling;
-                        while(sibling && !(sibling.tagName === 'P' && sibling.querySelector('strong')) && sibling.tagName !== 'H3') {
-                            const next = sibling.nextElementSibling;
-                            content.appendChild(sibling);
-                            sibling = next;
-                        }
-                        row.appendChild(label);
-                        row.appendChild(content);
-                        const nextRef = sibling;
-                        current.replaceWith(row);
-                        current = nextRef;
-                    } else {
-                        current = current.nextElementSibling;
-                    }
-                }
-            }
+      try {
+        const res = await fetch(BACKEND_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Site-Id': SITE_ID },
+          body: JSON.stringify({ key, data: siteData })
         });
-        return div.innerHTML;
+        if (res.ok) alert("Production Node Synchronized.");
+        else alert("Authorization Failed.");
+      } catch (e) { alert("Server connection error."); }
+      
+      btn.innerText = "Publish Updates";
+      handleRoute();
     }
 
-    function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
-    window.onload = initApp;
-    window.addEventListener('popstate', handleRoute);
+    window.onload = initSPA;
   </script>
 </body>
 </html>
