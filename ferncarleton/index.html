@@ -7,13 +7,10 @@
   
   <link rel="icon" type="image/png" href="https://i.postimg.cc/c4TgCHfX/Chat-GPT-Image-Mar-8-2026-08-22-54-AM.png">
 
-  <!-- Core Frameworks -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
@@ -132,51 +129,6 @@
     .hamburger { width: 30px; height: 20px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; border: none; background: none; }
     .hamburger span { display: block; width: 100%; height: 2px; background: var(--ink); transition: 0.3s; }
 
-    /* --- RESTORED CONTACT STYLING --- */
-    .contact-card { 
-      background: rgba(255,255,255,0.7); 
-      padding: 5rem 4rem; 
-      border-radius: 2px; 
-      box-shadow: 0 20px 50px rgba(0,0,0,0.05); 
-      backdrop-filter: blur(15px); 
-      max-width: 800px; 
-      margin: 0 auto; 
-      clip-path: polygon(1% 1%, 99% 0%, 100% 2%, 98% 8%, 100% 15%, 97% 22%, 99% 30%, 98% 38%, 100% 45%, 97% 55%, 99% 65%, 98% 75%, 100% 85%, 97% 95%, 99% 100%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 1% 40%, 4% 25%, 2% 10%); 
-    }
-
-    .contact-field {
-      margin-bottom: 3rem;
-      border-bottom: 1.5px solid var(--border);
-      transition: border-color 0.3s ease;
-    }
-    
-    .contact-field:focus-within {
-      border-bottom-color: var(--forest);
-    }
-
-    .contact-field label {
-      display: block;
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-    }
-
-    .contact-field input, .contact-field textarea {
-      width: 100%;
-      border: none;
-      background: none;
-      outline: none;
-      font-family: 'Lora', serif;
-      font-style: italic;
-      font-size: 1.3rem;
-      padding: 0.5rem 0;
-      color: var(--ink);
-    }
-
     @media (max-width: 1024px) {
       .mobile-bar { display: flex; }
       .sidebar { transform: translateX(-100%); clip-path: none; background: white; width: 300px; padding-top: 5rem; }
@@ -185,22 +137,68 @@
       .admin-card { width: 100%; border-radius: 0; }
       .page-title { font-size: 2.8rem; }
       .hero-grid, .smart-row { grid-template-columns: 1fr; gap: 2rem; }
-      .contact-card { padding: 3rem 1.5rem; clip-path: none; border-radius: 8px; }
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
-
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
     const SITE_ID = "fern"; 
     const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
-    const EMAILJS_KEY = "1tk_WpVfkT1oGuS4P";
-    const EMAILJS_SERVICE = "service_91osf0m";
-    const EMAILJS_TEMPLATE = "template_n98oiz5";
 
+    // --- REUSABLE COMPONENTS ---
+    const Hero = ({ data }) => {
+      if (!data) return null;
+      return (
+        <div className="animate-in fade-in duration-700" style={{animation: 'fadeIn 0.7s ease-in'}}>
+          <h2 className="page-title">{data.title}</h2>
+          <div className="hero-grid">
+            <div className="hero-text"><p>{data.text}</p></div>
+            {data.image && (
+              <div className="hero-img-wrap"><img src={data.image} alt={data.title} /></div>
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    const Gallery = ({ items }) => {
+      if (!items) return null;
+      return (
+        <div className="animate-in fade-in duration-700">
+          <h2 className="page-title">Photography</h2>
+          <div className="photo-grid">
+            {items.map((item, i) => (
+              <div key={i} className="photo-card">
+                <img src={item.url} alt={item.title} />
+                <h3>{item.title}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    const SmartGrid = ({ title, items }) => {
+      if (!items) return null;
+      return (
+        <div className="animate-in fade-in duration-700">
+          <h2 className="page-title">{title}</h2>
+          <div>
+            {items.map((item, i) => (
+              <div key={i} className="smart-row">
+                <div className="smart-label">{item.label}</div>
+                <div className="smart-content">{item.content}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    // --- MAIN APP ---
     const App = () => {
       const [view, setView] = useState('home');
       const [adminTab, setAdminTab] = useState('home');
@@ -211,8 +209,6 @@
       const [isMenuOpen, setIsMenuOpen] = useState(false);
 
       useEffect(() => {
-        if (window.emailjs) emailjs.init(EMAILJS_KEY);
-
         fetch(WORKER_URL, {
           headers: { 'X-Site-Id': SITE_ID }
         })
@@ -249,14 +245,14 @@
       if (!data) return <div style={{padding:'5rem', textAlign:'center'}}>Engine offline. Check Cloudflare DNS.</div>;
 
       return (
-        <div className="flex">
+        <div style={{display: 'flex'}}>
           <div className="bg-wash-container"><div className="wash wash-1"></div><div className="wash wash-2"></div><div className="wash wash-3"></div></div>
 
           {view !== 'admin' && (
             <>
               {/* Mobile Header */}
               <div className="mobile-bar">
-                <div className="mobile-brand" onClick={() => changeView('home')}>FERN CARLETON</div>
+                <div style={{fontFamily: 'Lora', fontWeight: 'bold'}} onClick={() => changeView('home')}>FERN CARLETON</div>
                 <button className="hamburger" onClick={() => setIsMenuOpen(true)}>
                     <span></span><span></span><span></span>
                 </button>
@@ -268,10 +264,10 @@
               <aside className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
                 <div className="brand" onClick={() => changeView('home')}>
                   <h1>Fern<br/>Carleton</h1>
-                  <span className="font-mono text-[10px] uppercase text-[#c2a378] mt-2 block tracking-widest">Art & Reasoning</span>
+                  <span>Art & Reasoning</span>
                 </div>
-                <nav className="nav-list mt-12">
-                  {['photos', 'skills', 'portfolio', 'about', 'contact'].map(tab => (
+                <nav className="nav-list" style={{marginTop: '3rem'}}>
+                  {['photos', 'skills', 'portfolio', 'about'].map(tab => (
                     <button key={tab} onClick={() => changeView(tab)} className={`nav-btn ${view === tab ? 'active' : ''}`}>
                       {tab === 'portfolio' ? 'Portfolio' : tab}
                     </button>
@@ -281,7 +277,7 @@
             </>
           )}
 
-          <main className={view === 'admin' ? 'w-full ml-0 py-12 flex justify-center bg-gray-100/50 min-h-screen' : ''}>
+          <main style={view === 'admin' ? {width: '100%', marginLeft: 0, padding: '3rem 0', display: 'flex', justifyContent: 'center', minHeight: '100vh'} : {}}>
             {view === 'admin' ? (
               <AdminPanel 
                 data={data} 
@@ -297,13 +293,12 @@
                 SITE_ID={SITE_ID}
               />
             ) : (
-              <div className="animate-in fade-in duration-700">
+              <div>
                 {view === 'home' && <Hero data={data.welcome} />}
                 {view === 'about' && <Hero data={data.about} />}
                 {view === 'photos' && <Gallery items={data.photos} />}
                 {view === 'skills' && <SmartGrid title="Skills" items={data.skills} />}
                 {view === 'portfolio' && <SmartGrid title="Portfolio" items={data.resume} />}
-                {view === 'contact' && <ContactView data={data.contact} service={EMAILJS_SERVICE} template={EMAILJS_TEMPLATE} />}
               </div>
             )}
           </main>
@@ -311,8 +306,7 @@
       );
     };
 
-    /** --- SUB-COMPONENTS --- */
-
+    /** --- ADMIN PANEL COMPONENT --- */
     const AdminPanel = ({ data, setData, adminTab, setAdminTab, isAuthed, setIsAuthed, adminKey, setAdminKey, saveChanges, exit, SITE_ID }) => {
       const addItem = (target) => {
         const newItem = target === 'photos' ? { title: "New Entry", url: "" } : { label: "Category", content: "Details..." };
@@ -330,24 +324,24 @@
       };
 
       return (
-        <div className="admin-card animate-in fade-in duration-500">
+        <div className="admin-card">
           <header className="admin-header">
               <h2>{SITE_ID.toUpperCase()} Backstage</h2>
               <button onClick={exit} style={{background:'rgba(255,255,255,0.15)', border:'none', color:'white', padding:'8px 18px', borderRadius:'4px', cursor:'pointer', fontSize:'11px', fontWeight:'700', textTransform:'uppercase'}}>Exit</button>
           </header>
           
           {!isAuthed ? (
-            <div className="p-16 space-y-10 bg-white">
+            <div style={{padding: '4rem', background: 'white'}}>
               <div className="input-row">
                   <label>Secret Reasoning Key</label>
-                  <input type="password" placeholder="••••••••" style={{fontSize: '1.5rem', letterSpacing:'0.2em'}} value={adminKey} onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
+                  <input type="password" placeholder="••••••••" style={{fontSize: '1.5rem', letterSpacing:'0.2em', marginBottom: '2rem'}} value={adminKey} onChange={e => setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
               </div>
               <button className="btn-save" style={{borderRadius:'4px'}} onClick={() => setIsAuthed(true)}>Verify Access</button>
             </div>
           ) : (
             <div>
               <nav className="admin-nav">
-                  {['home', 'photos', 'skills', 'portfolio', 'about', 'contact'].map(t => (
+                  {['home', 'photos', 'skills', 'portfolio', 'about'].map(t => (
                       <button key={t} onClick={() => setAdminTab(t)} className={`admin-nav-btn ${adminTab === t ? 'active' : ''}`}>{t === 'portfolio' ? 'Portfolio' : t}</button>
                   ))}
               </nav>
@@ -367,9 +361,9 @@
                         <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>Photography Archive</h3>
                         <button onClick={() => addItem('photos')} style={{background:'white', border:'2px solid var(--forest)', color:'var(--forest)', padding:'0.6rem 1.5rem', fontSize:'11px', textTransform:'uppercase', fontWeight:'bold', borderRadius:'4px', cursor:'pointer'}}>+ Add Photo</button>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem'}}>
                         {data.photos.map((p, i) => (
-                            <div key={i} className="input-box" style={{position:'relative'}}>
+                            <div key={i} className="input-box" style={{position:'relative', marginBottom: 0}}>
                                 <button onClick={() => removeItem('photos', i)} style={{color:'red', background:'none', border:'none', position:'absolute', top:'1rem', right:'1rem', fontSize:'9px', fontWeight:'bold', cursor:'pointer'}}>REMOVE</button>
                                 <div className="input-row"><label>Title</label><input value={p.title} onChange={e => updateItem('photos', i, 'title', e.target.value)} /></div>
                                 <div className="input-row" style={{marginBottom:0}}><label>Image URL (.jpg)</label><input value={p.url} onChange={e => updateItem('photos', i, 'url', e.target.value)} /></div>
@@ -381,108 +375,38 @@
                 {(adminTab === 'skills' || adminTab === 'portfolio') && (
                   <section>
                     <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2.5rem'}}>
-                        <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>{adminTab.toUpperCase()} Content</h3>
-                        <button onClick={() => addItem(adminTab === 'portfolio' ? 'resume' : 'skills')} style={{background:'white', border:'2px solid var(--forest)', color:'var(--forest)', padding:'0.6rem 1.5rem', fontSize:'11px', textTransform:'uppercase', fontWeight:'bold', borderRadius:'4px', cursor:'pointer'}}>+ Add Row</button>
+                        <h3 style={{fontFamily:'Lora', fontSize:'1.6rem'}}>{adminTab === 'skills' ? 'Skills Archive' : 'Portfolio Archive'}</h3>
+                        <button onClick={() => addItem(adminTab)} style={{background:'white', border:'2px solid var(--forest)', color:'var(--forest)', padding:'0.6rem 1.5rem', fontSize:'11px', textTransform:'uppercase', fontWeight:'bold', borderRadius:'4px', cursor:'pointer'}}>+ Add Entry</button>
                     </div>
-                    {(adminTab === 'portfolio' ? data.resume : data.skills).map((item, i) => (
-                        <div key={i} className="input-box" style={{display:'flex', gap:'2.5rem', position:'relative'}}>
-                            <button onClick={() => removeItem(adminTab === 'portfolio' ? 'resume' : 'skills', i)} style={{color:'red', background:'none', border:'none', position:'absolute', top:'1rem', right:'1rem', fontSize:'9px', fontWeight:'bold', cursor:'pointer'}}>REMOVE</button>
-                            <div className="input-row" style={{width:'280px', marginBottom:0}}><label>Label</label><input value={item.label} onChange={e => updateItem(adminTab === 'portfolio' ? 'resume' : 'skills', i, 'label', e.target.value)} /></div>
-                            <div className="input-row" style={{flex:1, marginBottom:0}}><label>Details</label><textarea value={item.content} style={{minHeight:'100px'}} onChange={e => updateItem(adminTab === 'portfolio' ? 'resume' : 'skills', i, 'content', e.target.value)} /></div>
-                        </div>
-                    ))}
+                    <div>
+                        {data[adminTab].map((item, i) => (
+                            <div key={i} className="input-box" style={{position:'relative'}}>
+                                <button onClick={() => removeItem(adminTab, i)} style={{color:'red', background:'none', border:'none', position:'absolute', top:'1rem', right:'1rem', fontSize:'9px', fontWeight:'bold', cursor:'pointer'}}>REMOVE</button>
+                                <div className="input-row"><label>Label / Title</label><input value={item.label} onChange={e => updateItem(adminTab, i, 'label', e.target.value)} /></div>
+                                <div className="input-row" style={{marginBottom:0}}><label>Content / Details</label><textarea value={item.content} style={{minHeight:'100px'}} onChange={e => updateItem(adminTab, i, 'content', e.target.value)} /></div>
+                            </div>
+                        ))}
+                    </div>
                   </section>
                 )}
                 {adminTab === 'about' && (
                   <section>
                     <div className="input-box">
-                        <div className="input-row"><label>Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
-                        <div className="input-row"><label>Bio Narrative</label><textarea value={data.about?.text || ''} style={{minHeight:'300px'}} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
-                        <div className="input-row"><label>Photo URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
-                    </div>
-                  </section>
-                )}
-                {adminTab === 'contact' && (
-                  <section>
-                    <div className="input-box">
-                        <div className="input-row"><label>Contact Headline</label><input value={data.contact?.title || ''} onChange={e => setData({...data, contact: {...data.contact, title: e.target.value}})} /></div>
-                        <div className="input-row"><label>Sub-text</label><textarea value={data.contact?.text || ''} style={{minHeight:'120px'}} onChange={e => setData({...data, contact: {...data.contact, text: e.target.value}})} /></div>
+                      <div className="input-row"><label>Headline</label><input value={data.about?.title || ''} onChange={e => setData({...data, about: {...data.about, title: e.target.value}})} /></div>
+                      <div className="input-row"><label>About Narrative</label><textarea value={data.about?.text || ''} style={{minHeight:'180px'}} onChange={e => setData({...data, about: {...data.about, text: e.target.value}})} /></div>
+                      <div className="input-row"><label>Image URL</label><input value={data.about?.image || ''} onChange={e => setData({...data, about: {...data.about, image: e.target.value}})} /></div>
                     </div>
                   </section>
                 )}
               </div>
-              <button className="btn-save" onClick={saveChanges}>Push Changes Instantly</button>
+              <div style={{padding:'2rem', background:'white', borderTop:'1px solid #eee'}}>
+                  <button className="btn-save" onClick={saveChanges}>Deploy Updates to Live Site</button>
+              </div>
             </div>
           )}
         </div>
       );
-    }
-
-    const Hero = ({ data }) => (
-        <div className="hero-grid">
-            <div className="hero-text"><h2 className="page-title leading-tight">{data?.title}</h2><p>{data?.text}</p></div>
-            <div className="hero-img-wrap"><img src={data?.image} className="w-full shadow-xl" alt="Visual" /></div>
-        </div>
-    );
-
-    const Gallery = ({ items }) => (
-        <div><h2 className="page-title">Photography</h2><div className="photo-grid">
-            {items && items.map((p, i) => (
-                <div key={i} className="photo-card group hover:-translate-y-2 transition-transform duration-500">
-                    <img src={p.url} alt={p.title} />
-                    <h3 className="font-handwriting text-2xl text-[#555]">{p.title}</h3>
-                </div>
-            ))}
-        </div></div>
-    );
-
-    const SmartGrid = ({ title, items }) => (
-        <div><h2 className="page-title">{title}</h2>{items && items.map((item, i) => (
-            <div key={i} className="smart-row"><div className="smart-label">{item.label}</div><div className="smart-content">{item.content}</div></div>
-        ))}</div>
-    );
-
-    const ContactView = ({ data, service, template }) => {
-        const formRef = useRef();
-        const [sent, setSent] = useState(false);
-        const [status, setStatus] = useState("Deliver Inquiry");
-
-        const sendEmail = (e) => {
-            e.preventDefault(); setStatus("Sending...");
-            emailjs.sendForm(service, template, formRef.current)
-                .then(() => setSent(true))
-                .catch((err) => { console.error(err); setStatus("Error - Try Again"); });
-        };
-
-        if (sent) return (
-            <div className="contact-card">
-                <h2 className="font-serif text-3xl mb-4 text-green-700">Inquiry Delivered.</h2>
-                <p className="italic">Your message has been added to the PNW Archive. I will respond to your reasoning shortly.</p>
-            </div>
-        );
-
-        return (
-            <div className="contact-card">
-                <h2 className="font-serif text-5xl mb-6">{data?.title}</h2>
-                <p className="italic text-gray-600 mb-12">{data?.text}</p>
-                <form ref={formRef} onSubmit={sendEmail}>
-                    <div className="contact-field">
-                        <label>Your Name</label>
-                        <input type="text" name="user_name" required placeholder="Name..." />
-                    </div>
-                    <div className="contact-field">
-                        <label>Your Email</label>
-                        <input type="email" name="user_email" required placeholder="Email..." />
-                    </div>
-                    <div className="contact-field" style={{border: 'none'}}>
-                        <label>Share your reasoning</label>
-                        <textarea name="message" required placeholder="Message..." style={{minHeight: '150px'}}></textarea>
-                    </div>
-                    <button type="submit" className="btn-save" style={{marginTop:'40px', borderRadius:'4px'}}>{status}</button>
-                </form>
-            </div>
-        );
-    }
+    };
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
