@@ -35,11 +35,11 @@
     /* SPA Content Mount */
     #spa-content { min-height: 100vh; transition: opacity 0.4s ease; }
 
-    /* Custom Cursor */
+    /* Custom Cursor - FIXED Z-INDEX */
     .custom-cursor {
       position: fixed; top: 0; left: 0; width: 16px; height: 16px; border-radius: 50%;
       background: rgba(0, 255, 0, 0.7); pointer-events: none; transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s, background 0.2s; z-index: 9999; mix-blend-mode: difference;
+      transition: width 0.2s, height 0.2s, background 0.2s; z-index: 100000; mix-blend-mode: difference;
     }
     .custom-cursor.grow { width: 28px; height: 28px; background: rgba(0, 255, 0, 0.4); }
 
@@ -63,12 +63,12 @@
     .box:hover { transform: scale(1.05); background: #1a1a1a; }
 
     /* Transition Screen */
-    .fade-screen { position: fixed; top: -100%; left: 0; width: 100%; height: 100%; background: black; z-index: 9998; transition: top 0.6s cubic-bezier(0.7, 0, 0.3, 1); }
+    .fade-screen { position: fixed; top: -100%; left: 0; width: 100%; height: 100%; background: black; z-index: 99998; transition: top 0.6s cubic-bezier(0.7, 0, 0.3, 1); }
     .fade-screen.active { top: 0; }
 
     /* Jumpscare Overlay */
     #jumpscareOverlay {
-      display: none; position: fixed; inset: 0; background: black; z-index: 10000;
+      display: none; position: fixed; inset: 0; background: black; z-index: 99999;
       justify-content: center; align-items: center;
     }
     #jumpscareOverlay img { max-width: 100%; max-height: 100%; }
@@ -90,7 +90,6 @@
     .admin-body { padding: 30px; overflow-y: auto; position: relative; }
     
     .html-editor { width: 100%; height: 85%; background: #050505; color: var(--neon-green); border: 1px solid #333; padding: 20px; font-family: 'Space Mono', monospace; font-size: 0.85rem; resize: none; outline: none; }
-    .admin-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
     .save-btn { background: var(--neon-green); color: black; border: none; padding: 12px 25px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
     .save-btn:hover { background: #fff; }
     
@@ -125,7 +124,7 @@
       <header class="admin-header">
         <h2 class="vhs-text" style="font-size: 1.2rem;">Backstage Node: SOGGY_MILK</h2>
         <div style="display: flex; gap: 10px;">
-          <button onclick="saveToBackend()" class="save-btn" id="save-btn">Publish to Production</button>
+          <button onclick="saveToBackend()" class="save-btn" id="save-btn">Publish Changes</button>
           <button onclick="closeAdmin()" style="background:none; border:1px solid #444; color:#444; cursor:pointer; padding:5px 15px; font-size:0.7rem;">EXIT</button>
         </div>
       </header>
@@ -140,7 +139,7 @@
         <aside class="admin-sidebar">
           <div style="font-size: 0.6rem; color: #444; margin-bottom: 15px; text-transform: uppercase;">Manage Pages</div>
           <div id="admin-tabs"></div>
-          <button class="add-page-btn" onclick="addNewPage()">+ New Page Node</button>
+          <button class="add-page-btn" onclick="addNewPage()">+ Add Node</button>
         </aside>
         
         <div class="admin-body">
@@ -160,7 +159,7 @@
     const BACKEND_URL = 'https://backend.tmcarleton11.workers.dev/';
     const SITE_ID = 'SOGGY_MILK';
     
-    // Initial content from provided files
+    // Initial content extracted and structured from your uploaded files
     let siteData = {
       pages: {
         home: {
@@ -178,42 +177,61 @@
         },
         aboutme: {
           html: `
-            <div style="padding: 40px; max-width: 800px; margin: 0 auto; text-align: center;">
+            <div style="padding: 60px 20px; max-width: 800px; margin: 0 auto; text-align: center;">
               <h1 class="flicker-neon" style="font-size: 3rem; margin-bottom: 2rem;">About me</h1>
               <p style="font-size: 1.2rem; line-height: 1.8;">
                 I am a solo coder that spends time coding random nerdy things like this 
                 vhs filter effect you see right <span class="vhs-text jitter" style="display:inline-block; font-size: 1.5rem;">here.</span>
               </p>
-              <button class="box" onclick="navigateTo('home')" style="padding: 20px 40px; margin-top: 50px; font-size: 1rem;">RETURN_HOME</button>
+              <button class="box" onclick="navigateTo('home')" style="padding: 20px 40px; margin-top: 50px; font-size: 1rem; width: auto; height: auto;">RETURN_HOME</button>
             </div>
           `
         },
         projects: {
           html: `
             <div style="text-align:center; padding: 40px;">
-              <h1 class="flicker-neon">School Projects</h1>
-              <div class="box-container" style="margin-top: 30px;">
+              <h1 class="flicker-neon" style="font-size: 3rem;">School Projects</h1>
+              <p style="color:#666; font-size:0.8rem; margin-bottom: 30px;">Archive Access: Active</p>
+              <div class="box-container">
                 <div class="box" style="padding: 60px 40px;">Science</div>
                 <div class="box" style="padding: 60px 40px;">Math</div>
                 <div class="box" style="padding: 60px 40px;">History</div>
                 <div class="box" style="padding: 60px 40px;">English</div>
               </div>
-              <button class="box" onclick="navigateTo('home')" style="padding: 20px 40px; margin-top: 50px;">BACK</button>
+              <button class="box" onclick="navigateTo('home')" style="padding: 20px 40px; margin-top: 50px; width: auto; height: auto;">BACK</button>
             </div>
           `
+        },
+        gallery: {
+          html: `
+            <div style="text-align:center; padding: 40px;">
+              <h1 class="vhs-text flicker-neon" style="font-size: 3rem;">Visual Gallery</h1>
+              <p style="margin: 20px 0;">[ NO MEDIA DETECTED IN LOCAL NODE ]</p>
+              <button class="box" onclick="navigateTo('home')" style="padding: 20px 40px; width: auto; height: auto;">BACK</button>
+            </div>
+          `
+        },
+        silly: {
+          html: `<div id="launcher-mount"></div>` 
         },
         extras: {
           html: `
             <div style="padding:100px; text-align:center;">
-              <h1 class="vhs-text" style="color: var(--neon-red); text-shadow: 2px 0 #fff;">RESTRICTED AREA</h1>
-              <p>Warning: Different Terminal Detected.</p>
-              <button class="box" onclick="navigateTo('home')" style="border-color: red; box-shadow: 0 0 10px red;">EXIT</button>
+              <h1 class="vhs-text" style="color: var(--neon-red); text-shadow: 2px 0 #fff; font-size: 4rem;">RESTRICTED AREA</h1>
+              <p style="font-weight: bold; margin-bottom: 30px;">Warning: Unauthorized System Access Detected.</p>
+              <button class="box" onclick="navigateTo('home')" style="border-color: red; box-shadow: 0 0 10px red; padding: 20px 40px; width: auto; height: auto;">ABORT</button>
             </div>
           `,
           cursorColor: 'rgba(255, 0, 0, 0.7)'
         },
-        silly: {
-          html: `<div id="launcher-mount"></div>` 
+        hidden: {
+          html: `
+            <div style="padding:100px; text-align:center;">
+              <h1 class="jitter" style="font-size: 5rem;">?</h1>
+              <p>You found the shadow directory.</p>
+              <button class="box" onclick="navigateTo('home')" style="margin-top: 30px; width: auto; height: auto;">EXIT</button>
+            </div>
+          `
         }
       },
       games: [
@@ -398,10 +416,10 @@
     }
 
     function addNewPage() {
-      const name = prompt("Enter unique Page ID (e.g. secret_gallery):");
+      const name = prompt("Enter unique Page ID (e.g. downloads):");
       if(!name) return;
       const key = slugify(name);
-      siteData.pages[key] = { html: "<h1>New Page</h1><button class='box' onclick='navigateTo(\"home\")'>Home</button>" };
+      siteData.pages[key] = { html: "<h1 class='flicker-neon'>New Node</h1><button class='box' onclick='navigateTo(\"home\")'>Home</button>" };
       renderAdminTabs();
       loadPageToEditor(key);
     }
@@ -510,9 +528,7 @@
         item.className = "game-item";
         item.textContent = cleanName(path);
         item.onclick = () => {
-          // In a real scenario, this would open the path. 
-          // For the SPA demo, we just log it or alert.
-          alert("Launching: " + cleanName(path) + "\\nPath: " + path);
+          window.location.href = path; // Launch the actual game page
         };
         listEl.appendChild(item);
       });
