@@ -36,7 +36,7 @@
       overflow-x: hidden;
     }
 
-    a { color: var(--wood); text-decoration: none; transition: 0.2s; }
+    a { color: var(--wood); text-decoration: none; transition: 0.2s; cursor: pointer; }
     a:hover { color: var(--forest); }
 
     .site-wrapper { display: flex; min-height: 100vh; }
@@ -72,10 +72,9 @@
 
     /* --- MAIN CONTENT --- */
     main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; transition: opacity 0.3s; }
-    .fade-out { opacity: 0; }
 
     /* --- HERO LAYOUTS --- */
-    #hero-container { display: grid; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; margin-bottom: 4rem; }
+    #hero-container { display: none; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; margin-bottom: 4rem; }
     .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; }
     .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; }
     
@@ -97,7 +96,7 @@
     .portfolio-card { aspect-ratio: 1; overflow: hidden; position: relative; cursor: pointer; border-radius: 4px; }
     .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
     .portfolio-card:hover img { transform: scale(1.05); }
-    .portfolio-overlay { position: absolute; inset: 0; background: rgba(45,58,45,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+    .portfolio-overlay { position: absolute; inset: 0; background: rgba(45,58,45,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; padding: 20px; text-align: center; }
     .portfolio-card:hover .portfolio-overlay { opacity: 1; }
     .portfolio-overlay h4 { color: #fff; font-family: var(--font-header); text-transform: uppercase; letter-spacing: 0.1em; }
 
@@ -105,14 +104,14 @@
     #admin-view { display: none; position: fixed; inset: 0; background: var(--wall); z-index: 5000; padding: 40px; overflow-y: auto; }
     .admin-card { max-width: 1000px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
     .admin-header { background: var(--forest); color: #fff; padding: 25px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px 8px 0 0; }
-    .admin-nav { display: flex; border-bottom: 1px solid var(--border); }
-    .admin-tab { flex: 1; padding: 15px; background: none; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #999; border-bottom: 2px solid transparent; }
+    .admin-nav { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; }
+    .admin-tab { padding: 15px 25px; background: none; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #999; border-bottom: 2px solid transparent; white-space: nowrap; }
     .admin-tab.active { color: var(--forest); border-bottom-color: var(--forest); }
     .admin-body { padding: 30px; }
     .admin-group { margin-bottom: 20px; }
     .admin-group label { display: block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--sage); margin-bottom: 8px; }
     .admin-group input, .admin-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px; outline: none; font-family: inherit; }
-    .admin-group textarea { height: 300px; font-family: monospace; font-size: 0.85rem; }
+    .admin-group textarea { height: 400px; font-family: monospace; font-size: 0.85rem; }
     .admin-actions { padding: 20px 30px; background: var(--wall); text-align: right; border-top: 1px solid var(--border); }
 
     /* Footer */
@@ -124,6 +123,7 @@
       .mobile-nav-bar { display: flex; }
       main { margin-left: 0; padding: 80px 20px 40px; }
       #hero-container { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+      .post-card { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -154,11 +154,9 @@
     <main id="main-content">
       <div id="hero-container">
         <div class="profile-card">
-          <img id="hero-image" src="https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg" alt="Jayme">
+          <img id="hero-image" src="" alt="Jayme">
         </div>
-        <div class="hero-text" id="hero-text">
-          <!-- Populated by JS -->
-        </div>
+        <div class="hero-text" id="hero-text"></div>
       </div>
 
       <div id="app-root"></div>
@@ -168,12 +166,12 @@
           <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style="text-transform:uppercase; font-size:0.75rem; font-weight:700; letter-spacing:0.1em;">LinkedIn</a>
         </div>
         <div class="copyright">SECOND NATURE | &copy; 2015-<span id="copy-year">2026</span></div>
-        <div class="credit">Node Architecture by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
+        <div class="credit">Developed by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
       </footer>
     </main>
   </div>
 
-  <!-- Backstage Manager (Hidden) -->
+  <!-- Backstage Manager -->
   <div id="admin-view">
     <div class="admin-card">
       <header class="admin-header">
@@ -182,14 +180,16 @@
       </header>
       <div class="admin-nav">
         <button class="admin-tab active" onclick="switchAdminTab('welcome', this)">Welcome</button>
-        <button class="admin-tab" onclick="switchAdminTab('handmade', this)">Handmade</button>
+        <button class="admin-tab" onclick="switchAdminTab('handmade', this)">Handmade (Text)</button>
         <button class="admin-tab" onclick="switchAdminTab('contact', this)">Contact</button>
-        <button class="admin-tab" onclick="switchAdminTab('journal', this)">Journal Raw</button>
+        <button class="admin-tab" onclick="switchAdminTab('resume', this)">Resume</button>
+        <button class="admin-tab" onclick="switchAdminTab('journal', this)">Journal (JSON)</button>
       </div>
       <div class="admin-body">
         <div class="admin-group">
-          <label id="editor-label">Page Markdown Content</label>
+          <label id="editor-label">Page Content</label>
           <textarea id="admin-editor" spellcheck="false"></textarea>
+          <p id="admin-help" style="font-size: 0.65rem; color: #999; margin-top: 10px;"></p>
         </div>
       </div>
       <div class="admin-actions">
@@ -204,10 +204,11 @@
     const SITE_ID = 'handmadebyjayme';
     
     let siteData = {
-      welcome: "# Professional Excellence\nSpecializing in sustainability and brand strategy.",
-      handmade: "# Artisanal Creations\nSustainably sourced skincare and consulting.",
-      contact: "# Let's Connect\nAvailable for consulting and strategic partnerships.",
-      journal: [] // Array of posts
+      welcome: "# Welcome\nMy name is Jayme.",
+      handmade: "# Handmade\nArtisanal creations.",
+      contact: "# Contact\nReach out below.",
+      resume: "# Resume\nProfessional history.",
+      journal: [] // Array of { id, title, excerpt, date, image, content, tags }
     };
 
     /* --- SPA ENGINE --- */
@@ -223,43 +224,50 @@
       try {
         const res = await fetch(BACKEND_URL, { headers: { 'X-Site-Id': SITE_ID } });
         if (res.ok) {
-          siteData = await res.json();
+          const d = await res.json();
+          siteData = { ...siteData, ...d };
         }
-      } catch (e) { console.warn("Minescout: Fetch failed, using local fallback."); }
+      } catch (e) { console.warn("Fetch failed, using local fallback."); }
     }
 
     function handleRoute() {
-      const path = window.location.hash.replace('#', '') || 'home';
+      const hash = window.location.hash.replace('#', '') || 'home';
       const root = document.getElementById('app-root');
       const hero = document.getElementById('hero-container');
       const textMount = document.getElementById('hero-text');
       const imgMount = document.getElementById('hero-image');
 
-      // Reset UI
       root.innerHTML = '';
       hero.style.display = 'none';
       document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
-      if (['home', 'handmade', 'contact'].includes(path)) {
+      // Check if it's a specific post view (e.g., #post/slug)
+      if (hash.startsWith('post/')) {
+        const slug = hash.split('/')[1];
+        const post = siteData.journal.find(p => p.id === slug);
+        if (post) renderPost(root, post);
+        return;
+      }
+
+      if (['home', 'handmade', 'contact'].includes(hash)) {
         hero.style.display = 'grid';
-        const key = path === 'home' ? 'welcome' : path;
+        const key = hash === 'home' ? 'welcome' : hash;
         
-        // Handle Photos
-        if (path === 'handmade') imgMount.src = "https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png";
-        else if (path === 'contact') imgMount.src = "https://jaymecarleton.com/wp-content/uploads/2015/11/jayme.jpg";
+        if (hash === 'handmade') imgMount.src = "https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png";
+        else if (hash === 'contact') imgMount.src = "https://jaymecarleton.com/wp-content/uploads/2015/11/jayme.jpg";
         else imgMount.src = "https://i.postimg.cc/NGX3ZDdw/PXL-20251224-004703169.jpg";
 
         textMount.innerHTML = marked.parse(siteData[key] || '');
-        if (path === 'handmade') {
+        if (hash === 'handmade') {
           textMount.innerHTML += `<a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" class="shop-cta">Visit Shop on Etsy</a>`;
+          renderFeed(root, 'Creation Log', p => p.tags.includes('Handmade'));
         }
-      } else if (path === 'journal') {
-        renderJournal(root);
-      } else if (path === 'portfolio') {
-        renderPortfolio(root);
-      } else if (path === 'resume') {
-        renderResume(root);
+      } else {
+        if (hash === 'journal') renderJournal(root);
+        else if (hash === 'portfolio') renderPortfolio(root);
+        else if (hash === 'resume') renderResume(root);
       }
+      window.scrollTo(0, 0);
     }
 
     function switchView(slug) {
@@ -269,45 +277,71 @@
 
     /* --- RENDERING --- */
     function renderJournal(root) {
-      root.innerHTML = `<h2 class="hero-text"><h1>Journal</h1></h2>`;
-      if (!siteData.journal || siteData.journal.length === 0) {
-        root.innerHTML += `<p>Archive entries syncing...</p>`;
-        return;
-      }
+      root.innerHTML = `<h2 class="section-title">Journal</h2><p style="margin-bottom:3rem; color:var(--sage); font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">Thoughts on sustainable living and design.</p>`;
       siteData.journal.forEach(post => {
         root.innerHTML += `
           <article class="post-card">
             <img src="${post.image}" class="post-thumb">
-            <div class="post-content">
+            <div>
               <span class="post-date">${post.date}</span>
               <h3>${post.title}</h3>
               <p class="post-excerpt">${post.excerpt}</p>
-              <a onclick="viewPost('${post.id}')" style="cursor:pointer; font-weight:700; border-bottom:1px solid;">READ ENTRY ➔</a>
+              <a onclick="switchView('post/${post.id}')" style="font-weight:700; border-bottom:1px solid;">READ ENTRY ➔</a>
             </div>
           </article>
         `;
       });
     }
 
+    function renderFeed(root, title, filterFn) {
+      root.innerHTML += `<h2 class="section-title" style="margin-top:5rem;">${title}</h2>`;
+      siteData.journal.filter(filterFn).forEach(post => {
+        root.innerHTML += `
+          <article class="post-card" style="grid-template-columns:200px 1fr; padding:1.5rem; margin-top:2rem;">
+            <img src="${post.image}" class="post-thumb" style="height:200px;">
+            <div>
+              <h3>${post.title}</h3>
+              <p class="post-excerpt" style="font-size:0.9rem;">${post.excerpt}</p>
+              <a onclick="switchView('post/${post.id}')" style="font-weight:700; font-size:0.75rem;">READ ENTRY ➔</a>
+            </div>
+          </article>`;
+      });
+    }
+
     function renderPortfolio(root) {
-      root.innerHTML = `<h1>Portfolio</h1><div class="portfolio-grid">
-        <div class="portfolio-card"><img src="https://images.unsplash.com/photo-1466632311177-0d58232f2042?auto=format&fit=crop&q=80&w=800"><div class="portfolio-overlay"><h4>Sustainability Audit</h4></div></div>
-        <div class="portfolio-card"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800"><div class="portfolio-overlay"><h4>Brand Identity</h4></div></div>
-      </div>`;
+      root.innerHTML = `<h2 class="section-title">Portfolio</h2><p style="margin-bottom:3rem; color:var(--sage); font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">Archive of Environmental & Sustainable Projects.</p>`;
+      const portGrid = document.createElement('div');
+      portGrid.className = 'portfolio-grid';
+      siteData.journal.filter(p => p.tags.includes('Portfolio')).forEach(item => {
+        portGrid.innerHTML += `
+          <div class="portfolio-card" onclick="switchView('post/${item.id}')">
+            <img src="${item.image}">
+            <div class="portfolio-overlay"><h4>${item.title}</h4></div>
+          </div>`;
+      });
+      root.appendChild(portGrid);
     }
 
     function renderResume(root) {
-      root.innerHTML = `<div style="background:#fff; padding:5rem; border-radius:4px;">
-        <h1 style="font-family:'Playfair Display'; text-transform:uppercase;">Jayme M. Carleton</h1>
-        <p style="text-transform:uppercase; letter-spacing:0.2em; border-bottom:2px solid; padding-bottom:10px; margin-bottom:20px;">Strategic Operations & Brand Sustainability</p>
-        <p>Curated professional history available upon request.</p>
+      root.innerHTML = `<div style="background:#fff; padding:5rem; border-radius:4px; box-shadow:0 10px 30px rgba(0,0,0,0.02);">
+        ${marked.parse(siteData.resume)}
       </div>`;
     }
 
-    /* --- ADMIN LOGIC --- */
-    let currentAdminPage = 'welcome';
-    function toggleMenu() { document.getElementById('body-context').classList.toggle('menu-open'); }
+    function renderPost(root, post) {
+      root.innerHTML = `
+        <div style="max-width:900px; margin:0 auto; background:#fff; padding:5rem; border-radius:4px;">
+          <a onclick="window.history.back()" class="back-btn" style="display:inline-block; margin-bottom:2rem;">← Back</a>
+          <span class="post-date" style="display:block; margin-bottom:1rem;">${post.date}</span>
+          <h1 style="font-family:var(--font-header); font-size:3rem; text-transform:uppercase; color:var(--forest); margin-bottom:3rem;">${post.title}</h1>
+          <div style="font-size:1.15rem; line-height:1.8; color:#333;">${marked.parse(post.content)}</div>
+        </div>`;
+    }
 
+    /* --- ADMIN LOGIC --- */
+    let adminTab = 'welcome';
+    function toggleMenu() { document.body.classList.toggle('menu-open'); }
+    function closeAdmin() { document.getElementById('admin-view').style.display = 'none'; }
     window.addEventListener('keydown', e => {
       if (e.shiftKey && e.key.toLowerCase() === 'j') {
         document.getElementById('admin-view').style.display = 'block';
@@ -315,39 +349,46 @@
       }
     });
 
-    function closeAdmin() { document.getElementById('admin-view').style.display = 'none'; }
-
     function switchAdminTab(slug, btn) {
       document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      siteData[currentAdminPage] = document.getElementById('admin-editor').value;
-      currentAdminPage = slug;
+      saveLocalEditor();
+      adminTab = slug;
       loadAdminData();
     }
 
+    function saveLocalEditor() {
+      const val = document.getElementById('admin-editor').value;
+      if (adminTab === 'journal') siteData.journal = JSON.parse(val);
+      else siteData[adminTab] = val;
+    }
+
     function loadAdminData() {
-      document.getElementById('admin-editor').value = siteData[currentAdminPage] || '';
-      document.getElementById('editor-label').innerText = `Editing: ${currentAdminPage.toUpperCase()}`;
+      const editor = document.getElementById('admin-editor');
+      const help = document.getElementById('admin-help');
+      if (adminTab === 'journal') {
+        editor.value = JSON.stringify(siteData.journal, null, 2);
+        help.innerText = "Editing JSON array of posts. Be careful with brackets!";
+      } else {
+        editor.value = siteData[adminTab] || '';
+        help.innerText = "Editing plain Markdown text.";
+      }
     }
 
     async function saveToWorker() {
-      siteData[currentAdminPage] = document.getElementById('admin-editor').value;
+      saveLocalEditor();
       const key = prompt("Enter Minescout Reason Key:");
       if (!key) return;
-
       const btn = document.getElementById('save-btn');
       btn.innerText = "Publishing...";
-      
       try {
         const res = await fetch(BACKEND_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-Site-Id': SITE_ID },
           body: JSON.stringify({ key, data: siteData })
         });
-        if (res.ok) alert("Production Node Synchronized.");
-        else alert("Authorization Failed.");
-      } catch (e) { alert("Server connection error."); }
-      
+        if (res.ok) alert("Node Synchronized."); else alert("Auth Failed.");
+      } catch (e) { alert("Connectivity error."); }
       btn.innerText = "Publish Updates";
       handleRoute();
     }
