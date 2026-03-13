@@ -25,7 +25,8 @@
       --font-body: 'Inter', sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* --- Core --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
 
     body {
       background-color: var(--wall);
@@ -40,6 +41,14 @@
     a:hover { color: var(--forest); }
 
     .site-wrapper { display: flex; min-height: 100vh; }
+
+    /* Custom Cursor (Always visible) */
+    .custom-cursor {
+      position: fixed; top: 0; left: 0; width: 16px; height: 16px; border-radius: 50%;
+      background: rgba(45, 58, 45, 0.7); pointer-events: none; transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s; z-index: 100000; mix-blend-mode: difference;
+    }
+    .custom-cursor.grow { width: 28px; height: 28px; background: rgba(45, 58, 45, 0.4); }
 
     /* --- SIDEBAR --- */
     .sidebar {
@@ -57,13 +66,13 @@
     .nav-links { display: flex; flex-direction: column; gap: 1.75rem; }
     .nav-links a {
       color: var(--charcoal); text-decoration: none; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.15em; font-size: 0.7rem; transition: all 0.3s ease; opacity: 0.5; cursor: pointer;
+      letter-spacing: 0.15em; font-size: 0.7rem; transition: all 0.3s ease; opacity: 0.5;
     }
     .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
 
     /* --- MOBILE HEADER --- */
     .mobile-nav-bar { display: none; position: fixed; top: 0; left: 0; right: 0; height: 60px; background: var(--clay); z-index: 900; padding: 0 1.5rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); }
-    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; cursor: pointer; }
+    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; }
     .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1100; }
     .hamburger span { display: block; width: 22px; height: 2px; background: var(--forest); transition: 0.3s; }
     .menu-open .sidebar { transform: translateX(0); }
@@ -74,26 +83,26 @@
     main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; transition: opacity 0.3s; }
 
     /* --- HERO LAYOUTS --- */
-    #hero-container { display: none; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; margin-bottom: 4rem; }
-    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; }
-    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; }
+    #hero-container { display: grid; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; margin-bottom: 4rem; }
+    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; box-shadow: none; }
     
     .hero-text h1 { font-family: var(--font-header); font-size: 2.8rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
     .hero-text p { font-size: 1.15rem; margin-bottom: 1.5rem; color: #444; }
 
-    .shop-cta { display: inline-block; background-color: var(--forest); color: white; padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 700; margin-top: 2rem; border-radius: 2px; transition: 0.3s; cursor: pointer; }
+    .shop-cta { display: inline-block; background-color: var(--forest); color: white; padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 700; margin-top: 2rem; border-radius: 2px; transition: 0.3s; cursor: pointer; border: none; }
     .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); }
 
     /* --- JOURNAL / FEED --- */
     .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
-    .post-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 2px; }
+    .post-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 2px; background: var(--clay); }
     .post-card h3 { font-family: var(--font-header); font-size: 2rem; color: var(--forest); text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 400; }
     .post-excerpt { color: #666; margin-bottom: 1.5rem; }
     .post-date { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); }
 
     /* --- PORTFOLIO --- */
     .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
-    .portfolio-card { aspect-ratio: 1; overflow: hidden; position: relative; cursor: pointer; border-radius: 4px; }
+    .portfolio-card { aspect-ratio: 1; overflow: hidden; position: relative; cursor: pointer; border-radius: 4px; background: var(--clay); }
     .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
     .portfolio-card:hover img { transform: scale(1.05); }
     .portfolio-overlay { position: absolute; inset: 0; background: rgba(45,58,45,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; padding: 20px; text-align: center; }
@@ -102,21 +111,28 @@
 
     /* --- BACKSTAGE (ADMIN) --- */
     #admin-view { display: none; position: fixed; inset: 0; background: var(--wall); z-index: 5000; padding: 40px; overflow-y: auto; }
-    .admin-card { max-width: 1000px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+    .admin-card { max-width: 1100px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); height: 85vh; display: flex; flex-direction: column; }
     .admin-header { background: var(--forest); color: #fff; padding: 25px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px 8px 0 0; }
-    .admin-nav { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; }
-    .admin-tab { padding: 15px 25px; background: none; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #999; border-bottom: 2px solid transparent; white-space: nowrap; }
-    .admin-tab.active { color: var(--forest); border-bottom-color: var(--forest); }
-    .admin-body { padding: 30px; }
+    .admin-main { display: grid; grid-template-columns: 240px 1fr; flex: 1; overflow: hidden; }
+    .admin-sidebar { border-right: 1px solid var(--border); overflow-y: auto; padding: 20px; background: var(--wall); }
+    .admin-tab { width: 100%; padding: 15px; background: none; border: 1px solid transparent; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #999; text-align: left; transition: 0.2s; }
+    .admin-tab.active { color: var(--forest); border-color: var(--border); background: #fff; }
+    .admin-body { padding: 30px; overflow-y: auto; }
     .admin-group { margin-bottom: 20px; }
     .admin-group label { display: block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--sage); margin-bottom: 8px; }
-    .admin-group input, .admin-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px; outline: none; font-family: inherit; }
-    .admin-group textarea { height: 400px; font-family: monospace; font-size: 0.85rem; }
-    .admin-actions { padding: 20px 30px; background: var(--wall); text-align: right; border-top: 1px solid var(--border); }
+    .admin-group input, .admin-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px; outline: none; font-family: inherit; font-size: 0.9rem; }
+    .admin-group textarea { height: 120px; }
+    .admin-actions { padding: 20px 30px; background: var(--wall); text-align: right; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+
+    /* Admin List UI */
+    .admin-item-card { border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin-bottom: 1rem; position: relative; background: #fff; transition: 0.2s; }
+    .admin-item-card:hover { border-color: var(--wood); }
+    .remove-item { position: absolute; top: 1rem; right: 1rem; color: #e11d48; font-size: 0.6rem; font-weight: 700; cursor: pointer; text-transform: uppercase; background: none; border: none; }
+    .add-row-btn { width: 100%; padding: 15px; border: 2px dashed var(--border); background: none; color: var(--muted); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-bottom: 2rem; transition: 0.2s; }
+    .add-row-btn:hover { border-color: var(--forest); color: var(--forest); }
 
     /* Footer */
     footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid var(--border); }
-    .credit a { font-weight: 700; text-decoration: underline; }
 
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); width: 280px; }
@@ -128,6 +144,8 @@
   </style>
 </head>
 <body id="body-context">
+
+  <div class="custom-cursor" id="customCursor"></div>
 
   <div class="mobile-nav-bar">
     <div class="mobile-brand" onclick="switchView('home')">Jayme M. Carleton</div>
@@ -166,33 +184,38 @@
           <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style="text-transform:uppercase; font-size:0.75rem; font-weight:700; letter-spacing:0.1em;">LinkedIn</a>
         </div>
         <div class="copyright">SECOND NATURE | &copy; 2015-<span id="copy-year">2026</span></div>
-        <div class="credit">Developed by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
+        <div class="credit">Node Architecture by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
       </footer>
     </main>
   </div>
 
-  <!-- Backstage Manager -->
+  <!-- Backstage Manager (Hidden) -->
   <div id="admin-view">
     <div class="admin-card">
       <header class="admin-header">
-        <h2 style="font-family:'Playfair Display'; font-weight:400; letter-spacing:0.05em;">Backstage Manager</h2>
+        <h2 style="font-family:'Playfair Display'; font-weight:400; letter-spacing:0.05em;">Backstage Node: HANDMADE_BY_JAYME</h2>
         <button onclick="closeAdmin()" style="background:none; border:1px solid #fff; color:#fff; cursor:pointer; padding:5px 15px; font-size:0.6rem;">CLOSE</button>
       </header>
-      <div class="admin-nav">
-        <button class="admin-tab active" onclick="switchAdminTab('welcome', this)">Welcome</button>
-        <button class="admin-tab" onclick="switchAdminTab('handmade', this)">Handmade (Text)</button>
-        <button class="admin-tab" onclick="switchAdminTab('contact', this)">Contact</button>
-        <button class="admin-tab" onclick="switchAdminTab('resume', this)">Resume</button>
-        <button class="admin-tab" onclick="switchAdminTab('journal', this)">Journal (JSON)</button>
-      </div>
-      <div class="admin-body">
-        <div class="admin-group">
-          <label id="editor-label">Page Content</label>
-          <textarea id="admin-editor" spellcheck="false"></textarea>
-          <p id="admin-help" style="font-size: 0.65rem; color: #999; margin-top: 10px;"></p>
+      
+      <div class="admin-main">
+        <aside class="admin-sidebar">
+          <div style="font-size:0.6rem; color:#999; text-transform:uppercase; margin-bottom:10px; font-weight:bold;">Managed Sections</div>
+          <button class="admin-tab active" onclick="switchAdminTab('welcome', this)">Welcome</button>
+          <button class="admin-tab" onclick="switchAdminTab('handmade', this)">Handmade (Intro)</button>
+          <button class="admin-tab" onclick="switchAdminTab('contact', this)">Contact</button>
+          <button class="admin-tab" onclick="switchAdminTab('resume', this)">Resume</button>
+          <button class="admin-tab" onclick="switchAdminTab('journal', this)" style="border-top:1px solid #ddd; margin-top:10px; padding-top:15px;">Journal & Archive</button>
+        </aside>
+
+        <div class="admin-body">
+          <div id="admin-editor-panels">
+            <!-- Dynamic Panels injected here -->
+          </div>
         </div>
       </div>
+
       <div class="admin-actions">
+        <span id="sync-status" style="font-size:0.65rem; color:#999;">Ready for sync.</span>
         <button class="shop-cta" style="margin-top:0;" id="save-btn" onclick="saveToWorker()">Publish Updates</button>
       </div>
     </div>
@@ -208,8 +231,10 @@
       handmade: "# Handmade\nArtisanal creations.",
       contact: "# Contact\nReach out below.",
       resume: "# Resume\nProfessional history.",
-      journal: [] // Array of { id, title, excerpt, date, image, content, tags }
+      journal: [] // The list of posts
     };
+
+    let adminTab = 'welcome';
 
     /* --- SPA ENGINE --- */
     async function initSPA() {
@@ -218,6 +243,7 @@
       
       window.onpopstate = () => handleRoute();
       handleRoute();
+      initCursor();
     }
 
     async function fetchSiteData() {
@@ -241,7 +267,6 @@
       hero.style.display = 'none';
       document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
-      // Check if it's a specific post view (e.g., #post/slug)
       if (hash.startsWith('post/')) {
         const slug = hash.split('/')[1];
         const post = siteData.journal.find(p => p.id === slug);
@@ -260,7 +285,7 @@
         textMount.innerHTML = marked.parse(siteData[key] || '');
         if (hash === 'handmade') {
           textMount.innerHTML += `<a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" class="shop-cta">Visit Shop on Etsy</a>`;
-          renderFeed(root, 'Creation Log', p => p.tags.includes('Handmade'));
+          renderFeed(root, 'Creation Log', p => p.tags.toLowerCase().includes('handmade'));
         }
       } else {
         if (hash === 'journal') renderJournal(root);
@@ -277,11 +302,11 @@
 
     /* --- RENDERING --- */
     function renderJournal(root) {
-      root.innerHTML = `<h2 class="section-title">Journal</h2><p style="margin-bottom:3rem; color:var(--sage); font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">Thoughts on sustainable living and design.</p>`;
+      root.innerHTML = `<h2 class="section-title">Journal</h2><p style="margin-bottom:3rem; color:var(--sage); font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">Sustainable lifestyle and design updates.</p>`;
       siteData.journal.forEach(post => {
         root.innerHTML += `
           <article class="post-card">
-            <img src="${post.image}" class="post-thumb">
+            <img src="${post.image}" class="post-thumb" onerror="this.src='https://via.placeholder.com/400?text=Syncing...'">
             <div>
               <span class="post-date">${post.date}</span>
               <h3>${post.title}</h3>
@@ -298,7 +323,7 @@
       siteData.journal.filter(filterFn).forEach(post => {
         root.innerHTML += `
           <article class="post-card" style="grid-template-columns:200px 1fr; padding:1.5rem; margin-top:2rem;">
-            <img src="${post.image}" class="post-thumb" style="height:200px;">
+            <img src="${post.image}" class="post-thumb" style="height:200px;" onerror="this.src='https://via.placeholder.com/200?text=Syncing...'">
             <div>
               <h3>${post.title}</h3>
               <p class="post-excerpt" style="font-size:0.9rem;">${post.excerpt}</p>
@@ -309,13 +334,13 @@
     }
 
     function renderPortfolio(root) {
-      root.innerHTML = `<h2 class="section-title">Portfolio</h2><p style="margin-bottom:3rem; color:var(--sage); font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">Archive of Environmental & Sustainable Projects.</p>`;
+      root.innerHTML = `<h2 class="section-title">Portfolio</h2><p style="margin-bottom:3rem; color:var(--sage); font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">Archive of Sustainable Projects.</p>`;
       const portGrid = document.createElement('div');
       portGrid.className = 'portfolio-grid';
-      siteData.journal.filter(p => p.tags.includes('Portfolio')).forEach(item => {
+      siteData.journal.filter(p => p.tags.toLowerCase().includes('portfolio')).forEach(item => {
         portGrid.innerHTML += `
           <div class="portfolio-card" onclick="switchView('post/${item.id}')">
-            <img src="${item.image}">
+            <img src="${item.image}" onerror="this.src='https://via.placeholder.com/400?text=Syncing...'">
             <div class="portfolio-overlay"><h4>${item.title}</h4></div>
           </div>`;
       });
@@ -323,15 +348,13 @@
     }
 
     function renderResume(root) {
-      root.innerHTML = `<div style="background:#fff; padding:5rem; border-radius:4px; box-shadow:0 10px 30px rgba(0,0,0,0.02);">
-        ${marked.parse(siteData.resume)}
-      </div>`;
+      root.innerHTML = `<div style="background:#fff; padding:5rem; border-radius:4px; box-shadow:0 10px 30px rgba(0,0,0,0.02);">${marked.parse(siteData.resume)}</div>`;
     }
 
     function renderPost(root, post) {
       root.innerHTML = `
         <div style="max-width:900px; margin:0 auto; background:#fff; padding:5rem; border-radius:4px;">
-          <a onclick="window.history.back()" class="back-btn" style="display:inline-block; margin-bottom:2rem;">← Back</a>
+          <a onclick="window.history.back()" class="back-btn" style="display:inline-block; margin-bottom:2rem; font-size:0.7rem; font-weight:700; text-transform:uppercase; color:var(--wood);">← Back</a>
           <span class="post-date" style="display:block; margin-bottom:1rem;">${post.date}</span>
           <h1 style="font-family:var(--font-header); font-size:3rem; text-transform:uppercase; color:var(--forest); margin-bottom:3rem;">${post.title}</h1>
           <div style="font-size:1.15rem; line-height:1.8; color:#333;">${marked.parse(post.content)}</div>
@@ -339,59 +362,132 @@
     }
 
     /* --- ADMIN LOGIC --- */
-    let adminTab = 'welcome';
-    function toggleMenu() { document.body.classList.toggle('menu-open'); }
-    function closeAdmin() { document.getElementById('admin-view').style.display = 'none'; }
     window.addEventListener('keydown', e => {
       if (e.shiftKey && e.key.toLowerCase() === 'j') {
         document.getElementById('admin-view').style.display = 'block';
-        loadAdminData();
+        loadAdminPanel();
       }
     });
+
+    function closeAdmin() { document.getElementById('admin-view').style.display = 'none'; }
+    function toggleMenu() { document.body.classList.toggle('menu-open'); }
 
     function switchAdminTab(slug, btn) {
       document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      saveLocalEditor();
+      saveAdminState();
       adminTab = slug;
-      loadAdminData();
+      loadAdminPanel();
     }
 
-    function saveLocalEditor() {
-      const val = document.getElementById('admin-editor').value;
-      if (adminTab === 'journal') siteData.journal = JSON.parse(val);
-      else siteData[adminTab] = val;
-    }
-
-    function loadAdminData() {
-      const editor = document.getElementById('admin-editor');
-      const help = document.getElementById('admin-help');
+    function loadAdminPanel() {
+      const container = document.getElementById('admin-editor-panels');
       if (adminTab === 'journal') {
-        editor.value = JSON.stringify(siteData.journal, null, 2);
-        help.innerText = "Editing JSON array of posts. Be careful with brackets!";
+        container.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+            <p style="font-size:0.75rem; color:var(--sage); font-weight:bold;">JOURNAL & PORTFOLIO ARCHIVE</p>
+          </div>
+          <div id="admin-list-items"></div>
+          <button class="add-row-btn" onclick="addJournalItem()">+ Add New Entry</button>
+        `;
+        renderAdminList();
       } else {
-        editor.value = siteData[adminTab] || '';
-        help.innerText = "Editing plain Markdown text.";
+        container.innerHTML = `
+          <div class="admin-group">
+            <label>EDITING: ${adminTab.toUpperCase()}</label>
+            <textarea id="admin-field-editor" spellcheck="false" style="height:450px;">${siteData[adminTab] || ''}</textarea>
+            <p style="font-size:0.6rem; color:#999; margin-top:10px;">Use Markdown formatting (standard bold/italic/headings).</p>
+          </div>
+        `;
+      }
+    }
+
+    function renderAdminList() {
+      const listDiv = document.getElementById('admin-list-items');
+      listDiv.innerHTML = siteData.journal.map((item, idx) => `
+        <div class="admin-item-card" data-index="${idx}">
+          <button class="remove-item" onclick="removeJournalItem(${idx})">Delete Entry</button>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+            <div class="admin-group"><label>Title</label><input type="text" class="item-title" value="${item.title}"></div>
+            <div class="admin-group"><label>Date (e.g. March 3, 2026)</label><input type="text" class="item-date" value="${item.date}"></div>
+          </div>
+          <div class="admin-group"><label>Image Direct URL (from PostImg)</label><input type="text" class="item-image" value="${item.image}"></div>
+          <div class="admin-group"><label>Excerpt (Short Summary)</label><input type="text" class="item-excerpt" value="${item.excerpt}"></div>
+          <div class="admin-group"><label>Tags (Comma separated, e.g. Handmade, Portfolio)</label><input type="text" class="item-tags" value="${item.tags}"></div>
+          <div class="admin-group" style="margin-bottom:0;"><label>Full Content (Markdown)</label><textarea class="item-content" style="height:150px;">${item.content}</textarea></div>
+        </div>
+      `).join('');
+    }
+
+    function addJournalItem() {
+      saveAdminState();
+      siteData.journal.unshift({ 
+        id: 'new-entry-' + Date.now(), title: "New Title", date: "", image: "", excerpt: "", content: "", tags: "Handmade" 
+      });
+      renderAdminList();
+    }
+
+    function removeJournalItem(idx) {
+      if(!confirm("Erase this entry?")) return;
+      siteData.journal.splice(idx, 1);
+      renderAdminList();
+    }
+
+    function saveAdminState() {
+      if (adminTab === 'journal') {
+        const cards = Array.from(document.querySelectorAll('.admin-item-card'));
+        siteData.journal = cards.map(card => {
+          const title = card.querySelector('.item-title').value;
+          return {
+            id: slugify(title),
+            title: title,
+            date: card.querySelector('.item-date').value,
+            image: card.querySelector('.item-image').value,
+            excerpt: card.querySelector('.item-excerpt').value,
+            tags: card.querySelector('.item-tags').value,
+            content: card.querySelector('.item-content').value
+          };
+        });
+      } else {
+        const editor = document.getElementById('admin-field-editor');
+        if(editor) siteData[adminTab] = editor.value;
       }
     }
 
     async function saveToWorker() {
-      saveLocalEditor();
-      const key = prompt("Enter Minescout Reason Key:");
+      saveAdminState();
+      const key = prompt("Enter Minescout Node Key:");
       if (!key) return;
-      const btn = document.getElementById('save-btn');
-      btn.innerText = "Publishing...";
+      const status = document.getElementById('sync-status');
+      status.innerText = "Syncing with Cloudflare...";
       try {
         const res = await fetch(BACKEND_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-Site-Id': SITE_ID },
           body: JSON.stringify({ key, data: siteData })
         });
-        if (res.ok) alert("Node Synchronized."); else alert("Auth Failed.");
+        if (res.ok) {
+          status.innerText = "Production Node Updated ✓";
+          handleRoute();
+          setTimeout(() => status.innerText = "Ready.", 3000);
+        } else {
+          alert("Authorization Failed.");
+          status.innerText = "Auth Rejected.";
+        }
       } catch (e) { alert("Connectivity error."); }
-      btn.innerText = "Publish Updates";
-      handleRoute();
     }
+
+    /* --- HELPERS --- */
+    function initCursor() {
+      const cursor = document.getElementById('customCursor');
+      let mX=0, mY=0, cX=0, cY=0;
+      document.addEventListener('mousemove', e => { mX=e.clientX; mY=e.clientY; });
+      function anim() { cX+=(mX-cX)*0.15; cY+=(mY-cY)*0.15; cursor.style.left=cX+'px'; cursor.style.top=cY+'px'; requestAnimationFrame(anim); }
+      anim();
+      document.body.addEventListener('mouseenter', e => { if(e.target.closest('a, button, input, textarea')) cursor.classList.add('grow'); }, true);
+      document.body.addEventListener('mouseleave', e => { if(e.target.closest('a, button, input, textarea')) cursor.classList.remove('grow'); }, true);
+    }
+    function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
 
     window.onload = initSPA;
   </script>
