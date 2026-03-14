@@ -16,60 +16,28 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
-    /* --- EXACT OG CSS --- */
+    /* --- EXACT OG STYLES --- */
     :root {
-      --forest: #2D3A2D;     
-      --sage: #4F5D4F;       
-      --wood: #C2A378;       
-      --clay: #E8E2D6;       
-      --wall: #F9F7F2;       
-      --charcoal: #2C3333;   
-      --white: #FFFFFF;
-      --border: #e8e4dd;
-      --font-header: 'Playfair Display', serif;
-      --font-body: 'Inter', sans-serif;
+      --forest: #2D3A2D; --sage: #4F5D4F; --wood: #C2A378; --clay: #E8E2D6;
+      --wall: #F9F7F2; --charcoal: #2C3333; --white: #FFFFFF; --border: #e8e4dd;
+      --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background-color: var(--wall);
-      font-family: var(--font-body);
-      color: var(--charcoal);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
+    body { background-color: var(--wall); font-family: var(--font-body); color: var(--charcoal); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { color: var(--wood); text-decoration: none; transition: 0.2s; }
     a:hover { color: var(--forest); }
 
     .site-wrapper { display: flex; min-height: 100vh; }
-
-    /* --- SIDEBAR --- */
-    .sidebar {
-      width: 280px; background-color: var(--clay); padding: 4rem 2.5rem;
-      position: fixed; height: 100vh; display: flex; flex-direction: column;
-      border-right: 1px solid rgba(0,0,0,0.05); z-index: 1000; transition: transform 0.3s ease-in-out;
-    }
-
+    .sidebar { width: 280px; background-color: var(--clay); padding: 4rem 2.5rem; position: fixed; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid rgba(0,0,0,0.05); z-index: 1000; }
     .sidebar-brand { margin-bottom: 5rem; cursor: pointer; }
-    .sidebar-brand h1 {
-      font-family: var(--font-header); font-size: 1.6rem; color: var(--forest);
-      text-transform: uppercase; letter-spacing: 0.15em; line-height: 1.2; font-weight: 500;
-    }
-
+    .sidebar-brand h1 { font-family: var(--font-header); font-size: 1.6rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em; line-height: 1.2; font-weight: 500; }
     .nav-links { display: flex; flex-direction: column; gap: 1.75rem; }
-    .nav-links button {
-      background: none; border: none; text-align: left;
-      color: var(--charcoal); text-decoration: none; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.15em; font-size: 0.7rem; transition: all 0.3s ease; opacity: 0.5; cursor: pointer;
-    }
-    .nav-links button:hover, .nav-links button.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
+    .nav-links button { background: none; border: none; text-align: left; color: var(--charcoal); font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.7rem; transition: 0.3s; opacity: 0.5; cursor: pointer; outline: none; }
+    .nav-links button.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
 
-    /* --- MOBILE HEADER & HAMBURGER --- */
     .mobile-nav-bar { display: none; position: fixed; top: 0; left: 0; right: 0; height: 60px; background: var(--clay); z-index: 900; padding: 0 1.5rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); }
-    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; cursor: pointer; }
+    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; cursor: pointer; border: none; background: none;}
     .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1100; }
     .hamburger span { display: block; width: 22px; height: 2px; background: var(--forest); transition: 0.3s; }
     .menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -77,202 +45,88 @@
     .menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
     .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s; }
 
-    /* --- MAIN CONTENT --- */
-    main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; transition: opacity 0.3s; }
-
-    /* --- HERO LAYOUTS (Enlarged) --- */
+    main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; }
     #hero-container { display: grid; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; }
-    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; filter: contrast(1.02) saturate(0.95); }
-    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; filter: contrast(1.1); margin: 0 auto; }
+    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; }
+    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; }
+    .hero-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; margin-bottom: 1.5rem; font-weight: 400; }
     
-    .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
-    .hero-text p { font-size: 1.1rem; margin-bottom: 1.5rem; color: #444; }
-
     .shop-cta { display: inline-block; background-color: var(--forest); color: white; padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 700; margin-top: 2rem; border-radius: 2px; transition: all 0.3s ease; border: none; cursor: pointer; text-align: center; }
     .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); color: #fff; }
-
     .signature { margin-top: 3rem; font-family: var(--font-header); font-weight: 500; color: var(--forest); text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.1em; }
     .signature small { display: block; font-family: var(--font-body); font-weight: normal; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px; }
 
-    /* --- JOURNAL & PAGINATION --- */
     .section-header-flex { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; border-bottom: 2px solid var(--clay); padding-bottom: 1.5rem; }
     .section-title { font-family: var(--font-header); font-size: 2.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--forest); font-weight: 400; }
-    
     .filter-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
     .pill { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; border: 1px solid var(--border); border-radius: 50px; cursor: pointer; background: var(--white); color: var(--muted); transition: 0.2s; }
     .pill.active { background: var(--forest); color: var(--white); border-color: var(--forest); }
 
-    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: 0.3s ease; align-items: stretch; }
+    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); align-items: stretch; transition: 0.3s; }
     .post-card:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.04); }
     .post-thumb { width: 100%; height: 100%; min-height: 200px; object-fit: cover; border-radius: 2px; background: var(--clay); }
-    .post-card h3 { font-family: var(--font-header); font-size: 2rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; line-height: 1.2; }
-    .post-excerpt { font-size: 1rem; color: #555; margin-bottom: 2rem; line-height: 1.7; }
+    .post-card h3 { font-family: var(--font-header); font-size: 2rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; }
     .post-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--wall); }
-    .post-date { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); font-weight: 600; }
 
-    /* --- ARTICLE PAGE --- */
-    .article-content { max-width: 900px; margin: 0 auto; background: var(--white); padding: 5rem; border-radius: 4px; }
-    .article-content h1 { font-family: var(--font-header); font-size: 3rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; color: var(--forest); font-weight: 400; }
-    .article-content .article-date { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); margin-bottom: 3.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
-    .article-body { font-size: 1.15rem; line-height: 1.8; color: #333; }
-    .article-body p { margin-bottom: 1.5rem; }
-    .article-body img { display: block; max-width: 100%; height: auto; margin: 3.5rem auto; border-radius: 2px; }
-    
-    .article-tag-section { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; gap: 10px; }
-    .article-tag-section span { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); background: var(--wall); padding: 6px 16px; border-radius: 50px; }
-
-    /* --- RESUME (Professional/Printable) --- */
     .resume-container { max-width: 1000px; margin: 0 auto; background: var(--white); padding: 6rem; border-radius: 4px; }
-    .resume-meta { text-align: center; margin-bottom: 5rem; border-bottom: 3px solid var(--forest); padding-bottom: 2rem; }
-    .resume-meta h1 { font-family: var(--font-header); font-size: 4rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; color: var(--forest); line-height: 1; }
-    .resume-meta p { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--sage); font-weight: 600; }
-    
-    .resume-container h2, .resume-container h3 { font-family: var(--font-header); font-size: 2.2rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-top: 4rem; margin-bottom: 2rem; width: 100%; }
-    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
     .res-row { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 3rem; align-items: start; }
     .res-label { font-weight: 700; text-transform: uppercase; font-size: 0.95rem; color: var(--charcoal); letter-spacing: 0.05em; line-height: 1.3; }
-    .res-content strong { display: block; font-size: 1.1rem; margin-bottom: 2px; }
-    .res-content em { font-size: 0.95rem; color: var(--sage); display: block; margin-bottom: 12px; }
+    .res-content p { margin-bottom: 1rem; }
+    .res-content ul { margin-left: 1.5rem; margin-bottom: 1rem; }
     .res-content li { font-size: 1rem; margin-bottom: 6px; color: #444; line-height: 1.5; }
 
-    /* --- PORTFOLIO GRID --- */
-    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3rem; margin-top: 1rem; }
-    .portfolio-card { position: relative; overflow: hidden; border-radius: 4px; background: var(--clay); aspect-ratio: 4/3; display: block; cursor: pointer; }
-    .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
-    .portfolio-card:hover img { transform: scale(1.05); }
-    .portfolio-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(45,58,45,0.9), transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; opacity: 0; transition: 0.3s; }
-    .portfolio-card:hover .portfolio-overlay { opacity: 1; }
-    .portfolio-overlay h4 { color: white; font-family: var(--font-header); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    /* Admin UI Overlay */
+    .admin-overlay { position: fixed; inset: 0; z-index: 99999; background: #f4f4f4; overflow-y: auto; padding: 40px 0; }
+    .admin-card { background: white; width: 95%; max-width: 1100px; margin: 0 auto; border-radius: 12px; box-shadow: 0 40px 100px rgba(0,0,0,0.2); overflow: hidden; font-family: 'Inter', sans-serif; }
+    .admin-header { background: var(--forest); color: white; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
+    .admin-nav { display: flex; background: #eee; border-bottom: 1px solid #ddd; overflow-x: auto; }
+    .admin-nav-btn { background: none; border: none; padding: 15px 25px; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; color: #666; }
+    .admin-nav-btn.active { background: white; color: var(--forest); font-weight: bold; border-top: 3px solid var(--forest); }
+    .admin-content { padding: 40px; background: white; }
+    .input-box { border: 1px solid #eee; padding: 25px; margin-bottom: 20px; border-radius: 8px; background: #fafafa; position: relative; }
+    .input-row { margin-bottom: 15px; }
+    .input-row label { display: block; font-size: 10px; font-weight: bold; text-transform: uppercase; color: var(--wood); margin-bottom: 5px; font-family: 'Space Mono', monospace; }
+    .input-row input, .input-row textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 14px; background: white; }
+    .btn-save { background: var(--forest); color: white; border: none; padding: 20px; width: 100%; font-family: 'Space Mono', monospace; font-weight: bold; text-transform: uppercase; cursor: pointer; border-radius: 4px; }
 
-    /* --- FOOTER --- */
-    footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid rgba(0,0,0,0.05); }
-    footer .copyright { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); margin-bottom: 8px; font-weight: 600; }
-    footer .credit { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.6; color: var(--forest); }
-    footer .credit a { color: var(--forest); text-decoration: underline; font-weight: 700; }
-
-    @media (max-width: 1024px) {
-      .sidebar { transform: translateX(-100%); width: 80%; max-width: 300px; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
-      .mobile-nav-bar { display: flex; }
+    @media (max-width: 1024px) { 
+      .sidebar { transform: translateX(-100%); } 
       .menu-open .sidebar { transform: translateX(0); }
-      .menu-open .sidebar-overlay { display: block; opacity: 1; }
-      main { margin-left: 0; padding: 6rem 2rem 4rem 2rem; }
-      #hero-container { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
-      .post-card { grid-template-columns: 1fr; gap: 1.5rem; }
-      .post-thumb { aspect-ratio: 16/9; }
-      .res-row { grid-template-columns: 1fr; gap: 1rem; }
+      .mobile-nav-bar { display: flex; }
+      main { margin-left: 0; padding: 6rem 2rem 4rem 2rem; } 
+      #hero-container, .post-card, .res-row { grid-template-columns: 1fr; gap: 2rem; } 
       .resume-container { padding: 3rem 1.5rem; }
     }
-
-    /* --- NEW ADMIN UI STYLES --- */
-    .admin-overlay { position: fixed; inset: 0; background: #f1f3f1; z-index: 999999; overflow-y: auto; padding: 3rem 0; font-family: 'Inter', sans-serif; }
-    .admin-card { background: white; max-width: 1100px; width: 95%; margin: 0 auto; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); overflow: hidden; }
-    .admin-header { background: var(--forest); padding: 1.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; color: white; }
-    .admin-header h2 { font-family: var(--font-header); font-weight: 400; font-size: 1.8rem; margin: 0; letter-spacing: 0.05em; }
-    .admin-nav { display: flex; background: var(--clay); border-bottom: 1px solid var(--border); overflow-x: auto; }
-    .admin-nav-btn { background: none; border: none; padding: 1rem 1.5rem; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; color: var(--sage); outline: none; }
-    .admin-nav-btn.active { background: white; color: var(--forest); border-top: 3px solid var(--forest); }
-    .admin-content { padding: 3rem; }
-    .input-box { background: #fafafa; border: 1px solid #eee; padding: 2rem; margin-bottom: 2rem; border-radius: 4px; position: relative; }
-    .input-row { margin-bottom: 1.5rem; }
-    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--wood); margin-bottom: 5px; }
-    .input-row input, .input-row textarea { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s; }
-    .input-row input:focus, .input-row textarea:focus { border-color: var(--wood); }
-    .btn-save { background: var(--forest); color: white; border: none; padding: 1.2rem; width: 100%; font-family: 'Space Mono', monospace; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: 0.2s; }
-    .btn-save:hover { background: var(--wood); }
   </style>
 </head>
-<body>
+<body id="body-context">
 
   <div id="root"></div>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
-
-    // --- CONFIG ---
+    
+    // --- SERVER CONNECTION ---
     const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
     const SITE_ID = "handmadebyjayme"; 
 
-    // --- SAFE DATA INITIALIZER ---
-    // This prevents the "Blank Screen of Death" by guaranteeing every key exists
+    // --- SAFE DATA BUILDER ---
+    // This prevents the blank screen by guaranteeing every object exists.
     const ensureSafeData = (d) => {
       return {
         pages: {
           welcome: { title: d?.pages?.welcome?.title || "", content: d?.pages?.welcome?.content || "", image: d?.pages?.welcome?.image || "" },
           handmade: { title: d?.pages?.handmade?.title || "", content: d?.pages?.handmade?.content || "", image: d?.pages?.handmade?.image || "" },
-          contact: { title: d?.pages?.contact?.title || "", content: d?.pages?.contact?.content || "", image: d?.pages?.contact?.image || "" },
-          resume: { title: d?.pages?.resume?.title || "", content: d?.pages?.resume?.content || "", image: d?.pages?.resume?.image || "" }
+          contact: { title: d?.pages?.contact?.title || "", content: d?.pages?.contact?.content || "", image: d?.pages?.contact?.image || "" }
         },
-        posts: Array.isArray(d?.posts) ? d?.posts : []
+        posts: Array.isArray(d?.posts) ? d?.posts : [],
+        portfolio: Array.isArray(d?.portfolio) ? d?.portfolio : [],
+        resume: Array.isArray(d?.resume) ? d?.resume : []
       };
     };
 
-    // --- OG RESUME FORMATTER (Safely wrapped for React) ---
-    function formatResumeHtml(markdownText) {
-      if (!markdownText) return "";
-      const rawHtml = marked.parse(markdownText);
-      const div = document.createElement('div');
-      div.innerHTML = rawHtml;
-      
-      div.querySelectorAll('h3').forEach(h => {
-        const section = h.innerText.toLowerCase();
-        const gridTypes = ['education', 'history', 'recognitions', 'certifications'];
-        
-        if (gridTypes.some(type => section.includes(type))) {
-          const list = h.nextElementSibling;
-          if (list && list.tagName === 'UL') {
-            const grid = document.createElement('div');
-            grid.className = 'res-grid';
-            list.querySelectorAll('li').forEach(li => {
-              const item = document.createElement('div');
-              item.className = 'res-item';
-              item.innerHTML = li.innerHTML;
-              grid.appendChild(item);
-            });
-            list.replaceWith(grid);
-          }
-        } else if (section.includes('experience')) {
-          let current = h.nextElementSibling;
-          while (current && current.tagName !== 'H3') {
-            if (current.tagName === 'P' && current.querySelector('strong')) {
-              const row = document.createElement('div');
-              row.className = 'res-row';
-              
-              const label = document.createElement('div');
-              label.className = 'res-label';
-              label.innerHTML = current.querySelector('strong').innerHTML;
-              
-              const content = document.createElement('div');
-              content.className = 'res-content';
-              
-              const clone = current.cloneNode(true);
-              clone.querySelector('strong').remove();
-              if (clone.innerText.trim()) content.appendChild(clone);
-              
-              let sibling = current.nextElementSibling;
-              while (sibling && !(sibling.tagName === 'P' && sibling.querySelector('strong')) && sibling.tagName !== 'H3') {
-                const next = sibling.nextElementSibling;
-                content.appendChild(sibling);
-                sibling = next;
-              }
-              
-              row.appendChild(label);
-              row.appendChild(content);
-              const nextRef = sibling;
-              current.replaceWith(row);
-              current = nextRef;
-            } else {
-              current = current.nextElementSibling;
-            }
-          }
-        }
-      });
-      return div.innerHTML;
-    }
-
-
-    // --- ISOLATED ADMIN COMPONENT (Zero Lag) ---
+    // --- ISOLATED ADMIN PANEL ---
     const AdminPanel = ({ initialData, onSave, onExit }) => {
-      // Local state isolates typing from the main app, fixing the freeze/lag
       const [localData, setLocalData] = useState(() => ensureSafeData(initialData));
       const [tab, setTab] = useState('welcome');
 
@@ -283,21 +137,21 @@
         }));
       };
 
-      const updatePost = (index, field, val) => {
-        const newPosts = [...localData.posts];
-        newPosts[index][field] = val;
-        setLocalData(prev => ({ ...prev, posts: newPosts }));
+      const updateList = (targetList, index, field, val) => {
+        const newList = [...localData[targetList]];
+        newList[index][field] = val;
+        setLocalData(prev => ({ ...prev, [targetList]: newList }));
       };
 
-      const addPost = () => {
-        const newPost = { title: "New Entry", date: "2026", category: "", image: "", content: "" };
-        setLocalData(prev => ({ ...prev, posts: [newPost, ...prev.posts] }));
+      const addRow = (targetList) => {
+        const newItem = targetList === 'posts' ? { title: "New Entry", date: "2026", category: "", image: "", content: "" } : { label: "Label", content: "" };
+        setLocalData(prev => ({ ...prev, [targetList]: [newItem, ...prev[targetList]] }));
       };
 
-      const removePost = (index) => {
-        const newPosts = [...localData.posts];
-        newPosts.splice(index, 1);
-        setLocalData(prev => ({ ...prev, posts: newPosts }));
+      const removeRow = (targetList, index) => {
+        const newList = [...localData[targetList]];
+        newList.splice(index, 1);
+        setLocalData(prev => ({ ...prev, [targetList]: newList }));
       };
 
       return (
@@ -305,59 +159,60 @@
           <div className="admin-card">
             <header className="admin-header">
               <h2>JAYME BACKSTAGE</h2>
-              <button onClick={onExit} style={{background:'rgba(255,255,255,0.2)', border:'none', color:'white', padding:'8px 16px', borderRadius:'4px', cursor:'pointer', fontWeight:'bold', fontSize:'12px'}}>EXIT</button>
+              <button onClick={onExit} style={{background:'rgba(255,255,255,0.2)', border:'none', color:'white', padding:'8px 16px', borderRadius:'4px', cursor:'pointer', fontWeight:'bold'}}>EXIT</button>
             </header>
 
             <nav className="admin-nav">
-              {['welcome', 'handmade', 'contact', 'resume', 'posts'].map(t => (
+              {['welcome', 'handmade', 'contact', 'resume', 'portfolio', 'posts'].map(t => (
                 <button key={t} onClick={() => setTab(t)} className={`admin-nav-btn ${tab === t ? 'active' : ''}`}>
-                  {t === 'posts' ? 'Journal & Portfolio' : t}
+                  {t === 'posts' ? 'Journal Entries' : t}
                 </button>
               ))}
             </nav>
 
             <div className="admin-content">
               {/* PAGE EDITOR */}
-              {['welcome', 'handmade', 'contact', 'resume'].includes(tab) && (
+              {['welcome', 'handmade', 'contact'].includes(tab) && (
                 <div className="input-box">
-                  {tab !== 'resume' && (
-                    <div className="input-row">
-                      <label>Main Photo URL</label>
-                      <input value={localData.pages[tab].image} onChange={e => updatePage('image', e.target.value)} />
+                  <div className="input-row"><label>Main Photo URL</label><input value={localData.pages[tab].image} onChange={e => updatePage('image', e.target.value)} /></div>
+                  <div className="input-row"><label>Headline</label><input value={localData.pages[tab].title} onChange={e => updatePage('title', e.target.value)} /></div>
+                  <div className="input-row"><label>Narrative Content (You can use standard text or Markdown)</label><textarea rows="12" value={localData.pages[tab].content} onChange={e => updatePage('content', e.target.value)} /></div>
+                </div>
+              )}
+
+              {/* RESUME & PORTFOLIO EDITOR */}
+              {['resume', 'portfolio'].includes(tab) && (
+                <div>
+                  <button onClick={() => addRow(tab)} style={{padding: '10px 20px', marginBottom: '20px', background:'var(--clay)', color:'var(--forest)', border:'1px solid var(--border)', cursor:'pointer', fontWeight:'bold', borderRadius:'4px'}}>+ Add New Section</button>
+                  {localData[tab].map((row, i) => (
+                    <div key={i} className="input-box">
+                      <button onClick={() => removeRow(tab, i)} style={{position:'absolute', top:'20px', right:'20px', background:'none', border:'none', color:'red', fontWeight:'bold', cursor:'pointer'}}>REMOVE</button>
+                      <div className="input-row"><label>Section Label (e.g., "Education", "Projects")</label><input value={row.label} onChange={e => updateList(tab, i, 'label', e.target.value)} /></div>
+                      <div className="input-row"><label>Content Details (Use dashes for lists)</label><textarea rows="5" value={row.content} onChange={e => updateList(tab, i, 'content', e.target.value)} /></div>
                     </div>
-                  )}
-                  {tab !== 'contact' && tab !== 'resume' && (
-                    <div className="input-row">
-                      <label>Headline</label>
-                      <input value={localData.pages[tab].title} onChange={e => updatePage('title', e.target.value)} />
-                    </div>
-                  )}
-                  <div className="input-row">
-                    <label>Content (Markdown Supported)</label>
-                    <textarea rows="15" value={localData.pages[tab].content} onChange={e => updatePage('content', e.target.value)} placeholder="Type your text here..." />
-                  </div>
+                  ))}
                 </div>
               )}
 
               {/* POSTS EDITOR */}
               {tab === 'posts' && (
                 <div>
-                  <button onClick={addPost} style={{padding: '10px 20px', marginBottom: '20px', background:'var(--clay)', border:'1px solid var(--border)', cursor:'pointer', fontWeight:'bold', borderRadius:'4px'}}>+ Add New Entry</button>
+                  <button onClick={() => addRow('posts')} style={{padding: '10px 20px', marginBottom: '20px', background:'var(--clay)', color:'var(--forest)', border:'1px solid var(--border)', cursor:'pointer', fontWeight:'bold', borderRadius:'4px'}}>+ Add New Journal Entry</button>
                   {localData.posts.map((p, i) => (
                     <div key={i} className="input-box">
-                      <button onClick={() => removePost(i)} style={{position:'absolute', top:'20px', right:'20px', background:'none', border:'none', color:'red', fontWeight:'bold', cursor:'pointer'}}>REMOVE</button>
-                      <div className="input-row"><label>Title</label><input value={p.title} onChange={e => updatePost(i, 'title', e.target.value)} /></div>
-                      <div className="input-row"><label>Date</label><input value={p.date} onChange={e => updatePost(i, 'date', e.target.value)} /></div>
-                      <div className="input-row"><label>Category Tags (Comma separated: Environment, Portfolio, Handmade...)</label><input value={p.category} onChange={e => updatePost(i, 'category', e.target.value)} /></div>
-                      <div className="input-row"><label>Image URL</label><input value={p.image} onChange={e => updatePost(i, 'image', e.target.value)} /></div>
-                      <div className="input-row"><label>Content (Markdown Supported)</label><textarea rows="6" value={p.content} onChange={e => updatePost(i, 'content', e.target.value)} /></div>
+                      <button onClick={() => removeRow('posts', i)} style={{position:'absolute', top:'20px', right:'20px', background:'none', border:'none', color:'red', fontWeight:'bold', cursor:'pointer'}}>REMOVE</button>
+                      <div className="input-row"><label>Title</label><input value={p.title} onChange={e => updateList('posts', i, 'title', e.target.value)} /></div>
+                      <div className="input-row"><label>Date</label><input value={p.date} onChange={e => updateList('posts', i, 'date', e.target.value)} /></div>
+                      <div className="input-row"><label>Category Tags (Comma separated: Environment, Handmade...)</label><input value={p.category} onChange={e => updateList('posts', i, 'category', e.target.value)} /></div>
+                      <div className="input-row"><label>Image URL</label><input value={p.image} onChange={e => updateList('posts', i, 'image', e.target.value)} /></div>
+                      <div className="input-row"><label>Content</label><textarea rows="6" value={p.content} onChange={e => updateList('posts', i, 'content', e.target.value)} /></div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
 
-            <div style={{padding: '0 3rem 3rem 3rem', background: '#fafafa'}}>
+            <div style={{padding: '0 3rem 3rem 3rem', background: 'white'}}>
               <button className="btn-save" onClick={() => onSave(localData)}>Publish Updates to Live Site</button>
             </div>
           </div>
@@ -365,19 +220,16 @@
       );
     };
 
-
-    // --- MAIN APP COMPONENT ---
+    // --- MAIN APP ---
     const MainApp = () => {
       const [siteData, setSiteData] = useState(null);
       const [view, setView] = useState('home');
       const [filter, setFilter] = useState('all');
       
-      // Admin States
       const [isAdminMode, setIsAdminMode] = useState(window.location.hash === "#admin");
       const [isAuthed, setIsAuthed] = useState(false);
       const [adminKey, setAdminKey] = useState("");
       
-      // Mobile Menu State
       const [isMenuOpen, setIsMenuOpen] = useState(false);
 
       useEffect(() => {
@@ -387,7 +239,7 @@
             const json = await res.json();
             setSiteData(ensureSafeData(json));
           } catch (e) {
-            setSiteData(ensureSafeData(null)); // Failsafe to empty skeleton
+            setSiteData(ensureSafeData(null)); // Safe fallback if completely empty
           }
         };
         fetchWorker();
@@ -420,7 +272,10 @@
 
       if (!siteData) return <div style={{padding:'5rem', textAlign:'center', fontFamily:'Playfair Display', color:'var(--wood)', fontSize:'1.5rem'}}>Synchronizing Archive...</div>;
 
-      // Extract tags for Journal Pill Filter
+      const currentSlug = view === '' ? 'home' : view;
+      const pageKey = currentSlug === 'home' ? 'welcome' : currentSlug;
+
+      // Extract unique tags for the Journal
       const allTags = Array.from(new Set(siteData.posts.flatMap(p => (p.category || "").split(',').map(t => t.trim()).filter(Boolean)))).sort();
 
       return (
@@ -434,7 +289,7 @@
                     <h3 style={{fontFamily:'Playfair Display', color:'var(--forest)', margin:0}}>Security</h3>
                     <button onClick={() => {window.location.hash=""; setIsAdminMode(false);}} style={{background:'none', border:'none', cursor:'pointer', color:'var(--wood)', fontWeight:'bold'}}>EXIT</button>
                   </div>
-                  <input type="password" placeholder="Access Key" value={adminKey} onChange={e=>setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} style={{width:'100%', padding:'15px', marginBottom:'20px', border:'1px solid #ddd', borderRadius:'4px'}} />
+                  <input type="password" placeholder="Access Key" value={adminKey} onChange={e=>setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} style={{width:'100%', padding:'15px', marginBottom:'20px', border:'1px solid #ddd', borderRadius:'4px', outline:'none'}} />
                   <button className="btn-save" onClick={()=>setIsAuthed(true)} style={{borderRadius:'4px'}}>Verify</button>
                </div>
              </div>
@@ -443,9 +298,9 @@
             <AdminPanel initialData={siteData} onSave={saveToServer} onExit={() => {window.location.hash=""; setIsAdminMode(false);}} />
           )}
 
-          {/* FRONTEND */}
+          {/* FRONTEND UI */}
           <div className="mobile-nav-bar">
-            <div className="mobile-brand" onClick={() => navigate('home')}>Jayme M. Carleton</div>
+            <button className="mobile-brand" onClick={() => navigate('home')}>Jayme M. Carleton</button>
             <button className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}><span></span><span></span><span></span></button>
           </div>
           <div className="sidebar-overlay" onClick={() => setIsMenuOpen(false)}></div>
@@ -455,29 +310,29 @@
               <div className="sidebar-brand" onClick={() => navigate('home')}><h1>Jayme M.<br/>Carleton</h1></div>
               <div className="nav-links">
                 {['journal', 'portfolio', 'handmade', 'resume', 'contact'].map(slug => (
-                  <button key={slug} className={view === slug ? 'active' : ''} onClick={() => navigate(slug)}>{slug}</button>
+                  <button key={slug} className={currentSlug === slug ? 'active' : ''} onClick={() => navigate(slug)}>{slug}</button>
                 ))}
               </div>
             </aside>
 
             <main>
               {/* HERO VIEWS (Home, Handmade, Contact) */}
-              {['home', 'handmade', 'contact'].includes(view) && (
+              {['home', 'handmade', 'contact'].includes(currentSlug) && (
                 <div id="hero-container" style={{display: 'grid'}}>
                   <div className="profile-card">
-                    <img src={siteData.pages[view].image} className={view === 'handmade' ? 'is-logo' : ''} alt={view} />
+                    <img src={siteData.pages[pageKey]?.image} className={currentSlug === 'handmade' ? 'is-logo' : ''} alt="Profile" />
                   </div>
                   <div className="hero-text">
-                    <h2>{siteData.pages[view].title}</h2>
-                    <div dangerouslySetInnerHTML={{ __html: marked.parse(siteData.pages[view].content) }} />
-                    {view === 'home' && <div className="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>}
-                    {view === 'handmade' && <a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" className="shop-cta">Visit Shop on Etsy</a>}
+                    <h2>{siteData.pages[pageKey]?.title}</h2>
+                    <div dangerouslySetInnerHTML={{ __html: marked.parse(siteData.pages[pageKey]?.content || '') }} />
+                    {currentSlug === 'home' && <div className="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>}
+                    {currentSlug === 'handmade' && <a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" className="shop-cta">Visit Shop on Etsy</a>}
                   </div>
                 </div>
               )}
 
-              {/* JOURNAL VIEW (Filtered Feed) */}
-              {view === 'journal' && (
+              {/* JOURNAL VIEW */}
+              {currentSlug === 'journal' && (
                 <div>
                   <div className="section-header-flex">
                     <h2 className="section-title">Journal</h2>
@@ -486,48 +341,43 @@
                       {allTags.map(t => <span key={t} className={`pill ${filter === t ? 'active' : ''}`} onClick={() => setFilter(t)}>{t}</span>)}
                     </div>
                   </div>
-                  {siteData.posts.filter(p => filter === 'all' || (p.category && p.category.includes(filter))).map((p, i) => (
-                    <article key={i} className="post-card">
-                      <img src={p.image} className="post-thumb" alt={p.title} />
-                      <div>
-                        <h3>{p.title}</h3>
-                        <p className="post-excerpt">{p.content.substring(0, 180)}...</p>
-                        <div className="post-card-footer">
-                          <button style={{background:'none', border:'none', borderBottom:'1px solid var(--wood)', color:'var(--wood)', fontWeight:'700', textTransform:'uppercase', fontSize:'0.75rem', letterSpacing:'0.1em'}}>Read Entry ➔</button>
-                          <span className="post-date">{p.date}</span>
+                  {siteData.posts.filter(p => filter === 'all' || (p.category && p.category.includes(filter))).map((p, i) => {
+                    const plainExcerpt = p.content ? p.content.replace(/<[^>]+>/g, '').substring(0, 180) + '...' : '';
+                    return (
+                      <article key={i} className="post-card">
+                        <img src={p.image} className="post-thumb" alt={p.title} />
+                        <div style={{display:'flex', flexDirection:'column', height:'100%'}}>
+                          <h3>{p.title}</h3>
+                          <p className="post-excerpt">{plainExcerpt}</p>
+                          <div className="post-card-footer">
+                            <button style={{background:'none', border:'none', borderBottom:'1px solid var(--wood)', color:'var(--wood)', fontWeight:'700', textTransform:'uppercase', fontSize:'0.75rem', letterSpacing:'0.1em', cursor:'pointer'}}>Read Entry ➔</button>
+                            <span className="post-date">{p.date}</span>
+                          </div>
                         </div>
-                      </div>
-                    </article>
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* RESUME & PORTFOLIO VIEWS */}
+              {(currentSlug === 'portfolio' || currentSlug === 'resume') && (
+                <div className="resume-container">
+                  <div className="resume-meta" style={{display: currentSlug === 'resume' ? 'block' : 'none'}}>
+                    <h1>Jayme M. Carleton</h1>
+                    <p>jayme@jaymecarleton.com &nbsp;|&nbsp; 425.289.6439</p>
+                  </div>
+                  <h2 className="section-title" style={{marginBottom:'3rem', display: currentSlug === 'portfolio' ? 'block' : 'none'}}>{currentSlug}</h2>
+                  {siteData[currentSlug]?.map((item, i) => (
+                    <div key={i} className="res-row">
+                      <div className="res-label">{item.label}</div>
+                      <div className="res-content" dangerouslySetInnerHTML={{ __html: marked.parse(item.content || '') }} />
+                    </div>
                   ))}
                 </div>
               )}
 
-              {/* PORTFOLIO VIEW (Grid pulled from tags) */}
-              {view === 'portfolio' && (
-                <div>
-                  <h2 className="section-title">Portfolio</h2>
-                  <div className="portfolio-grid">
-                    {siteData.posts.filter(p => p.category && p.category.includes('Portfolio')).map((p, i) => (
-                      <div key={i} className="portfolio-card">
-                        <img src={p.image} alt={p.title} />
-                        <div className="portfolio-overlay"><h4>{p.title}</h4></div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* RESUME VIEW (OG Formatter applied) */}
-              {view === 'resume' && (
-                <div className="resume-container">
-                  <div className="resume-meta">
-                    <h1>Jayme M. Carleton</h1>
-                    <p>jayme@jaymecarleton.com &nbsp;|&nbsp; 425.289.6439</p>
-                  </div>
-                  <div dangerouslySetInnerHTML={{ __html: formatResumeHtml(siteData.pages.resume.content) }} />
-                </div>
-              )}
-
+              {/* FOOTER */}
               <footer>
                 <div className="social-links" style={{marginBottom: '1.5rem'}}>
                   <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style={{textDecoration:'none', fontWeight:'700', fontSize:'0.8rem', textTransform:'uppercase', color:'var(--forest)', letterSpacing:'0.1em'}}>LinkedIn</a>
