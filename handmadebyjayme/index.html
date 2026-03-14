@@ -16,291 +16,527 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
+    /* --- EXACT OG CSS --- */
     :root {
-      --forest: #2D3A2D; --sage: #4F5D4F; --wood: #C2A378; --clay: #E8E2D6;
-      --wall: #F9F7F2; --charcoal: #2C3333; --white: #FFFFFF; --border: #e8e4dd;
-      --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+      --forest: #2D3A2D;     
+      --sage: #4F5D4F;       
+      --wood: #C2A378;       
+      --clay: #E8E2D6;       
+      --wall: #F9F7F2;       
+      --charcoal: #2C3333;   
+      --white: #FFFFFF;
+      --border: #e8e4dd;
+      --font-header: 'Playfair Display', serif;
+      --font-body: 'Inter', sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: var(--wall); font-family: var(--font-body); color: var(--charcoal); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-    
+
+    body {
+      background-color: var(--wall);
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--wood); text-decoration: none; transition: 0.2s; }
+    a:hover { color: var(--forest); }
+
     .site-wrapper { display: flex; min-height: 100vh; }
-    .sidebar { width: 280px; background-color: var(--clay); padding: 4rem 2.5rem; position: fixed; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid rgba(0,0,0,0.05); z-index: 1000; }
+
+    /* --- SIDEBAR --- */
+    .sidebar {
+      width: 280px; background-color: var(--clay); padding: 4rem 2.5rem;
+      position: fixed; height: 100vh; display: flex; flex-direction: column;
+      border-right: 1px solid rgba(0,0,0,0.05); z-index: 1000; transition: transform 0.3s ease-in-out;
+    }
+
     .sidebar-brand { margin-bottom: 5rem; cursor: pointer; }
-    .sidebar-brand h1 { font-family: var(--font-header); font-size: 1.6rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em; line-height: 1.2; font-weight: 500; }
+    .sidebar-brand h1 {
+      font-family: var(--font-header); font-size: 1.6rem; color: var(--forest);
+      text-transform: uppercase; letter-spacing: 0.15em; line-height: 1.2; font-weight: 500;
+    }
+
     .nav-links { display: flex; flex-direction: column; gap: 1.75rem; }
-    .nav-links button { background: none; border: none; text-align: left; color: var(--charcoal); font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.7rem; transition: 0.3s; opacity: 0.5; cursor: pointer; outline: none; }
-    .nav-links button.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
+    .nav-links button {
+      background: none; border: none; text-align: left;
+      color: var(--charcoal); text-decoration: none; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.15em; font-size: 0.7rem; transition: all 0.3s ease; opacity: 0.5; cursor: pointer;
+    }
+    .nav-links button:hover, .nav-links button.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
 
-    main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; }
+    /* --- MOBILE HEADER & HAMBURGER --- */
+    .mobile-nav-bar { display: none; position: fixed; top: 0; left: 0; right: 0; height: 60px; background: var(--clay); z-index: 900; padding: 0 1.5rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; cursor: pointer; }
+    .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1100; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--forest); transition: 0.3s; }
+    .menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-open .hamburger span:nth-child(2) { opacity: 0; }
+    .menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s; }
+
+    /* --- MAIN CONTENT --- */
+    main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; transition: opacity 0.3s; }
+
+    /* --- HERO LAYOUTS (Enlarged) --- */
     #hero-container { display: grid; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; }
-    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; }
-    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; }
-    .hero-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; margin-bottom: 1.5rem; }
-    .hero-text-body { white-space: pre-wrap; }
+    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; filter: contrast(1.02) saturate(0.95); }
+    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; filter: contrast(1.1); margin: 0 auto; }
+    
+    .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
+    .hero-text p { font-size: 1.1rem; margin-bottom: 1.5rem; color: #444; }
 
+    .shop-cta { display: inline-block; background-color: var(--forest); color: white; padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 700; margin-top: 2rem; border-radius: 2px; transition: all 0.3s ease; border: none; cursor: pointer; text-align: center; }
+    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); color: #fff; }
+
+    .signature { margin-top: 3rem; font-family: var(--font-header); font-weight: 500; color: var(--forest); text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.1em; }
+    .signature small { display: block; font-family: var(--font-body); font-weight: normal; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px; }
+
+    /* --- JOURNAL & PAGINATION --- */
     .section-header-flex { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; border-bottom: 2px solid var(--clay); padding-bottom: 1.5rem; }
-    .section-title { font-family: var(--font-header); font-size: 2.8rem; text-transform: uppercase; color: var(--forest); }
-    .filter-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .pill { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; padding: 8px 16px; border: 1px solid var(--border); border-radius: 50px; cursor: pointer; background: var(--white); transition: 0.2s; }
+    .section-title { font-family: var(--font-header); font-size: 2.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--forest); font-weight: 400; }
+    
+    .filter-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+    .pill { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; border: 1px solid var(--border); border-radius: 50px; cursor: pointer; background: var(--white); color: var(--muted); transition: 0.2s; }
     .pill.active { background: var(--forest); color: var(--white); border-color: var(--forest); }
 
-    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
-    .post-thumb { width: 100%; height: 200px; object-fit: cover; border-radius: 2px; background: var(--clay); }
-    .post-content-text { white-space: pre-wrap; color: #444; }
+    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: 0.3s ease; align-items: stretch; }
+    .post-card:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.04); }
+    .post-thumb { width: 100%; height: 100%; min-height: 200px; object-fit: cover; border-radius: 2px; background: var(--clay); }
+    .post-card h3 { font-family: var(--font-header); font-size: 2rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; line-height: 1.2; }
+    .post-excerpt { font-size: 1rem; color: #555; margin-bottom: 2rem; line-height: 1.7; }
+    .post-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--wall); }
+    .post-date { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); font-weight: 600; }
 
-    .res-row { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 3rem; }
-    .res-label { font-weight: 700; text-transform: uppercase; font-size: 0.95rem; color: var(--charcoal); border-left: 4px solid var(--wood); padding-left: 15px; }
+    /* --- ARTICLE PAGE --- */
+    .article-content { max-width: 900px; margin: 0 auto; background: var(--white); padding: 5rem; border-radius: 4px; }
+    .article-content h1 { font-family: var(--font-header); font-size: 3rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; color: var(--forest); font-weight: 400; }
+    .article-content .article-date { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); margin-bottom: 3.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+    .article-body { font-size: 1.15rem; line-height: 1.8; color: #333; }
+    .article-body p { margin-bottom: 1.5rem; }
+    .article-body img { display: block; max-width: 100%; height: auto; margin: 3.5rem auto; border-radius: 2px; }
+    
+    .article-tag-section { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+    .article-tag-section span { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); background: var(--wall); padding: 6px 16px; border-radius: 50px; }
 
-    /* Admin UI Overlay */
-    .admin-overlay { position: fixed; inset: 0; z-index: 99999; background: #f4f4f4; overflow-y: auto; padding: 40px 0; }
-    .admin-card { background: white; width: 95%; max-width: 1100px; margin: 0 auto; border-radius: 12px; box-shadow: 0 40px 100px rgba(0,0,0,0.2); overflow: hidden; font-family: sans-serif; }
-    .admin-header { background: var(--forest); color: white; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
-    .admin-nav { display: flex; background: #eee; border-bottom: 1px solid #ddd; overflow-x: auto; }
-    .admin-nav-btn { background: none; border: none; padding: 15px 25px; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; color: #666; }
-    .admin-nav-btn.active { background: white; color: var(--forest); font-weight: bold; border-top: 3px solid var(--forest); }
-    .admin-content { padding: 40px; background: white; }
-    .input-box { border: 1px solid #eee; padding: 25px; margin-bottom: 20px; border-radius: 8px; background: #fafafa; position: relative; }
-    .input-row { margin-bottom: 15px; }
-    .input-row label { display: block; font-size: 10px; font-weight: bold; text-transform: uppercase; color: var(--wood); margin-bottom: 5px; }
-    .input-row input, .input-row textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; font-size: 15px; background: white; }
-    .btn-save { background: var(--forest); color: white; border: none; padding: 20px; width: 100%; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; }
+    /* --- RESUME (Professional/Printable) --- */
+    .resume-container { max-width: 1000px; margin: 0 auto; background: var(--white); padding: 6rem; border-radius: 4px; }
+    .resume-meta { text-align: center; margin-bottom: 5rem; border-bottom: 3px solid var(--forest); padding-bottom: 2rem; }
+    .resume-meta h1 { font-family: var(--font-header); font-size: 4rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; color: var(--forest); line-height: 1; }
+    .resume-meta p { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--sage); font-weight: 600; }
+    
+    .resume-container h2, .resume-container h3 { font-family: var(--font-header); font-size: 2.2rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-top: 4rem; margin-bottom: 2rem; width: 100%; }
+    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .res-row { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 3rem; align-items: start; }
+    .res-label { font-weight: 700; text-transform: uppercase; font-size: 0.95rem; color: var(--charcoal); letter-spacing: 0.05em; line-height: 1.3; }
+    .res-content strong { display: block; font-size: 1.1rem; margin-bottom: 2px; }
+    .res-content em { font-size: 0.95rem; color: var(--sage); display: block; margin-bottom: 12px; }
+    .res-content li { font-size: 1rem; margin-bottom: 6px; color: #444; line-height: 1.5; }
 
-    @media (max-width: 1024px) { .sidebar { display: none; } main { margin-left: 0; padding: 2rem; } #hero-container, .post-card, .res-row { grid-template-columns: 1fr; } }
+    /* --- PORTFOLIO GRID --- */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3rem; margin-top: 1rem; }
+    .portfolio-card { position: relative; overflow: hidden; border-radius: 4px; background: var(--clay); aspect-ratio: 4/3; display: block; cursor: pointer; }
+    .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
+    .portfolio-card:hover img { transform: scale(1.05); }
+    .portfolio-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(45,58,45,0.9), transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; opacity: 0; transition: 0.3s; }
+    .portfolio-card:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-overlay h4 { color: white; font-family: var(--font-header); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* --- FOOTER --- */
+    footer { margin-top: 8rem; padding: 4rem 0; border-top: 1px solid rgba(0,0,0,0.05); }
+    footer .copyright { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); margin-bottom: 8px; font-weight: 600; }
+    footer .credit { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.6; color: var(--forest); }
+    footer .credit a { color: var(--forest); text-decoration: underline; font-weight: 700; }
+
+    @media (max-width: 1024px) {
+      .sidebar { transform: translateX(-100%); width: 80%; max-width: 300px; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
+      .mobile-nav-bar { display: flex; }
+      .menu-open .sidebar { transform: translateX(0); }
+      .menu-open .sidebar-overlay { display: block; opacity: 1; }
+      main { margin-left: 0; padding: 6rem 2rem 4rem 2rem; }
+      #hero-container { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+      .post-card { grid-template-columns: 1fr; gap: 1.5rem; }
+      .post-thumb { aspect-ratio: 16/9; }
+      .res-row { grid-template-columns: 1fr; gap: 1rem; }
+      .resume-container { padding: 3rem 1.5rem; }
+    }
+
+    /* --- NEW ADMIN UI STYLES --- */
+    .admin-overlay { position: fixed; inset: 0; background: #f1f3f1; z-index: 999999; overflow-y: auto; padding: 3rem 0; font-family: 'Inter', sans-serif; }
+    .admin-card { background: white; max-width: 1100px; width: 95%; margin: 0 auto; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); overflow: hidden; }
+    .admin-header { background: var(--forest); padding: 1.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; color: white; }
+    .admin-header h2 { font-family: var(--font-header); font-weight: 400; font-size: 1.8rem; margin: 0; letter-spacing: 0.05em; }
+    .admin-nav { display: flex; background: var(--clay); border-bottom: 1px solid var(--border); overflow-x: auto; }
+    .admin-nav-btn { background: none; border: none; padding: 1rem 1.5rem; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; color: var(--sage); outline: none; }
+    .admin-nav-btn.active { background: white; color: var(--forest); border-top: 3px solid var(--forest); }
+    .admin-content { padding: 3rem; }
+    .input-box { background: #fafafa; border: 1px solid #eee; padding: 2rem; margin-bottom: 2rem; border-radius: 4px; position: relative; }
+    .input-row { margin-bottom: 1.5rem; }
+    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--wood); margin-bottom: 5px; }
+    .input-row input, .input-row textarea { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s; }
+    .input-row input:focus, .input-row textarea:focus { border-color: var(--wood); }
+    .btn-save { background: var(--forest); color: white; border: none; padding: 1.2rem; width: 100%; font-family: 'Space Mono', monospace; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: 0.2s; }
+    .btn-save:hover { background: var(--wood); }
   </style>
 </head>
-<body id="body-context">
+<body>
 
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect, useCallback } = React;
+    const { useState, useEffect } = React;
+
+    // --- CONFIG ---
     const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
     const SITE_ID = "handmadebyjayme"; 
 
+    // --- SAFE DATA INITIALIZER ---
+    // This prevents the "Blank Screen of Death" by guaranteeing every key exists
+    const ensureSafeData = (d) => {
+      return {
+        pages: {
+          welcome: { title: d?.pages?.welcome?.title || "", content: d?.pages?.welcome?.content || "", image: d?.pages?.welcome?.image || "" },
+          handmade: { title: d?.pages?.handmade?.title || "", content: d?.pages?.handmade?.content || "", image: d?.pages?.handmade?.image || "" },
+          contact: { title: d?.pages?.contact?.title || "", content: d?.pages?.contact?.content || "", image: d?.pages?.contact?.image || "" },
+          resume: { title: d?.pages?.resume?.title || "", content: d?.pages?.resume?.content || "", image: d?.pages?.resume?.image || "" }
+        },
+        posts: Array.isArray(d?.posts) ? d?.posts : []
+      };
+    };
+
+    // --- OG RESUME FORMATTER (Safely wrapped for React) ---
+    function formatResumeHtml(markdownText) {
+      if (!markdownText) return "";
+      const rawHtml = marked.parse(markdownText);
+      const div = document.createElement('div');
+      div.innerHTML = rawHtml;
+      
+      div.querySelectorAll('h3').forEach(h => {
+        const section = h.innerText.toLowerCase();
+        const gridTypes = ['education', 'history', 'recognitions', 'certifications'];
+        
+        if (gridTypes.some(type => section.includes(type))) {
+          const list = h.nextElementSibling;
+          if (list && list.tagName === 'UL') {
+            const grid = document.createElement('div');
+            grid.className = 'res-grid';
+            list.querySelectorAll('li').forEach(li => {
+              const item = document.createElement('div');
+              item.className = 'res-item';
+              item.innerHTML = li.innerHTML;
+              grid.appendChild(item);
+            });
+            list.replaceWith(grid);
+          }
+        } else if (section.includes('experience')) {
+          let current = h.nextElementSibling;
+          while (current && current.tagName !== 'H3') {
+            if (current.tagName === 'P' && current.querySelector('strong')) {
+              const row = document.createElement('div');
+              row.className = 'res-row';
+              
+              const label = document.createElement('div');
+              label.className = 'res-label';
+              label.innerHTML = current.querySelector('strong').innerHTML;
+              
+              const content = document.createElement('div');
+              content.className = 'res-content';
+              
+              const clone = current.cloneNode(true);
+              clone.querySelector('strong').remove();
+              if (clone.innerText.trim()) content.appendChild(clone);
+              
+              let sibling = current.nextElementSibling;
+              while (sibling && !(sibling.tagName === 'P' && sibling.querySelector('strong')) && sibling.tagName !== 'H3') {
+                const next = sibling.nextElementSibling;
+                content.appendChild(sibling);
+                sibling = next;
+              }
+              
+              row.appendChild(label);
+              row.appendChild(content);
+              const nextRef = sibling;
+              current.replaceWith(row);
+              current = nextRef;
+            } else {
+              current = current.nextElementSibling;
+            }
+          }
+        }
+      });
+      return div.innerHTML;
+    }
+
+
+    // --- ISOLATED ADMIN COMPONENT (Zero Lag) ---
+    const AdminPanel = ({ initialData, onSave, onExit }) => {
+      // Local state isolates typing from the main app, fixing the freeze/lag
+      const [localData, setLocalData] = useState(() => ensureSafeData(initialData));
+      const [tab, setTab] = useState('welcome');
+
+      const updatePage = (field, val) => {
+        setLocalData(prev => ({
+          ...prev, 
+          pages: { ...prev.pages, [tab]: { ...prev.pages[tab], [field]: val } }
+        }));
+      };
+
+      const updatePost = (index, field, val) => {
+        const newPosts = [...localData.posts];
+        newPosts[index][field] = val;
+        setLocalData(prev => ({ ...prev, posts: newPosts }));
+      };
+
+      const addPost = () => {
+        const newPost = { title: "New Entry", date: "2026", category: "", image: "", content: "" };
+        setLocalData(prev => ({ ...prev, posts: [newPost, ...prev.posts] }));
+      };
+
+      const removePost = (index) => {
+        const newPosts = [...localData.posts];
+        newPosts.splice(index, 1);
+        setLocalData(prev => ({ ...prev, posts: newPosts }));
+      };
+
+      return (
+        <div className="admin-overlay">
+          <div className="admin-card">
+            <header className="admin-header">
+              <h2>JAYME BACKSTAGE</h2>
+              <button onClick={onExit} style={{background:'rgba(255,255,255,0.2)', border:'none', color:'white', padding:'8px 16px', borderRadius:'4px', cursor:'pointer', fontWeight:'bold', fontSize:'12px'}}>EXIT</button>
+            </header>
+
+            <nav className="admin-nav">
+              {['welcome', 'handmade', 'contact', 'resume', 'posts'].map(t => (
+                <button key={t} onClick={() => setTab(t)} className={`admin-nav-btn ${tab === t ? 'active' : ''}`}>
+                  {t === 'posts' ? 'Journal & Portfolio' : t}
+                </button>
+              ))}
+            </nav>
+
+            <div className="admin-content">
+              {/* PAGE EDITOR */}
+              {['welcome', 'handmade', 'contact', 'resume'].includes(tab) && (
+                <div className="input-box">
+                  {tab !== 'resume' && (
+                    <div className="input-row">
+                      <label>Main Photo URL</label>
+                      <input value={localData.pages[tab].image} onChange={e => updatePage('image', e.target.value)} />
+                    </div>
+                  )}
+                  {tab !== 'contact' && tab !== 'resume' && (
+                    <div className="input-row">
+                      <label>Headline</label>
+                      <input value={localData.pages[tab].title} onChange={e => updatePage('title', e.target.value)} />
+                    </div>
+                  )}
+                  <div className="input-row">
+                    <label>Content (Markdown Supported)</label>
+                    <textarea rows="15" value={localData.pages[tab].content} onChange={e => updatePage('content', e.target.value)} placeholder="Type your text here..." />
+                  </div>
+                </div>
+              )}
+
+              {/* POSTS EDITOR */}
+              {tab === 'posts' && (
+                <div>
+                  <button onClick={addPost} style={{padding: '10px 20px', marginBottom: '20px', background:'var(--clay)', border:'1px solid var(--border)', cursor:'pointer', fontWeight:'bold', borderRadius:'4px'}}>+ Add New Entry</button>
+                  {localData.posts.map((p, i) => (
+                    <div key={i} className="input-box">
+                      <button onClick={() => removePost(i)} style={{position:'absolute', top:'20px', right:'20px', background:'none', border:'none', color:'red', fontWeight:'bold', cursor:'pointer'}}>REMOVE</button>
+                      <div className="input-row"><label>Title</label><input value={p.title} onChange={e => updatePost(i, 'title', e.target.value)} /></div>
+                      <div className="input-row"><label>Date</label><input value={p.date} onChange={e => updatePost(i, 'date', e.target.value)} /></div>
+                      <div className="input-row"><label>Category Tags (Comma separated: Environment, Portfolio, Handmade...)</label><input value={p.category} onChange={e => updatePost(i, 'category', e.target.value)} /></div>
+                      <div className="input-row"><label>Image URL</label><input value={p.image} onChange={e => updatePost(i, 'image', e.target.value)} /></div>
+                      <div className="input-row"><label>Content (Markdown Supported)</label><textarea rows="6" value={p.content} onChange={e => updatePost(i, 'content', e.target.value)} /></div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div style={{padding: '0 3rem 3rem 3rem', background: '#fafafa'}}>
+              <button className="btn-save" onClick={() => onSave(localData)}>Publish Updates to Live Site</button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+
+    // --- MAIN APP COMPONENT ---
     const MainApp = () => {
+      const [siteData, setSiteData] = useState(null);
       const [view, setView] = useState('home');
-      const [data, setData] = useState(null);
       const [filter, setFilter] = useState('all');
+      
+      // Admin States
       const [isAdminMode, setIsAdminMode] = useState(window.location.hash === "#admin");
       const [isAuthed, setIsAuthed] = useState(false);
       const [adminKey, setAdminKey] = useState("");
-      const [adminTab, setAdminTab] = useState('welcome');
-
-      const fetchData = useCallback(async () => {
-        try {
-          const res = await fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } });
-          const json = await response.json();
-          setData(json);
-        } catch (e) {
-          // If fetch fails, we'll wait for admin to set it up
-        }
-      }, []);
+      
+      // Mobile Menu State
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
 
       useEffect(() => {
-        const load = async () => {
-          const res = await fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } });
-          const json = await res.json();
-          setData(json);
+        const fetchWorker = async () => {
+          try {
+            const res = await fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } });
+            const json = await res.json();
+            setSiteData(ensureSafeData(json));
+          } catch (e) {
+            setSiteData(ensureSafeData(null)); // Failsafe to empty skeleton
+          }
         };
-        load();
-        
+        fetchWorker();
+
         const handleHash = () => setIsAdminMode(window.location.hash === "#admin");
         window.addEventListener('hashchange', handleHash);
         return () => window.removeEventListener('hashchange', handleHash);
       }, []);
 
-      const navigate = (slug) => {
-        window.history.pushState(null, null, slug === 'home' ? '/' : '/' + slug + '/');
-        setView(slug);
-        setFilter('all');
-        window.scrollTo(0,0);
-      };
-
-      const saveToWorker = async (updatedData) => {
+      const saveToServer = async (updatedData) => {
         const res = await fetch(WORKER_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-Site-Id': SITE_ID },
           body: JSON.stringify({ key: adminKey, data: updatedData })
         });
         if (res.ok) {
-           setData(updatedData);
-           alert("Changes Saved Successfully.");
+          setSiteData(updatedData);
+          alert("Archive Successfully Deployed.");
         } else {
-           alert("Verification Failed.");
+          alert("Verification Failed. Check your key.");
         }
       };
 
-      if (!data) return <div style={{padding:'5rem', textAlign:'center', fontFamily:'Playfair Display', color:'var(--wood)'}}>Synchronizing Archive...</div>;
+      const navigate = (slug) => {
+        setView(slug);
+        setFilter('all');
+        setIsMenuOpen(false);
+        window.scrollTo(0,0);
+      };
 
-      if (isAdminMode) {
-        return (
-          <div className="admin-overlay">
-            <div className="admin-card">
-              <div className="admin-header">
-                <h2>JAYME BACKSTAGE</h2>
-                <button onClick={() => {window.location.hash = ""; setIsAdminMode(false);}} style={{color:'white', background:'rgba(0,0,0,0.2)', padding:'8px 15px', border:'none', borderRadius:'4px', cursor:'pointer'}}>EXIT</button>
+      if (!siteData) return <div style={{padding:'5rem', textAlign:'center', fontFamily:'Playfair Display', color:'var(--wood)', fontSize:'1.5rem'}}>Synchronizing Archive...</div>;
+
+      // Extract tags for Journal Pill Filter
+      const allTags = Array.from(new Set(siteData.posts.flatMap(p => (p.category || "").split(',').map(t => t.trim()).filter(Boolean)))).sort();
+
+      return (
+        <div className={isMenuOpen ? "menu-open" : ""}>
+          
+          {/* Admin Override */}
+          {isAdminMode && !isAuthed && (
+             <div className="admin-overlay" style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+               <div className="admin-card" style={{padding:'4rem', maxWidth: '500px'}}>
+                  <div style={{display:'flex', justifyContent:'space-between', marginBottom:'2rem'}}>
+                    <h3 style={{fontFamily:'Playfair Display', color:'var(--forest)', margin:0}}>Security</h3>
+                    <button onClick={() => {window.location.hash=""; setIsAdminMode(false);}} style={{background:'none', border:'none', cursor:'pointer', color:'var(--wood)', fontWeight:'bold'}}>EXIT</button>
+                  </div>
+                  <input type="password" placeholder="Access Key" value={adminKey} onChange={e=>setAdminKey(e.target.value)} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} style={{width:'100%', padding:'15px', marginBottom:'20px', border:'1px solid #ddd', borderRadius:'4px'}} />
+                  <button className="btn-save" onClick={()=>setIsAuthed(true)} style={{borderRadius:'4px'}}>Verify</button>
+               </div>
+             </div>
+          )}
+          {isAdminMode && isAuthed && (
+            <AdminPanel initialData={siteData} onSave={saveToServer} onExit={() => {window.location.hash=""; setIsAdminMode(false);}} />
+          )}
+
+          {/* FRONTEND */}
+          <div className="mobile-nav-bar">
+            <div className="mobile-brand" onClick={() => navigate('home')}>Jayme M. Carleton</div>
+            <button className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}><span></span><span></span><span></span></button>
+          </div>
+          <div className="sidebar-overlay" onClick={() => setIsMenuOpen(false)}></div>
+
+          <div className="site-wrapper">
+            <aside className="sidebar">
+              <div className="sidebar-brand" onClick={() => navigate('home')}><h1>Jayme M.<br/>Carleton</h1></div>
+              <div className="nav-links">
+                {['journal', 'portfolio', 'handmade', 'resume', 'contact'].map(slug => (
+                  <button key={slug} className={view === slug ? 'active' : ''} onClick={() => navigate(slug)}>{slug}</button>
+                ))}
               </div>
-              {!isAuthed ? (
-                <div style={{padding:'40px'}}>
-                  <label style={{display:'block', marginBottom:'10px', fontSize:'12px', fontWeight:'bold'}}>ARCHIVE ACCESS KEY</label>
-                  <input type="password" value={adminKey} onChange={e=>setAdminKey(e.target.value)} style={{width:'100%', padding:'15px', marginBottom:'15px', border:'1px solid #ddd'}} onKeyDown={e => e.key === 'Enter' && setIsAuthed(true)} />
-                  <button className="btn-save" onClick={()=>setIsAuthed(true)}>Enter Archive</button>
+            </aside>
+
+            <main>
+              {/* HERO VIEWS (Home, Handmade, Contact) */}
+              {['home', 'handmade', 'contact'].includes(view) && (
+                <div id="hero-container" style={{display: 'grid'}}>
+                  <div className="profile-card">
+                    <img src={siteData.pages[view].image} className={view === 'handmade' ? 'is-logo' : ''} alt={view} />
+                  </div>
+                  <div className="hero-text">
+                    <h2>{siteData.pages[view].title}</h2>
+                    <div dangerouslySetInnerHTML={{ __html: marked.parse(siteData.pages[view].content) }} />
+                    {view === 'home' && <div className="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>}
+                    {view === 'handmade' && <a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" className="shop-cta">Visit Shop on Etsy</a>}
+                  </div>
                 </div>
-              ) : (
-                <AdminPanel 
-                    initialData={data} 
-                    onSave={saveToWorker} 
-                    currentTab={adminTab} 
-                    setTab={setAdminTab} 
-                />
               )}
-            </div>
-          </div>
-        );
-      }
 
-      const allTags = Array.from(new Set(data.posts?.flatMap(p => p.category?.split(',').map(t => t.trim())) || [])).sort();
-      const currentSlug = view === '' ? 'home' : view;
-
-      return (
-        <div className="site-wrapper">
-          <aside className="sidebar">
-            <div className="sidebar-brand" onClick={() => navigate('home')}><h1>Jayme M.<br/>Carleton</h1></div>
-            <div className="nav-links">
-              {['journal', 'portfolio', 'handmade', 'resume', 'contact'].map(slug => (
-                <button key={slug} id={"nav-"+slug} className={view === slug ? 'active' : ''} onClick={() => navigate(slug)}>{slug}</button>
-              ))}
-            </div>
-          </aside>
-
-          <main>
-            {['home', '', 'handmade', 'contact'].includes(currentSlug) && (
-              <div id="hero-container" style={{display: 'grid'}}>
-                <div className="profile-card">
-                  <img src={data.pages?.[currentSlug === 'home' || currentSlug === '' ? 'welcome' : currentSlug]?.image} className={currentSlug === 'handmade' ? 'is-logo' : ''} />
-                </div>
-                <div className="hero-text">
-                  <h2>{data.pages?.[currentSlug === 'home' || currentSlug === '' ? 'welcome' : currentSlug]?.title}</h2>
-                  <div className="hero-text-body">{data.pages?.[currentSlug === 'home' || currentSlug === '' ? 'welcome' : currentSlug]?.content}</div>
-                  {(currentSlug === 'home' || currentSlug === '') && <div className="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>}
-                  {currentSlug === 'handmade' && <a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" className="shop-cta" style={{marginTop:'2rem'}}>Visit Shop on Etsy</a>}
-                </div>
-              </div>
-            )}
-
-            {currentSlug === 'journal' && (
-              <div>
-                <div className="section-header-flex">
-                  <h2 className="section-title">Journal</h2>
-                  <div className="filter-pills">
-                    <span className={`pill ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>All</span>
-                    {allTags.map(t => <span key={t} className={`pill ${filter === t ? 'active' : ''}`} onClick={() => setFilter(t)}>{t}</span>)}
-                  </div>
-                </div>
-                {data.posts?.filter(p => filter === 'all' || p.category?.includes(filter)).map((p, i) => (
-                  <article key={i} className="post-card">
-                    <img src={p.image} className="post-thumb" />
-                    <div>
-                      <span style={{fontSize:'11px', fontWeight:'700', color:'var(--sage)', textTransform:'uppercase'}}>{p.date}</span>
-                      <h3>{p.title}</h3>
-                      <p className="post-content-text">{p.content}</p>
+              {/* JOURNAL VIEW (Filtered Feed) */}
+              {view === 'journal' && (
+                <div>
+                  <div className="section-header-flex">
+                    <h2 className="section-title">Journal</h2>
+                    <div className="filter-pills">
+                      <span className={`pill ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>All</span>
+                      {allTags.map(t => <span key={t} className={`pill ${filter === t ? 'active' : ''}`} onClick={() => setFilter(t)}>{t}</span>)}
                     </div>
-                  </article>
-                ))}
-              </div>
-            )}
-
-            {(currentSlug === 'portfolio' || currentSlug === 'resume') && (
-              <div className="resume-container">
-                <h2 className="section-title" style={{marginBottom:'4rem'}}>{currentSlug}</h2>
-                {data[currentSlug]?.map((item, i) => (
-                  <div key={i} className="res-row">
-                    <div className="res-label">{item.label}</div>
-                    <div className="res-content">{item.content}</div>
                   </div>
-                ))}
-              </div>
-            )}
-          </main>
-        </div>
-      );
-    };
+                  {siteData.posts.filter(p => filter === 'all' || (p.category && p.category.includes(filter))).map((p, i) => (
+                    <article key={i} className="post-card">
+                      <img src={p.image} className="post-thumb" alt={p.title} />
+                      <div>
+                        <h3>{p.title}</h3>
+                        <p className="post-excerpt">{p.content.substring(0, 180)}...</p>
+                        <div className="post-card-footer">
+                          <button style={{background:'none', border:'none', borderBottom:'1px solid var(--wood)', color:'var(--wood)', fontWeight:'700', textTransform:'uppercase', fontSize:'0.75rem', letterSpacing:'0.1em'}}>Read Entry ➔</button>
+                          <span className="post-date">{p.date}</span>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
 
-    /* SEPARATED ADMIN PANEL TO PREVENT FREEZING */
-    const AdminPanel = ({ initialData, onSave, currentTab, setTab }) => {
-      const [localData, setLocalData] = useState(initialData);
-
-      const updatePage = (field, val) => {
-        const d = {...localData};
-        d.pages[currentTab][field] = val;
-        setLocalData(d);
-      };
-
-      const updateList = (target, index, field, val) => {
-        const d = {...localData};
-        d[target][index][field] = val;
-        setLocalData(d);
-      };
-
-      const addRow = (t) => {
-        const d = {...localData};
-        const newItem = t === 'posts' ? {title:"", date:"", content:"", image:"", category:""} : {label:"", content:""};
-        if(!d[t]) d[t] = [];
-        d[t].unshift(newItem);
-        setLocalData(d);
-      };
-
-      const removeRow = (t, i) => {
-        const d = {...localData};
-        d[t].splice(i, 1);
-        setLocalData(d);
-      };
-
-      return (
-        <div>
-          <nav className="admin-nav">
-            {['welcome', 'handmade', 'contact', 'posts', 'portfolio', 'resume'].map(t => (
-              <button key={t} onClick={()=>setTab(t)} className={`admin-nav-btn ${currentTab===t?'active':''}`}>{t}</button>
-            ))}
-          </nav>
-          <div className="admin-content">
-            {['welcome', 'handmade', 'contact'].includes(currentTab) && (
-              <div className="input-box">
-                <div className="input-row"><label>Main Photo URL</label><input value={localData.pages[currentTab].image || ''} onChange={e=>updatePage('image', e.target.value)}/></div>
-                <div className="input-row"><label>Title</label><input value={localData.pages[currentTab].title || ''} onChange={e=>updatePage('title', e.target.value)}/></div>
-                <div className="input-row"><label>Narrative Content</label><textarea rows="12" value={localData.pages[currentTab].content || ''} onChange={e=>updatePage('content', e.target.value)}/></div>
-              </div>
-            )}
-            {currentTab === 'posts' && (
-              <div>
-                <button onClick={()=>addRow('posts')} style={{marginBottom:'20px', padding:'10px 20px', cursor:'pointer'}}>+ Add Journal Entry</button>
-                {localData.posts?.map((p, i) => (
-                  <div key={i} className="input-box">
-                    <button onClick={()=>removeRow('posts', i)} style={{float:'right', color:'red', border:'none', background:'none', cursor:'pointer', fontWeight:'bold'}}>REMOVE</button>
-                    <div className="input-row"><label>Title</label><input value={p.title} onChange={e=>updateList('posts', i, 'title', e.target.value)}/></div>
-                    <div className="input-row"><label>Category</label><input value={p.category} onChange={e=>updateList('posts', i, 'category', e.target.value)}/></div>
-                    <div className="input-row"><label>Image URL</label><input value={p.image} onChange={e=>updateList('posts', i, 'image', e.target.value)}/></div>
-                    <div className="input-row"><label>Content</label><textarea rows="5" value={p.content} onChange={e=>updateList('posts', i, 'content', e.target.value)}/></div>
+              {/* PORTFOLIO VIEW (Grid pulled from tags) */}
+              {view === 'portfolio' && (
+                <div>
+                  <h2 className="section-title">Portfolio</h2>
+                  <div className="portfolio-grid">
+                    {siteData.posts.filter(p => p.category && p.category.includes('Portfolio')).map((p, i) => (
+                      <div key={i} className="portfolio-card">
+                        <img src={p.image} alt={p.title} />
+                        <div className="portfolio-overlay"><h4>{p.title}</h4></div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
-            {['portfolio', 'resume'].includes(currentTab) && (
-              <div>
-                <button onClick={()=>addRow(currentTab)} style={{marginBottom:'20px', padding:'10px 20px', cursor:'pointer'}}>+ Add Row</button>
-                {localData[currentTab]?.map((row, i) => (
-                  <div key={i} className="input-box">
-                    <button onClick={()=>removeRow(currentTab, i)} style={{float:'right', color:'red', border:'none', background:'none', cursor:'pointer', fontWeight:'bold'}}>REMOVE</button>
-                    <div className="input-row"><label>Label</label><input value={row.label} onChange={e=>updateList(currentTab, i, 'label', e.target.value)}/></div>
-                    <div className="input-row"><label>Details</label><textarea rows="5" value={row.content} onChange={e=>updateList(currentTab, i, 'content', e.target.value)}/></div>
+                </div>
+              )}
+
+              {/* RESUME VIEW (OG Formatter applied) */}
+              {view === 'resume' && (
+                <div className="resume-container">
+                  <div className="resume-meta">
+                    <h1>Jayme M. Carleton</h1>
+                    <p>jayme@jaymecarleton.com &nbsp;|&nbsp; 425.289.6439</p>
                   </div>
-                ))}
-              </div>
-            )}
+                  <div dangerouslySetInnerHTML={{ __html: formatResumeHtml(siteData.pages.resume.content) }} />
+                </div>
+              )}
+
+              <footer>
+                <div className="social-links" style={{marginBottom: '1.5rem'}}>
+                  <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style={{textDecoration:'none', fontWeight:'700', fontSize:'0.8rem', textTransform:'uppercase', color:'var(--forest)', letterSpacing:'0.1em'}}>LinkedIn</a>
+                </div>
+                <div className="copyright">SECOND NATURE | &copy; 2015-2026. ALL RIGHTS RESERVED.</div>
+                <div className="credit">Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
+              </footer>
+            </main>
           </div>
-          <button className="btn-save" onClick={() => onSave(localData)}>Push Updates to Live Site</button>
         </div>
       );
     };
