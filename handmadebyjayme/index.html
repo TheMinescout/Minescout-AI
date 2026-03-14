@@ -25,7 +25,7 @@
       --font-body: 'Inter', sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--wall);
@@ -40,14 +40,6 @@
     a:hover { color: var(--forest); }
 
     .site-wrapper { display: flex; min-height: 100vh; }
-
-    /* Custom Cursor (Always visible with high z-index) */
-    .custom-cursor {
-      position: fixed; top: 0; left: 0; width: 16px; height: 16px; border-radius: 50%;
-      background: rgba(45, 58, 45, 0.7); pointer-events: none; transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s, background 0.2s; z-index: 1000000; mix-blend-mode: difference;
-    }
-    .custom-cursor.grow { width: 28px; height: 28px; background: rgba(45, 58, 45, 0.4); }
 
     /* --- SIDEBAR --- */
     .sidebar {
@@ -83,8 +75,8 @@
 
     /* --- HERO LAYOUTS --- */
     #hero-container { display: none; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; margin-bottom: 4rem; }
-    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; }
-    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; }
+    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; box-shadow: none; }
     
     .hero-text h1 { font-family: var(--font-header); font-size: 2.8rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
     .hero-text p { font-size: 1.15rem; margin-bottom: 1.5rem; color: #444; }
@@ -135,7 +127,7 @@
     .admin-header { background: var(--forest); color: #fff; padding: 25px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px 8px 0 0; }
     .admin-main { display: grid; grid-template-columns: 240px 1fr; flex: 1; overflow: hidden; }
     .admin-sidebar { border-right: 1px solid var(--border); overflow-y: auto; padding: 20px; background: var(--wall); }
-    .admin-tab { width: 100%; padding: 15px; background: none; border: 1px solid transparent; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #999; text-align: left; }
+    .admin-tab { width: 100%; padding: 15px; background: none; border: 1px solid transparent; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #999; text-align: left; transition: 0.2s; }
     .admin-tab.active { color: var(--forest); border-color: var(--border); background: #fff; }
     .admin-body { padding: 30px; overflow-y: auto; }
     .admin-group { margin-bottom: 20px; }
@@ -165,8 +157,6 @@
   </style>
 </head>
 <body id="body-context">
-
-  <div class="custom-cursor" id="customCursor"></div>
 
   <div class="mobile-nav-bar">
     <div class="mobile-brand" onclick="switchView('home')">Jayme M. Carleton</div>
@@ -222,7 +212,7 @@
         <aside class="admin-sidebar">
           <div style="font-size:0.6rem; color:#999; text-transform:uppercase; margin-bottom:10px; font-weight:bold;">Pages</div>
           <button class="admin-tab active" onclick="switchAdminTab('welcome', this)">Welcome</button>
-          <button class="admin-tab" onclick="switchAdminTab('handmade', this)">Handmade (Text)</button>
+          <button class="admin-tab" onclick="switchAdminTab('handmade', this)">Handmade (Intro)</button>
           <button class="admin-tab" onclick="switchAdminTab('contact', this)">Contact</button>
           <button class="admin-tab" onclick="switchAdminTab('resume', this)">Resume</button>
           <button class="admin-tab" onclick="switchAdminTab('journal', this)" style="border-top:1px solid #ddd; margin-top:10px; padding-top:15px;">Entries Archive</button>
@@ -250,7 +240,7 @@
       handmade: "# Handmade\nWelcome to my studio.",
       contact: "# Let's Connect\nThank you for visiting.",
       resume: "# Professional History",
-      journal: [] // List of post items
+      journal: [] 
     };
 
     let adminTab = 'welcome';
@@ -262,7 +252,6 @@
       
       window.onpopstate = () => handleRoute();
       handleRoute();
-      initCursor();
     }
 
     async function fetchSiteData() {
@@ -533,15 +522,6 @@
       return div.innerHTML;
     }
 
-    function initCursor() {
-      const cursor = document.getElementById('customCursor');
-      let mX=0, mY=0, cX=0, cY=0;
-      document.addEventListener('mousemove', e => { mX=e.clientX; mY=e.clientY; });
-      function anim() { cX+=(mX-cX)*0.15; cY+=(mY-cY)*0.15; cursor.style.left=cX+'px'; cursor.style.top=cY+'px'; requestAnimationFrame(anim); }
-      anim();
-      document.body.addEventListener('mouseenter', e => { if(e.target.closest('a, button, input, textarea')) cursor.classList.add('grow'); }, true);
-      document.body.addEventListener('mouseleave', e => { if(e.target.closest('a, button, input, textarea')) cursor.classList.remove('grow'); }, true);
-    }
     function slugify(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
 
     window.onload = initSPA;
