@@ -28,77 +28,58 @@
     a:hover { color: var(--forest); }
 
     .site-wrapper { display: flex; min-height: 100vh; }
-    .sidebar { width: 280px; background-color: var(--clay); padding: 4rem 2.5rem; position: fixed; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid rgba(0,0,0,0.05); z-index: 1000; transition: transform 0.3s ease-in-out; }
+    .sidebar { width: 280px; background-color: var(--clay); padding: 4rem 2.5rem; position: fixed; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid rgba(0,0,0,0.05); z-index: 1000; }
     .sidebar-brand { margin-bottom: 5rem; cursor: pointer; }
     .sidebar-brand h1 { font-family: var(--font-header); font-size: 1.6rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em; line-height: 1.2; font-weight: 500; }
     .nav-links { display: flex; flex-direction: column; gap: 1.75rem; }
-    .nav-links button { background: none; border: none; text-align: left; color: var(--charcoal); font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.7rem; transition: all 0.3s ease; opacity: 0.5; cursor: pointer; }
+    .nav-links button { background: none; border: none; text-align: left; color: var(--charcoal); font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.7rem; transition: 0.3s; opacity: 0.5; cursor: pointer; }
     .nav-links button.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
 
-    .mobile-nav-bar { display: none; position: fixed; top: 0; left: 0; right: 0; height: 60px; background: var(--clay); z-index: 900; padding: 0 1.5rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); }
-    .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; }
-    .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1100; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--forest); transition: 0.3s; }
-    .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s; }
-
-    main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; transition: opacity 0.3s; }
+    main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; }
     #hero-container { display: grid; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; }
-    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; filter: contrast(1.02) saturate(0.95); }
+    .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; }
     .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; }
-    .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
-    .hero-text p { font-size: 1.1rem; margin-bottom: 1.5rem; color: #444; }
+    .hero-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; margin-bottom: 1.5rem; }
 
     .section-header-flex { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; border-bottom: 2px solid var(--clay); padding-bottom: 1.5rem; }
-    .section-title { font-family: var(--font-header); font-size: 2.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--forest); font-weight: 400; }
-    .filter-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
-    .pill { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; border: 1px solid var(--border); border-radius: 50px; cursor: pointer; background: var(--white); color: var(--muted); transition: 0.2s; }
+    .section-title { font-family: var(--font-header); font-size: 2.8rem; text-transform: uppercase; color: var(--forest); }
+    .filter-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .pill { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; padding: 8px 16px; border: 1px solid var(--border); border-radius: 50px; cursor: pointer; background: var(--white); transition: 0.2s; }
     .pill.active { background: var(--forest); color: var(--white); border-color: var(--forest); }
 
-    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: 0.3s ease; align-items: stretch; }
-    .post-thumb { width: 100%; height: 100%; min-height: 200px; object-fit: cover; border-radius: 2px; background: var(--clay); }
-    .post-card h3 { font-family: var(--font-header); font-size: 2rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; line-height: 1.2; }
-    .post-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--wall); }
+    .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    .post-thumb { width: 100%; height: 200px; object-fit: cover; border-radius: 2px; background: var(--clay); }
 
     .resume-container { max-width: 1000px; margin: 0 auto; background: var(--white); padding: 6rem; border-radius: 4px; }
-    .res-row { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 3rem; align-items: start; }
-    .res-label { font-weight: 700; text-transform: uppercase; font-size: 0.95rem; color: var(--charcoal); letter-spacing: 0.05em; line-height: 1.3; }
+    .res-row { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 3rem; }
+    .res-label { font-weight: 700; text-transform: uppercase; font-size: 0.95rem; color: var(--charcoal); border-left: 4px solid var(--wood); padding-left: 15px; }
 
-    /* Backstage Specific */
-    #admin-root { position: absolute; top: 0; left: 0; width: 100%; z-index: 9999; display: none; background: #eee; min-height: 100vh; padding: 3rem 0; }
-    .admin-card { background: white; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.15); width: 95%; max-width: 1200px; margin: 0 auto; overflow: hidden; font-family: sans-serif; }
+    /* Admin Styles */
+    #admin-root { position: fixed; inset: 0; z-index: 9999; background: #eee; overflow-y: auto; padding: 2rem 0; display: none; }
+    .admin-card { background: white; width: 95%; max-width: 1100px; margin: 0 auto; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); overflow: hidden; }
     .admin-header { background: var(--forest); color: white; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-    .admin-nav { display: flex; background: #f1f3f1; border-bottom: 1px solid #e0e4e0; overflow-x: auto; }
-    .admin-nav-btn { background: none; border: none; padding: 1.25rem 2rem; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; font-weight: 700; color: #888; cursor: pointer; }
-    .admin-nav-btn.active { color: var(--forest); border-bottom: 3px solid var(--forest); }
-    .admin-content { padding: 3rem; max-height: 75vh; overflow-y: auto; background: #fafafa; }
-    .input-box { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; position: relative; }
-    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--wood); margin-bottom: 8px; font-weight: 700; }
-    .input-row input, .input-row textarea { width: 100%; border: 1.5px solid #eee; padding: 14px; border-radius: 4px; font-family: inherit; }
-    .btn-save { background: var(--forest); color: white; border: none; padding: 1.5rem 3rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; width: 100%; font-size: 12px; }
+    .admin-nav { display: flex; background: #f1f3f1; border-bottom: 1px solid #ddd; overflow-x: auto; }
+    .admin-nav-btn { background: none; border: none; padding: 1rem 1.5rem; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; }
+    .admin-nav-btn.active { color: var(--forest); font-weight: 700; border-bottom: 3px solid var(--forest); }
+    .admin-content { padding: 2rem; background: #fafafa; }
+    .input-box { background: white; border: 1px solid #eee; padding: 1.5rem; margin-bottom: 1rem; border-radius: 6px; position: relative; }
+    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; color: var(--wood); margin-bottom: 5px; font-weight: 700; text-transform: uppercase; }
+    .input-row input, .input-row textarea { width: 100%; padding: 10px; border: 1.5px solid #eee; border-radius: 4px; font-family: inherit; font-size: 14px; }
+    .btn-save { background: var(--forest); color: white; border: none; padding: 1rem; width: 100%; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; }
 
-    @media (max-width: 1024px) {
-      .sidebar { transform: translateX(-100%); width: 80%; }
-      .mobile-nav-bar { display: flex; }
-      main { margin-left: 0; padding: 6rem 2rem; }
-      #hero-container, .post-card, .res-row { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 1024px) { .sidebar { display: none; } main { margin-left: 0; padding: 2rem; } .hero-grid, .post-card, .res-row { grid-template-columns: 1fr; } }
   </style>
 </head>
-<body id="body-context">
+<body>
 
   <div id="admin-root"></div>
 
   <div id="frontend-root">
-    <div class="mobile-nav-bar">
-      <div class="mobile-brand" onclick="navigateTo('/')">Jayme M. Carleton</div>
-      <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
-    </div>
-    <div class="sidebar-overlay" onclick="closeMenu()"></div>
-
     <div class="site-wrapper">
       <nav class="sidebar">
-        <div class="sidebar-brand" onclick="navigateTo('/')"><h1>Jayme M.<br>Carleton</h1></div>
+        <div class="sidebar-brand" onclick="window.location.pathname='/'"><h1>Jayme M.<br>Carleton</h1></div>
         <div class="nav-links">
+          <button id="nav-home" onclick="navigateTo('/')">Home</button>
           <button id="nav-journal" onclick="navigateTo('/journal/')">Journal</button>
           <button id="nav-portfolio" onclick="navigateTo('/portfolio/')">Portfolio</button>
           <button id="nav-handmade" onclick="navigateTo('/handmade/')">Handmade</button>
@@ -113,8 +94,7 @@
           <div class="hero-text" id="hero-target"></div>
         </div>
         <div id="app-root"></div>
-        <footer>
-          <div class="social-links" style="margin-bottom: 1.5rem;"><a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style="font-weight:700; font-size:0.8rem; text-transform:uppercase; color:var(--forest);">LinkedIn</a></div>
+        <footer style="margin-top: 5rem; padding-top: 3rem; border-top: 1px solid #eee;">
           <div class="copyright">SECOND NATURE | &copy; 2015-2026. ALL RIGHTS RESERVED.</div>
           <div class="credit">Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
         </footer>
@@ -127,127 +107,106 @@
     const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
     const SITE_ID = "handmadebyjayme"; 
 
-    let siteData = { pages: {}, posts: [], tags: new Set() };
+    let globalData = null;
     let currentFilter = 'all';
 
-    window.toggleMenu = () => document.getElementById('body-context').classList.toggle('menu-open');
-    window.closeMenu = () => document.getElementById('body-context').classList.remove('menu-open');
-    window.navigateTo = (url) => { history.pushState(null, null, url); handleRoute(); };
+    window.navigateTo = (url) => { window.history.pushState(null, null, url); handleRoute(); };
 
     async function initApp() {
+      const response = await fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } });
+      globalData = await response.json();
+      
       if (window.location.hash === "#admin") {
         document.getElementById('frontend-root').style.display = 'none';
         document.getElementById('admin-root').style.display = 'block';
       }
-      await fetchFreshData();
-    }
-
-    async function fetchFreshData() {
-      try {
-        const response = await fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } });
-        siteData = await response.json();
-        siteData.tags = new Set();
-        siteData.posts.forEach(p => p.category?.split(',').forEach(t => siteData.tags.add(t.trim())));
-        handleRoute();
-      } catch (e) { console.error(e); }
+      handleRoute();
     }
 
     function handleRoute() {
-      const urlParams = new URLSearchParams(window.location.search);
-      currentFilter = urlParams.get('tag') || 'all';
-      let path = window.location.pathname;
-      let slug = path.replace(/^\/|\/$/g, '').split('/').pop() || 'home';
-      
+      const path = window.location.pathname;
+      const slug = path.replace(/^\/|\/$/g, '').split('/').pop() || 'home';
       const root = document.getElementById('app-root');
-      const heroContainer = document.getElementById('hero-container');
-      const heroTarget = document.getElementById('hero-target');
-      const heroImage = document.getElementById('hero-image');
-      
+      const hero = document.getElementById('hero-container');
+      const target = document.getElementById('hero-target');
+      const img = document.getElementById('hero-image');
+
       document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById('nav-' + slug);
-      if(activeBtn) activeBtn.classList.add('active');
+      const btn = document.getElementById('nav-' + (slug || 'home'));
+      if(btn) btn.classList.add('active');
 
       if (['home', '', 'handmade', 'contact'].includes(slug)) {
-        const pageKey = (slug === 'home' || slug === '') ? 'welcome' : slug;
+        const key = (slug === 'home' || slug === '') ? 'welcome' : slug;
         root.innerHTML = '';
-        if (siteData.pages[pageKey]) {
-          heroContainer.style.display = 'grid';
-          heroImage.className = slug === 'handmade' ? 'is-logo' : ''; 
-          heroImage.src = siteData.pages[pageKey].image;
-          
-          let content = marked.parse(siteData.pages[pageKey].content);
-          if (slug === 'handmade') content += `<a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" class="shop-cta">Visit Shop on Etsy</a>`;
-          heroTarget.innerHTML = content;
-          
-          if (slug === 'home') heroTarget.insertAdjacentHTML('beforeend', `<div class="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>`);
+        if (globalData?.pages?.[key]) {
+          hero.style.display = 'grid';
+          img.src = globalData.pages[key].image || "";
+          img.className = slug === 'handmade' ? 'is-logo' : '';
+          target.innerHTML = `<h2>${globalData.pages[key].title || ''}</h2>` + marked.parse(globalData.pages[key].content || '');
         }
       } else {
-        heroContainer.style.display = 'none'; 
-        if (slug === 'journal') renderJournalView(root);
-        else if (slug === 'portfolio' || slug === 'resume') renderPageView(root, slug);
-        else root.innerHTML = `<h2 class="section-title">404</h2>`;
+        hero.style.display = 'none';
+        if (slug === 'journal') renderJournal(root);
+        else if (slug === 'portfolio' || slug === 'resume') renderGrid(root, slug);
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function renderJournalView(root) {
-      root.innerHTML = `<div class="section-header-flex"><h2 class="section-title">Journal</h2><div class="filter-pills"><span class="pill ${currentFilter === 'all' ? 'active' : ''}" onclick="applyFilter('all')">All</span>${Array.from(siteData.tags).sort().map(t => `<span class="pill ${currentFilter === t ? 'active' : ''}" onclick="applyFilter('${t}')">${t}</span>`).join('')}</div></div><div id="post-feed-target"></div>`;
-      const target = document.getElementById('post-feed-target');
-      let posts = currentFilter === 'all' ? siteData.posts : siteData.posts.filter(p => p.category.includes(currentFilter));
-      target.innerHTML = posts.map(p => `<article class="post-card"><img src="${p.image}" class="post-thumb"><div><span class="post-date">${p.date}</span><h3>${p.title}</h3><p>${p.content.substring(0, 180)}...</p></div></article>`).join('');
+    function renderJournal(root) {
+      const tags = Array.from(new Set(globalData.posts?.flatMap(p => p.category?.split(',').map(t => t.trim())) || [])).sort();
+      root.innerHTML = `<div class="section-header-flex"><h2 class="section-title">Journal</h2><div class="filter-pills"><span class="pill ${currentFilter==='all'?'active':''}" onclick="setFilter('all')">All</span>${tags.map(t => `<span class="pill ${currentFilter===t?'active':''}" onclick="setFilter('${t}')">${t}</span>`).join('')}</div></div><div id="posts"></div>`;
+      const pDiv = document.getElementById('posts');
+      const filtered = currentFilter === 'all' ? globalData.posts : globalData.posts.filter(p => p.category?.includes(currentFilter));
+      pDiv.innerHTML = filtered?.map(p => `<article class="post-card"><img src="${p.image}" class="post-thumb"><div><span style="font-size:11px; font-weight:700; color:var(--sage); text-transform:uppercase;">${p.date}</span><h3>${p.title}</h3><p>${p.content?.substring(0, 200)}...</p></div></article>`).join('') || '';
     }
 
-    window.applyFilter = (tag) => navigateTo(tag === 'all' ? '/journal/' : `/journal/?tag=${encodeURIComponent(tag)}`);
+    window.setFilter = (t) => { currentFilter = t; renderJournal(document.getElementById('app-root')); };
 
-    function renderPageView(root, slug) {
-      const items = siteData[slug] || [];
-      root.innerHTML = `<div class="resume-container"><h2 class="section-title">${slug}</h2>${items.map(i => `<div class="res-row"><div class="res-label">${i.label}</div><div class="res-content">${marked.parse(i.content)}</div></div>`).join('')}</div>`;
+    function renderGrid(root, slug) {
+      const items = globalData[slug] || [];
+      root.innerHTML = `<div class="resume-container"><h2 class="section-title">${slug}</h2>${items.map(i => `<div class="res-row"><div class="res-label">${i.label}</div><div class="res-content">${marked.parse(i.content || '')}</div></div>`).join('')}</div>`;
     }
 
-    /* --- ADMIN APP --- */
     const AdminApp = () => {
       const [data, setData] = useState(null);
       const [tab, setTab] = useState('welcome');
       const [key, setKey] = useState("");
       const [authed, setAuthed] = useState(false);
 
-      useEffect(() => { fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } }).then(res => res.json()).then(setData); }, []);
+      useEffect(() => { fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } }).then(r => r.json()).then(setData); }, []);
 
       const save = async () => {
-        const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Site-Id': SITE_ID }, body: JSON.stringify({ key, data }) });
-        alert(res.ok ? "Live Site Deployed." : "Key Error.");
-      };
-
-      const addRow = (t) => {
-        const newItem = t === 'posts' ? { title: "New", date: "2026", content: "", image: "", category: "Handmade" } : { label: "Label", content: "Details..." };
-        setData({...data, [t]: [newItem, ...data[t]]});
+        await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Site-Id': SITE_ID }, body: JSON.stringify({ key, data }) });
+        alert("Archive Updated.");
       };
 
       if (!data) return null;
 
       return (
         <div className="admin-card">
-          <header className="admin-header"><h2>BACKSTAGE</h2><button onClick={() => window.location.hash=""}>EXIT</button></header>
+          <div className="admin-header"><h2>BACKSTAGE</h2><button onClick={() => window.location.hash=""}>EXIT</button></div>
           {!authed ? (
-            <div style={{padding:'3rem'}}><input type="password" placeholder="Key" onChange={e=>setKey(e.target.value)} style={{width:'100%', padding:'1rem', marginBottom:'1rem'}}/><button className="btn-save" onClick={()=>setAuthed(true)}>Auth</button></div>
+            <div style={{padding:'3rem'}}><input type="password" placeholder="Key" onChange={e=>setKey(e.target.value)} style={{width:'100%', padding:'15px', marginBottom:'1rem'}}/><button className="btn-save" onClick={()=>setAuthed(true)}>Verify</button></div>
           ) : (
             <div>
               <nav className="admin-nav">{['welcome', 'handmade', 'contact', 'posts', 'portfolio', 'resume'].map(t => <button key={t} onClick={()=>setTab(t)} className={`admin-nav-btn ${tab===t?'active':''}`}>{t}</button>)}</nav>
               <div className="admin-content">
                 {['welcome', 'handmade', 'contact'].includes(tab) && (
                   <div className="input-box">
-                    <div className="input-row"><label>Main Photo URL</label><input value={data.pages[tab].image} onChange={e=>{let d={...data}; d.pages[tab].image=e.target.value; setData(d);}}/></div>
-                    <div className="input-row"><label>Content (Markdown)</label><textarea rows="15" value={data.pages[tab].content} onChange={e=>{let d={...data}; d.pages[tab].content=e.target.value; setData(d);}}/></div>
+                    <div className="input-row"><label>Image URL</label><input value={data.pages?.[tab]?.image || ''} onChange={e=>{let d={...data}; d.pages[tab].image=e.target.value; setData(d);}}/></div>
+                    <div className="input-row"><label>Title</label><input value={data.pages?.[tab]?.title || ''} onChange={e=>{let d={...data}; d.pages[tab].title=e.target.value; setData(d);}}/></div>
+                    <div className="input-row"><label>Content (Markdown)</label><textarea rows="10" value={data.pages?.[tab]?.content || ''} onChange={e=>{let d={...data}; d.pages[tab].content=e.target.value; setData(d);}}/></div>
                   </div>
                 )}
                 {tab === 'posts' && (
                   <div>
-                    <button onClick={()=>addRow('posts')}>+ Add Post</button>
-                    {data.posts.map((p, i) => (
+                    <button onClick={()=>{let d={...data}; d.posts.unshift({title:"New", date:"2026", content:"", image:"", category:""}); setData(d);}}>+ Add Post</button>
+                    {data.posts?.map((p, i) => (
                       <div key={i} className="input-box">
                         <button onClick={()=>{let d={...data}; d.posts.splice(i,1); setData(d);}} style={{float:'right', color:'red'}}>Remove</button>
                         <div className="input-row"><label>Title</label><input value={p.title} onChange={e=>{let d={...data}; d.posts[i].title=e.target.value; setData(d);}}/></div>
-                        <div className="input-row"><label>Image</label><input value={p.image} onChange={e=>{let d={...data}; d.posts[i].image=e.target.value; setData(d);}}/></div>
+                        <div className="input-row"><label>Date</label><input value={p.date} onChange={e=>{let d={...data}; d.posts[i].date=e.target.value; setData(d);}}/></div>
+                        <div className="input-row"><label>Category</label><input value={p.category} onChange={e=>{let d={...data}; d.posts[i].category=e.target.value; setData(d);}}/></div>
+                        <div className="input-row"><label>Image URL</label><input value={p.image} onChange={e=>{let d={...data}; d.posts[i].image=e.target.value; setData(d);}}/></div>
                         <div className="input-row"><label>Content</label><textarea value={p.content} onChange={e=>{let d={...data}; d.posts[i].content=e.target.value; setData(d);}}/></div>
                       </div>
                     ))}
@@ -255,18 +214,18 @@
                 )}
                 {['portfolio', 'resume'].includes(tab) && (
                   <div>
-                    <button onClick={()=>addRow(tab)}>+ Add Row</button>
-                    {data[tab].map((row, i) => (
+                    <button onClick={()=>{let d={...data}; d[tab].unshift({label:"New", content:""}); setData(d);}}>+ Add Section</button>
+                    {data[tab]?.map((item, i) => (
                       <div key={i} className="input-box">
                         <button onClick={()=>{let d={...data}; d[tab].splice(i,1); setData(d);}} style={{float:'right', color:'red'}}>Remove</button>
-                        <div className="input-row"><label>Label</label><input value={row.label} onChange={e=>{let d={...data}; d[tab][i].label=e.target.value; setData(d);}}/></div>
-                        <div className="input-row"><label>Content</label><textarea value={row.content} onChange={e=>{let d={...data}; d[tab][i].content=e.target.value; setData(d);}}/></div>
+                        <div className="input-row"><label>Label</label><input value={item.label} onChange={e=>{let d={...data}; d[tab][i].label=e.target.value; setData(d);}}/></div>
+                        <div className="input-row"><label>Content</label><textarea value={item.content} onChange={e=>{let d={...data}; d[tab][i].content=e.target.value; setData(d);}}/></div>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
-              <button className="btn-save" onClick={save}>Sync Live</button>
+              <button className="btn-save" onClick={save}>Sync to Live Site</button>
             </div>
           )}
         </div>
@@ -276,6 +235,7 @@
     initApp();
     const adminRoot = ReactDOM.createRoot(document.getElementById('admin-root'));
     adminRoot.render(<AdminApp />);
+    window.addEventListener('popstate', handleRoute);
   </script>
 </body>
 </html>
