@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -16,292 +16,266 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
-    /* --- ALL CSS FROM OG FILE PRESERVED EXACTLY --- */
     :root {
-      --forest: #2D3A2D;     
-      --sage: #4F5D4F;       
-      --wood: #C2A378;       
-      --clay: #E8E2D6;       
-      --wall: #F9F7F2;       
-      --charcoal: #2C3333;   
-      --white: #FFFFFF;
-      --border: #e8e4dd;
-      --font-header: 'Playfair Display', serif;
-      --font-body: 'Inter', sans-serif;
+      --forest: #2D3A2D; --sage: #4F5D4F; --wood: #C2A378; --clay: #E8E2D6;
+      --wall: #F9F7F2; --charcoal: #2C3333; --white: #FFFFFF; --border: #e8e4dd;
+      --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--wall); font-family: var(--font-body); color: var(--charcoal); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { color: var(--wood); text-decoration: none; transition: 0.2s; }
     a:hover { color: var(--forest); }
+
     .site-wrapper { display: flex; min-height: 100vh; }
     .sidebar { width: 280px; background-color: var(--clay); padding: 4rem 2.5rem; position: fixed; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid rgba(0,0,0,0.05); z-index: 1000; transition: transform 0.3s ease-in-out; }
     .sidebar-brand { margin-bottom: 5rem; cursor: pointer; }
     .sidebar-brand h1 { font-family: var(--font-header); font-size: 1.6rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em; line-height: 1.2; font-weight: 500; }
     .nav-links { display: flex; flex-direction: column; gap: 1.75rem; }
     .nav-links button { background: none; border: none; text-align: left; color: var(--charcoal); font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.7rem; transition: all 0.3s ease; opacity: 0.5; cursor: pointer; }
-    .nav-links button:hover, .nav-links button.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
+    .nav-links button.active { opacity: 1; color: var(--forest); transform: translateX(4px); }
+
     .mobile-nav-bar { display: none; position: fixed; top: 0; left: 0; right: 0; height: 60px; background: var(--clay); z-index: 900; padding: 0 1.5rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); }
     .mobile-brand { font-family: var(--font-header); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--forest); font-weight: 600; }
     .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1100; }
     .hamburger span { display: block; width: 22px; height: 2px; background: var(--forest); transition: 0.3s; }
     .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 950; opacity: 0; transition: 0.3s; }
+
     main { flex: 1; margin-left: 280px; padding: 5rem 4rem; max-width: 1400px; transition: opacity 0.3s; }
     #hero-container { display: grid; grid-template-columns: 1.2fr 1.5fr; gap: 5rem; align-items: start; margin-top: 1rem; }
     .profile-card img { width: 100%; border-radius: 100px 30px 100px 30px; display: block; filter: contrast(1.02) saturate(0.95); }
-    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; filter: contrast(1.1); margin: 0 auto; }
+    .profile-card img.is-logo { width: 128px; height: 128px; border-radius: 50%; mix-blend-mode: multiply; margin: 0 auto; }
     .hero-text h1, .hero-text h2 { font-family: var(--font-header); font-size: 2.5rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 400; }
     .hero-text p { font-size: 1.1rem; margin-bottom: 1.5rem; color: #444; }
-    .shop-cta { display: inline-block; background-color: var(--forest); color: white; padding: 1.2rem 2.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 700; margin-top: 2rem; border-radius: 2px; transition: all 0.3s ease; border: none; cursor: pointer; text-align: center; }
-    .shop-cta:hover { background-color: var(--wood); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); color: #fff; }
-    .signature { margin-top: 3rem; font-family: var(--font-header); font-weight: 500; color: var(--forest); text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.1em; }
-    .signature small { display: block; font-family: var(--font-body); font-weight: normal; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--sage); margin-top: 8px; }
+
     .section-header-flex { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; border-bottom: 2px solid var(--clay); padding-bottom: 1.5rem; }
     .section-title { font-family: var(--font-header); font-size: 2.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--forest); font-weight: 400; }
     .filter-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
     .pill { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; border: 1px solid var(--border); border-radius: 50px; cursor: pointer; background: var(--white); color: var(--muted); transition: 0.2s; }
     .pill.active { background: var(--forest); color: var(--white); border-color: var(--forest); }
+
     .post-card { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; margin-bottom: 2.5rem; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: 0.3s ease; align-items: stretch; }
-    .post-card:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.04); }
     .post-thumb { width: 100%; height: 100%; min-height: 200px; object-fit: cover; border-radius: 2px; background: var(--clay); }
     .post-card h3 { font-family: var(--font-header); font-size: 2rem; margin-bottom: 1rem; text-transform: uppercase; color: var(--forest); font-weight: 400; line-height: 1.2; }
-    .post-excerpt { font-size: 1rem; color: #555; margin-bottom: 2rem; line-height: 1.7; }
     .post-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--wall); }
-    .post-date { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); font-weight: 600; }
-    .load-more-btn { display: block; width: 100%; padding: 2rem; background: var(--clay); border: none; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; cursor: pointer; color: var(--forest); transition: 0.2s; margin-top: 1rem; border-radius: 4px; }
-    .article-content { max-width: 900px; margin: 0 auto; background: var(--white); padding: 5rem; border-radius: 4px; }
+
     .resume-container { max-width: 1000px; margin: 0 auto; background: var(--white); padding: 6rem; border-radius: 4px; }
-    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
     .res-row { display: grid; grid-template-columns: 240px 1fr; gap: 4rem; margin-bottom: 3rem; align-items: start; }
     .res-label { font-weight: 700; text-transform: uppercase; font-size: 0.95rem; color: var(--charcoal); letter-spacing: 0.05em; line-height: 1.3; }
-    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3rem; margin-top: 1rem; }
-    .portfolio-card { position: relative; overflow: hidden; border-radius: 4px; background: var(--clay); aspect-ratio: 4/3; }
-    .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
-    .portfolio-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(45,58,45,0.9), transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; opacity: 0; transition: 0.3s; }
-    .portfolio-card:hover .portfolio-overlay { opacity: 1; }
-    .portfolio-overlay h4 { color: white; font-family: var(--font-header); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
 
-    /* --- ADMIN UI (Added from Fern) --- */
-    .admin-card { background: white; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.15); width: 95%; max-width: 1200px; margin: 2rem auto; overflow: hidden; }
+    /* Backstage Specific */
+    #admin-root { position: absolute; top: 0; left: 0; width: 100%; z-index: 9999; display: none; background: #eee; min-height: 100vh; padding: 3rem 0; }
+    .admin-card { background: white; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.15); width: 95%; max-width: 1200px; margin: 0 auto; overflow: hidden; font-family: sans-serif; }
     .admin-header { background: var(--forest); color: white; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-    .admin-nav { display: flex; background: #f1f3f1; border-bottom: 1px solid #e0e4e0; padding: 0 1rem; overflow-x: auto; }
-    .admin-nav-btn { background: none; border: none; padding: 1rem; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; }
+    .admin-nav { display: flex; background: #f1f3f1; border-bottom: 1px solid #e0e4e0; overflow-x: auto; }
+    .admin-nav-btn { background: none; border: none; padding: 1.25rem 2rem; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; font-weight: 700; color: #888; cursor: pointer; }
     .admin-nav-btn.active { color: var(--forest); border-bottom: 3px solid var(--forest); }
-    .admin-content { padding: 2rem; background: #fafafa; max-height: 70vh; overflow-y: auto; }
-    .input-box { background: white; border: 1px solid #e0e0e0; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; }
-    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--wood); margin-bottom: 5px; font-weight: 700; }
-    .input-row input, .input-row textarea { width: 100%; border: 1px solid #eee; padding: 10px; border-radius: 4px; font-family: inherit; }
-    .btn-save { background: var(--forest); color: white; border: none; padding: 1rem; width: 100%; font-family: 'Space Mono'; text-transform: uppercase; cursor: pointer; font-weight: bold; }
+    .admin-content { padding: 3rem; max-height: 75vh; overflow-y: auto; background: #fafafa; }
+    .input-box { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; position: relative; }
+    .input-row label { display: block; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--wood); margin-bottom: 8px; font-weight: 700; }
+    .input-row input, .input-row textarea { width: 100%; border: 1.5px solid #eee; padding: 14px; border-radius: 4px; font-family: inherit; }
+    .btn-save { background: var(--forest); color: white; border: none; padding: 1.5rem 3rem; font-family: 'Space Mono'; font-weight: bold; text-transform: uppercase; cursor: pointer; width: 100%; font-size: 12px; }
 
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); width: 80%; }
+      .mobile-nav-bar { display: flex; }
       main { margin-left: 0; padding: 6rem 2rem; }
       #hero-container, .post-card, .res-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
-<body>
+<body id="body-context">
 
-  <div id="root"></div>
+  <div id="admin-root"></div>
+
+  <div id="frontend-root">
+    <div class="mobile-nav-bar">
+      <div class="mobile-brand" onclick="navigateTo('/')">Jayme M. Carleton</div>
+      <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+    <div class="sidebar-overlay" onclick="closeMenu()"></div>
+
+    <div class="site-wrapper">
+      <nav class="sidebar">
+        <div class="sidebar-brand" onclick="navigateTo('/')"><h1>Jayme M.<br>Carleton</h1></div>
+        <div class="nav-links">
+          <button id="nav-journal" onclick="navigateTo('/journal/')">Journal</button>
+          <button id="nav-portfolio" onclick="navigateTo('/portfolio/')">Portfolio</button>
+          <button id="nav-handmade" onclick="navigateTo('/handmade/')">Handmade</button>
+          <button id="nav-resume" onclick="navigateTo('/resume/')">Resume</button>
+          <button id="nav-contact" onclick="navigateTo('/contact/')">Contact</button>
+        </div>
+      </nav>
+
+      <main>
+        <div id="hero-container">
+          <div class="profile-card"><img id="hero-image" src="" alt=""></div>
+          <div class="hero-text" id="hero-target"></div>
+        </div>
+        <div id="app-root"></div>
+        <footer>
+          <div class="social-links" style="margin-bottom: 1.5rem;"><a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style="font-weight:700; font-size:0.8rem; text-transform:uppercase; color:var(--forest);">LinkedIn</a></div>
+          <div class="copyright">SECOND NATURE | &copy; 2015-2026. ALL RIGHTS RESERVED.</div>
+          <div class="credit">Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
+        </footer>
+      </main>
+    </div>
+  </div>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
+    const WORKER_URL = "https://backend.tmcarleton11.workers.dev/"; 
+    const SITE_ID = "handmadebyjayme"; 
 
-    const SITE_ID = "handmadebyjayme";
-    const WORKER_URL = "https://backend.tmcarleton11.workers.dev/";
+    let siteData = { pages: {}, posts: [], tags: new Set() };
+    let currentFilter = 'all';
 
-    const App = () => {
-      const [view, setView] = useState('home');
+    window.toggleMenu = () => document.getElementById('body-context').classList.toggle('menu-open');
+    window.closeMenu = () => document.getElementById('body-context').classList.remove('menu-open');
+    window.navigateTo = (url) => { history.pushState(null, null, url); handleRoute(); };
+
+    async function initApp() {
+      if (window.location.hash === "#admin") {
+        document.getElementById('frontend-root').style.display = 'none';
+        document.getElementById('admin-root').style.display = 'block';
+      }
+      await fetchFreshData();
+    }
+
+    async function fetchFreshData() {
+      try {
+        const response = await fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } });
+        siteData = await response.json();
+        siteData.tags = new Set();
+        siteData.posts.forEach(p => p.category?.split(',').forEach(t => siteData.tags.add(t.trim())));
+        handleRoute();
+      } catch (e) { console.error(e); }
+    }
+
+    function handleRoute() {
+      const urlParams = new URLSearchParams(window.location.search);
+      currentFilter = urlParams.get('tag') || 'all';
+      let path = window.location.pathname;
+      let slug = path.replace(/^\/|\/$/g, '').split('/').pop() || 'home';
+      
+      const root = document.getElementById('app-root');
+      const heroContainer = document.getElementById('hero-container');
+      const heroTarget = document.getElementById('hero-target');
+      const heroImage = document.getElementById('hero-image');
+      
+      document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('nav-' + slug);
+      if(activeBtn) activeBtn.classList.add('active');
+
+      if (['home', '', 'handmade', 'contact'].includes(slug)) {
+        const pageKey = (slug === 'home' || slug === '') ? 'welcome' : slug;
+        root.innerHTML = '';
+        if (siteData.pages[pageKey]) {
+          heroContainer.style.display = 'grid';
+          heroImage.className = slug === 'handmade' ? 'is-logo' : ''; 
+          heroImage.src = siteData.pages[pageKey].image;
+          
+          let content = marked.parse(siteData.pages[pageKey].content);
+          if (slug === 'handmade') content += `<a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" class="shop-cta">Visit Shop on Etsy</a>`;
+          heroTarget.innerHTML = content;
+          
+          if (slug === 'home') heroTarget.insertAdjacentHTML('beforeend', `<div class="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>`);
+        }
+      } else {
+        heroContainer.style.display = 'none'; 
+        if (slug === 'journal') renderJournalView(root);
+        else if (slug === 'portfolio' || slug === 'resume') renderPageView(root, slug);
+        else root.innerHTML = `<h2 class="section-title">404</h2>`;
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderJournalView(root) {
+      root.innerHTML = `<div class="section-header-flex"><h2 class="section-title">Journal</h2><div class="filter-pills"><span class="pill ${currentFilter === 'all' ? 'active' : ''}" onclick="applyFilter('all')">All</span>${Array.from(siteData.tags).sort().map(t => `<span class="pill ${currentFilter === t ? 'active' : ''}" onclick="applyFilter('${t}')">${t}</span>`).join('')}</div></div><div id="post-feed-target"></div>`;
+      const target = document.getElementById('post-feed-target');
+      let posts = currentFilter === 'all' ? siteData.posts : siteData.posts.filter(p => p.category.includes(currentFilter));
+      target.innerHTML = posts.map(p => `<article class="post-card"><img src="${p.image}" class="post-thumb"><div><span class="post-date">${p.date}</span><h3>${p.title}</h3><p>${p.content.substring(0, 180)}...</p></div></article>`).join('');
+    }
+
+    window.applyFilter = (tag) => navigateTo(tag === 'all' ? '/journal/' : `/journal/?tag=${encodeURIComponent(tag)}`);
+
+    function renderPageView(root, slug) {
+      const items = siteData[slug] || [];
+      root.innerHTML = `<div class="resume-container"><h2 class="section-title">${slug}</h2>${items.map(i => `<div class="res-row"><div class="res-label">${i.label}</div><div class="res-content">${marked.parse(i.content)}</div></div>`).join('')}</div>`;
+    }
+
+    /* --- ADMIN APP --- */
+    const AdminApp = () => {
       const [data, setData] = useState(null);
-      const [loading, setLoading] = useState(true);
-      const [filter, setFilter] = useState('all');
-      const [adminTab, setAdminTab] = useState('welcome');
-      const [adminKey, setAdminKey] = useState("");
-      const [isAuthed, setIsAuthed] = useState(false);
+      const [tab, setTab] = useState('welcome');
+      const [key, setKey] = useState("");
+      const [authed, setAuthed] = useState(false);
 
-      useEffect(() => {
-        fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } })
-          .then(res => res.json())
-          .then(d => { setData(d); setLoading(false); })
-          .catch(e => { console.error("Sync error:", e); setLoading(false); });
+      useEffect(() => { fetch(WORKER_URL, { headers: { 'X-Site-Id': SITE_ID } }).then(res => res.json()).then(setData); }, []);
 
-        if (window.location.hash === "#admin") setView('admin');
-      }, []);
-
-      const saveChanges = async () => {
-        const response = await fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Site-Id': SITE_ID },
-          body: JSON.stringify({ key: adminKey, data: data })
-        });
-        alert(response.ok ? "Deployment Successful." : "Verification Failed.");
+      const save = async () => {
+        const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Site-Id': SITE_ID }, body: JSON.stringify({ key, data }) });
+        alert(res.ok ? "Live Site Deployed." : "Key Error.");
       };
 
-      if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Playfair Display', color: 'var(--wood)'}}>Synchronizing Archive...</div>;
-      if (!data) return <div>Engine offline.</div>;
-
-      const tags = Array.from(new Set(data.posts?.flatMap(p => p.category?.split(',').map(c => c.trim()) || []))).sort();
-
-      return (
-        <div className="site-wrapper">
-          {view !== 'admin' && (
-            <nav className="sidebar">
-              <div className="sidebar-brand" onClick={() => setView('home')}>
-                <h1>Jayme M.<br/>Carleton</h1>
-              </div>
-              <div className="nav-links">
-                {['journal', 'portfolio', 'handmade', 'resume', 'contact'].map(tab => (
-                  <button key={tab} className={view === tab ? 'active' : ''} onClick={() => setView(tab)}>
-                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                  </button>
-                ))}
-              </div>
-            </nav>
-          )}
-
-          <main style={view === 'admin' ? {marginLeft: 0, width: '100%', display: 'flex', justifyContent: 'center', background: '#eee'} : {}}>
-            {view === 'admin' ? (
-              <AdminPanel data={data} setData={setData} adminTab={adminTab} setAdminTab={setAdminTab} isAuthed={isAuthed} setIsAuthed={setIsAuthed} adminKey={adminKey} setAdminKey={setAdminKey} saveChanges={saveChanges} exit={() => setView('home')} />
-            ) : (
-              <div className="animate-in">
-                {/* HERO SECTION (Home, Handmade, Contact) */}
-                {(view === 'home' || view === 'handmade' || view === 'contact') && (
-                  <div id="hero-container">
-                    <div className="profile-card">
-                      <img className={view === 'handmade' ? 'is-logo' : ''} src={view === 'handmade' ? "https://jaymecarleton.com/wp-content/uploads/2015/11/leaf-only.png" : (view === 'contact' ? "https://jaymecarleton.com/wp-content/uploads/2015/11/jayme.jpg" : data.welcome.image)} />
-                    </div>
-                    <div className="hero-text">
-                       <div dangerouslySetInnerHTML={{ __html: marked.parse(view === 'home' ? data.welcome.content : (view === 'handmade' ? data.handmade.content : data.contact.content)) }} />
-                       {view === 'home' && <div className="signature">JAYME M. CARLETON<small>CSBA, LEED GREEN ASSOCIATE</small></div>}
-                       {view === 'handmade' && <a href="https://etsy.com/shop/HandmadeByJayme" target="_blank" className="shop-cta">Visit Shop on Etsy</a>}
-                    </div>
-                  </div>
-                )}
-
-                {/* JOURNAL SECTION */}
-                {view === 'journal' && (
-                  <div>
-                    <div className="section-header-flex">
-                      <h2 className="section-title">Journal</h2>
-                      <div className="filter-pills">
-                        <span className={`pill ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>All</span>
-                        {tags.map(t => <span key={t} className={`pill ${filter === t ? 'active' : ''}`} onClick={() => setFilter(t)}>{t}</span>)}
-                      </div>
-                    </div>
-                    {data.posts.filter(p => filter === 'all' || p.category.includes(filter)).map((post, i) => (
-                      <article key={i} className="post-card">
-                        <img src={post.image} className="post-thumb" />
-                        <div className="post-card-content">
-                          <h3>{post.title}</h3>
-                          <p className="post-excerpt">{post.content.substring(0, 180)}...</p>
-                          <div className="post-card-footer">
-                             <button onClick={() => {}} style={{background:'none', border:'none', fontWeight:'700', textTransform:'uppercase', color:'var(--wood)', cursor:'pointer', borderBottom:'1px solid var(--wood)'}}>Read Entry ➔</button>
-                             <span className="post-date">{post.date}</span>
-                          </div>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                )}
-
-                {/* RESUME & PORTFOLIO GRID SECTION */}
-                {(view === 'resume' || view === 'portfolio') && (
-                  <div className="resume-container">
-                    <h2 className="section-title">{view}</h2>
-                    {(view === 'resume' ? data.resume : data.portfolio).map((row, i) => (
-                      <div key={i} className="res-row">
-                        <div className="res-label">{row.label}</div>
-                        <div className="res-content" dangerouslySetInnerHTML={{ __html: marked.parse(row.content) }} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-            {view !== 'admin' && (
-              <footer>
-                <div className="social-links" style={{marginBottom: '1.5rem'}}>
-                  <a href="https://www.linkedin.com/in/jaymecarleton" target="_blank" style={{textDecoration:'none', fontWeight:'700', fontSize:'0.8rem', textTransform:'uppercase', color:'var(--forest)', letter-spacing:'0.1em'}}>LinkedIn</a>
-                </div>
-                <div className="copyright">SECOND NATURE | &copy; 2015-2026. ALL RIGHTS RESERVED.</div>
-                <div className="credit">Modernized by <a href="https://minescout.net/ai" target="_blank">Minescout AI</a></div>
-              </footer>
-            )}
-          </main>
-        </div>
-      );
-    };
-
-    const AdminPanel = ({ data, setData, adminTab, setAdminTab, isAuthed, setIsAuthed, adminKey, setAdminKey, saveChanges, exit }) => {
-      const addItem = (target) => {
-        const newItem = target === 'posts' ? { title: "New Title", date: "2026", content: "", image: "", category: "Handmade" } : { label: "Category", content: "Details..." };
-        setData({ ...data, [target]: [newItem, ...data[target]] });
-      };
-      const updateItem = (target, index, field, value) => {
-        const newList = [...data[target]]; newList[index][field] = value; setData({ ...data, [target]: newList });
-      };
-      const removeItem = (target, index) => {
-        setData({ ...data, [target]: data[target].filter((_, i) => i !== index) });
+      const addRow = (t) => {
+        const newItem = t === 'posts' ? { title: "New", date: "2026", content: "", image: "", category: "Handmade" } : { label: "Label", content: "Details..." };
+        setData({...data, [t]: [newItem, ...data[t]]});
       };
 
-      if (!isAuthed) return (
-        <div className="admin-card" style={{padding:'4rem'}}>
-          <input type="password" placeholder="Reasoning Key" value={adminKey} onChange={e => setAdminKey(e.target.value)} style={{width:'100%', padding:'1rem', marginBottom:'1rem'}} />
-          <button className="btn-save" onClick={() => setIsAuthed(true)}>Verify Access</button>
-        </div>
-      );
+      if (!data) return null;
 
       return (
         <div className="admin-card">
-          <header className="admin-header"><h2>BACKSTAGE</h2><button onClick={exit} style={{background:'white', border:'none', padding:'5px 10px', borderRadius:'4px', cursor:'pointer'}}>Exit</button></header>
-          <nav className="admin-nav">
-            {['welcome', 'handmade', 'contact', 'posts', 'portfolio', 'resume'].map(t => (
-              <button key={t} onClick={() => setAdminTab(t)} className={`admin-nav-btn ${adminTab === t ? 'active' : ''}`}>{t}</button>
-            ))}
-          </nav>
-          <div className="admin-content">
-            {['welcome', 'handmade', 'contact'].includes(adminTab) && (
-              <div className="input-box">
-                <div className="input-row"><label>Headline</label><input value={data[adminTab].title} onChange={e => setData({...data, [adminTab]: {...data[adminTab], title: e.target.value}})} /></div>
-                <div className="input-row"><label>Content (Markdown support)</label><textarea rows="10" value={data[adminTab].content} onChange={e => setData({...data, [adminTab]: {...data[adminTab], content: e.target.value}})} /></div>
-                {adminTab === 'welcome' && <div className="input-row"><label>Image URL</label><input value={data.welcome.image} onChange={e => setData({...data, welcome: {...data.welcome, image: e.target.value}})} /></div>}
-              </div>
-            )}
-            {adminTab === 'posts' && (
-              <div>
-                <button onClick={() => addItem('posts')} style={{marginBottom:'1rem'}}>+ Add New Post</button>
-                {data.posts.map((p, i) => (
-                  <div key={i} className="input-box">
-                    <button onClick={() => removeItem('posts', i)} style={{float:'right', color:'red', border:'none', background:'none', cursor:'pointer'}}>Remove</button>
-                    <div className="input-row"><label>Title</label><input value={p.title} onChange={e => updateItem('posts', i, 'title', e.target.value)} /></div>
-                    <div className="input-row"><label>Category (Comma separated)</label><input value={p.category} onChange={e => updateItem('posts', i, 'category', e.target.value)} /></div>
-                    <div className="input-row"><label>Image URL</label><input value={p.image} onChange={e => updateItem('posts', i, 'image', e.target.value)} /></div>
-                    <div className="input-row"><label>Date</label><input value={p.date} onChange={e => updateItem('posts', i, 'date', e.target.value)} /></div>
-                    <div className="input-row"><label>Content</label><textarea rows="4" value={p.content} onChange={e => updateItem('posts', i, 'content', e.target.value)} /></div>
+          <header className="admin-header"><h2>BACKSTAGE</h2><button onClick={() => window.location.hash=""}>EXIT</button></header>
+          {!authed ? (
+            <div style={{padding:'3rem'}}><input type="password" placeholder="Key" onChange={e=>setKey(e.target.value)} style={{width:'100%', padding:'1rem', marginBottom:'1rem'}}/><button className="btn-save" onClick={()=>setAuthed(true)}>Auth</button></div>
+          ) : (
+            <div>
+              <nav className="admin-nav">{['welcome', 'handmade', 'contact', 'posts', 'portfolio', 'resume'].map(t => <button key={t} onClick={()=>setTab(t)} className={`admin-nav-btn ${tab===t?'active':''}`}>{t}</button>)}</nav>
+              <div className="admin-content">
+                {['welcome', 'handmade', 'contact'].includes(tab) && (
+                  <div className="input-box">
+                    <div className="input-row"><label>Main Photo URL</label><input value={data.pages[tab].image} onChange={e=>{let d={...data}; d.pages[tab].image=e.target.value; setData(d);}}/></div>
+                    <div className="input-row"><label>Content (Markdown)</label><textarea rows="15" value={data.pages[tab].content} onChange={e=>{let d={...data}; d.pages[tab].content=e.target.value; setData(d);}}/></div>
                   </div>
-                ))}
-              </div>
-            )}
-            {['portfolio', 'resume'].includes(adminTab) && (
-              <div>
-                <button onClick={() => addItem(adminTab)} style={{marginBottom:'1rem'}}>+ Add Row</button>
-                {data[adminTab].map((row, i) => (
-                  <div key={i} className="input-box">
-                    <button onClick={() => removeItem(adminTab, i)} style={{float:'right', color:'red', border:'none', background:'none', cursor:'pointer'}}>Remove</button>
-                    <div className="input-row"><label>Label</label><input value={row.label} onChange={e => updateItem(adminTab, i, 'label', e.target.value)} /></div>
-                    <div className="input-row"><label>Content (Markdown support)</label><textarea rows="4" value={row.content} onChange={e => updateItem(adminTab, i, 'content', e.target.value)} /></div>
+                )}
+                {tab === 'posts' && (
+                  <div>
+                    <button onClick={()=>addRow('posts')}>+ Add Post</button>
+                    {data.posts.map((p, i) => (
+                      <div key={i} className="input-box">
+                        <button onClick={()=>{let d={...data}; d.posts.splice(i,1); setData(d);}} style={{float:'right', color:'red'}}>Remove</button>
+                        <div className="input-row"><label>Title</label><input value={p.title} onChange={e=>{let d={...data}; d.posts[i].title=e.target.value; setData(d);}}/></div>
+                        <div className="input-row"><label>Image</label><input value={p.image} onChange={e=>{let d={...data}; d.posts[i].image=e.target.value; setData(d);}}/></div>
+                        <div className="input-row"><label>Content</label><textarea value={p.content} onChange={e=>{let d={...data}; d.posts[i].content=e.target.value; setData(d);}}/></div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
+                {['portfolio', 'resume'].includes(tab) && (
+                  <div>
+                    <button onClick={()=>addRow(tab)}>+ Add Row</button>
+                    {data[tab].map((row, i) => (
+                      <div key={i} className="input-box">
+                        <button onClick={()=>{let d={...data}; d[tab].splice(i,1); setData(d);}} style={{float:'right', color:'red'}}>Remove</button>
+                        <div className="input-row"><label>Label</label><input value={row.label} onChange={e=>{let d={...data}; d[tab][i].label=e.target.value; setData(d);}}/></div>
+                        <div className="input-row"><label>Content</label><textarea value={row.content} onChange={e=>{let d={...data}; d[tab][i].content=e.target.value; setData(d);}}/></div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <button className="btn-save" onClick={saveChanges}>Deploy Live Updates</button>
+              <button className="btn-save" onClick={save}>Sync Live</button>
+            </div>
+          )}
         </div>
       );
     };
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
+    initApp();
+    const adminRoot = ReactDOM.createRoot(document.getElementById('admin-root'));
+    adminRoot.render(<AdminApp />);
   </script>
 </body>
 </html>
